@@ -44,9 +44,8 @@
 }
 
 @layer utilities {
-  /* Cabinet Grotesk variable is set once fonts are installed; falls back to system-ui */
   .font-display {
-    font-family: var(--font-cabinet-grotesk, system-ui), sans-serif;
+    font-family: var(--font-cabinet-grotesk), sans-serif;
   }
 
   .font-accent {

@@ -389,3 +389,171 @@ When starting work, scaffold the complete Next.js project with:
 9. About page
 10. Contact page with working form (Resend)
 11. Cloudflare Pages config (`_routes.json`, `next.config.js`)
+---
+
+## Asset Infrastructure
+
+### Cloudinary
+- Cloud name: `djhqowk67`
+- Use Cloudinary Next.js SDK for all project/studio images
+- Reference images by public ID, not local path
+- Studio gallery pulls from Cloudinary folders:
+  `/studio/photography/`
+  `/studio/graphic-design/`
+  `/studio/proof/`
+
+### Fonts
+- Cabinet Grotesk: download from fontshare.com/fonts/cabinet-grotesk
+- Place woff2 files in `/public/fonts/cabinet-grotesk/`
+- Re-enable localFont block in app/layout.tsx
+
+### Environment Variables
+- `RESEND_API_KEY` — contact form email delivery
+- `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=djhqowk67`
+
+---
+
+## Phase 2 Pages (build after launch)
+
+### /work — Case Studies Index
+Grid of client case study cards. Each card shows:
+- Client name
+- Industry tag
+- Key result/ROI metric
+- Brief description
+- Link to full case study
+
+### /work/[slug] — Individual Case Studies
+
+**IMPORTANT:** Each case study needs a dedicated content session
+before building. Several represent ongoing fractional CMO engagements,
+not just one-off projects. Do not use placeholder content.
+
+Confirmed case studies (slugs + status):
+
+| Slug | Client | Status |
+|---|---|---|
+| urgent-care-indy | Urgent Care Indy | Content session needed |
+| direct-care-indy | Direct Care Indy | In progress — do not publish yet |
+| primary-care-indy | Primary Care Indy | Content session needed |
+| hoosier-boy-barbershop | Hoosier Boy Barbershop | Content ready in brief |
+| behr-pet-essentials | Behr Pet Essentials | Content ready in brief |
+| primary-colours | Primary Colours | Content ready in brief |
+| rbe-law | Riley Bennett Egloff LLP | Content session needed |
+| russell-painting | Russell Painting Co. | Content ready in brief |
+| clean-aesthetic | Clean Aesthetic | Content session needed |
+
+**Pike Medical note:** Urgent Care Indy, Primary Care Indy, and Direct
+Care Indy are all under the Pike Medical Consultants umbrella. Jacob
+serves as fractional CMO across all three — scope includes:
+- Full website design and development
+- Email marketing (Mailchimp)
+- Google Ads campaign management
+- Graphic design (patient handouts, signage, print)
+- Google Analytics monitoring and reporting
+- Google Search Console management
+- Google My Business management
+- Direct Care Indy is a new launch currently in progress
+
+Build a Pike Medical parent case study plus individual clinic pages.
+
+### /lab — Tools & Experiments
+
+Three categories matching v2 site:
+- Marketing (Growth Engine, ROI Calculator, Brand Builder,
+  Marketing Simulator, Email Simulator, Social Simulator)
+- Developer (Clinical Compass, License Hub, GT9 Pricing Tool,
+  SEO Scanner, Lead Score Lab)
+- Technologist (Site Optimization & Security, Campaign Performance
+  Analyzer, Competitor Intelligence Platform, Link Architect,
+  Edge Image Negotiator, GA4 Analytics Bridge, CRM-Aware AI Hook,
+  Zero-FOUC Theme Engine, Global Telemetry Monitor)
+
+Each lab card shows:
+- Tool name + category badge
+- Status (Production/Beta/Experimental)
+- One-line description
+- Tech stack tags
+- "Launch App" button → links to live Vercel deployment
+
+Deployed lab apps to link:
+- CMO Simulator: cmo-simulator-3il5.vercel.app
+- Piko Artist Website: piko-artist-website-v3-three.vercel.app
+- Strum AI: jacobs-music-plum.vercel.app (polish before linking)
+- Graston Growth Engine: graston-growth-enginegg-zkj2.vercel.app
+  (not ready — skip until rebuilt)
+- All v2 lab tools: bearcave-marketing-v2.vercel.app/lab/[slug]
+
+### /studio — Visual Gallery
+
+Cloudinary-powered artifact gallery. Three sections:
+- Photography — pulls from Cloudinary /studio/photography/
+- Design — pulls from Cloudinary /studio/graphic-design/
+- Proof — pulls from Cloudinary /studio/proof/
+
+Masonry or grid layout. Lightbox on click.
+Lazy load all images via next/image + Cloudinary loader.
+
+### /services/[slug] — Individual Service Pages
+
+| Slug | Title |
+|---|---|
+| marketing-strategy | Marketing Strategy & Consulting |
+| web-development | Web & App Development |
+| tech-implementation | Tech Implementation |
+| seo-digital-marketing | SEO & Digital Marketing |
+
+Each page: hero, detailed description, process steps,
+relevant case studies, CTA.
+
+### /pricing — Pricing Page
+Content session needed — Jacob to define service tiers and pricing
+before building this page.
+
+---
+
+## WordPress Sites Built (reference in case studies)
+- rbelaw.com — Riley Bennett Egloff LLP (law firm)
+- grastontechnique.com — Graston Technique LLC
+- hoosierboybarbershop.com — Hoosier Boy Barbershop
+- 317bbq.com — 317 BBQ
+- russellpaintingcompany.com — Russell Painting Co.
+- blazingstartherapy.com — Blazing Star Therapy
+
+---
+
+## Build Order for Claude Code
+
+### Phase 1 (complete — deployed to Cloudflare preview URL)
+- [x] Project scaffold
+- [x] Brand tokens + Tailwind config
+- [x] Nav + Footer
+- [x] Home page (all sections)
+- [x] About page
+- [x] Contact page + API route
+- [x] SEO files + structured data
+- [ ] Cabinet Grotesk fonts (pending — download from fontshare)
+- [ ] Resend API key (pending — add to .env.local)
+
+### Phase 2 (next sprint)
+- [ ] /work index page
+- [ ] /work/[slug] — start with Hoosier Boy, Behr Pet, Primary Colours
+- [ ] /lab page with tool cards
+- [ ] /studio page with Cloudinary gallery
+- [ ] Cloudinary SDK integration
+
+### Phase 3
+- [ ] /services/[slug] — 4 service detail pages
+- [ ] /pricing page (after content session)
+- [ ] Remaining case studies (after content sessions)
+- [ ] Blog infrastructure (MDX)
+
+---
+
+## Next Content Sessions Needed
+1. Pike Medical / Urgent Care Indy — full fractional CMO scope
+2. Primary Care Indy — full scope
+3. RBE Law — full scope
+4. Clean Aesthetic — full scope
+5. Pricing — define service tiers
+6. Services — expand each service page with process steps

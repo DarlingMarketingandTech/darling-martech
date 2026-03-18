@@ -1,14 +1,11 @@
 import type { Metadata } from 'next'
 import { Inter, Instrument_Serif } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import { Nav } from '@/components/layout/Nav'
 import { Footer } from '@/components/layout/Footer'
 import { LocalBusinessJsonLd } from '@/components/JsonLd'
 
-// NOTE: Cabinet Grotesk is a premium font from Fontshare.
-// Download from https://www.fontshare.com/fonts/cabinet-grotesk and place files in
-// /public/fonts/cabinet-grotesk/ — then switch back to localFont below.
-// Until then, the CSS variable falls back to system-ui in globals.css.
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
@@ -21,6 +18,14 @@ const instrumentSerif = Instrument_Serif({
   style: ['normal', 'italic'],
   variable: '--font-instrument-serif',
   display: 'swap',
+})
+
+// Cabinet Grotesk variable font from Fontshare
+const cabinetGrotesk = localFont({
+  src: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Variable.woff2',
+  variable: '--font-cabinet-grotesk',
+  display: 'swap',
+  weight: '100 900',
 })
 
 export const metadata: Metadata = {
@@ -86,7 +91,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${instrumentSerif.variable}`}>
+    <html lang="en" className={`${inter.variable} ${cabinetGrotesk.variable} ${instrumentSerif.variable}`}>
       <body className="bg-obsidian text-warm-off-white antialiased">
         <LocalBusinessJsonLd />
         <Nav />
