@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(netstat -ano)",
+      "Read(//c/dev/darling-martech/**)",
+      "Bash(xargs -I{} taskkill /PID {} /F)",
+      "Bash(taskkill /PID 36944 /F)",
+      "Bash(taskkill /PID 33832 /F)",
+      "Bash(cmd /c \"taskkill /PID 36944 /F\")",
+      "Bash(cmd /c \"taskkill /PID 33832 /F\")",
+      "Bash(__NEXT_PRIVATE_STANDALONE_CONFIG=\"\" npx next dev -p 3000)",
+      "Bash(powershell -Command \"Stop-Process -Id 36944 -Force; Stop-Process -Id 33832 -Force -ErrorAction SilentlyContinue\")",
+      "Bash(powershell -Command \"Stop-Process -Id 36944 -Force; Stop-Process -Id 33832 -Force\")",
+      "Bash(powershell -Command \"Stop-Process -Id 4376 -Force; Stop-Process -Id 37136 -Force\")",
+      "Bash(powershell -Command \"Stop-Process -Id 40152 -Force\")",
+      "Bash(powershell -Command \"Stop-Process -Id 44592 -Force\")"
+    ]
+  }
+}
