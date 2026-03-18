@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #0A0A0A;
+    --foreground: #F5F0E8;
+    --border: #1A1A1A;
+    --input: #1A1A1A;
+    --ring: #FF4D00;
+    --primary: #FF4D00;
+    --primary-foreground: #F5F0E8;
+    --secondary: #1A1A1A;
+    --secondary-foreground: #F5F0E8;
+    --muted: #111111;
+    --muted-foreground: #888888;
+    --accent: #FF4D00;
+    --accent-foreground: #F5F0E8;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #0A0A0A;
+    color: #F5F0E8;
+    font-family: var(--font-inter), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: #FF4D00;
+    color: #F5F0E8;
+  }
+}
+
+@layer utilities {
+  /* Cabinet Grotesk variable is set once fonts are installed; falls back to system-ui */
+  .font-display {
+    font-family: var(--font-cabinet-grotesk, system-ui), sans-serif;
+  }
+
+  .font-accent {
+    font-family: var(--font-instrument-serif), serif;
+    font-style: italic;
+  }
+
+  .text-display {
+    font-family: var(--font-cabinet-grotesk), sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}

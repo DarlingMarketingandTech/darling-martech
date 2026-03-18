@@ -1,0 +1,98 @@
+import type { Metadata } from 'next'
+import { Inter, Instrument_Serif } from 'next/font/google'
+import './globals.css'
+import { Nav } from '@/components/layout/Nav'
+import { Footer } from '@/components/layout/Footer'
+import { LocalBusinessJsonLd } from '@/components/JsonLd'
+
+// NOTE: Cabinet Grotesk is a premium font from Fontshare.
+// Download from https://www.fontshare.com/fonts/cabinet-grotesk and place files in
+// /public/fonts/cabinet-grotesk/ — then switch back to localFont below.
+// Until then, the CSS variable falls back to system-ui in globals.css.
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-instrument-serif',
+  display: 'swap',
+})
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://darlingmartech.com'),
+  title: {
+    default: 'Darling MarTech — Marketing Strategy & Technology',
+    template: '%s | Darling MarTech',
+  },
+  description:
+    'Jacob Darling builds the marketing infrastructure that makes small businesses and startups grow — strategy, technology, automation, and execution. Based in Indianapolis, IN.',
+  keywords: [
+    'marketing strategy',
+    'marketing technology',
+    'MarTech',
+    'CRM',
+    'marketing automation',
+    'web development',
+    'Indianapolis',
+    'Jacob Darling',
+  ],
+  authors: [{ name: 'Jacob Darling' }],
+  creator: 'Jacob Darling',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://darlingmartech.com',
+    siteName: 'Darling MarTech',
+    title: 'Darling MarTech — Marketing Strategy & Technology',
+    description:
+      'Jacob Darling builds the marketing infrastructure that makes small businesses and startups grow — strategy, technology, automation, and execution.',
+    images: [
+      {
+        url: '/images/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Darling MarTech',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Darling MarTech — Marketing Strategy & Technology',
+    description:
+      'Jacob Darling builds the marketing infrastructure that makes small businesses and startups grow.',
+    images: ['/images/og-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en" className={`${inter.variable} ${instrumentSerif.variable}`}>
+      <body className="bg-obsidian text-warm-off-white antialiased">
+        <LocalBusinessJsonLd />
+        <Nav />
+        <main>{children}</main>
+        <Footer />
+      </body>
+    </html>
+  )
+}
