@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { getAllCaseStudies } from '@/lib/case-studies'
@@ -83,7 +84,17 @@ export default function WorkPage() {
   const inView = useInView(ref, { once: true })
 
   return (
-    <main className="pt-32 pb-24 px-6 md:px-10">
+    <main className="relative pt-32 pb-24 px-6 md:px-10 overflow-hidden">
+      {/* Subtle design artifact background — grayscale, 4% opacity, pointer-events-none */}
+      <div className="absolute inset-0 pointer-events-none select-none" aria-hidden="true">
+        <Image
+          src="https://res.cloudinary.com/djhqowk67/image/upload/f_auto,q_auto/v1/studio/graphic-design/graphic-design-artifact-51"
+          alt=""
+          fill
+          className="object-cover grayscale opacity-[0.04]"
+          sizes="100vw"
+        />
+      </div>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div ref={ref} className="mb-20">

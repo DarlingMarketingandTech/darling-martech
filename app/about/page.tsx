@@ -165,16 +165,39 @@ export default function AboutPage() {
                   sizes="(max-width: 768px) 100vw, 50vw"
                   priority
                 />
+                {/* Orange accent bar — bottom-left, matching About Teaser treatment */}
+                <div className="absolute bottom-0 left-0 w-16 h-1 bg-electric-orange" />
               </div>
               {/* Credentials card */}
               <div className="mt-6 p-6 border border-white/8 bg-white/[0.02] space-y-3">
                 <p className="text-xs text-electric-orange font-body tracking-widest uppercase">Credentials</p>
-                <ul className="space-y-2 text-sm text-mid-gray font-body">
-                  <li>B.S. Business Management — Indiana University, 2008</li>
-                  <li>Gold Key Photography Award — Scholastic Art & Writing Awards, 2008</li>
-                  <li>15+ years across healthcare, legal, finance, e-commerce, nonprofit</li>
-                  <li>Indianapolis, IN</li>
-                </ul>
+                <div className="flex gap-4 items-start">
+                  {/* Square profile headshot from Cloudinary */}
+                  <div className="relative w-16 h-16 shrink-0 overflow-hidden bg-white/5">
+                    <Image
+                      src="https://res.cloudinary.com/djhqowk67/image/upload/f_auto,q_auto/v1/studio/graphic-design/bio-featured-2"
+                      alt="Jacob Darling"
+                      fill
+                      className="object-cover grayscale"
+                      sizes="64px"
+                    />
+                  </div>
+                  <ul className="space-y-2 text-sm text-mid-gray font-body">
+                    <li className="flex items-center gap-3">
+                      <Image
+                        src="/images/Indiana_University_logotype.svg.png"
+                        alt="Indiana University"
+                        width={64}
+                        height={10}
+                        className="opacity-40 grayscale shrink-0"
+                      />
+                      <span>B.S. Business Management, 2008</span>
+                    </li>
+                    <li>Gold Key Photography Award — Scholastic Art & Writing Awards, 2008</li>
+                    <li>15+ years across healthcare, legal, finance, e-commerce, nonprofit</li>
+                    <li>Indianapolis, IN</li>
+                  </ul>
+                </div>
               </div>
             </motion.div>
           </div>
