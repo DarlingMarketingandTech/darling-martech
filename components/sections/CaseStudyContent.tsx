@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { useRef } from 'react'
 import { useInView } from 'framer-motion'
 import type { CaseStudy } from '@/lib/case-studies'
+import { getAdjacentCaseStudies } from '@/lib/case-studies'
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -22,6 +23,8 @@ function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 }
 
 export function CaseStudyContent({ cs }: { cs: CaseStudy }) {
+  const { prev, next } = getAdjacentCaseStudies(cs.slug)
+
   return (
     <article className="pt-32 pb-24 px-6 md:px-10">
       <div className="max-w-7xl mx-auto">
@@ -167,6 +170,40 @@ export function CaseStudyContent({ cs }: { cs: CaseStudy }) {
               </div>
             </FadeUp>
           </>
+        )}
+
+        {/* Prev / Next navigation */}
+        {(prev || next) && (
+          <FadeUp>
+            <div className="grid grid-cols-2 gap-px bg-white/5 mb-12">
+              {prev ? (
+                <Link
+                  href={`/work/${prev.slug}`}
+                  className="bg-obsidian p-8 group hover:bg-white/[0.02] transition-colors"
+                >
+                  <p className="text-xs text-mid-gray/60 font-body tracking-widest uppercase mb-2">Previous</p>
+                  <p className="text-warm-off-white font-display font-bold text-lg tracking-tight group-hover:text-electric-orange transition-colors">
+                    ← {prev.client}
+                  </p>
+                </Link>
+              ) : (
+                <div className="bg-obsidian p-8" />
+              )}
+              {next ? (
+                <Link
+                  href={`/work/${next.slug}`}
+                  className="bg-obsidian p-8 text-right group hover:bg-white/[0.02] transition-colors"
+                >
+                  <p className="text-xs text-mid-gray/60 font-body tracking-widest uppercase mb-2">Next</p>
+                  <p className="text-warm-off-white font-display font-bold text-lg tracking-tight group-hover:text-electric-orange transition-colors">
+                    {next.client} →
+                  </p>
+                </Link>
+              ) : (
+                <div className="bg-obsidian p-8" />
+              )}
+            </div>
+          </FadeUp>
         )}
 
         {/* Bottom nav */}

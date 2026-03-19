@@ -385,3 +385,13 @@ export function getReadyCaseStudies() {
 export function getAllCaseStudies() {
   return caseStudies
 }
+
+export function getAdjacentCaseStudies(slug: string) {
+  const ready = getReadyCaseStudies()
+  const index = ready.findIndex((cs) => cs.slug === slug)
+  if (index === -1) return { prev: null, next: null }
+  return {
+    prev: index > 0 ? ready[index - 1] : null,
+    next: index < ready.length - 1 ? ready[index + 1] : null,
+  }
+}
