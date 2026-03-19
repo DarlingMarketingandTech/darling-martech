@@ -173,6 +173,155 @@ export const caseStudies: CaseStudy[] = [
         'Within 90 days, Russell Painting generated 40+ new Google reviews with a 4.9★ average — making them the top-rated painting company in their service area. Qualified lead volume increased 65% year-over-year. They now rank in the local pack for their primary service keywords.',
     },
   },
+  // CTO / Infrastructure case studies — ported from bearcave
+  {
+    slug: 'the-fortress',
+    client: 'The Fortress',
+    industry: 'Infrastructure & Security',
+    metric: '85k+',
+    metricLabel: 'Threats Blocked/Mo',
+    tagline: 'Hardening the edge: 85k+ threats blocked monthly, zero downtime.',
+    description:
+      'Cloudflare WAF deployment, DNSSEC enforcement, and Authenticated Origin Pulls that eliminated direct origin exposure and cut server CPU load by 40%.',
+    status: 'ready',
+    services: ['Security Architecture', 'Cloudflare WAF', 'Infrastructure', 'DevOps'],
+    hero: {
+      challenge:
+        'A critical origin server was fully exposed to the public internet — no WAF, no DNSSEC, no authenticated origin pulls. Bot traffic consumed 60% of total request volume, degrading performance for legitimate users and creating unacceptable security risk.',
+      solution:
+        'Deployed Cloudflare WAF with strict rule sets calibrated to the client\'s traffic profile. Enforced DNSSEC at the registrar level. Implemented Authenticated Origin Pulls — TLS certificate pinned to Cloudflare CA so the origin refuses all non-Cloudflare traffic. Origin IP fully obscured.',
+      results: [
+        { value: '85k+', label: 'Malicious threats blocked per month' },
+        { value: '−40%', label: 'Server CPU overhead reduction' },
+        { value: '0', label: 'Downtime events post-deployment' },
+        { value: '0%', label: 'Direct origin exposure remaining' },
+      ],
+    },
+    body: {
+      context:
+        'The client\'s infrastructure had grown without a security layer — fast to build, but dangerously exposed. Bot traffic was spiking server costs and degrading real user experience. A single origin IP scan away from a targeted attack.',
+      approach: [
+        'Full infrastructure audit revealing direct origin exposure — mapped attack surface and quantified bot traffic load at 60% of total requests',
+        'Deployed Cloudflare WAF with custom rule sets tuned to client\'s traffic signature, blocking volumetric and application-layer attacks at the edge',
+        'Enforced DNSSEC at registrar level to eliminate DNS spoofing vectors',
+        'Configured Authenticated Origin Pulls: Cloudflare CA certificate pinned to origin server, all non-proxied traffic rejected at the TCP level',
+        'Set up real-time threat telemetry and automated alerts on rule trigger spikes with monthly ruleset review cadence',
+      ],
+      outcome:
+        'Post-deployment: 85,000+ threats blocked monthly, zero downtime, and a 40% reduction in CPU overhead as bot traffic was eliminated before reaching the origin. The origin IP is now fully hidden behind Cloudflare\'s network.',
+    },
+  },
+  {
+    slug: 'the-compass',
+    client: 'The Compass',
+    industry: 'Infrastructure & Observability',
+    metric: '99.98%',
+    metricLabel: 'Uptime SLA',
+    tagline: '99.98% uptime SLA across 6 brands — one pane of glass.',
+    description:
+      'Centralized observability stack (Datadog + AWS CloudWatch) across a multi-brand platform, with a custom anomaly scoring model that auto-resolves 94% of issues before alerts fire.',
+    status: 'ready',
+    services: ['Observability', 'Infrastructure', 'Automation', 'SLA Management'],
+    hero: {
+      challenge:
+        'A multi-brand operator running six digital properties had no unified observability — no cross-service alerting, no shared SLA framework, and no predictive capacity model. Individual teams operated in silos, creating blind spots that threatened the group\'s enterprise SLA commitments.',
+      solution:
+        'Deployed a centralized Datadog + AWS CloudWatch observability stack across all six properties with a shared SLA dashboard. Kubernetes autoscaling rules calibrated to historical traffic patterns. A custom anomaly scoring model built to surface and resolve degradation before thresholds breach.',
+      results: [
+        { value: '99.98%', label: 'Uptime SLA maintained across 6 brands' },
+        { value: '−62%', label: 'P95 latency reduction' },
+        { value: '94%', label: 'Anomalies auto-resolved before alerts fire' },
+        { value: '6', label: 'Brand properties under unified observability' },
+      ],
+    },
+    body: {
+      context:
+        'Six brands, six teams, zero shared visibility. When something degraded it was discovered by users, not by ops. The architecture worked — until it didn\'t, and recovery was slow and expensive.',
+      approach: [
+        'Mapped monitoring blind spots across all six properties — identified three critical alert gaps responsible for untracked degradation windows',
+        'Deployed Datadog agents across full infrastructure with unified tagging taxonomy; configured AWS CloudWatch cross-account dashboards',
+        'Set P95 latency and error-rate SLA thresholds per brand — gave leadership a single-pane-of-glass executive dashboard',
+        'Built a custom anomaly scoring model trained on 18 months of historical traffic data — predicts degradation before thresholds are breached',
+        'Calibrated Kubernetes HPA rules to handle 3× traffic spikes without manual intervention',
+      ],
+      outcome:
+        '99.98% uptime SLA achieved and maintained across all six brands. P95 latency reduced 62%. The anomaly model now predicts and auto-resolves 94% of issues before a single alert fires.',
+    },
+  },
+  {
+    slug: 'the-launchpad',
+    client: 'The Launchpad',
+    industry: 'Marketing Automation',
+    metric: '95%',
+    metricLabel: 'Overhead Reduction',
+    tagline: '40+ manual hours per week → under 2. Zero-touch member lifecycle.',
+    description:
+      'Headless directory architecture with a LearnDash-to-FluentCRM webhook bridge that automated the full member lifecycle — enrollment, access, and CRM sequences with zero manual steps.',
+    status: 'ready',
+    services: ['Marketing Automation', 'Web Development', 'CRM Integration', 'Workflow Design'],
+    hero: {
+      challenge:
+        'A growing membership platform consumed 40+ hours per week on manual directory administration — listing updates, member onboarding, and course enrollment managed entirely by hand. The operational drag was directly suppressing growth and conversion velocity.',
+      solution:
+        'Architected a headless directory decoupled from the CMS, with a LearnDash-to-FluentCRM webhook bridge automating the full member lifecycle. Enrollment triggers course access. Course completion triggers CRM sequences. Zero manual steps in the critical path.',
+      results: [
+        { value: '95%', label: 'Reduction in manual overhead' },
+        { value: '2 hrs', label: 'Weekly admin time (down from 40+)' },
+        { value: '+40%', label: 'Conversion lift from friction elimination' },
+        { value: 'Sub-200ms', label: 'API response latency' },
+      ],
+    },
+    body: {
+      context:
+        'The platform was growing but operations couldn\'t scale with it. Every new member meant manual work. Every course enrollment was a hand-off. The team was doing the work of a system.',
+      approach: [
+        'Mapped every manual touchpoint in the directory and enrollment workflow — identified 23 discrete manual steps consuming 40+ hours weekly',
+        'Designed a headless directory with API-first data layer, completely decoupled from WordPress CMS for performance and portability',
+        'Architected LearnDash → FluentCRM webhook bridge: enrollment triggers course access grant; completion triggers CRM lifecycle sequence',
+        'Built idempotency keys and failure retry logic into all webhook handlers — zero data loss on network failures',
+        'End-to-end automation tested across 200+ member scenarios before production launch',
+      ],
+      outcome:
+        '95% reduction in manual overhead — from 40+ hours per week to under 2. The automated pipeline delivered a +40% conversion lift by eliminating enrollment-to-engagement friction and delay.',
+    },
+  },
+  {
+    slug: 'the-closer',
+    client: 'The Closer',
+    industry: 'Revenue Systems',
+    metric: '0',
+    metricLabel: 'Manual Invoices',
+    tagline: 'Zero manual invoices. Automated payment plans. More deals closed.',
+    description:
+      'A Gravity Forms → WooCommerce → Stripe quote-to-order engine with ACF-driven 3–18 month payment plans that eliminated the invoicing bottleneck killing high-ticket closes.',
+    status: 'ready',
+    services: ['Revenue Operations', 'Stripe Integration', 'WooCommerce', 'Sales Automation'],
+    hero: {
+      challenge:
+        'High-ticket training bundles ($2,000+) were stalling at close. Sales reps spent 30 minutes manually creating each invoice — by the time the customer received it, momentum had evaporated. No flexible payment options meant qualified buyers with budget constraints walked.',
+      solution:
+        'Architected a Quote-to-Order engine: Gravity Forms → WooCommerce → Stripe API → ACF custom fields. Automatic quote expiration, timed reminder emails, FluentCRM sync for pipeline visibility. ACF-driven payment plans (3–18 months) wired to automated Stripe recurring subscriptions with failure-retry logic.',
+      results: [
+        { value: '0', label: 'Manual invoices — fully automated' },
+        { value: '3–18 mo', label: 'Flexible payment plans via Stripe' },
+        { value: 'Eliminated', label: '"I\'ll think about it" closing window' },
+        { value: 'Increased', label: 'Close rate on high-ticket bundles' },
+      ],
+    },
+    body: {
+      context:
+        'The sales team was good. The product was good. The close rate was not. A 30-minute manual invoicing process was inserting a cooling-off window into every deal at the worst possible moment.',
+      approach: [
+        'Mapped the sales-to-revenue workflow and quantified the exact cost of invoice delay — confirmed the 30-minute gap was the primary close killer',
+        'Architected the Quote-to-Order engine: Gravity Forms captures quote → WooCommerce auto-creates order → Stripe processes payment or sets up subscription',
+        'Built ACF-driven payment plan configuration: 3, 6, 12, and 18-month terms, each wired to Stripe recurring subscription with built-in failure-retry logic',
+        'Pay-by-Link email dispatched instantly at quote creation — customer chooses payment method from their inbox within minutes of the call',
+        'FluentCRM sync gives sales team real-time pipeline visibility; automated reminders re-engage prospects before quote expiration',
+      ],
+      outcome:
+        'Manual invoicing eliminated entirely. The Pay-by-Link system destroyed the cooling-off window. Automated payment plans expanded the addressable market by making $2,000+ bundles accessible through financing — close rates increased significantly.',
+    },
+  },
   // Content session needed — stub entries
   {
     slug: 'urgent-care-indy',
