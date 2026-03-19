@@ -5,6 +5,11 @@ import './globals.css'
 import { Nav } from '@/components/layout/Nav'
 import { Footer } from '@/components/layout/Footer'
 import { LocalBusinessJsonLd } from '@/components/JsonLd'
+import { LenisProvider } from '@/components/providers/LenisProvider'
+import { GoogleAnalytics } from '@/components/providers/Analytics'
+import { ScrollProgress } from '@/components/ui/ScrollProgress'
+import { BackToTop } from '@/components/ui/BackToTop'
+import { CookieConsent } from '@/components/ui/CookieConsent'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -93,10 +98,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${cabinetGrotesk.variable} ${instrumentSerif.variable}`}>
       <body className="bg-obsidian text-warm-off-white antialiased">
-        <LocalBusinessJsonLd />
-        <Nav />
-        <main>{children}</main>
-        <Footer />
+        <GoogleAnalytics />
+        <LenisProvider>
+          <LocalBusinessJsonLd />
+          <ScrollProgress />
+          <Nav />
+          <main>{children}</main>
+          <Footer />
+          <BackToTop />
+          <CookieConsent />
+        </LenisProvider>
       </body>
     </html>
   )

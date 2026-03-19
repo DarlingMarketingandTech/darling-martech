@@ -2,6 +2,14 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useTypingEffect } from '@/hooks/useTypingEffect'
+
+const roles = [
+  'Strategy & Technology',
+  'Marketing Automation',
+  'Revenue Systems',
+  'CRM Architecture',
+]
 
 const stats = [
   { value: '15+', label: 'Years Experience' },
@@ -20,6 +28,8 @@ const fadeUp = {
 }
 
 export function Hero() {
+  const typedRole = useTypingEffect(roles, 70, 40, 3000)
+
   return (
     <section className="relative min-h-screen flex flex-col justify-center pt-24 pb-20 px-6 md:px-10 overflow-hidden">
       {/* Subtle grid texture */}
@@ -45,7 +55,8 @@ export function Hero() {
             animate="visible"
             className="text-electric-orange text-sm font-body tracking-widest uppercase mb-8"
           >
-            Indianapolis, IN · Strategy & Technology
+            Indianapolis, IN · {typedRole}
+            <span className="inline-block w-[2px] h-[14px] bg-electric-orange ml-0.5 animate-pulse align-middle" />
           </motion.p>
 
           {/* Headline */}
