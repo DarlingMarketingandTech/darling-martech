@@ -1,0 +1,144 @@
+/* ─────────────────────────────────────────────
+   About Teaser Section
+   ───────────────────────────────────────────── */
+
+.section {
+  padding: 7rem 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 7rem 2.5rem;
+  }
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ── Asymmetric 2-col grid ──────────────────── */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .layout {
+    /* 6 left text + 4 right image — text leads */
+    grid-template-columns: 6fr 4fr;
+    gap: 5rem;
+  }
+}
+
+/* ── Left column — text ─────────────────────── */
+
+.textCol {
+  display: flex;
+  flex-direction: column;
+  order: 1;
+}
+
+/* ── Label ─────────────────────────────────── */
+
+.label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 1.25rem;
+}
+
+/* ── Headline ───────────────────────────────── */
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.75rem, 3.5vw, 3rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+  text-wrap: balance;
+  margin: 0 0 1.75rem;
+}
+
+/* ── Body ───────────────────────────────────── */
+
+.body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-muted);
+  max-width: 55ch;
+  margin: 0 0 2.25rem;
+}
+
+/* ── CTA link ───────────────────────────────── */
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  text-decoration: none;
+  position: relative;
+  width: fit-content;
+}
+
+.cta::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.cta:hover::after {
+  transform: scaleX(1);
+}
+
+/* ── Right column — image ───────────────────── */
+
+.imageCol {
+  position: relative;
+  order: 2;
+}
+
+@media (max-width: 767px) {
+  /* Stack image below text on mobile — image second */
+  .textCol { order: 1; }
+  .imageCol { order: 2; }
+}
+
+.imageWrap {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+}
+
+/* Accent line — left edge of photo */
+.accentLine {
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: var(--color-accent);
+  opacity: 0.4;
+}

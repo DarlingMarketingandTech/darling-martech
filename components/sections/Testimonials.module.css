@@ -1,0 +1,132 @@
+/* ─────────────────────────────────────────────
+   Testimonials Section
+   ───────────────────────────────────────────── */
+
+.section {
+  padding: 7rem 1.5rem;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-base);
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 7rem 2.5rem;
+  }
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ── Label ─────────────────────────────────── */
+
+.label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 3.5rem;
+}
+
+/* ── 2-column quote grid ────────────────────── */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── Quote Block ────────────────────────────── */
+
+.quoteBlock {
+  position: relative;
+  padding: 2.5rem 2rem 2.5rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .quoteBlock {
+    padding: 3.5rem 3rem 3.5rem 3.5rem;
+  }
+}
+
+/* Horizontal separator between stacked quotes (left column) */
+.quoteBlock + .quoteBlock {
+  border-top: 1px solid var(--color-border);
+}
+
+/* Vertical divider between the two columns */
+@media (min-width: 768px) {
+  .quoteBlock:nth-child(odd) {
+    border-right: 1px solid var(--color-border);
+  }
+
+  /* Between rows in each column, add horizontal divider */
+  .quoteBlock:nth-child(3),
+  .quoteBlock:nth-child(4) {
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* Remove the generic + rule on desktop — handled above */
+  .quoteBlock + .quoteBlock {
+    border-top: none;
+  }
+}
+
+/* Mobile: all stacked with dividers */
+@media (max-width: 767px) {
+  .quoteBlock:nth-child(odd) {
+    border-right: none;
+  }
+
+  .quoteBlock + .quoteBlock {
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+/* ── Decorative opening mark ────────────────── */
+
+.openMark {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  line-height: 0.6;
+  color: var(--color-accent);
+  opacity: 0.25;
+  user-select: none;
+  pointer-events: none;
+  font-weight: 900;
+  display: block;
+  margin-bottom: -0.5rem;
+}
+
+/* ── Quote text ─────────────────────────────── */
+
+.quoteText {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* ── Attribution ────────────────────────────── */
+
+.attribution {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  font-style: normal;
+  display: block;
+}
