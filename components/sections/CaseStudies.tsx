@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
+import { containerVariants, itemVariants, fadeVariants, viewport } from '@/lib/motion'
 
 const caseStudies = [
   {
@@ -37,70 +37,82 @@ const caseStudies = [
 ]
 
 export function CaseStudies() {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-100px' })
-
   return (
-    <section id="work" ref={ref} className="py-28 px-6 md:px-10 border-t border-white/5">
+    <section id="work" className="py-28 px-6 md:px-10 border-t" style={{ borderColor: 'var(--color-border)' }}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-20">
+        <motion.div
+          className="mb-20"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5 }}
-            className="text-electric-orange text-xs font-body tracking-widest uppercase mb-4"
+            variants={fadeVariants}
+            className="text-xs font-body tracking-widest uppercase mb-4"
+            style={{ color: 'var(--color-accent)' }}
           >
             Selected Work
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-display font-black text-[clamp(2rem,4.5vw,4rem)] leading-[1.05] tracking-tightest text-warm-off-white max-w-2xl"
+            variants={itemVariants}
+            className="font-display font-black text-[clamp(2rem,4.5vw,4rem)] leading-[1.05] tracking-tightest max-w-2xl"
+            style={{ color: 'var(--color-text)' }}
           >
             Work that proves the point.
           </motion.h2>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-mid-gray font-body mt-4 max-w-xl text-base"
+            variants={itemVariants}
+            className="font-body mt-4 max-w-xl text-base"
+            style={{ color: 'var(--color-muted)' }}
           >
             Across healthcare, legal, finance, retail, nonprofits, and local business — here&apos;s what
             strategy and execution look like when the same person does both.
           </motion.p>
-        </div>
+        </motion.div>
 
         {/* Case study list */}
-        <div className="divide-y divide-white/5">
-          {caseStudies.map((cs, i) => (
+        <motion.div
+          className="divide-y"
+          style={{ borderColor: 'var(--color-border)' }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
+          {caseStudies.map((cs) => (
             <motion.div
               key={cs.client}
-              initial={{ opacity: 0, y: 15 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
+              variants={itemVariants}
               className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 py-8 group cursor-default"
+              whileHover={{ x: 2 }}
             >
               <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-10">
                 <div className="min-w-[180px]">
-                  <p className="font-display font-bold text-lg text-warm-off-white group-hover:text-electric-orange transition-colors duration-200">
+                  <p
+                    className="font-display font-bold text-lg"
+                    style={{ color: 'var(--color-text)' }}
+                  >
                     {cs.client}
                   </p>
-                  <p className="text-xs text-mid-gray font-body uppercase tracking-wider mt-0.5">
+                  <p className="text-xs font-body uppercase tracking-wider mt-0.5" style={{ color: 'var(--color-muted)' }}>
                     {cs.industry}
                   </p>
                 </div>
-                <p className="text-sm text-mid-gray font-body leading-relaxed max-w-md">
+                <p className="text-sm font-body leading-relaxed max-w-md" style={{ color: 'var(--color-muted)' }}>
                   {cs.description}
                 </p>
               </div>
-              <div className="font-display font-black text-2xl text-electric-orange/70 group-hover:text-electric-orange transition-colors duration-200 md:text-right">
+              <div
+                className="font-display font-black text-2xl md:text-right tabular"
+                style={{ color: 'rgba(255,77,0,0.7)' }}
+              >
                 {cs.metric}
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

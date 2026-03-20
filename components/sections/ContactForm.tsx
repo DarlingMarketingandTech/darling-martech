@@ -147,7 +147,8 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="inline-flex items-center gap-2 font-body font-medium text-sm bg-electric-orange text-warm-off-white px-8 py-4 hover:bg-electric-orange/90 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed group"
+          className="inline-flex items-center gap-2 font-body font-medium text-sm px-8 py-4 disabled:opacity-60 disabled:cursor-not-allowed group"
+          style={{ background: 'var(--color-accent)', color: 'var(--color-text)' }}
         >
           {status === 'loading' ? 'Sending...' : <>Send it <span className="transition-transform duration-200 group-hover:translate-x-1">→</span></>}
         </button>

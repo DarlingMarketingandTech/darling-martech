@@ -2,69 +2,66 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { motion } from 'framer-motion'
+import { slideInLeft, slideInRight, itemVariants, containerVariants, viewport } from '@/lib/motion'
 
 export function AboutTeaser() {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-100px' })
-
   return (
-    <section ref={ref} className="py-28 px-6 md:px-10 border-t border-white/5">
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-24 items-center">
+    <section className="py-28 px-6 md:px-10 border-t" style={{ borderColor: 'var(--color-border)' }}>
+      <motion.div
+        className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-24 items-center"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
         {/* Photo */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="relative aspect-[4/5] bg-white/5 overflow-hidden"
+          variants={slideInLeft}
+          className="relative aspect-[4/5] overflow-hidden"
+          style={{ background: 'rgba(255,255,255,0.05)' }}
         >
           <Image
             src="/images/jacob-bio-photo-splash.jpg"
-            alt="Jacob Darling"
+            alt="Jacob Darling — Marketing Strategist based in Indianapolis"
             fill
             className="object-cover grayscale"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
           {/* Orange accent */}
-          <div className="absolute bottom-0 left-0 w-16 h-1 bg-electric-orange" />
+          <div className="absolute bottom-0 left-0 w-16 h-1" style={{ background: 'var(--color-accent)' }} />
         </motion.div>
 
         {/* Copy */}
         <div>
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="font-display font-black text-[clamp(2rem,4vw,3.5rem)] leading-[1.05] tracking-tightest text-warm-off-white mb-8"
+            variants={itemVariants}
+            className="font-display font-black text-[clamp(2rem,4vw,3.5rem)] leading-[1.05] tracking-tightest mb-8"
+            style={{ color: 'var(--color-text)' }}
           >
             Both sides.<br />One person.
           </motion.h2>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-mid-gray font-body leading-relaxed text-base md:text-lg mb-10"
+            variants={itemVariants}
+            className="font-body leading-relaxed text-base md:text-lg mb-10"
+            style={{ color: 'var(--color-muted)' }}
           >
             Most consultants know marketing or technology. I&apos;ve spent 15 years doing both —
             leading marketing teams, architecting CRM systems, building automation workflows, and
             shipping code. When you hire me, you get me directly. No account managers. No hand-offs.
             Just clear thinking and clean execution.
           </motion.p>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
+          <motion.div variants={itemVariants}>
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 font-body text-sm text-electric-orange hover:gap-3 transition-all duration-200"
+              className="inline-flex items-center gap-2 font-body text-sm"
+              style={{ color: 'var(--color-accent)' }}
             >
               Read my story →
             </Link>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }

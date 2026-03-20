@@ -4,42 +4,66 @@
 
 @layer base {
   :root {
+    /* Brand color system */
+    --color-base:           #0A0A0A;
+    --color-surface:        #141414;
+    --color-surface-raised: #1A1A1A;
+    --color-accent:         #FF4D00;
+    --color-text:           #F5F0E8;
+    --color-muted:          #888888;
+    --color-border:         rgba(245, 240, 232, 0.08);
+    --color-border-accent:  rgba(255, 77, 0, 0.3);
+
+    /* shadcn/ui compatibility tokens (keep these) */
     --background: #0A0A0A;
     --foreground: #F5F0E8;
-    --border: #1A1A1A;
-    --input: #1A1A1A;
+    --border: rgba(245, 240, 232, 0.08);
+    --input: #141414;
     --ring: #FF4D00;
     --primary: #FF4D00;
     --primary-foreground: #F5F0E8;
-    --secondary: #1A1A1A;
+    --secondary: #141414;
     --secondary-foreground: #F5F0E8;
-    --muted: #111111;
+    --muted: #141414;
     --muted-foreground: #888888;
     --accent: #FF4D00;
     --accent-foreground: #F5F0E8;
   }
-}
 
-@layer base {
-  * {
-    @apply border-border;
-  }
+  * { box-sizing: border-box; }
 
   html {
-    /* scroll-behavior handled by Lenis smooth scrolling */
+    scroll-behavior: smooth;
+    color-scheme: dark;
   }
 
   body {
-    background-color: #0A0A0A;
-    color: #F5F0E8;
+    background-color: var(--color-base);
+    color: var(--color-text);
     font-family: var(--font-inter), sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-cabinet-grotesk), sans-serif;
+    text-wrap: balance;
+  }
+
+  p {
+    max-width: 65ch;
   }
 
   ::selection {
-    background-color: #FF4D00;
-    color: #F5F0E8;
+    background-color: var(--color-accent);
+    color: var(--color-text);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 }
 
@@ -47,20 +71,14 @@
   .font-display {
     font-family: var(--font-cabinet-grotesk), sans-serif;
   }
-
   .font-accent {
     font-family: var(--font-instrument-serif), serif;
     font-style: italic;
   }
-
-  .text-display {
-    font-family: var(--font-cabinet-grotesk), sans-serif;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 0.95;
-  }
-
   .text-balance {
     text-wrap: balance;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
   }
 }

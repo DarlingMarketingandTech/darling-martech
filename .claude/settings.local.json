@@ -7,7 +7,8 @@
       "Bash(node -e \"const {nanoid} = require\\(''nanoid''\\); console.log\\(typeof nanoid\\)\")",
       "Bash(node -e \"const {nanoid} = require\\(''c:/dev/darling-martech/node_modules/next/node_modules/nanoid/index.cjs''\\); console.log\\(typeof nanoid\\)\")",
       "Bash(node -e \"const x = require\\(''c:/dev/darling-martech/node_modules/next/dist/compiled/nanoid/index.cjs''\\); console.log\\(typeof x.nanoid, Object.keys\\(x\\)\\)\")",
-      "Bash(node -e \":*)"
+      "Bash(node -e \":*)",
+      "Bash(git stash:*)"
     ]
   }
 }

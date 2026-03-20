@@ -13,7 +13,10 @@
       "Bash(powershell -Command \"Stop-Process -Id 36944 -Force; Stop-Process -Id 33832 -Force\")",
       "Bash(powershell -Command \"Stop-Process -Id 4376 -Force; Stop-Process -Id 37136 -Force\")",
       "Bash(powershell -Command \"Stop-Process -Id 40152 -Force\")",
-      "Bash(powershell -Command \"Stop-Process -Id 44592 -Force\")"
+      "Bash(powershell -Command \"Stop-Process -Id 44592 -Force\")",
+      "Bash(node -e \"require\\(''tailwindcss''\\)\")",
+      "Bash(node -e \"const tw = require\\(''tailwindcss''\\); console.log\\(typeof tw\\)\")",
+      "Bash(node -e \"const t = require\\(''''./tailwind.config.ts''''\\)\")"
     ]
   }
 }

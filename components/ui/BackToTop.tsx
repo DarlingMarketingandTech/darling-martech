@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { springStandard } from '@/lib/motion'
 
 export function BackToTop() {
   const [visible, setVisible] = useState(false)
@@ -23,9 +24,16 @@ export function BackToTop() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
-          transition={{ duration: 0.2 }}
+          transition={springStandard}
+          whileHover={{ scale: 1.1, borderColor: 'var(--color-border-accent)', color: 'var(--color-accent)' }}
+          whileTap={{ scale: 0.95 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 w-10 h-10 flex items-center justify-center border border-white/10 bg-obsidian/80 text-mid-gray hover:text-electric-orange hover:border-electric-orange/30 transition-colors duration-200"
+          className="fixed bottom-8 right-8 z-50 w-10 h-10 flex items-center justify-center border"
+          style={{
+            background: 'rgba(10,10,10,0.80)',
+            borderColor: 'var(--color-border)',
+            color: 'var(--color-muted)',
+          }}
           aria-label="Back to top"
         >
           <svg
@@ -37,6 +45,7 @@ export function BackToTop() {
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
+            aria-hidden="true"
           >
             <path d="M7 12V2M2 6l5-4 5 4" />
           </svg>

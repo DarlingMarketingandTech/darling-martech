@@ -25,12 +25,44 @@ const instrumentSerif = Instrument_Serif({
   display: 'swap',
 })
 
-// Cabinet Grotesk variable font from Fontshare
+// Cabinet Grotesk — all weights for optimal performance
 const cabinetGrotesk = localFont({
-  src: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Variable.woff2',
+  src: [
+    {
+      path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Thin.woff2',
+      weight: '100',
+    },
+    {
+      path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Extralight.woff2',
+      weight: '200',
+    },
+    {
+      path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Light.woff2',
+      weight: '300',
+    },
+    {
+      path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Regular.woff2',
+      weight: '400',
+    },
+    {
+      path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Medium.woff2',
+      weight: '500',
+    },
+    {
+      path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Bold.woff2',
+      weight: '700',
+    },
+    {
+      path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Extrabold.woff2',
+      weight: '800',
+    },
+    {
+      path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Black.woff2',
+      weight: '900',
+    },
+  ],
   variable: '--font-cabinet-grotesk',
   display: 'swap',
-  weight: '100 900',
 })
 
 export const metadata: Metadata = {
@@ -97,7 +129,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${cabinetGrotesk.variable} ${instrumentSerif.variable}`}>
-      <body className="bg-obsidian text-warm-off-white antialiased">
+      <body>
         <GoogleAnalytics />
         <LenisProvider>
           <LocalBusinessJsonLd />

@@ -1,7 +1,8 @@
 'use client'
 
-import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useRef, useState, useEffect, useCallback } from 'react'
+import { containerVariants, itemVariants, springEntrance, viewport } from '@/lib/motion'
 
 const testimonials = [
   {
@@ -31,10 +32,21 @@ const testimonials = [
 ]
 
 export function Testimonials() {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-100px' })
+  const ref = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [inView, setInView] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   const next = useCallback(() => {
     setActive((prev) => (prev + 1) % testimonials.length)
@@ -48,13 +60,19 @@ export function Testimonials() {
   }, [paused, inView, next])
 
   return (
-    <section ref={ref} className="py-28 px-6 md:px-10 border-t border-white/5 bg-white/[0.01]">
+    <section
+      ref={ref}
+      className="py-28 px-6 md:px-10 border-t"
+      style={{ borderColor: 'var(--color-border)', background: 'rgba(255,255,255,0.01)' }}
+    >
       <div className="max-w-7xl mx-auto">
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-electric-orange text-xs font-body tracking-widest uppercase mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          variants={itemVariants}
+          className="text-xs font-body tracking-widest uppercase mb-16"
+          style={{ color: 'var(--color-accent)' }}
         >
           What Clients Say
         </motion.p>
@@ -72,14 +90,17 @@ export function Testimonials() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                transition={springEntrance}
               >
-                <blockquote className="font-accent text-2xl md:text-4xl text-warm-off-white leading-snug max-w-4xl">
+                <blockquote
+                  className="font-accent text-2xl md:text-4xl leading-snug max-w-4xl"
+                  style={{ color: 'var(--color-text)' }}
+                >
                   &ldquo;{testimonials[active].quote}&rdquo;
                 </blockquote>
                 <footer className="flex items-center gap-3 mt-8">
-                  <div className="w-8 h-px bg-electric-orange" />
-                  <cite className="text-sm text-mid-gray font-body not-italic">
+                  <div className="w-8 h-px" style={{ background: 'var(--color-accent)' }} />
+                  <cite className="text-sm font-body not-italic" style={{ color: 'var(--color-muted)' }}>
                     {testimonials[active].author}
                     {testimonials[active].year && `, ${testimonials[active].year}`}
                   </cite>
@@ -92,17 +113,18 @@ export function Testimonials() {
           <div className="flex items-center gap-3 mt-10">
             {testimonials.map((_, i) => (
               <button
-                key={i}
+                key={testimonials[i].author}
                 onClick={() => setActive(i)}
                 className="group relative p-1"
                 aria-label={`View testimonial ${i + 1}`}
               >
-                <span
-                  className={`block h-[2px] transition-all duration-300 ${
-                    i === active
-                      ? 'w-8 bg-electric-orange'
-                      : 'w-4 bg-white/15 group-hover:bg-white/30'
-                  }`}
+                <motion.span
+                  className="block h-[2px]"
+                  animate={{
+                    width: i === active ? 32 : 16,
+                    background: i === active ? 'var(--color-accent)' : 'rgba(255,255,255,0.15)',
+                  }}
+                  transition={springEntrance}
                 />
               </button>
             ))}
@@ -110,30 +132,41 @@ export function Testimonials() {
         </div>
 
         {/* Grid of all quotes (visible on md+) */}
-        <div className="hidden md:grid md:grid-cols-2 gap-px bg-white/5">
+        <motion.div
+          className="hidden md:grid md:grid-cols-2 gap-px"
+          style={{ background: 'var(--color-border)' }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
           {testimonials.map((t, i) => (
             <motion.div
               key={t.author}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+              variants={itemVariants}
               onClick={() => setActive(i)}
-              className={`bg-obsidian p-10 md:p-14 flex flex-col justify-between gap-8 cursor-pointer transition-colors duration-200 ${
-                i === active ? 'ring-1 ring-electric-orange/20' : 'hover:bg-white/[0.02]'
-              }`}
+              className="p-10 md:p-14 flex flex-col justify-between gap-8 cursor-pointer"
+              style={{
+                background: i === active ? 'rgba(255,77,0,0.04)' : 'var(--color-base)',
+                boxShadow: i === active ? 'inset 0 0 0 1px rgba(255,77,0,0.2)' : undefined,
+              }}
+              whileHover={{ background: 'rgba(255,255,255,0.02)' }}
             >
-              <blockquote className="font-accent text-xl text-warm-off-white/80 leading-snug">
+              <blockquote
+                className="font-accent text-xl leading-snug"
+                style={{ color: 'rgba(245,240,232,0.8)' }}
+              >
                 &ldquo;{t.quote}&rdquo;
               </blockquote>
               <footer className="flex items-center gap-3">
-                <div className="w-6 h-px bg-electric-orange" />
-                <cite className="text-sm text-mid-gray font-body not-italic">
+                <div className="w-6 h-px" style={{ background: 'var(--color-accent)' }} />
+                <cite className="text-sm font-body not-italic" style={{ color: 'var(--color-muted)' }}>
                   {t.author}{t.year && `, ${t.year}`}
                 </cite>
               </footer>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

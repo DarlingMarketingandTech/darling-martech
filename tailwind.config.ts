@@ -14,6 +14,8 @@ const config: Config = {
         'electric-orange': '#FF4D00',
         'warm-off-white': '#F5F0E8',
         'mid-gray': '#888888',
+        surface: '#141414',
+        'surface-raised': '#1A1A1A',
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         border: 'var(--border)',

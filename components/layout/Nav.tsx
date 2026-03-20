@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { springStandard } from '@/lib/motion'
 
 const navLinks = [
   { href: '/#services', label: 'Services' },
@@ -27,17 +28,22 @@ export function Nav() {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        scrolled ? 'bg-obsidian/90 backdrop-blur-sm border-b border-white/5' : 'bg-transparent'
+        'fixed top-0 left-0 right-0 z-50',
+        scrolled ? 'border-b' : 'bg-transparent'
       )}
+      style={scrolled ? {
+        background: 'rgba(10,10,10,0.90)',
+        backdropFilter: 'blur(8px)',
+        borderColor: 'var(--color-border)',
+      } : undefined}
     >
       <nav className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-0.5 group">
-          <span className="font-display font-bold text-lg text-warm-off-white tracking-tight group-hover:text-warm-off-white transition-colors">
+        <Link href="/" className="flex items-center gap-0.5">
+          <span className="font-display font-bold text-lg" style={{ color: 'var(--color-text)' }}>
             Darling
           </span>
-          <span className="font-display font-bold text-lg text-electric-orange tracking-tight">
+          <span className="font-display font-bold text-lg" style={{ color: 'var(--color-accent)' }}>
             MarTech
           </span>
         </Link>
@@ -48,14 +54,18 @@ export function Nav() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm text-mid-gray hover:text-warm-off-white transition-colors duration-200 font-body"
+              className="text-sm font-body"
+              style={{ color: 'var(--color-muted)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-text)' }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted)' }}
             >
               {link.label}
             </Link>
           ))}
           <Link
             href="/contact"
-            className="text-sm font-medium bg-electric-orange text-warm-off-white px-4 py-2 hover:bg-electric-orange/90 transition-colors duration-200 font-body"
+            className="text-sm font-medium font-body px-4 py-2"
+            style={{ background: 'var(--color-accent)', color: 'var(--color-text)' }}
           >
             Let&apos;s talk
           </Link>
@@ -67,9 +77,24 @@ export function Nav() {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
-          <span className={cn('block w-5 h-0.5 bg-warm-off-white transition-all duration-200', menuOpen && 'rotate-45 translate-y-2')} />
-          <span className={cn('block w-5 h-0.5 bg-warm-off-white transition-all duration-200', menuOpen && 'opacity-0')} />
-          <span className={cn('block w-5 h-0.5 bg-warm-off-white transition-all duration-200', menuOpen && '-rotate-45 -translate-y-2')} />
+          <motion.span
+            className="block w-5 h-[1.5px] origin-center"
+            style={{ background: 'var(--color-text)' }}
+            animate={menuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+            transition={springStandard}
+          />
+          <motion.span
+            className="block w-5 h-[1.5px]"
+            style={{ background: 'var(--color-text)' }}
+            animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
+            transition={springStandard}
+          />
+          <motion.span
+            className="block w-5 h-[1.5px] origin-center"
+            style={{ background: 'var(--color-text)' }}
+            animate={menuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+            transition={springStandard}
+          />
         </button>
       </nav>
 
@@ -80,8 +105,9 @@ export function Nav() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden bg-obsidian border-t border-white/5 overflow-hidden"
+            transition={springStandard}
+            className="md:hidden overflow-hidden border-t"
+            style={{ background: 'var(--color-base)', borderColor: 'var(--color-border)' }}
           >
             <div className="px-6 py-6 flex flex-col gap-5">
               {navLinks.map((link) => (
@@ -89,7 +115,8 @@ export function Nav() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="text-base text-mid-gray hover:text-warm-off-white transition-colors font-body"
+                  className="text-base font-body"
+                  style={{ color: 'var(--color-muted)' }}
                 >
                   {link.label}
                 </Link>
@@ -97,7 +124,8 @@ export function Nav() {
               <Link
                 href="/contact"
                 onClick={() => setMenuOpen(false)}
-                className="inline-block text-sm font-medium bg-electric-orange text-warm-off-white px-5 py-3 text-center hover:bg-electric-orange/90 transition-colors font-body"
+                className="inline-block text-sm font-medium font-body px-5 py-3 text-center"
+                style={{ background: 'var(--color-accent)', color: 'var(--color-text)' }}
               >
                 Let&apos;s talk
               </Link>

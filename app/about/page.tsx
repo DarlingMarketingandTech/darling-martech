@@ -2,9 +2,8 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
-import type { Metadata } from 'next'
+import { motion } from 'framer-motion'
+import { containerVariants, itemVariants, slideInRight, fadeVariants, springEntrance, viewport } from '@/lib/motion'
 
 const career = [
   {
@@ -63,21 +62,6 @@ const industries = [
   'Local Service',
 ]
 
-function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-60px' })
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay }}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
 export default function AboutPage() {
   return (
     <>
@@ -106,57 +90,62 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto">
           {/* Hero block */}
           <div className="grid md:grid-cols-2 gap-16 md:gap-24 mb-28 items-start">
-            <div>
+            {/* Copy — above the fold, use animate not whileInView */}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
               <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="text-electric-orange text-xs font-body tracking-widest uppercase mb-6"
+                variants={fadeVariants}
+                className="text-xs font-body tracking-widest uppercase mb-6"
+                style={{ color: 'var(--color-accent)' }}
               >
                 About Jacob Darling
               </motion.p>
               <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.1 }}
-                className="font-display font-black text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.97] tracking-tightest text-warm-off-white mb-10 text-balance"
+                variants={itemVariants}
+                className="font-display font-black text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.97] tracking-tightest mb-10 text-balance"
+                style={{ color: 'var(--color-text)' }}
               >
                 Strategy and systems — built by someone who&apos;s done both for 15 years.
               </motion.h1>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="space-y-5 text-mid-gray font-body leading-relaxed text-base md:text-lg"
+                variants={containerVariants}
+                className="space-y-5 font-body leading-relaxed text-base md:text-lg"
+                style={{ color: 'var(--color-muted)' }}
               >
-                <p>
+                <motion.p variants={itemVariants}>
                   I&apos;m Jacob Darling — a marketing strategist, systems architect, and technologist
                   based in Indianapolis. Over the past 15 years I&apos;ve built marketing infrastructure
                   for healthcare systems, law firms, financial advisors, e-commerce brands, nonprofits,
                   and startups. I&apos;ve led marketing from the inside as a director and built campaigns
                   from the outside as a consultant. I know both sides.
-                </p>
-                <p>
+                </motion.p>
+                <motion.p variants={itemVariants}>
                   What makes me different isn&apos;t just the range — it&apos;s the depth. I don&apos;t
                   hand your strategy to a developer and hope for the best. I build the strategy and the
                   system that executes it. CRM architecture, marketing automation, web development,
                   analytics pipelines, AI integrations — I do the work myself, and I measure everything.
-                </p>
-                <p>
+                </motion.p>
+                <motion.p variants={itemVariants}>
                   I started Darling MarTech because small businesses deserve the kind of senior-level
                   thinking and hands-on execution that used to be reserved for brands with agency
                   retainers. When you work with me, you get me — directly, personally, and accountably.
-                </p>
+                </motion.p>
               </motion.div>
-            </div>
+            </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
+              variants={slideInRight}
+              initial="hidden"
+              animate="visible"
               className="relative"
             >
-              <div className="relative aspect-[3/4] bg-white/5 overflow-hidden">
+              <div
+                className="relative aspect-[3/4] overflow-hidden"
+                style={{ background: 'rgba(255,255,255,0.05)' }}
+              >
                 <Image
                   src="/images/jacob-bio-photo-splash.jpg"
                   alt="Jacob Darling — Marketing Strategist"
@@ -167,9 +156,14 @@ export default function AboutPage() {
                 />
               </div>
               {/* Credentials card */}
-              <div className="mt-6 p-6 border border-white/8 bg-white/[0.02] space-y-3">
-                <p className="text-xs text-electric-orange font-body tracking-widest uppercase">Credentials</p>
-                <ul className="space-y-2 text-sm text-mid-gray font-body">
+              <div
+                className="mt-6 p-6 border space-y-3"
+                style={{ borderColor: 'var(--color-border)', background: 'rgba(255,255,255,0.02)' }}
+              >
+                <p className="text-xs font-body tracking-widest uppercase" style={{ color: 'var(--color-accent)' }}>
+                  Credentials
+                </p>
+                <ul className="space-y-2 text-sm font-body" style={{ color: 'var(--color-muted)' }}>
                   <li>B.S. Business Management — Indiana University, 2008</li>
                   <li>Gold Key Photography Award — Scholastic Art & Writing Awards, 2008</li>
                   <li>15+ years across healthcare, legal, finance, e-commerce, nonprofit</li>
@@ -180,61 +174,106 @@ export default function AboutPage() {
           </div>
 
           {/* Industries */}
-          <FadeUp>
-            <div className="py-16 border-t border-white/5 mb-20">
-              <p className="text-xs text-electric-orange font-body tracking-widest uppercase mb-8">Industries</p>
-              <div className="flex flex-wrap gap-3">
-                {industries.map((ind) => (
-                  <span
-                    key={ind}
-                    className="text-sm text-mid-gray font-body border border-white/10 px-4 py-2"
-                  >
-                    {ind}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </FadeUp>
+          <motion.div
+            className="py-16 border-t mb-20"
+            style={{ borderColor: 'var(--color-border)' }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            variants={containerVariants}
+          >
+            <motion.p
+              variants={fadeVariants}
+              className="text-xs font-body tracking-widest uppercase mb-8"
+              style={{ color: 'var(--color-accent)' }}
+            >
+              Industries
+            </motion.p>
+            <motion.div variants={containerVariants} className="flex flex-wrap gap-3">
+              {industries.map((ind) => (
+                <motion.span
+                  key={ind}
+                  variants={itemVariants}
+                  className="text-sm font-body border px-4 py-2"
+                  style={{ color: 'var(--color-muted)', borderColor: 'var(--color-border)' }}
+                >
+                  {ind}
+                </motion.span>
+              ))}
+            </motion.div>
+          </motion.div>
 
           {/* Career */}
-          <FadeUp>
-            <div className="mb-20">
-              <p className="text-xs text-electric-orange font-body tracking-widest uppercase mb-10">Career History</p>
-              <div className="space-y-0 divide-y divide-white/5">
-                {career.map((job, i) => (
-                  <FadeUp key={job.company + job.period} delay={i * 0.05}>
-                    <div className="py-8 grid md:grid-cols-[220px_1fr] gap-4 md:gap-12">
-                      <div>
-                        <p className="text-warm-off-white font-body font-medium text-sm">{job.title}</p>
-                        <p className="text-electric-orange text-sm font-body mt-0.5">{job.company}</p>
-                        <p className="text-mid-gray/60 text-xs font-body mt-1">{job.period}</p>
-                      </div>
-                      <p className="text-mid-gray font-body text-sm leading-relaxed">{job.description}</p>
-                    </div>
-                  </FadeUp>
-                ))}
-              </div>
+          <motion.div
+            className="mb-20"
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            variants={containerVariants}
+          >
+            <motion.p
+              variants={fadeVariants}
+              className="text-xs font-body tracking-widest uppercase mb-10"
+              style={{ color: 'var(--color-accent)' }}
+            >
+              Career History
+            </motion.p>
+            <div className="space-y-0 divide-y" style={{ borderColor: 'var(--color-border)' }}>
+              {career.map((job) => (
+                <motion.div
+                  key={job.company + job.period}
+                  variants={itemVariants}
+                  className="py-8 grid md:grid-cols-[220px_1fr] gap-4 md:gap-12"
+                >
+                  <div>
+                    <p className="font-body font-medium text-sm" style={{ color: 'var(--color-text)' }}>{job.title}</p>
+                    <p className="text-sm font-body mt-0.5" style={{ color: 'var(--color-accent)' }}>{job.company}</p>
+                    <p className="text-xs font-body mt-1" style={{ color: 'rgba(136,136,136,0.6)' }}>{job.period}</p>
+                  </div>
+                  <p className="font-body text-sm leading-relaxed" style={{ color: 'var(--color-muted)' }}>{job.description}</p>
+                </motion.div>
+              ))}
             </div>
-          </FadeUp>
+          </motion.div>
 
           {/* CTA */}
-          <FadeUp>
-            <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-              <div>
-                <h2 className="font-display font-black text-3xl md:text-4xl text-warm-off-white tracking-tightest">
-                  Ready to work together?
-                </h2>
-                <p className="text-mid-gray font-body mt-2">I keep my client list small. Let&apos;s see if we&apos;re a fit.</p>
-              </div>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 font-body font-medium text-base bg-electric-orange text-warm-off-white px-8 py-4 hover:bg-electric-orange/90 transition-all duration-200 group whitespace-nowrap"
+          <motion.div
+            className="pt-16 border-t flex flex-col md:flex-row md:items-center md:justify-between gap-8"
+            style={{ borderColor: 'var(--color-border)' }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            variants={containerVariants}
+          >
+            <motion.div variants={itemVariants}>
+              <h2
+                className="font-display font-black text-3xl md:text-4xl tracking-tightest"
+                style={{ color: 'var(--color-text)' }}
               >
-                Get in touch
-                <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
-              </Link>
-            </div>
-          </FadeUp>
+                Ready to work together?
+              </h2>
+              <p className="font-body mt-2" style={{ color: 'var(--color-muted)' }}>
+                I keep my client list small. Let&apos;s see if we&apos;re a fit.
+              </p>
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={springEntrance}
+                className="inline-block"
+              >
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 font-body font-medium text-base px-8 py-4 whitespace-nowrap group"
+                  style={{ background: 'var(--color-accent)', color: 'var(--color-text)' }}
+                >
+                  Get in touch
+                  <span className="group-hover:translate-x-1" style={{ transition: 'transform 0.2s' }}>→</span>
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
       </article>
     </>

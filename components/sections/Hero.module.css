@@ -1,0 +1,248 @@
+/* ─── Section ─────────────────────────────────────────────────────────── */
+.section {
+  position: relative;
+  min-height: 100dvh;
+  background: var(--color-base);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Background dot grid ─────────────────────────────────────────────── */
+.dotGrid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(245, 240, 232, 0.5) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.02;
+  pointer-events: none;
+}
+
+/* ─── Left edge accent line ───────────────────────────────────────────── */
+.accentLine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  background: var(--color-accent);
+  opacity: 0.15;
+  z-index: 2;
+}
+
+/* ─── Container ───────────────────────────────────────────────────────── */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+}
+
+/* ─── Two-column grid layout ──────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  width: 100%;
+  align-items: center;
+  min-height: 100dvh;
+}
+
+/* ─── Left column ─────────────────────────────────────────────────────── */
+.leftCol {
+  padding: 8rem 4rem 6rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.leftContent {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Eyebrow ─────────────────────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  line-height: 1;
+}
+
+/* ─── Headline ────────────────────────────────────────────────────────── */
+.headline {
+  font-family: var(--font-cabinet-grotesk), sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+  text-wrap: balance;
+  margin: 0 0 2rem;
+}
+
+.headlineAccent {
+  font-family: var(--font-instrument-serif), serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-accent);
+}
+
+/* ─── Subheadline ─────────────────────────────────────────────────────── */
+.subheadline {
+  font-family: var(--font-inter), sans-serif;
+  font-size: clamp(1rem, 1.5vw, 1.125rem);
+  line-height: 1.7;
+  color: var(--color-muted);
+  max-width: 50ch;
+  margin: 0 0 2.75rem;
+}
+
+/* ─── CTA Button ──────────────────────────────────────────────────────── */
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--color-accent);
+  color: var(--color-text);
+  font-family: var(--font-inter), sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 1rem 2.25rem;
+  text-decoration: none;
+  border-radius: 0;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.ctaArrow {
+  display: inline-block;
+  font-style: normal;
+  line-height: 1;
+}
+
+/* ─── Stats bar ───────────────────────────────────────────────────────── */
+.statsBar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 4.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.statItem {
+  padding-right: 1.5rem;
+}
+
+.statItem:not(:first-child) {
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--color-border);
+}
+
+.statValue {
+  font-family: var(--font-cabinet-grotesk), sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.25rem, 2.8vw, 3rem);
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.statLabel {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.4rem;
+}
+
+/* ─── Right column ────────────────────────────────────────────────────── */
+.rightCol {
+  position: relative;
+  align-self: stretch;
+  overflow: hidden;
+}
+
+.pathsContainer {
+  position: absolute;
+  inset: 0;
+}
+
+.pathsLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pathsSvg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Gradient fade — blends paths into base color on left edge */
+.pathsFade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    var(--color-base) 0%,
+    rgba(10, 10, 10, 0.65) 28%,
+    transparent 55%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Mobile ──────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .leftCol {
+    padding: 6.5rem 0 2.5rem;
+    order: 1;
+  }
+
+  .rightCol {
+    order: 2;
+    height: 45vh;
+    min-height: 240px;
+    align-self: auto;
+  }
+
+  .statsBar {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .statItem {
+    padding-right: 0;
+  }
+
+  .statItem:not(:first-child) {
+    padding-left: 0;
+    border-left: none;
+  }
+
+  .statItem:nth-child(even) {
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--color-border);
+  }
+}

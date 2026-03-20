@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { springStandard } from '@/lib/motion'
 
 const COOKIE_KEY = 'dm-cookie-consent'
 
@@ -33,22 +34,31 @@ export function CookieConsent() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 40 }}
-          transition={{ duration: 0.3 }}
-          className="fixed bottom-6 left-6 right-6 md:left-auto md:right-8 md:max-w-sm z-50 border border-white/8 bg-[#111111] p-5"
+          transition={springStandard}
+          className="fixed bottom-6 left-6 right-6 md:left-auto md:right-8 md:max-w-sm z-50 border p-5"
+          style={{
+            background: 'var(--color-surface)',
+            borderColor: 'var(--color-border)',
+          }}
         >
-          <p className="text-sm text-warm-off-white/80 font-body leading-relaxed mb-4">
+          <p className="text-sm font-body leading-relaxed mb-4" style={{ color: 'rgba(245,240,232,0.8)' }}>
             This site uses cookies to improve your experience and analyze site traffic.
           </p>
           <div className="flex items-center gap-3">
-            <button
+            <motion.button
               onClick={accept}
-              className="text-xs font-body font-medium bg-electric-orange text-warm-off-white px-4 py-2 hover:bg-electric-orange/90 transition-colors"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={springStandard}
+              className="text-xs font-body font-medium px-4 py-2"
+              style={{ background: 'var(--color-accent)', color: 'var(--color-text)' }}
             >
               Accept
-            </button>
+            </motion.button>
             <button
               onClick={decline}
-              className="text-xs font-body text-mid-gray hover:text-warm-off-white transition-colors"
+              className="text-xs font-body"
+              style={{ color: 'var(--color-muted)' }}
             >
               Decline
             </button>

@@ -1,7 +1,8 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { containerVariants, itemVariants, fadeVariants, viewport } from '@/lib/motion'
 
 type Tool = {
   name: string
@@ -28,7 +29,6 @@ const tools: Tool[] = [
     status: 'Experimental',
     description: 'Marketing automation and lead scoring engine built for the Graston Technique ecosystem.',
     stack: ['Next.js', 'FluentCRM', 'REST API'],
-    // url: 'https://graston-growth-enginegg-zkj2.vercel.app', // not ready
   },
   {
     name: 'ROI Calculator',
@@ -203,45 +203,52 @@ const tools: Tool[] = [
 ]
 
 const categories = ['All', 'Marketing', 'Developer', 'Technologist'] as const
-const statusColors = {
-  Production: 'text-green-400 border-green-400/20',
-  Beta: 'text-yellow-400 border-yellow-400/20',
-  Experimental: 'text-electric-orange border-electric-orange/20',
+
+const statusStyle: Record<Tool['status'], { color: string; border: string }> = {
+  Production: { color: '#4ade80', border: 'rgba(74,222,128,0.2)' },
+  Beta:        { color: '#facc15', border: 'rgba(250,204,21,0.2)' },
+  Experimental:{ color: 'var(--color-accent)', border: 'var(--color-border-accent)' },
 }
 
-function ToolCard({ tool, index }: { tool: Tool; index: number }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-40px' })
-
+function ToolCard({ tool }: { tool: Tool }) {
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 16 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.45, delay: (index % 3) * 0.06 }}
-      className="border border-white/8 bg-white/[0.01] p-7 flex flex-col gap-4 hover:border-white/15 transition-colors duration-200 group"
+      variants={itemVariants}
+      className="border p-7 flex flex-col gap-4 group"
+      style={{ borderColor: 'var(--color-border)', background: 'rgba(255,255,255,0.01)' }}
+      whileHover={{ borderColor: 'rgba(245,240,232,0.15)', background: 'rgba(255,255,255,0.02)' }}
     >
       <div className="flex items-start justify-between gap-3">
         <div>
-          <span className={`inline-block text-xs font-body border px-2 py-0.5 mb-3 ${statusColors[tool.status]}`}>
+          <span
+            className="inline-block text-xs font-body border px-2 py-0.5 mb-3"
+            style={{ color: statusStyle[tool.status].color, borderColor: statusStyle[tool.status].border }}
+          >
             {tool.status}
           </span>
-          <h3 className="font-display font-bold text-base text-warm-off-white leading-tight">
+          <h3 className="font-display font-bold text-base leading-tight" style={{ color: 'var(--color-text)' }}>
             {tool.name}
           </h3>
         </div>
-        <span className="text-xs text-mid-gray/60 font-body shrink-0 border border-white/8 px-2 py-1">
+        <span
+          className="text-xs font-body shrink-0 border px-2 py-1"
+          style={{ color: 'rgba(136,136,136,0.6)', borderColor: 'var(--color-border)' }}
+        >
           {tool.category}
         </span>
       </div>
 
-      <p className="text-sm text-mid-gray font-body leading-relaxed flex-1">
+      <p className="text-sm font-body leading-relaxed flex-1" style={{ color: 'var(--color-muted)' }}>
         {tool.description}
       </p>
 
       <div className="flex flex-wrap gap-1.5">
         {tool.stack.map((t) => (
-          <span key={t} className="text-xs text-mid-gray/50 font-body bg-white/[0.03] px-2 py-0.5">
+          <span
+            key={t}
+            className="text-xs font-body px-2 py-0.5"
+            style={{ color: 'rgba(136,136,136,0.5)', background: 'rgba(255,255,255,0.03)' }}
+          >
             {t}
           </span>
         ))}
@@ -252,12 +259,15 @@ function ToolCard({ tool, index }: { tool: Tool; index: number }) {
           href={tool.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs font-body text-electric-orange hover:underline mt-1 group-hover:gap-2 transition-all duration-150"
+          className="inline-flex items-center gap-1.5 text-xs font-body mt-1"
+          style={{ color: 'var(--color-accent)' }}
         >
           Launch app →
         </a>
       ) : (
-        <span className="text-xs text-mid-gray/30 font-body mt-1">Rebuilding — check back soon</span>
+        <span className="text-xs font-body mt-1" style={{ color: 'rgba(136,136,136,0.3)' }}>
+          Rebuilding — check back soon
+        </span>
       )}
     </motion.div>
   )
@@ -265,82 +275,87 @@ function ToolCard({ tool, index }: { tool: Tool; index: number }) {
 
 export default function LabPage() {
   const [activeCategory, setActiveCategory] = useState<typeof categories[number]>('All')
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-
-  useEffect(() => {
-    if (process.env.NODE_ENV !== 'production') {
-      console.debug('[LabPage] mounted without route metadata export.')
-    }
-  }, [])
 
   const filtered = activeCategory === 'All' ? tools : tools.filter((t) => t.category === activeCategory)
 
   return (
     <main className="pt-32 pb-24 px-6 md:px-10">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div ref={ref} className="mb-16">
+        {/* Header — above fold */}
+        <motion.div
+          className="mb-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5 }}
-            className="text-electric-orange text-xs font-body tracking-widest uppercase mb-6"
+            variants={fadeVariants}
+            className="text-xs font-body tracking-widest uppercase mb-6"
+            style={{ color: 'var(--color-accent)' }}
           >
             Lab
           </motion.p>
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-display font-black text-[clamp(2.5rem,5.5vw,5rem)] leading-[0.97] tracking-tightest text-warm-off-white mb-6 text-balance max-w-3xl"
+            variants={itemVariants}
+            className="font-display font-black text-[clamp(2.5rem,5.5vw,5rem)] leading-[0.97] tracking-tightest mb-6 text-balance max-w-3xl"
+            style={{ color: 'var(--color-text)' }}
           >
             Tools &amp; Experiments.
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-mid-gray font-body text-lg leading-relaxed max-w-xl"
+            variants={itemVariants}
+            className="font-body text-lg leading-relaxed max-w-xl"
+            style={{ color: 'var(--color-muted)' }}
           >
             Marketing tools, developer utilities, and technologist experiments — built to solve real
             problems and shipped to production.
           </motion.p>
-        </div>
+        </motion.div>
 
         {/* Category filter */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.3 }}
           className="flex flex-wrap gap-2 mb-12"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
           {categories.map((cat) => (
-            <button
+            <motion.button
               key={cat}
+              variants={itemVariants}
               onClick={() => setActiveCategory(cat)}
-              className={`text-sm font-body px-4 py-2 border transition-colors duration-150 ${
-                activeCategory === cat
-                  ? 'border-electric-orange text-warm-off-white bg-electric-orange/10'
-                  : 'border-white/10 text-mid-gray hover:border-white/25 hover:text-warm-off-white'
-              }`}
+              className="text-sm font-body px-4 py-2 border"
+              style={{
+                borderColor: activeCategory === cat ? 'var(--color-accent)' : 'var(--color-border)',
+                color: activeCategory === cat ? 'var(--color-text)' : 'var(--color-muted)',
+                background: activeCategory === cat ? 'rgba(255,77,0,0.1)' : 'transparent',
+              }}
+              whileHover={{ borderColor: 'rgba(245,240,232,0.25)', color: 'var(--color-text)' }}
+              whileTap={{ scale: 0.98 }}
             >
               {cat}
               <span className="ml-2 text-xs opacity-60">
                 {cat === 'All' ? tools.length : tools.filter((t) => t.category === cat).length}
               </span>
-            </button>
+            </motion.button>
           ))}
         </motion.div>
 
         {/* Tools grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
-          {filtered.map((tool, i) => (
-            <div key={tool.name} className="bg-obsidian">
-              <ToolCard tool={tool} index={i} />
+        <motion.div
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-px"
+          style={{ background: 'var(--color-border)' }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
+          {filtered.map((tool) => (
+            <div key={tool.name} style={{ background: 'var(--color-base)' }}>
+              <ToolCard tool={tool} />
             </div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </main>
   )
