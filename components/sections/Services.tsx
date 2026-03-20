@@ -2,11 +2,11 @@
 
 import { motion } from 'framer-motion'
 import {
-  ChartLineUp,
-  Code,
-  Gear,
-  MagnifyingGlass,
-  ArrowUpRight,
+  ChartLineUpIcon,
+  CodeIcon,
+  GearIcon,
+  MagnifyingGlassIcon,
+  ArrowUpRightIcon,
 } from '@phosphor-icons/react'
 import {
   containerVariants,
@@ -14,37 +14,36 @@ import {
   springStandard,
   viewport,
 } from '@/lib/motion'
-import { GridCard } from '@/components/ui/grid-card'
 import styles from '@/styles/Services.module.css'
 
 const services = [
   {
-    icon: ChartLineUp,
+    icon: ChartLineUpIcon,
     title: 'Marketing Strategy & Consulting',
     description:
       'Brand positioning, go-to-market planning, and campaign strategy built around your specific goals — not a templated playbook.',
-    gridClass: styles.card1,
+    posClass: styles.card1,
   },
   {
-    icon: Code,
+    icon: CodeIcon,
     title: 'Web & App Development',
     description:
       'Fast, modern websites and web apps built with Next.js — designed to look sharp, perform well, and turn visitors into clients.',
-    gridClass: styles.card2,
+    posClass: styles.card2,
   },
   {
-    icon: Gear,
+    icon: GearIcon,
     title: 'Tech Implementation',
     description:
       'The right tools, configured the right way. CRM, automation, analytics, and integrations handled by someone who understands both the tech and the marketing strategy behind it.',
-    gridClass: styles.card3,
+    posClass: styles.card3,
   },
   {
-    icon: MagnifyingGlass,
+    icon: MagnifyingGlassIcon,
     title: 'SEO & Digital Marketing',
     description:
       'Search strategy, content systems, and digital campaigns built to compound over time — bringing qualified leads to you consistently.',
-    gridClass: styles.card4,
+    posClass: styles.card4,
   },
 ]
 
@@ -53,7 +52,7 @@ export function Services() {
     <section id="services" className={styles.section}>
       <div className={styles.container}>
 
-        {/* Header */}
+        {/* ── Section header ── */}
         <motion.div
           className={styles.header}
           variants={containerVariants}
@@ -69,7 +68,7 @@ export function Services() {
           </motion.h2>
         </motion.div>
 
-        {/* Asymmetric service grid */}
+        {/* ── Asymmetric card grid ── */}
         <motion.div
           className={styles.grid}
           variants={{
@@ -87,23 +86,27 @@ export function Services() {
             return (
               <motion.div
                 key={service.title}
+                className={`${styles.card} ${service.posClass}`}
                 variants={itemVariants}
-                className={service.gridClass}
                 whileHover={{ y: -4 }}
                 transition={springStandard}
               >
-                <GridCard className={styles.card}>
+                {/* Dot-grid texture layer */}
+                <div className={styles.gridTexture} aria-hidden="true" />
+
+                {/* Card content */}
+                <div className={styles.cardContent}>
                   <div className={styles.cardTop}>
                     <span className={styles.iconWrap}>
                       <Icon size={28} weight="light" />
                     </span>
                     <span className={styles.arrowWrap}>
-                      <ArrowUpRight size={20} weight="regular" />
+                      <ArrowUpRightIcon size={20} weight="regular" />
                     </span>
                   </div>
                   <h3 className={styles.cardTitle}>{service.title}</h3>
                   <p className={styles.cardDesc}>{service.description}</p>
-                </GridCard>
+                </div>
               </motion.div>
             )
           })}

@@ -1,3 +1,7 @@
+/* ─────────────────────────────────────────────
+   Services Section
+   ───────────────────────────────────────────── */
+
 .section {
   padding: 7rem 1.5rem;
   border-top: 1px solid var(--color-border);
@@ -14,7 +18,7 @@
   margin: 0 auto;
 }
 
-/* ── Header ─────────────────────────────────────────────── */
+/* ── Section Header ─────────────────────────── */
 
 .header {
   margin-bottom: 4rem;
@@ -27,67 +31,77 @@
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--color-accent);
-  margin-bottom: 1rem;
+  margin: 0 0 1rem;
 }
 
 .headline {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: clamp(2rem, 4vw, 3.5rem);
-  line-height: 1.0;
+  line-height: 1.05;
   letter-spacing: -0.03em;
   color: var(--color-text);
   text-wrap: balance;
-  max-width: 20ch;
+  max-width: 22ch;
+  margin: 0;
 }
 
-/* ── Asymmetric Grid ─────────────────────────────────────── */
+/* ── Asymmetric Grid ────────────────────────── */
 
 /*
-  8-column grid, 2 rows:
-  Row 1: large card (5 cols left) + standard card (3 cols right)
-  Row 2: standard card (3 cols left) + large card (5 cols right)
+  Desktop: 8 virtual columns, 2 rows
+  Row 1 — large left (5) + compact right (3)
+  Row 2 — compact left (3) + large right (5)
+  The alternation is the "asymmetric" move.
 */
+
 .grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: auto auto;
   gap: 1px;
   background: var(--color-border);
+  border-radius: 16px;
+  overflow: hidden;
 }
 
-.card1 { grid-column: 1 / 6; grid-row: 1; }
-.card2 { grid-column: 6 / 9; grid-row: 1; }
-.card3 { grid-column: 1 / 4; grid-row: 2; }
-.card4 { grid-column: 4 / 9; grid-row: 2; }
+/* Row 1 */
+.card1 { grid-column: 1 / 6; }
+.card2 { grid-column: 6 / 9; }
 
+/* Row 2 */
+.card3 { grid-column: 1 / 4; }
+.card4 { grid-column: 4 / 9; }
+
+/* Tablet — equal 2-col */
 @media (min-width: 768px) and (max-width: 1023px) {
   .grid {
     grid-template-columns: 1fr 1fr;
   }
+
   .card1,
   .card2,
   .card3,
   .card4 {
     grid-column: auto;
-    grid-row: auto;
   }
 }
 
+/* Mobile — single column */
 @media (max-width: 767px) {
   .grid {
     grid-template-columns: 1fr;
+    border-radius: 12px;
   }
+
   .card1,
   .card2,
   .card3,
   .card4 {
     grid-column: 1 / -1;
-    grid-row: auto;
   }
 }
 
-/* ── Card ────────────────────────────────────────────────── */
+/* ── Card ───────────────────────────────────── */
 
 .card {
   position: relative;
@@ -95,9 +109,15 @@
   flex-direction: column;
   padding: 2.5rem;
   background: var(--color-surface);
-  border: none; /* grid gap handles separation */
+
+  /* Border controlled here — not in GridCard inline style */
+  border: 1px solid var(--color-border);
+  border-radius: 0; /* grid handles rounding via parent overflow:hidden */
+
   overflow: hidden;
   cursor: default;
+
+  /* Only transition border-color — leave transforms to Framer Motion */
   transition: border-color 0.4s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
@@ -107,22 +127,66 @@
   }
 }
 
-/* Subtle orange corner glow on hover */
+/* Orange radial glow — top-left corner, reveals on hover */
 .card::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 0% 0%, rgba(255, 77, 0, 0.08) 0%, transparent 60%);
+  top: 0;
+  left: 0;
+  width: 55%;
+  height: 55%;
+  background: radial-gradient(
+    circle at 0% 0%,
+    rgba(255, 77, 0, 0.08) 0%,
+    transparent 70%
+  );
   opacity: 0;
   transition: opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1);
   pointer-events: none;
+  z-index: 1;
+}
+
+.card:hover {
+  border-color: var(--color-border-accent);
 }
 
 .card:hover::before {
   opacity: 1;
 }
 
-/* ── Card internals ─────────────────────────────────────── */
+/* ── Card: dot-grid texture ─────────────────── */
+
+/* Subtle repeating dot — atmosphere, not decoration */
+.gridTexture {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    rgba(245, 240, 232, 0.05) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+  mask-image: linear-gradient(225deg, rgba(0,0,0,0.6) 0%, transparent 55%);
+  -webkit-mask-image: linear-gradient(225deg, rgba(0,0,0,0.6) 0%, transparent 55%);
+  transition: opacity 0.3s ease;
+  opacity: 0.7;
+}
+
+.card:hover .gridTexture {
+  opacity: 1;
+}
+
+/* ── Card internals ─────────────────────────── */
+
+.cardContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
 .cardTop {
   display: flex;
@@ -132,18 +196,18 @@
 }
 
 .iconWrap {
-  width: 2.5rem;
-  height: 2.5rem;
   color: var(--color-accent);
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 
 .arrowWrap {
   color: var(--color-accent);
   opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  flex-shrink: 0;
+  transform: translateY(5px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 
 .card:hover .arrowWrap {
@@ -158,7 +222,7 @@
   line-height: 1.2;
   letter-spacing: -0.02em;
   color: var(--color-text);
-  margin-bottom: 0.875rem;
+  margin: 0 0 0.875rem;
 }
 
 .cardDesc {
@@ -167,6 +231,6 @@
   font-size: 0.9375rem;
   line-height: 1.65;
   color: var(--color-muted);
-  max-width: 55ch;
+  max-width: 52ch;
   margin: 0;
 }
