@@ -5,6 +5,13 @@ This is the master project brief for the Darling MarTech website build.
 Read this file in full before doing any work. Every decision about design,
 copy, architecture, and tone should reference this document.
 
+> **Skill files:** Extended design, redesign-audit, and copy instructions
+> live in `C:\Users\hoosi\ClaudeOS\taste-skill-main\`. Load these skills
+> before building or upgrading any page:
+> - `darling-martech-ui/SKILL.md` — Design system, component library, motion
+> - `darling-martech-redesign/SKILL.md` — Audit protocol for upgrading AI-looking code
+> - `darling-martech-copy/SKILL.md` — Voice, CTAs, error messages, microcopy
+
 ---
 
 ## Project Overview
@@ -25,33 +32,77 @@ converts visitors into clients.
 ---
 
 ## Tech Stack
-- **Framework:** Next.js 14+ with App Router
-- **Styling:** Tailwind CSS
-- **Animation:** Framer Motion
-- **Components:** shadcn/ui (customized to brand)
-- **Fonts:** Cabinet Grotesk (display), Inter (body), Instrument Serif italic (accent)
-- **Contact form:** React Hook Form + Zod + Resend API
-- **Images:** next/image (optimized)
-- **Hosting:** Cloudflare Pages (via GitHub integration)
-- **Repo:** GitHub (private)
+
+| Layer | Technology | Notes |
+|---|---|---|
+| Framework | Next.js 14+ App Router | RSC default. `"use client"` only for interactive/animated components |
+| Styling | **CSS Modules + CSS custom properties** | Primary visual styling. Tailwind kept for spacing utilities only (`mt-4`, `px-6`, `gap-8`) |
+| Animation | Framer Motion | All motion. Spring physics only — no CSS `transition: all 0.3s ease` |
+| Components | shadcn/ui (customized) | Always adapted to brand — never default shadcn appearance |
+| Icons | **@phosphor-icons/react** | `weight="light"` or `"regular"`. No Lucide. No Feather. No Heroicons. |
+| Fonts | next/font localFont — Cabinet Grotesk, Inter | Instrument Serif via next/font Google |
+| Contact form | React Hook Form + Zod + Resend API | |
+| Images | next/image (always — never `<img>`) | |
+| Hosting | Cloudflare Pages (GitHub auto-deploy) | |
+| Media | Cloudinary Next.js SDK | Cloud: `djhqowk67` |
+
+### Tailwind usage rule
+Tailwind is **only** permitted for structural/spacing utilities. Every
+color, typography, surface, and visual property must use CSS Modules and
+CSS custom properties. Violating this creates AI-looking code that is
+harder to audit.
+
+```
+✅ Allowed:  mt-4  px-6  gap-8  grid  flex  col-span-2
+❌ Remove:   bg-black  text-white  text-gray-500  shadow-lg  rounded-xl
+             font-bold  tracking-tight  border-gray-200
+```
 
 ---
 
 ## Brand Identity
 
+### CSS Custom Properties (copy these into globals.css)
+```css
+:root {
+  --color-base:           #0A0A0A;  /* Primary background */
+  --color-surface:        #141414;  /* Elevated cards, drawers */
+  --color-surface-raised: #1A1A1A;  /* Modals, tooltips */
+  --color-accent:         #FF4D00;  /* Electric Orange — use sparingly */
+  --color-text:           #F5F0E8;  /* Warm Off-White — primary text */
+  --color-muted:          #888888;  /* Secondary/body text */
+  --color-border:         rgba(245, 240, 232, 0.08);  /* Hairline borders */
+  --color-border-accent:  rgba(255, 77, 0, 0.3);      /* Hover accent borders */
+
+  --font-display: 'Cabinet Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-accent:  'Instrument Serif', serif;
+
+  /* Spring physics presets for Framer Motion */
+  --spring-standard:  /* stiffness: 120, damping: 20 */
+  --spring-entrance:  /* stiffness: 80,  damping: 18 */
+  --spring-cinematic: /* stiffness: 55,  damping: 16 */
+}
+```
+
 ### Color System
 | Name | Hex | Role |
 |---|---|---|
 | Obsidian | #0A0A0A | Primary background — true near-black |
-| Electric Orange | #FF4D00 | Brand accent — used sparingly |
+| Electric Orange | #FF4D00 | Brand accent — used sparingly (1–2× per section max) |
 | Warm Off-White | #F5F0E8 | Text on dark, light backgrounds |
 | Mid Gray | #888888 | Supporting/secondary text |
+| Surface | #141414 | Cards, elevated sections |
 
 ### Typography
 - **Display/Headlines:** Cabinet Grotesk — weight 700–900, tracking
-  -0.02em to -0.03em, tight line-height ~0.95–1.1
-- **Body:** Inter — weight 400, line-height 1.7, color #888888 on dark bg
-- **Accent:** Instrument Serif — italic only, for pull quotes and taglines
+  -0.02em to -0.04em, tight line-height ~0.95–1.1
+- **Body:** Inter — weight 400, line-height 1.6–1.7, color #888888 on dark bg,
+  `max-width: 65ch`
+- **Accent:** Instrument Serif — italic only, emotional moments only
+  (never in nav, UI, or data contexts)
+- **Data/numbers:** `font-variant-numeric: tabular-nums`
+- **Headings:** `text-wrap: balance` to prevent widows
 
 ### Logo
 - Wordmark: "Darling" in #F5F0E8 + "MarTech" in #FF4D00 — Cabinet
@@ -65,30 +116,122 @@ converts visitors into clients.
 
 ---
 
-## Design Principles
-- Dark background (#0A0A0A) always — never light gray or navy as base
-- One accent color (Electric Orange) used intentionally and sparingly
-- Strong typographic scale — huge display text + small refined body text
-- Asymmetric layouts — break the grid deliberately
-- Generous whitespace — let content breathe
-- Scroll-triggered animations via Framer Motion — purposeful, not showy
-- Subtle hover micro-interactions on all interactive elements
-- Mobile-first, fully responsive
+## Framer Motion — Required Patterns
 
-### Strictly Avoid
-- Purple-to-blue gradients
+### Spring presets (define these once, import everywhere)
+```ts
+// lib/motion.ts
+export const springStandard  = { type: "spring", stiffness: 120, damping: 20 }
+export const springEntrance  = { type: "spring", stiffness: 80,  damping: 18 }
+export const springCinematic = { type: "spring", stiffness: 55,  damping: 16 }
+
+export const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } }
+}
+
+export const itemVariants = {
+  hidden:  { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: springEntrance }
+}
+```
+
+### Rules
+- All sections use `whileInView` with `viewport={{ once: true, margin: "-80px" }}`
+- Every `motion.*` component that animates must be a `"use client"` component
+- No `transition: all 0.3s ease` anywhere in CSS — use Framer Motion instead
+- Stagger delay: 60–100ms (tighter feels mechanical)
+- Only animate `transform` and `opacity` — never layout properties
+- Hover: `whileHover={{ scale: 1.02 }}` on cards; `whileTap={{ scale: 0.98 }}` on buttons
+
+---
+
+## 21st.dev Component Library
+
+These are pre-vetted drop-in components from 21st.dev. Install via shadcn CLI.
+**All require brand adaptation** — see adaptation rules below.
+
+| Component | Purpose | Install URL |
+|---|---|---|
+| AnimatedNavFramer (reapollo) | Floating pill nav, collapses on scroll | `https://21st.dev/community/components/reapollo/navigation-menu/default` |
+| Hero ASCII (reapollo) | Left-aligned dark hero + geometric illustration right | `https://21st.dev/community/components/reapollo/hero-ascii/default` |
+| Background Paths (kokonutd) | Animated wire path background at 15–20% opacity | `https://21st.dev/community/components/kokonutd/background-paths/default` |
+| Grid Card (efferd) | Dark surface + animated grid pattern + gradient hover | `https://21st.dev/community/components/efferd/grid-card/default` |
+| Button Colorful (kokonutd) | Directional hover fill from left + arrow icon | `https://21st.dev/community/components/kokonutd/button-colorful/default` |
+| Underline Animation (danielpetho) | 3 Framer-powered variants for nav/footer links | `https://21st.dev/community/components/danielpetho/underline-animation/default` |
+
+Install command pattern:
+```bash
+npx shadcn@latest add "https://21st.dev/r/[component-url]"
+```
+
+### Brand adaptation rules (apply to EVERY 21st.dev component after install)
+1. **Colors** — Replace all purple/blue/gradient with `var(--color-accent)`,
+   `var(--color-base)`, `var(--color-text)`, `var(--color-muted)`
+2. **Icons** — Swap `lucide-react` → `@phosphor-icons/react` with `weight="light"`
+3. **Fonts** — Replace any font-family with `var(--font-display)` for headings,
+   `var(--font-body)` for paragraphs
+4. **Tailwind colors** — Move to CSS Modules; keep only layout utilities
+5. **Motion** — If component uses CSS transitions, upgrade to Framer Motion
+   spring physics using the presets in `lib/motion.ts`
+
+---
+
+## Design Principles
+
+### The standard
+The site should look like it was built by a senior human designer who spent
+time on it — not generated from a template or AI prompt. Every layout
+decision should have a visible reason. No pattern should appear just because
+it's the default.
+
+### Layout rules
+- Dark background (#0A0A0A) always — never light gray or navy as base
+- One accent color (Electric Orange) — intentional and sparingly placed
+- Strong typographic scale — huge display text + small refined body text
+- **Asymmetric layouts** — break the grid deliberately; never equal columns
+  as the primary feature layout
+- Hero is always left-aligned (or split-screen) — never centered text
+  over a dark background
+- Generous whitespace — let content breathe
+- `min-height: 100dvh` on full-height sections — never `height: 100vh`
+- `max-width: 1400px` container on all pages
+- Complex layouts use CSS Grid — not flexbox percentage math
+- Below 768px: all asymmetric layouts collapse to single column, no
+  horizontal scroll
+
+### Motion rules
+- Scroll-triggered via `whileInView` — purposeful, not decorative
+- Subtle hover micro-interactions on all interactive elements
+- No instant state changes — all transitions spring-interpolated
+- No animations on layout properties (width, height, top, left)
+
+### Strictly avoid
+- Purple-to-blue gradients on any element
 - Glowing orbs or blob background shapes
 - Glassmorphism / frosted blur cards
-- Floating particle animations
-- Generic symmetrical card grids
-- Overly rounded "bubbly" UI
-- Any aesthetic common in AI-generated or template sites
+- Floating particle or confetti animations
+- Generic symmetrical 3-column card grids as primary feature layout
+- Overly rounded "bubbly" UI (`border-radius` max 16px for cards)
+- Centered hero text over dark background
+- `text-gradient` CSS on headings
+- Generic white card + gray border + drop shadow pattern
+- Any aesthetic that reads as AI-generated or template-built
 
-### Design Inspiration
-JOR Personal Assistant Behance case study — dark backgrounds, single bold
-accent color, geometric logomark, strong typographic scale, premium
-product mockups shown in context, mixed layout with asymmetry and
-breathing room.
+### Card pattern (required)
+```css
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.card:hover {
+  border-color: var(--color-border-accent);
+}
+```
 
 ---
 
@@ -100,7 +243,20 @@ Tech-fluent and clear. Personal and approachable.
 buzzwords. Overly trendy. Generic.
 
 Every word should sound like Jacob speaking directly to a potential
-client — not like an agency website.
+client — not like an agency website. "I", not "we". Present tense.
+Outcome-first (what did it unlock?) not tool-first.
+
+### Copy anti-patterns (purge on sight)
+| Found | Replace with |
+|---|---|
+| "Elevate your..." | Direct verb: "Build your...", "Grow your..." |
+| "Seamless experience" | Describe what actually happens |
+| "Unleash the power of" | Delete. State the outcome. |
+| "Next-generation" | Specific technology name |
+| "Game-changer" | Specific result stat |
+| "Our team of experts" | "Me. Directly. No hand-offs." |
+| Round numbers (50%, $100) | Real numbers from this brief |
+| Exclamation marks | Confident, calm confirmation instead |
 
 ---
 
@@ -112,7 +268,7 @@ building revenue-driving marketing infrastructure. Bridges creative
 marketing vision and technical implementation. Works across agency and
 brand sides equally.
 
-### Key Stats
+### Key Stats (use these exact numbers — never round differently)
 - 15+ years experience
 - 400+ automation workflows built
 - 30,000+ users served through platforms and systems
@@ -173,7 +329,7 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 7. **Clean Aesthetic** — Medical Aesthetics · 4-week brand launch.
    Concierge luxury brand identity and launch strategy.
 
-### Testimonials (use verbatim)
+### Testimonials (use verbatim — full quotes)
 - "Jacob has a great balance of strategic thinking and hands-on
   execution... I'd recommend him to anyone looking for a marketing
   professional who's both forward-thinking and results-oriented."
@@ -185,6 +341,9 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
   strategies that produce a positive ROI." — Kevin Martin See
 - "Energy and ingenuity are extremely valuable assets... expanded
   our vision." — Ben Worrell
+
+Testimonial order for impact: Jesse Wey → Andrew Bastnagel →
+Kevin Martin See → Ben Worrell.
 
 ---
 
@@ -337,18 +496,22 @@ of clients at a time so every engagement gets my full attention.
 ---
 
 ## Technical Requirements
-- Use `next/font` for Cabinet Grotesk and Inter
-- shadcn/ui base components customized to brand palette
-- Framer Motion scroll-triggered reveals on every section
+- Use `next/font` localFont for Cabinet Grotesk, `next/font/google` for Inter
+- shadcn/ui base components customized to brand palette — never default
+- Framer Motion spring-physics for all animation (see presets above)
 - Contact form: React Hook Form + Zod + Resend API
-- All images via `next/image` with proper alt text
+- All images via `next/image` with descriptive alt text (never `<img>`)
 - Full mobile responsiveness — mobile-first approach
-- Dark mode is the default and only mode — no toggle needed
+- Dark mode is the default and only mode — no toggle, ever
 - Target Lighthouse score: 95+ all metrics
 - Cloudflare Pages deployment via GitHub auto-deploy
 - `robots.txt` and `sitemap.xml` generated automatically
 - Open Graph meta tags on every page
 - Structured data (JSON-LD) for local business
+- Semantic HTML: `<nav>`, `<main>`, `<article>`, `<section>`, `<aside>`
+- No `z-[9999]` — z-index is systematic and documented
+- No commented-out dead code
+- `metadata` export in every `page.tsx`
 
 ---
 
@@ -363,32 +526,22 @@ of clients at a time so every engagement gets my full attention.
   /services/[slug]/page.tsx — Service pages (Phase 2)
   /pricing/page.tsx      — Pricing (Phase 2)
 /components
-  /ui                    — shadcn base components
+  /ui                    — shadcn base components (brand-customized)
   /sections              — Page sections (Hero, Services, About, etc.)
   /layout                — Nav, Footer
+  /motion                — "use client" Framer Motion wrapper components
+/lib
+  /motion.ts             — Spring presets + shared animation variants
+/styles
+  /globals.css           — CSS custom properties + resets
+  /[Component].module.css — Per-component CSS Modules
 /public
+  /fonts/cabinet-grotesk/  — .woff2 files (download from fontshare.com)
   /images
     /logo                — SVG logo files
     jacob-bio-photo-splash.jpg
-/styles
-  globals.css
 ```
 
----
-
-## First Task for Claude Code
-When starting work, scaffold the complete Next.js project with:
-1. Tailwind CSS configured with brand color tokens
-2. shadcn/ui initialized
-3. Framer Motion installed
-4. Cabinet Grotesk + Inter loaded via next/font
-5. Global styles with brand colors as CSS variables
-6. Nav component with logo and CTA
-7. Footer component
-8. Home page with all sections stubbed out
-9. About page
-10. Contact page with working form (Resend)
-11. Cloudflare Pages config (`_routes.json`, `next.config.js`)
 ---
 
 ## Asset Infrastructure
@@ -405,7 +558,7 @@ When starting work, scaffold the complete Next.js project with:
 ### Fonts
 - Cabinet Grotesk: download from fontshare.com/fonts/cabinet-grotesk
 - Place woff2 files in `/public/fonts/cabinet-grotesk/`
-- Re-enable localFont block in app/layout.tsx
+- Load via `next/font` `localFont` in `app/layout.tsx`
 
 ### Environment Variables
 - `RESEND_API_KEY` — contact form email delivery
@@ -416,12 +569,13 @@ When starting work, scaffold the complete Next.js project with:
 ## Phase 2 Pages (build after launch)
 
 ### /work — Case Studies Index
-Grid of client case study cards. Each card shows:
-- Client name
-- Industry tag
-- Key result/ROI metric
-- Brief description
-- Link to full case study
+Layout: Masonry or staggered grid — not uniform card rows.
+Each card:
+- Client name (Cabinet Grotesk, display weight)
+- Industry label (small, muted, uppercase, tabular)
+- Key result stat (#FF4D00 accent color)
+- Orange left-border reveal on hover via CSS `scaleY` from 0 to 1
+- Framer Motion staggered entrance for the grid
 
 ### /work/[slug] — Individual Case Studies
 
@@ -469,12 +623,11 @@ Three categories matching v2 site:
   Edge Image Negotiator, GA4 Analytics Bridge, CRM-Aware AI Hook,
   Zero-FOUC Theme Engine, Global Telemetry Monitor)
 
-Each lab card shows:
-- Tool name + category badge
-- Status (Production/Beta/Experimental)
-- One-line description
-- Tech stack tags
-- "Launch App" button → links to live Vercel deployment
+Lab card design: tool cards as "machine" objects — not app tiles.
+Short, direct descriptions (what it does, not what it "empowers you to do").
+Tech stack tags shown. Status badge (Production / Beta / Experimental).
+
+Each card links to a live deployed app — no `href="#"`.
 
 Deployed lab apps to link:
 - CMO Simulator: cmo-simulator-3il5.vercel.app
@@ -491,8 +644,9 @@ Cloudinary-powered artifact gallery. Three sections:
 - Design — pulls from Cloudinary /studio/graphic-design/
 - Proof — pulls from Cloudinary /studio/proof/
 
-Masonry or grid layout. Lightbox on click.
-Lazy load all images via next/image + Cloudinary loader.
+Layout: Masonry or horizontal scroll — not uniform grid.
+Lightbox on click. Lazy load all images via next/image + Cloudinary loader.
+Blur placeholder on all images.
 
 ### /services/[slug] — Individual Service Pages
 
@@ -526,21 +680,27 @@ before building this page.
 
 ### Phase 1 (complete — deployed to Cloudflare preview URL)
 - [x] Project scaffold
-- [x] Brand tokens + Tailwind config
+- [x] Brand tokens + CSS custom properties in globals.css
 - [x] Nav + Footer
 - [x] Home page (all sections)
 - [x] About page
 - [x] Contact page + API route
 - [x] SEO files + structured data
-- [ ] Cabinet Grotesk fonts (pending — download from fontshare)
+- [ ] Cabinet Grotesk fonts (pending — download from fontshare, add to /public/fonts)
 - [ ] Resend API key (pending — add to .env.local)
+- [ ] Migrate Phase 1 Tailwind color/typography classes → CSS Modules
+- [ ] Add Framer Motion spring presets to lib/motion.ts
+- [ ] Replace Lucide icons with @phosphor-icons/react
 
 ### Phase 2 (next sprint)
-- [ ] /work index page
+- [ ] /work index page — masonry/staggered grid
 - [ ] /work/[slug] — start with Hoosier Boy, Behr Pet, Primary Colours
-- [ ] /lab page with tool cards
-- [ ] /studio page with Cloudinary gallery
+- [ ] /lab page with tool cards (machine aesthetic, not tiles)
+- [ ] /studio page with Cloudinary masonry gallery
 - [ ] Cloudinary SDK integration
+- [ ] Install + adapt 21st.dev AnimatedNavFramer component
+- [ ] Install + adapt 21st.dev Background Paths for hero section
+- [ ] Install + adapt 21st.dev Grid Card for services section
 
 ### Phase 3
 - [ ] /services/[slug] — 4 service detail pages
