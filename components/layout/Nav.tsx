@@ -1,138 +1,264 @@
 'use client'
 
-import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { cn } from '@/lib/utils'
-import { springStandard } from '@/lib/motion'
+import Link from 'next/link'
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
+import { List, X } from '@phosphor-icons/react'
+import { springStandard, springEntrance } from '@/lib/motion'
+import styles from './Nav.module.css'
 
 const navLinks = [
-  { href: '/#services', label: 'Services' },
   { href: '/work', label: 'Work' },
+  { href: '/#services', label: 'Services' },
+  { href: '/about', label: 'About' },
   { href: '/lab', label: 'Lab' },
   { href: '/studio', label: 'Studio' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
 ]
+
+// Desktop nav link with orange underline on hover
+function NavLink({ href, label }: { href: string; label: string }) {
+  const [hovered, setHovered] = useState(false)
+
+  return (
+    <Link
+      href={href}
+      className={styles.navLink}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <motion.span
+        className={styles.navLinkText}
+        animate={{ color: hovered ? 'var(--color-text)' : 'var(--color-muted)' }}
+        transition={springStandard}
+      >
+        {label}
+      </motion.span>
+      <motion.span
+        className={styles.navLinkUnderline}
+        animate={{ scaleX: hovered ? 1 : 0 }}
+        transition={{ type: 'spring', stiffness: 220, damping: 26 }}
+      />
+    </Link>
+  )
+}
+
+// Nav pill variants — full-width transparent vs centered floating pill
+const navVariants = {
+  full: {
+    opacity: 1,
+    y: 0,
+    maxWidth: '1400px',
+    borderRadius: '0px',
+    backgroundColor: 'rgba(0,0,0,0)',
+    boxShadow: 'none',
+    paddingLeft: '2.5rem',
+    paddingRight: '2.5rem',
+    paddingTop: '1.25rem',
+    paddingBottom: '1.25rem',
+  },
+  pill: {
+    opacity: 1,
+    y: 24,
+    maxWidth: '900px',
+    borderRadius: '9999px',
+    backgroundColor: 'rgba(20,20,20,0.85)',
+    boxShadow:
+      '0 8px 40px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(245, 240, 232, 0.08)',
+    paddingLeft: '1.5rem',
+    paddingRight: '1.5rem',
+    paddingTop: '0.5rem',
+    paddingBottom: '0.5rem',
+  },
+  // Mobile: glass bar (no pill shape)
+  mobileFull: {
+    opacity: 1,
+    y: 0,
+    maxWidth: '100%',
+    borderRadius: '0px',
+    backgroundColor: 'rgba(0,0,0,0)',
+    boxShadow: 'none',
+    paddingLeft: '1.5rem',
+    paddingRight: '1.5rem',
+    paddingTop: '1rem',
+    paddingBottom: '1rem',
+  },
+  mobileScrolled: {
+    opacity: 1,
+    y: 0,
+    maxWidth: '100%',
+    borderRadius: '0px',
+    backgroundColor: 'rgba(10,10,10,0.92)',
+    boxShadow: '0 1px 0 rgba(245, 240, 232, 0.06)',
+    paddingLeft: '1.5rem',
+    paddingRight: '1.5rem',
+    paddingTop: '1rem',
+    paddingBottom: '1rem',
+  },
+}
+
+const mobileOverlayContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.06, delayChildren: 0.04 } },
+}
+
+const mobileOverlayItem = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: springEntrance },
+}
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  const { scrollY } = useScroll()
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile, { passive: true })
+    return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    setScrolled(latest > 60)
+  })
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
+  const closeMenu = () => setMenuOpen(false)
+
+  const getNavState = () => {
+    if (isMobile) return scrolled ? 'mobileScrolled' : 'mobileFull'
+    return scrolled ? 'pill' : 'full'
+  }
+
   return (
-    <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50',
-        scrolled ? 'border-b' : 'bg-transparent'
-      )}
-      style={scrolled ? {
-        background: 'rgba(10,10,10,0.90)',
-        backdropFilter: 'blur(8px)',
-        borderColor: 'var(--color-border)',
-      } : undefined}
-    >
-      <nav className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-0.5">
-          <span className="font-display font-bold text-lg" style={{ color: 'var(--color-text)' }}>
-            Darling
-          </span>
-          <span className="font-display font-bold text-lg" style={{ color: 'var(--color-accent)' }}>
-            MarTech
-          </span>
-        </Link>
-
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-body"
-              style={{ color: 'var(--color-muted)' }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--color-text)' }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--color-muted)' }}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link
-            href="/contact"
-            className="text-sm font-medium font-body px-4 py-2"
-            style={{ background: 'var(--color-accent)', color: 'var(--color-text)' }}
-          >
-            Let&apos;s talk
-          </Link>
-        </div>
-
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
+    <>
+      <header className={styles.header}>
+        <motion.nav
+          className={styles.navInner}
+          initial={{ opacity: 0, y: -20 }}
+          animate={getNavState()}
+          variants={navVariants}
+          transition={springStandard}
+          style={{
+            backdropFilter:
+              (scrolled && !isMobile) ? 'blur(20px)' : 'blur(0px)',
+          }}
+          aria-label="Site navigation"
         >
-          <motion.span
-            className="block w-5 h-[1.5px] origin-center"
-            style={{ background: 'var(--color-text)' }}
-            animate={menuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-            transition={springStandard}
-          />
-          <motion.span
-            className="block w-5 h-[1.5px]"
-            style={{ background: 'var(--color-text)' }}
-            animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
-            transition={springStandard}
-          />
-          <motion.span
-            className="block w-5 h-[1.5px] origin-center"
-            style={{ background: 'var(--color-text)' }}
-            animate={menuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-            transition={springStandard}
-          />
-        </button>
-      </nav>
+          {/* Logo */}
+          <Link href="/" className={styles.logo} onClick={closeMenu}>
+            <span className={styles.logoWord}>Darling</span>
+            <span className={styles.logoAccent}>MarTech</span>
+          </Link>
 
-      {/* Mobile menu */}
+          {/* Desktop center links */}
+          <ul className={styles.desktopLinks}>
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <NavLink href={link.href} label={link.label} />
+              </li>
+            ))}
+          </ul>
+
+          {/* Right: CTA (desktop) + Hamburger (mobile) */}
+          <div className={styles.navRight}>
+            <motion.div
+              className={styles.ctaWrap}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={springStandard}
+            >
+              <Link href="/contact" className={styles.cta}>
+                Let&apos;s talk →
+              </Link>
+            </motion.div>
+
+            <button
+              className={styles.hamburger}
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {menuOpen ? (
+                  <motion.span
+                    key="close"
+                    initial={{ opacity: 0, rotate: -90 }}
+                    animate={{ opacity: 1, rotate: 0 }}
+                    exit={{ opacity: 0, rotate: 90 }}
+                    transition={springStandard}
+                    style={{ display: 'flex' }}
+                  >
+                    <X size={22} weight="light" />
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="open"
+                    initial={{ opacity: 0, rotate: 90 }}
+                    animate={{ opacity: 1, rotate: 0 }}
+                    exit={{ opacity: 0, rotate: -90 }}
+                    transition={springStandard}
+                    style={{ display: 'flex' }}
+                  >
+                    <List size={22} weight="light" />
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </button>
+          </div>
+        </motion.nav>
+      </header>
+
+      {/* Mobile full-screen overlay */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={springStandard}
-            className="md:hidden overflow-hidden border-t"
-            style={{ background: 'var(--color-base)', borderColor: 'var(--color-border)' }}
+            id="mobile-menu"
+            className={styles.overlay}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
           >
-            <div className="px-6 py-6 flex flex-col gap-5">
+            <motion.ul
+              className={styles.overlayLinks}
+              initial="hidden"
+              animate="visible"
+              variants={mobileOverlayContainer}
+            >
               {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="text-base font-body"
-                  style={{ color: 'var(--color-muted)' }}
-                >
-                  {link.label}
-                </Link>
+                <motion.li key={link.href} variants={mobileOverlayItem}>
+                  <Link
+                    href={link.href}
+                    className={styles.overlayLink}
+                    onClick={closeMenu}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.li>
               ))}
-              <Link
-                href="/contact"
-                onClick={() => setMenuOpen(false)}
-                className="inline-block text-sm font-medium font-body px-5 py-3 text-center"
-                style={{ background: 'var(--color-accent)', color: 'var(--color-text)' }}
-              >
-                Let&apos;s talk
+            </motion.ul>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...springEntrance, delay: 0.38 }}
+            >
+              <Link href="/contact" className={styles.overlayCta} onClick={closeMenu}>
+                Let&apos;s talk →
               </Link>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   )
 }
