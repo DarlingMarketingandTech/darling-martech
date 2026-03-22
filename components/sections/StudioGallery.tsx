@@ -5,12 +5,12 @@ import Image from 'next/image'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { buildCloudinaryUrl, cloudinaryLoader } from '@/lib/cloudinary'
 
-type Section = 'photography' | 'graphic-design' | 'proof'
+type Section = 'photography' | 'graphic-design' | 'projects'
 
 const sections: { key: Section; label: string; folder: string }[] = [
   { key: 'photography', label: 'Photography', folder: 'studio/photography' },
   { key: 'graphic-design', label: 'Design', folder: 'studio/graphic-design' },
-  { key: 'proof', label: 'Proof', folder: 'studio/proof' },
+  { key: 'projects', label: 'Projects', folder: 'studio/projects' },
 ]
 
 // Cloudinary images are fetched client-side via the Cloudinary API
@@ -155,7 +155,7 @@ export function StudioGallery() {
   const [images, setImages] = useState<Record<Section, GalleryImage[]>>({
     photography: [],
     'graphic-design': [],
-    proof: [],
+    projects: [],
   })
   const [loading, setLoading] = useState(true)
   const [lightbox, setLightbox] = useState<GalleryImage | null>(null)
