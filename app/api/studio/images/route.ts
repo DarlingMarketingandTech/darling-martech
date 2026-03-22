@@ -15,62 +15,63 @@ export async function GET(request: NextRequest) {
   const apiKey = process.env.CLOUDINARY_API_KEY
   const apiSecret = process.env.CLOUDINARY_API_SECRET
 
-  if (!apiKey || !apiSecret) {
-    // Return empty — Cloudinary admin creds not configured yet
+  if (!cloudName || !apiKey || !apiSecret) {
+    console.error('Missing Cloudinary credentials')
     return NextResponse.json([])
   }
 
   const credentials = Buffer.from(`${apiKey}:${apiSecret}`).toString('base64')
 
   try {
-    let resources: Array<{ public_id: string; width: number; height: number }>
+    // Use Cloudinary Search API — works with inconsistent public_id structures
+    // Matches both "studio/photography/photo-01" AND "photo-01" with asset_folder:"studio/photography"
+    const expression = recursive 
+      ? `folder:${folder}/*` 
+      : `folder:${folder}/* OR (asset_folder:${folder} AND NOT folder:*)`
 
-    if (recursive) {
-      // Cloudinary Search API — returns all images in folder and all subfolders
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloudName}/resources/search`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Basic ${credentials}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            expression: `folder:${folder}/*`,
-            max_results: 500,
-            sort_by: [{ created_at: 'desc' }],
-          }),
-          next: { revalidate: 3600 },
-        }
-      )
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${cloudName}/resources/search`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Basic ${credentials}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          expression,
+          max_results: 500,
+          sort_by: [{ created_at: 'desc' }],
+          resource_type: 'image', // Exclude videos
+        }),
+        next: { revalidate: 3600 },
+      }
+    )
 
-      if (!res.ok) return NextResponse.json([])
-      const data = await res.json()
-      resources = data.resources ?? []
-    } else {
-      // Cloudinary Admin API — prefix query, direct children only
-      const res = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloudName}/resources/image?type=upload&prefix=${encodeURIComponent(folder)}&max_results=100`,
-        {
-          headers: { Authorization: `Basic ${credentials}` },
-          next: { revalidate: 3600 },
-        }
-      )
-
-      if (!res.ok) return NextResponse.json([])
-      const data = await res.json()
-      resources = data.resources ?? []
+    if (!res.ok) {
+      console.error('Cloudinary search failed:', await res.text())
+      return NextResponse.json([])
     }
 
-    const images = resources.map((r) => ({
-      publicId: r.public_id,
-      width: r.width,
-      height: r.height,
-      alt: r.public_id.split('/').pop()?.replaceAll('-', ' ') ?? '',
-    }))
+    const data = await res.json()
+    const resources = data.resources ?? []
+
+    // Filter out very small images (likely thumbnails/icons) and format as gallery items
+    const images = resources
+      .filter((r: any) => {
+        // Exclude tiny images (< 500px on shortest side) — likely not portfolio-worthy
+        const minDimension = Math.min(r.width, r.height)
+        return minDimension >= 500
+      })
+      .map((r: any) => ({
+        publicId: r.public_id,
+        width: r.width,
+        height: r.height,
+        alt: r.public_id.split('/').pop()?.replaceAll('-', ' ').replaceAll('_', ' ') ?? '',
+      }))
 
     return NextResponse.json(images)
-  } catch {
+  } catch (error) {
+    console.error('Cloudinary API error:', error)
     return NextResponse.json([])
   }
 }
