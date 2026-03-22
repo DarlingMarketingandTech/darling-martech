@@ -5,6 +5,8 @@ export const runtime = 'nodejs'
 
 export async function GET(request: NextRequest) {
   const folder = request.nextUrl.searchParams.get('folder')
+  const recursive = request.nextUrl.searchParams.get('recursive') === 'true'
+
   if (!folder) {
     return NextResponse.json({ error: 'folder param required' }, { status: 400 })
   }
@@ -18,29 +20,53 @@ export async function GET(request: NextRequest) {
     return NextResponse.json([])
   }
 
+  const credentials = Buffer.from(`${apiKey}:${apiSecret}`).toString('base64')
+
   try {
-    const credentials = Buffer.from(`${apiKey}:${apiSecret}`).toString('base64')
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${cloudName}/resources/image?type=upload&prefix=${encodeURIComponent(folder)}&max_results=100`,
-      {
-        headers: { Authorization: `Basic ${credentials}` },
-        next: { revalidate: 3600 },
-      }
-    )
+    let resources: Array<{ public_id: string; width: number; height: number }>
 
-    if (!res.ok) return NextResponse.json([])
+    if (recursive) {
+      // Cloudinary Search API — returns all images in folder and all subfolders
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/resources/search`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Basic ${credentials}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            expression: `folder:${folder}/*`,
+            max_results: 500,
+            sort_by: [{ created_at: 'desc' }],
+          }),
+          next: { revalidate: 3600 },
+        }
+      )
 
-    const data = await res.json()
-    const images = (data.resources ?? []).map((r: {
-      public_id: string
-      secure_url: string
-      width: number
-      height: number
-    }) => ({
+      if (!res.ok) return NextResponse.json([])
+      const data = await res.json()
+      resources = data.resources ?? []
+    } else {
+      // Cloudinary Admin API — prefix query, direct children only
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/resources/image?type=upload&prefix=${encodeURIComponent(folder)}&max_results=100`,
+        {
+          headers: { Authorization: `Basic ${credentials}` },
+          next: { revalidate: 3600 },
+        }
+      )
+
+      if (!res.ok) return NextResponse.json([])
+      const data = await res.json()
+      resources = data.resources ?? []
+    }
+
+    const images = resources.map((r) => ({
       publicId: r.public_id,
       width: r.width,
       height: r.height,
-      alt: r.public_id.split('/').pop()?.replace(/-/g, ' ') ?? '',
+      alt: r.public_id.split('/').pop()?.replaceAll('-', ' ') ?? '',
     }))
 
     return NextResponse.json(images)

@@ -6,6 +6,7 @@ import { useRef } from 'react'
 import { useInView } from 'framer-motion'
 import type { CaseStudy } from '@/lib/case-studies'
 import { getAdjacentCaseStudies } from '@/lib/case-studies'
+import { CaseStudyImages } from './CaseStudyImages'
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -171,6 +172,9 @@ export function CaseStudyContent({ cs }: { cs: CaseStudy }) {
             </FadeUp>
           </>
         )}
+
+        {/* Project images from Cloudinary */}
+        {cs.cloudinaryFolder && <CaseStudyImages cloudinaryFolder={cs.cloudinaryFolder} />}
 
         {/* Prev / Next navigation */}
         {(prev || next) && (
