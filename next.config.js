@@ -4,6 +4,12 @@ const nextConfig = {
   images: {
     // next/image optimization not supported in Cloudflare Pages edge
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+    ],
   },
   // NOTE: If you get "generate is not a function" during build, run:
   //   __NEXT_PRIVATE_STANDALONE_CONFIG="" npm run build

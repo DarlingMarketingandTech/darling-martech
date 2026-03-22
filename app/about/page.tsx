@@ -4,6 +4,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { containerVariants, itemVariants, slideInRight, fadeVariants, springEntrance, viewport } from '@/lib/motion'
+import { cloudinaryLoader } from '@/lib/cloudinary'
+
+// Bio portrait — studio/graphic-design/bio-featured-2 (1009×1188)
+const BIO_PHOTO_PUBLIC_ID = 'studio/graphic-design/bio-featured-2'
 
 const career = [
   {
@@ -147,7 +151,8 @@ export default function AboutPage() {
                 style={{ background: 'rgba(255,255,255,0.05)' }}
               >
                 <Image
-                  src="/images/jacob-bio-photo-splash.jpg"
+                  loader={cloudinaryLoader}
+                  src={BIO_PHOTO_PUBLIC_ID}
                   alt="Jacob Darling — Marketing Strategist"
                   fill
                   className="object-cover"

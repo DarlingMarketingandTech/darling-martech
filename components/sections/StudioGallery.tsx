@@ -5,12 +5,12 @@ import Image from 'next/image'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { buildCloudinaryUrl, cloudinaryLoader } from '@/lib/cloudinary'
 
-type Section = 'photography' | 'graphic-design' | 'proof'
+type Section = 'photography' | 'graphic-design' | 'projects'
 
 const sections: { key: Section; label: string; folder: string }[] = [
   { key: 'photography', label: 'Photography', folder: 'studio/photography' },
   { key: 'graphic-design', label: 'Design', folder: 'studio/graphic-design' },
-  { key: 'proof', label: 'Proof', folder: 'studio/proof' },
+  { key: 'projects', label: 'Projects', folder: 'studio/projects' },
 ]
 
 // Cloudinary images are fetched client-side via the Cloudinary API
@@ -135,12 +135,11 @@ function EmptyState({ section }: { section: string }) {
   )
 }
 
-// In production, fetch from Cloudinary Admin API via a server action or API route.
-// For now, this component renders with whatever images are in Cloudinary.
-// To populate: upload images to Cloudinary under studio/photography/, studio/graphic-design/, studio/proof/
-async function fetchCloudinaryImages(folder: string): Promise<GalleryImage[]> {
+async function fetchCloudinaryImages(folder: string, recursive = false): Promise<GalleryImage[]> {
   try {
-    const res = await fetch(`/api/studio/images?folder=${encodeURIComponent(folder)}`, {
+    const params = new URLSearchParams({ folder })
+    if (recursive) params.set('recursive', 'true')
+    const res = await fetch(`/api/studio/images?${params.toString()}`, {
       next: { revalidate: 3600 },
     })
     if (!res.ok) return []
@@ -155,7 +154,7 @@ export function StudioGallery() {
   const [images, setImages] = useState<Record<Section, GalleryImage[]>>({
     photography: [],
     'graphic-design': [],
-    proof: [],
+    projects: [],
   })
   const [loading, setLoading] = useState(true)
   const [lightbox, setLightbox] = useState<GalleryImage | null>(null)
@@ -167,7 +166,7 @@ export function StudioGallery() {
       setLoading(true)
       const section = sections.find((s) => s.key === activeSection)!
       if (images[activeSection].length === 0) {
-        const imgs = await fetchCloudinaryImages(section.folder)
+        const imgs = await fetchCloudinaryImages(section.folder, section.key === 'projects')
         setImages((prev) => ({ ...prev, [activeSection]: imgs }))
       }
       setLoading(false)

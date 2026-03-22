@@ -7,6 +7,7 @@ export type CaseStudy = {
   tagline: string
   description: string
   status: 'ready' | 'content-needed' | 'in-progress'
+  cloudinaryFolder?: string  // studio/projects/{slug} — populated when folder exists
   // Full case study content (for ready ones)
   hero?: {
     challenge: string
@@ -30,6 +31,7 @@ export const caseStudies: CaseStudy[] = [
     metric: '4.1×',
     metricLabel: 'Booking Lift',
     tagline: '100% local brand recall. Zero paid media at launch.',
+    cloudinaryFolder: 'studio/projects/hoosierboy-barber-shop',
     description:
       'Full brand identity system, Americana iconography, and environmental design for an Indianapolis barbershop — built to own the neighborhood before spending a dollar on ads.',
     status: 'ready',
@@ -68,6 +70,7 @@ export const caseStudies: CaseStudy[] = [
     metric: '+28%',
     metricLabel: 'Avg Cart Value',
     tagline: '3× info-to-purchase conversion. 40% fewer support tickets.',
+    cloudinaryFolder: 'studio/projects/behr-pet-essentials',
     description:
       'Infographic-first content architecture and a direct-response campaign system that turned a cluttered product catalog into a clean, conversion-optimized buying experience.',
     status: 'ready',
@@ -105,6 +108,7 @@ export const caseStudies: CaseStudy[] = [
     metric: '$46k+',
     metricLabel: 'Revenue Generated',
     tagline: 'Arts nonprofit fundraising through strategic event marketing.',
+    cloudinaryFolder: 'studio/projects/primary-colours',
     description:
       'Event marketing strategy, corporate sponsorship development, and community fundraising for an arts nonprofit — turning a single annual event into a $46k+ revenue driver.',
     status: 'ready',
@@ -330,6 +334,7 @@ export const caseStudies: CaseStudy[] = [
     metric: '+35%',
     metricLabel: 'Booking Increase',
     tagline: 'Digital integration and patient growth strategy.',
+    cloudinaryFolder: 'studio/projects/urgentcare-indy',
     description:
       'Ongoing fractional CMO engagement across the Pike Medical Consultants umbrella — website, digital marketing, and patient acquisition strategy.',
     status: 'content-needed',
@@ -342,6 +347,7 @@ export const caseStudies: CaseStudy[] = [
     metric: '210%',
     metricLabel: 'ROI',
     tagline: 'Unified brand system across 3+ locations.',
+    cloudinaryFolder: 'studio/projects/primarycare-indy',
     description:
       'Merged PMC identity into Primary Care Indy. Digital-first patient intake strategy with Google, Healthgrades, and Zocdoc synchronization.',
     status: 'content-needed',
@@ -354,6 +360,7 @@ export const caseStudies: CaseStudy[] = [
     metric: '7+ years',
     metricLabel: 'Engagement',
     tagline: 'Full marketing ownership for an Indianapolis law firm.',
+    cloudinaryFolder: 'studio/projects/riley-bennett-egloff',
     description:
       'Comprehensive marketing strategy for one of Indianapolis\'s established law firms — website, SEO, PR, email, social, business development.',
     status: 'content-needed',
@@ -367,6 +374,7 @@ export const caseStudies: CaseStudy[] = [
     metric: '4 weeks',
     metricLabel: 'Brand Launch',
     tagline: 'Concierge luxury brand identity and launch strategy.',
+    cloudinaryFolder: 'studio/projects/clean-aesthetics',
     description:
       'Full brand identity and go-to-market strategy for a medical aesthetics practice — from naming and visual identity through digital launch.',
     status: 'content-needed',
