@@ -23,11 +23,10 @@ export async function GET(request: NextRequest) {
   const credentials = Buffer.from(`${apiKey}:${apiSecret}`).toString('base64')
 
   try {
-    // Use Cloudinary Search API — works with inconsistent public_id structures
-    // Matches both "studio/photography/photo-01" AND "photo-01" with asset_folder:"studio/photography"
+    // Use asset_folder search - matches ALL images in the folder regardless of public_id structure
     const expression = recursive 
-      ? `folder:${folder}/*` 
-      : `folder:${folder}/* OR (asset_folder:${folder} AND NOT folder:*)`
+      ? `asset_folder:${folder}*` 
+      : `asset_folder:${folder}`
 
     const res = await fetch(
       `https://api.cloudinary.com/v1_1/${cloudName}/resources/search`,
