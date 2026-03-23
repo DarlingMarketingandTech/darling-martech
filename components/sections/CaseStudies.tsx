@@ -3,51 +3,48 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight } from '@phosphor-icons/react'
+import { getAllWork } from '@/data/work/work-data'
 import { containerVariants, itemVariants, fadeVariants, viewport, springStandard, springEntrance } from '@/lib/motion'
 import styles from './CaseStudies.module.css'
 
-const caseStudies = [
+const featuredTeasers = [
   {
-    num: '01',
-    client: 'Primary Care Indy',
-    industry: 'Healthcare',
-    stat: '210% ROI',
-    description: 'Unified brand system across 3+ locations. Digital-first patient intake strategy.',
-    slug: 'primary-care-indy',
+    slug: 'primarycare-indy',
+    description: 'Independent clinic positioning, patient intake clarity, and local search infrastructure that made the practice competitive with major health systems.',
   },
   {
-    num: '02',
-    client: 'Hoosier Boy Barbershop',
-    industry: 'Local Retail',
-    stat: '4.1× booking lift',
-    description: 'Full brand identity, Americana iconography, environmental design. Zero paid media at launch.',
     slug: 'hoosier-boy-barbershop',
+    description: 'Indiana-rooted brand identity, booking experience, and local discovery system built to win without paid media.',
   },
   {
-    num: '03',
-    client: 'Behr Pet Essentials',
-    industry: 'E-Commerce',
-    stat: '+28% avg cart value',
-    description: 'Infographic-first content architecture, direct-response campaign system.',
     slug: 'behr-pet-essentials',
+    description: 'Infographic-first product education and direct-response content that turned complexity into conversion.',
   },
   {
-    num: '04',
-    client: 'Primary Colours',
-    industry: 'Nonprofit',
-    stat: '$46k+ revenue',
-    description: 'Event marketing, sponsorship, and arts nonprofit strategy.',
     slug: 'primary-colours',
+    description: 'Sponsorship architecture and exhibition marketing that turned a community event into a real revenue engine.',
   },
   {
-    num: '05',
-    client: 'Russell Painting',
-    industry: 'Local Service',
-    stat: '4.9★ star sentiment',
-    description: 'Local SEO, lead generation, and heritage brand strategy.',
     slug: 'russell-painting',
+    description: 'Trust-led web architecture and local SEO that made a legacy reputation visible online.',
   },
-]
+] as const
+
+const caseStudies = featuredTeasers
+  .map((teaser, index) => {
+    const study = getAllWork().find((item) => item.slug === teaser.slug)
+    if (!study) return null
+
+    return {
+      num: String(index + 1).padStart(2, '0'),
+      client: study.client,
+      industry: study.label.split('·')[0]?.trim() ?? study.category,
+      stat: study.metrics[0],
+      description: teaser.description,
+      slug: study.slug,
+    }
+  })
+  .filter((study): study is NonNullable<typeof study> => Boolean(study))
 
 const rowVariants = {
   rest: {

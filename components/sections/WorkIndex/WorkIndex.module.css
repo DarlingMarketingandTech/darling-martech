@@ -1,30 +1,22 @@
-/* ── Page shell ── */
-
-.main {
-  padding-top: 8rem;
-  padding-bottom: 7rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+.heroFeatureWrap {
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 3.5rem;
+  position: relative;
 }
 
-@media (min-width: 768px) {
-  .main {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+@media (min-width: 1080px) {
+  .heroFeatureWrap {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 2.5rem;
+    margin-bottom: 4rem;
   }
 }
 
-.inner {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-/* ── Hero ── */
-
-.hero {
-  margin-bottom: 5rem;
-  padding-bottom: 4rem;
-  border-bottom: 1px solid var(--color-border);
+.heroFeatureCopy {
+  position: relative;
+  z-index: 1;
 }
 
 .heroEyebrow {
@@ -34,231 +26,468 @@
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--color-accent);
-  margin: 0 0 1.5rem;
+  margin: 0 0 1.25rem;
 }
 
 .heroHeadline {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(3rem, 6vw, 5.5rem);
-  line-height: 0.95;
+  font-size: clamp(3rem, 6vw, 5.75rem);
+  line-height: 0.94;
   letter-spacing: -0.04em;
   color: var(--color-text);
   text-wrap: balance;
-  max-width: 18ch;
-  margin: 0 0 1.75rem;
+  max-width: 10ch;
+  margin: 0 0 1.25rem;
 }
 
 .heroSubhead {
   font-family: var(--font-body);
-  font-size: 1.125rem;
-  line-height: 1.7;
+  font-size: 1.05rem;
+  line-height: 1.75;
   color: var(--color-muted);
-  max-width: 55ch;
+  max-width: 52ch;
   margin: 0;
 }
 
-/* ── Grid ── */
-
-.grid {
+.heroStats {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
+  margin-top: 2rem;
   background: var(--color-border);
-  margin-bottom: 5rem;
 }
 
-@media (min-width: 640px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
+.heroStat {
+  background: var(--color-surface);
+  padding: 1rem 1.1rem;
 }
 
-@media (min-width: 1100px) {
-  .grid {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
+.heroStatValue {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
 }
 
-/* ── Card ── */
-
-.card {
-  background: var(--color-base);
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
-  transition: border-color 0.3s cubic-bezier(0.32, 0.72, 0, 1);
-}
-
-.cardEnabled {
-  cursor: pointer;
-}
-
-.cardEnabled:hover .cardBorder {
-  opacity: 1;
-}
-
-.cardEnabled:hover .cardClient {
-  color: var(--color-accent);
-}
-
-.cardEnabled:hover .cardArrow {
-  transform: translateX(4px);
-}
-
-.cardDisabled {
-  opacity: 0.5;
-  cursor: default;
-}
-
-.cardPadding {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  position: relative;
-}
-
-@media (min-width: 768px) {
-  .cardPadding {
-    padding: 2.5rem;
-  }
-}
-
-/* Orange left accent bar */
-.cardBorder {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--color-accent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-/* Logo area */
-.cardLogo {
-  height: 36px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.cardLogoImg {
-  max-width: 120px;
-  max-height: 36px;
-  object-fit: contain;
-  object-position: left center;
-  filter: brightness(0) invert(1);
-  opacity: 0.7;
-}
-
-.cardCategoryBadge {
-  display: inline-block;
+.heroStatLabel {
+  display: block;
+  margin-top: 0.35rem;
   font-family: var(--font-body);
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-muted);
+}
+
+.heroFeatureVisual {
+  position: relative;
+  min-height: 28rem;
+}
+
+.heroAmbient {
+  position: absolute;
+  inset: -1rem;
+  opacity: 0.8;
+}
+
+.heroFeatureCardFrame {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+.heroFeatureCard {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  text-decoration: none;
+  background:
+    linear-gradient(180deg, rgba(255, 77, 0, 0.08), transparent 28%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
   border: 1px solid var(--color-border);
-  padding: 0.3rem 0.6rem;
-  margin-bottom: 1.5rem;
-  align-self: flex-start;
+  padding: 1.35rem;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Card header row */
-.cardHeader {
-  margin-bottom: 1rem;
+.heroFeatureCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top right, rgba(255, 77, 0, 0.16), transparent 34%),
+    linear-gradient(180deg, transparent 0%, rgba(10, 10, 10, 0.7) 100%);
+  pointer-events: none;
 }
 
-.cardLabel {
+.heroFeatureHeader,
+.heroFeatureBody,
+.heroFeatureMetrics,
+.heroFeatureCta {
+  position: relative;
+  z-index: 1;
+}
+
+.heroFeatureHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.featuredKicker {
+  margin: 0;
   font-family: var(--font-body);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.heroFeatureMedia {
+  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.02);
+  aspect-ratio: 1.18 / 1;
+  overflow: hidden;
+}
+
+.heroFeatureImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heroFeatureLabel {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-muted);
-  margin: 0 0 0.5rem;
-  line-height: 1.5;
+  margin: 0 0 0.65rem;
 }
 
-.cardClient {
+.heroFeatureClient {
   font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+  margin: 0 0 0.85rem;
+}
+
+.heroFeatureHeadline {
+  font-family: var(--font-accent);
+  font-size: clamp(1rem, 1.7vw, 1.22rem);
+  line-height: 1.5;
+  color: rgba(245, 240, 232, 0.84);
+  margin: 0;
+  max-width: 32ch;
+}
+
+.heroFeatureMetrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.heroFeatureCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: auto;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.filterPill {
+  appearance: none;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-muted);
+  padding: 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.filterPill:hover,
+.filterPillActive {
+  color: var(--color-text);
+  border-color: var(--color-border-accent);
+  background: rgba(255, 77, 0, 0.08);
+}
+
+.featuredRail {
+  display: grid;
+  gap: 1px;
+  background: var(--color-border);
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .featuredRail {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.featuredRailCard {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  gap: 0.8rem;
+  background: var(--color-surface);
+  padding: 1.25rem;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.featuredRailCard:hover {
+  background: rgba(255, 255, 255, 0.03);
+  transform: translateY(-2px);
+}
+
+.featuredRailMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.featuredRailBadge,
+.featuredRailCategory,
+.subprojectTag,
+.cardBadge {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  padding: 0.35rem 0.55rem;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.featuredRailBadge,
+.subprojectTag {
+  color: var(--color-accent);
+  background: rgba(255, 77, 0, 0.08);
+}
+
+.featuredRailCategory,
+.cardBadge {
+  color: var(--color-muted);
+}
+
+.featuredRailClient {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
   font-weight: 700;
-  font-size: clamp(1.1rem, 2vw, 1.375rem);
-  line-height: 1.15;
   letter-spacing: -0.02em;
   color: var(--color-text);
-  margin: 0 0 0.75rem;
-  transition: color 0.2s ease;
+  margin: 0;
 }
 
-.cardHeadline {
+.featuredRailHeadline {
   font-family: var(--font-body);
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   line-height: 1.6;
   color: var(--color-muted);
   margin: 0;
 }
 
-/* Metrics */
-.cardMetrics {
+.featuredRailMetrics {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 1.25rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--color-border);
-  flex: 1;
-  align-content: flex-start;
+  margin-top: auto;
 }
 
-.cardMetric {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--color-text);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  padding: 0.3rem 0.6rem;
-}
-
-.cardMetricAccent {
-  color: var(--color-accent);
-}
-
-/* Card footer */
-.cardFooter {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-top: 1.5rem;
-}
-
-.cardArrow {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  color: var(--color-accent);
-  transition: transform 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-}
-
-/* ── Bottom CTA ── */
-
-.cta {
-  padding-top: 4rem;
-  border-top: 1px solid var(--color-border);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1.5rem;
+.grid {
+  display: grid;
+  gap: 1rem;
 }
 
 @media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1180px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.cardFrame {
+  height: 100%;
+}
+
+.card {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 28%),
+    var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 1.5rem;
+  position: relative;
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+}
+
+.card:hover {
+  border-color: var(--color-border-accent);
+  transform: translateY(-4px);
+  background:
+    linear-gradient(180deg, rgba(255, 77, 0, 0.07), transparent 30%),
+    var(--color-surface);
+}
+
+.cardAccent {
+  position: absolute;
+  inset: auto auto 0 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 77, 0, 0.75), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.card:hover .cardAccent {
+  opacity: 1;
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cardLogoWrap {
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.cardLogoImg {
+  max-width: 140px;
+  max-height: 40px;
+  object-fit: contain;
+  object-position: left center;
+  filter: brightness(0) invert(1);
+  opacity: 0.78;
+}
+
+.cardBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.cardLabel {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  line-height: 1.55;
+  margin: 0 0 0.75rem;
+}
+
+.cardClient {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+  line-height: 1.02;
+  margin: 0 0 0.8rem;
+}
+
+.cardHeadline {
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.cardMetrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.metricPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.65rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.metricPillAccent {
+  color: var(--color-accent);
+}
+
+.cardFooter {
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.cardFooterText {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.cta {
+  margin-top: 4rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
   .cta {
     flex-direction: row;
     align-items: center;
@@ -268,30 +497,30 @@
 
 .ctaText {
   font-family: var(--font-accent);
-  font-style: italic;
-  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-size: clamp(1.3rem, 2.4vw, 1.85rem);
   color: var(--color-text);
   margin: 0;
-  max-width: 40ch;
-  line-height: 1.3;
 }
 
 .ctaBtn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.875rem;
-  padding: 0.875rem 1.75rem;
+  gap: 0.55rem;
+  padding: 0.95rem 1.7rem;
   background: var(--color-accent);
   color: var(--color-text);
   text-decoration: none;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: opacity 0.2s ease;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 700;
 }
 
-.ctaBtn:hover {
-  opacity: 0.88;
+@media (max-width: 767px) {
+  .heroFeatureVisual {
+    min-height: 22rem;
+  }
+
+  .heroStats {
+    grid-template-columns: 1fr;
+  }
 }

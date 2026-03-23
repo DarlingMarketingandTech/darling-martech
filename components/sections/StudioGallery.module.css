@@ -58,6 +58,7 @@
 
 .tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.25rem;
   margin-bottom: 3rem;
   border-bottom: 1px solid var(--color-border);
@@ -84,32 +85,40 @@
   color: var(--color-text);
 }
 
-/* ── Gallery grid (masonry via columns) ── */
+/* ── Gallery grid ── */
 
 .grid {
-  columns: 1;
-  gap: 0.75rem;
-}
-
-@media (min-width: 640px) {
-  .grid { columns: 2; }
-}
-
-@media (min-width: 1024px) {
-  .grid { columns: 3; }
+  padding-bottom: 0.5rem;
 }
 
 .gridItem {
-  break-inside: avoid;
+  overflow: visible;
+}
+
+.imageButton {
+  display: block;
+  width: 100%;
+  padding: 0;
   cursor: pointer;
-  overflow: hidden;
-  margin-bottom: 0.75rem;
+  background: none;
+  border: none;
+  text-align: left;
 }
 
 .imageWrap {
   position: relative;
   overflow: hidden;
-  background: rgba(245, 240, 232, 0.03);
+  background:
+    linear-gradient(180deg, rgba(255, 77, 0, 0.08), transparent 28%),
+    rgba(245, 240, 232, 0.03);
+  border: 1px solid rgba(245, 240, 232, 0.08);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 
 .image {
@@ -117,16 +126,39 @@
   height: auto;
   display: block;
   object-fit: cover;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .imageOverlay {
   position: absolute;
   inset: 0;
-  background: transparent;
+  background:
+    linear-gradient(180deg, rgba(10, 10, 10, 0) 40%, rgba(10, 10, 10, 0.24) 100%),
+    linear-gradient(135deg, rgba(255, 77, 0, 0.12), rgba(255, 77, 0, 0));
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.gridItem:hover .imageOverlay {
-  background: rgba(0, 0, 0, 0.2);
+.imageButton:hover .imageWrap,
+.imageButton:focus-visible .imageWrap {
+  border-color: var(--color-border-accent);
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 77, 0, 0.2);
+}
+
+.imageButton:hover .image,
+.imageButton:focus-visible .image {
+  transform: scale(1.025);
+}
+
+.imageButton:hover .imageOverlay,
+.imageButton:focus-visible .imageOverlay {
+  opacity: 1;
+}
+
+.imageButton:focus-visible {
+  outline: none;
 }
 
 /* ── Loading spinner ── */

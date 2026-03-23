@@ -1,14 +1,15 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion, useMotionValueEvent, useScroll } from 'framer-motion'
 import { ArrowRightIcon } from '@phosphor-icons/react'
 import { containerVariants, itemVariants, springEntrance } from '@/lib/motion'
 import { KineticHeadline } from '@/components/motion/KineticHeadline'
 import { StatCounter } from '@/components/motion/StatCounter'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
+import { useFinePointer } from '@/hooks/useFinePointer'
 import styles from './Hero.module.css'
 
 // Lazy-load the 3D canvas — never blocks initial render
@@ -43,24 +44,41 @@ const statsBarVariants = {
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export function Hero() {
+  const sectionRef = useRef<HTMLElement>(null)
   const mouseX = useRef(0)
   const mouseY = useRef(0)
+  const scrollProgress = useRef(0)
+  const [interactiveTarget, setInteractiveTarget] = useState<string | null>(null)
+  const isFinePointer = useFinePointer()
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  })
+
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    scrollProgress.current = latest
+  })
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       // Normalized -1 to 1 for 3D camera rig
-      mouseX.current = (e.clientX / window.innerWidth) * 2 - 1
-      mouseY.current = -(e.clientY / window.innerHeight) * 2 + 1
+      mouseX.current = (e.clientX / globalThis.window.innerWidth) * 2 - 1
+      mouseY.current = -(e.clientY / globalThis.window.innerHeight) * 2 + 1
     }
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true })
-    return () => window.removeEventListener('mousemove', handleMouseMove)
+    globalThis.window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    return () => globalThis.window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
   return (
-    <section className={styles.section}>
+    <section ref={sectionRef} className={styles.section}>
       {/* ── 3D canvas — lazy loaded, behind everything ── */}
-      <HeroBackground mouseX={mouseX} mouseY={mouseY} />
+      <HeroBackground
+        mouseX={mouseX}
+        mouseY={mouseY}
+        scrollProgress={scrollProgress}
+        interactiveTarget={isFinePointer ? interactiveTarget : null}
+      />
 
       {/* ── Dot grid — 2% opacity atmospheric texture ── */}
       <div className={styles.dotGrid} aria-hidden="true" />
@@ -115,7 +133,14 @@ export function Hero() {
                     transition={springEntrance}
                     style={{ display: 'inline-block' }}
                   >
-                    <Link href="/contact" className={styles.ctaButton}>
+                    <Link
+                      href="/contact"
+                      className={styles.ctaButton}
+                      onMouseEnter={() => setInteractiveTarget('hero-cta')}
+                      onMouseLeave={() => setInteractiveTarget(null)}
+                      onFocus={() => setInteractiveTarget('hero-cta')}
+                      onBlur={() => setInteractiveTarget(null)}
+                    >
                       <span>Let&apos;s build something that works</span>
                       <motion.span variants={arrowVariants} className={styles.ctaArrow}>
                         <ArrowRightIcon weight="regular" size={18} />
@@ -132,6 +157,8 @@ export function Hero() {
               variants={statsBarVariants}
               initial="hidden"
               animate="visible"
+              onMouseEnter={() => setInteractiveTarget('hero-stats')}
+              onMouseLeave={() => setInteractiveTarget(null)}
             >
               <StatCounter value={15}    suffix="+"  label="Years Experience"    delay={0.7} />
               <StatCounter value={400}   suffix="+"  label="Automations Built"   delay={0.85} />

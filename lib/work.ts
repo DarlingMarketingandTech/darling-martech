@@ -10,6 +10,21 @@ export type WorkCategory =
   | 'Brand Identity'
   | 'Non-Profit'
 
+export type WorkVisualMode = 'signal' | 'orbit' | 'mesh' | 'beacon'
+
+export type WorkLayoutMode = 'editorial' | 'split' | 'stacked'
+
+export type WorkMetricStyle = 'pill' | 'panel' | 'ticker'
+
+export type WorkMediaStyle = 'portrait' | 'landscape' | 'stack'
+
+export type WorkTheme = {
+  layout?: WorkLayoutMode
+  metricStyle?: WorkMetricStyle
+  mediaStyle?: WorkMediaStyle
+  density?: 'calm' | 'balanced' | 'kinetic'
+}
+
 export type WorkCard = {
   slug: string
   label: string         // e.g. "Hospitality · Brand Identity & Web"
@@ -20,6 +35,10 @@ export type WorkCard = {
   logoPublicId?: string // Cloudinary public_id for logo/anchor image
   heroPublicId?: string // Optional hero image public_id
   featured?: boolean    // Pinned to top of grid
+  visualMode?: WorkVisualMode
+  theme?: WorkTheme
+  parentProjectSlug?: string
+  relatedProjectSlugs?: string[]
 }
 
 export type Deliverable = {
@@ -52,7 +71,26 @@ export type CaseStudy = WorkCard & {
   cloudinaryAssets?: CloudinaryAsset[]
 }
 
+export const workSlugAliases: Record<string, string> = {
+  'primary-care-indy': 'primarycare-indy',
+  'urgent-care-indy': 'urgentcare-indy',
+  'rbe-law': 'riley-bennett-egloff',
+}
+
+export function resolveWorkSlug(slug: string) {
+  return workSlugAliases[slug] ?? slug
+}
+
+export function isWorkSlugAlias(slug: string) {
+  return resolveWorkSlug(slug) !== slug
+}
+
+export function getCanonicalWorkPath(slug: string) {
+  return `/work/${resolveWorkSlug(slug)}`
+}
+
 // Helpers
 export function getWorkBySlug(slug: string, data: CaseStudy[]): CaseStudy | undefined {
-  return data.find((cs) => cs.slug === slug)
+  const resolvedSlug = resolveWorkSlug(slug)
+  return data.find((cs) => cs.slug === resolvedSlug)
 }

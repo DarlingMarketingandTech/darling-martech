@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getAllWork } from '@/data/work/work-data'
-import { WorkHero, WorkGrid, WorkBottomCTA } from '@/components/sections/WorkIndex/WorkGrid'
+import { WorkIndexExperience, WorkBottomCTA } from '@/components/sections/WorkIndex/WorkGrid'
+import styles from './Work.module.css'
 
 export const metadata: Metadata = {
   title: 'Work — Darling MarTech | Case Studies & Client Projects',
@@ -17,10 +18,9 @@ export default function WorkPage() {
   const studies = getAllWork()
 
   return (
-    <main style={{ paddingTop: '8rem', paddingBottom: '7rem', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        <WorkHero />
-        <WorkGrid studies={studies} />
+    <main className={styles.main}>
+      <div className={styles.inner}>
+        <WorkIndexExperience studies={studies} />
         <WorkBottomCTA />
       </div>
     </main>

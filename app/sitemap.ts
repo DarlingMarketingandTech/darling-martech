@@ -1,10 +1,10 @@
 import type { MetadataRoute } from 'next'
-import { getReadyCaseStudies } from '@/lib/case-studies'
+import { getAllWork } from '@/data/work/work-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://darlingmartech.com'
 
-  const caseStudyUrls = getReadyCaseStudies().map((cs) => ({
+  const caseStudyUrls = getAllWork().map((cs) => ({
     url: `${baseUrl}/work/${cs.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,

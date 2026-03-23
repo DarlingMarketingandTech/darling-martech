@@ -1,0 +1,38 @@
+.grid {
+  width: 100%;
+  columns: var(--masonry-columns, 1);
+  column-gap: var(--masonry-gap, 1rem);
+}
+
+.item {
+  break-inside: avoid;
+  margin-bottom: var(--masonry-gap, 1rem);
+}
+
+.card {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    columns: var(--masonry-columns-sm, var(--masonry-columns, 1));
+  }
+}
+
+@media (min-width: 768px) {
+  .grid {
+    columns: var(--masonry-columns-md, var(--masonry-columns-sm, var(--masonry-columns, 1)));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    columns: var(--masonry-columns-lg, var(--masonry-columns-md, var(--masonry-columns-sm, var(--masonry-columns, 1))));
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid {
+    columns: var(--masonry-columns-xl, var(--masonry-columns-lg, var(--masonry-columns-md, var(--masonry-columns-sm, var(--masonry-columns, 1)))));
+  }
+}

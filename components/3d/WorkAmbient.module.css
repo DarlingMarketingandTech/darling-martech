@@ -1,0 +1,21 @@
+.canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.9;
+  mix-blend-mode: screen;
+}
+
+.canvas canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.fallback {
+  background:
+    radial-gradient(circle at 24% 30%, rgba(255, 77, 0, 0.16), transparent 16%),
+    radial-gradient(circle at 78% 58%, rgba(255, 77, 0, 0.12), transparent 18%),
+    linear-gradient(125deg, transparent 18%, rgba(255, 77, 0, 0.12) 18.2%, transparent 18.55%),
+    linear-gradient(100deg, transparent 42%, rgba(245, 240, 232, 0.08) 42.1%, transparent 42.45%),
+    linear-gradient(84deg, transparent 66%, rgba(255, 77, 0, 0.1) 66.12%, transparent 66.45%);
+}

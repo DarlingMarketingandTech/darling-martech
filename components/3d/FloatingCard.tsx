@@ -4,9 +4,9 @@ import { useRef, useCallback, type ReactNode } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 
 interface FloatingCardProps {
-  children: ReactNode
-  maxTilt?: number
-  className?: string
+  readonly children: ReactNode
+  readonly maxTilt?: number
+  readonly className?: string
 }
 
 const SPRING = { stiffness: 120, damping: 20 }

@@ -328,7 +328,7 @@ export const caseStudies: CaseStudy[] = [
   },
   // Content session needed — stub entries
   {
-    slug: 'urgent-care-indy',
+    slug: 'urgentcare-indy',
     client: 'Urgent Care Indy',
     industry: 'Healthcare',
     metric: '+35%',
@@ -341,7 +341,7 @@ export const caseStudies: CaseStudy[] = [
     services: ['Fractional CMO', 'Web Development', 'Google Ads', 'Healthcare Marketing'],
   },
   {
-    slug: 'primary-care-indy',
+    slug: 'primarycare-indy',
     client: 'Primary Care Indy',
     industry: 'Healthcare',
     metric: '210%',
@@ -354,7 +354,7 @@ export const caseStudies: CaseStudy[] = [
     services: ['Fractional CMO', 'Brand Strategy', 'Web Development', 'Healthcare Marketing'],
   },
   {
-    slug: 'rbe-law',
+    slug: 'riley-bennett-egloff',
     client: 'Riley Bennett Egloff LLP',
     industry: 'Legal',
     metric: '7+ years',

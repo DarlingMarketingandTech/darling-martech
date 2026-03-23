@@ -1,9 +1,19 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import { containerVariants, itemVariants, fadeVariants, viewport } from '@/lib/motion'
+import { useFinePointer } from '@/hooks/useFinePointer'
 import styles from './Lab.module.css'
+
+const LabTelemetryScene = dynamic(
+  () => import('@/components/3d/LabTelemetryScene').then((module) => module.LabTelemetryScene),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+)
 
 type Tool = {
   name: string
@@ -51,10 +61,25 @@ const statusColors: Record<Tool['status'], { color: string; border: string }> = 
   Experimental: { color: 'var(--color-accent)',   border: 'var(--color-border-accent)' },
 }
 
-function ToolCard({ tool }: { readonly tool: Tool }) {
+function ToolCard({
+  tool,
+  onHighlight,
+  isFinePointer,
+}: {
+  readonly tool: Tool
+  readonly onHighlight: (target: string | null) => void
+  readonly isFinePointer: boolean
+}) {
   const status = statusColors[tool.status]
   return (
-    <motion.div variants={itemVariants} className={styles.card}>
+    <motion.div
+      variants={itemVariants}
+      className={styles.card}
+      onMouseEnter={isFinePointer ? () => onHighlight(tool.name) : undefined}
+      onMouseLeave={isFinePointer ? () => onHighlight(null) : undefined}
+      onFocusCapture={() => onHighlight(tool.name)}
+      onBlurCapture={() => onHighlight(null)}
+    >
       <div className={styles.cardTop}>
         <div>
           <span
@@ -77,7 +102,16 @@ function ToolCard({ tool }: { readonly tool: Tool }) {
       </div>
 
       {tool.url ? (
-        <a href={tool.url} target="_blank" rel="noopener noreferrer" className={styles.launchLink}>
+        <a
+          href={tool.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.launchLink}
+          onMouseEnter={isFinePointer ? () => onHighlight(`${tool.name}-launch`) : undefined}
+          onMouseLeave={isFinePointer ? () => onHighlight(tool.name) : undefined}
+          onFocus={() => onHighlight(`${tool.name}-launch`)}
+          onBlur={() => onHighlight(tool.name)}
+        >
           Launch app →
         </a>
       ) : (
@@ -89,40 +123,50 @@ function ToolCard({ tool }: { readonly tool: Tool }) {
 
 export default function LabPage() {
   const [activeCategory, setActiveCategory] = useState<typeof categories[number]>('All')
+  const [hoveredTool, setHoveredTool] = useState<string | null>(null)
+  const isFinePointer = useFinePointer()
   const filtered = activeCategory === 'All' ? tools : tools.filter((t) => t.category === activeCategory)
 
   return (
     <main className={styles.main}>
       <div className={styles.inner}>
-        {/* Header */}
-        <motion.div className={styles.headerWrap} variants={containerVariants} initial="hidden" animate="visible">
-          <motion.p variants={fadeVariants} className={styles.eyebrow}>Lab</motion.p>
-          <motion.h1 variants={itemVariants} className={styles.headline}>
-            Tools &amp; Experiments.
-          </motion.h1>
-          <motion.p variants={itemVariants} className={styles.subheadline}>
-            Marketing tools, developer utilities, and technologist experiments — built to solve real
-            problems and shipped to production.
-          </motion.p>
-        </motion.div>
+        <section className={styles.telemetryPanel}>
+          <LabTelemetryScene
+            activeCategory={activeCategory}
+            hoveredTool={hoveredTool}
+            intensity={hoveredTool ? 'active' : 'balanced'}
+          />
 
-        {/* Category filter */}
-        <motion.div className={styles.filters} variants={containerVariants} initial="hidden" animate="visible">
-          {categories.map((cat) => (
-            <motion.button
-              key={cat}
-              variants={itemVariants}
-              onClick={() => setActiveCategory(cat)}
-              className={`${styles.filterBtn} ${activeCategory === cat ? styles.filterBtnActive : ''}`}
-              whileTap={{ scale: 0.98 }}
-            >
-              {cat}
-              <span className={styles.filterCount}>
-                {cat === 'All' ? tools.length : tools.filter((t) => t.category === cat).length}
-              </span>
-            </motion.button>
-          ))}
-        </motion.div>
+          <motion.div className={styles.headerWrap} variants={containerVariants} initial="hidden" animate="visible">
+            <motion.p variants={fadeVariants} className={styles.eyebrow}>Lab</motion.p>
+            <motion.h1 variants={itemVariants} className={styles.headline}>
+              Tools &amp; Experiments.
+            </motion.h1>
+            <motion.p variants={itemVariants} className={styles.subheadline}>
+              Marketing tools, developer utilities, and technologist experiments — built to solve real
+              problems and shipped to production.
+            </motion.p>
+          </motion.div>
+
+          <motion.div className={styles.filters} variants={containerVariants} initial="hidden" animate="visible">
+            {categories.map((cat) => (
+              <motion.button
+                key={cat}
+                variants={itemVariants}
+                onClick={() => setActiveCategory(cat)}
+                className={`${styles.filterBtn} ${activeCategory === cat ? styles.filterBtnActive : ''}`}
+                whileTap={{ scale: 0.98 }}
+                onMouseEnter={isFinePointer ? () => setHoveredTool(`${cat}-filter`) : undefined}
+                onMouseLeave={isFinePointer ? () => setHoveredTool(null) : undefined}
+              >
+                {cat}
+                <span className={styles.filterCount}>
+                  {cat === 'All' ? tools.length : tools.filter((t) => t.category === cat).length}
+                </span>
+              </motion.button>
+            ))}
+          </motion.div>
+        </section>
 
         {/* Tools grid */}
         <motion.div
@@ -134,7 +178,7 @@ export default function LabPage() {
         >
           {filtered.map((tool) => (
             <div key={tool.name} className={styles.gridCell}>
-              <ToolCard tool={tool} />
+              <ToolCard tool={tool} onHighlight={setHoveredTool} isFinePointer={isFinePointer} />
             </div>
           ))}
         </motion.div>

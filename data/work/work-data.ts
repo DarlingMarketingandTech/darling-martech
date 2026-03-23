@@ -1,4 +1,5 @@
 import type { CaseStudy } from '@/lib/work'
+import { resolveWorkSlug } from '@/lib/work'
 import { workIndex } from './work-index'
 
 const workData: CaseStudy[] = [
@@ -313,6 +314,9 @@ const workData: CaseStudy[] = [
     cloudinaryAssets: [
       { publicId: 'hoosierboy-logo-anchor', label: 'Hoosier Boy Barbershop logo', folder: 'studio/projects/hoosierboy-barber-shop' },
       { publicId: 'hoosierboy-logo-legacy', label: 'Hoosier Boy legacy logo', folder: 'studio/projects' },
+      { publicId: 'bird', label: 'Hoosier Boy cardinal asset', folder: 'studio/projects/hoosierboy-barber-shop' },
+      { publicId: 'Bcard_Google', label: 'Hoosier Boy business card', folder: 'studio/projects/hoosierboy-barber-shop' },
+      { publicId: 'barbershop-4484297_1920', label: 'Hoosier Boy barbershop photography', folder: 'studio/projects/hoosierboy-barber-shop' },
     ],
   },
 
@@ -458,6 +462,9 @@ const workData: CaseStudy[] = [
     cloudinaryAssets: [
       { publicId: 'primarycare-logo-anchor', label: 'PrimaryCare Indy logo', folder: 'studio/projects/primarycare-indy' },
       { publicId: 'Dr._PIke', label: 'Dr. Pike portrait', folder: 'studio/projects/primarycare-indy' },
+      { publicId: 'Primary_Care_Logo_with_PMC', label: 'PrimaryCare Indy PMC logo', folder: 'studio/projects/primarycare-indy' },
+      { publicId: 'PMC-Dr.-Pike-Xray', label: 'PrimaryCare Indy clinical photography', folder: 'studio/projects/primarycare-indy' },
+      { publicId: 'PMC-Dr.-PIke-Patient-Room', label: 'PrimaryCare Indy patient room photography', folder: 'studio/projects/primarycare-indy' },
     ],
   },
 
@@ -799,6 +806,9 @@ const workData: CaseStudy[] = [
     ctaLine: 'turn your clinic\'s website into a real patient acquisition system',
     cloudinaryAssets: [
       { publicId: 'urgentcare-logo-anchor', label: 'UrgentCare Indy logo', folder: 'studio/projects/urgentcare-indy' },
+      { publicId: 'urgentorED3', label: 'UrgentCare Indy patient education graphic', folder: 'studio/projects/urgentcare-indy' },
+      { publicId: 'Facebook-When-to-Go-Where', label: 'UrgentCare Indy channel education graphic', folder: 'studio/projects/urgentcare-indy' },
+      { publicId: 'do_you_know_where_to_go_urgent_care__primary_care_or_er', label: 'UrgentCare Indy triage education graphic', folder: 'studio/projects/urgentcare-indy' },
     ],
   },
 
@@ -960,7 +970,8 @@ const workData: CaseStudy[] = [
 export default workData
 
 export function getWorkBySlug(slug: string): CaseStudy | undefined {
-  return workData.find((cs) => cs.slug === slug)
+  const resolvedSlug = resolveWorkSlug(slug)
+  return workData.find((cs) => cs.slug === resolvedSlug)
 }
 
 export function getAllWork(): CaseStudy[] {

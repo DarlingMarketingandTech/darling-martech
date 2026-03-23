@@ -1,8 +1,10 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import type { Metadata } from 'next'
 import workData, { getWorkBySlug, generateWorkStaticParams } from '@/data/work/work-data'
 import { WorkDetailContent } from '@/components/sections/WorkDetail/WorkDetailContent'
+import { WorkCaseStudyJsonLd } from '@/components/JsonLd'
 import type { CaseStudy } from '@/lib/work'
+import { getCanonicalWorkPath, isWorkSlugAlias, resolveWorkSlug } from '@/lib/work'
 
 export function generateStaticParams() {
   return generateWorkStaticParams()
@@ -11,13 +13,18 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-  const cs = getWorkBySlug(params.slug)
+  const { slug } = await params
+  const resolvedSlug = resolveWorkSlug(slug)
+  const cs = getWorkBySlug(resolvedSlug)
   if (!cs) return {}
   return {
     title: cs.titleTag,
     description: cs.metaDescription,
+    alternates: {
+      canonical: getCanonicalWorkPath(cs.slug),
+    },
     openGraph: {
       title: cs.titleTag,
       description: cs.metaDescription,
@@ -41,11 +48,30 @@ function getAdjacentWork(slug: string): { prev: CaseStudy | null; next: CaseStud
   }
 }
 
-export default function WorkDetailPage({ params }: { params: { slug: string } }) {
-  const cs = getWorkBySlug(params.slug)
+export default async function WorkDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+
+  if (isWorkSlugAlias(slug)) {
+    redirect(getCanonicalWorkPath(slug))
+  }
+
+  const cs = getWorkBySlug(slug)
   if (!cs) notFound()
 
-  const { prev, next } = getAdjacentWork(params.slug)
+  const { prev, next } = getAdjacentWork(slug)
+  const parent = cs.parentProjectSlug ? getWorkBySlug(cs.parentProjectSlug) ?? null : null
+  const related = (cs.relatedProjectSlugs ?? [])
+    .map((slug) => getWorkBySlug(slug))
+    .filter((study): study is CaseStudy => Boolean(study))
 
-  return <WorkDetailContent cs={cs} prev={prev} next={next} />
+  return (
+    <>
+      <WorkCaseStudyJsonLd cs={cs} />
+      <WorkDetailContent cs={cs} prev={prev} next={next} parent={parent} related={related} />
+    </>
+  )
 }

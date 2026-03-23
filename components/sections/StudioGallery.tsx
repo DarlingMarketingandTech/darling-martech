@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { MasonryGrid } from '@/components/ui/masonry-grid'
 import styles from './StudioGallery.module.css'
 
 type Section = 'photography' | 'graphic-design' | 'projects'
@@ -60,45 +61,6 @@ function LightboxModal({ image, onClose }: { image: GalleryImage; onClose: () =>
         </motion.div>
       </motion.div>
     </AnimatePresence>
-  )
-}
-
-function GalleryGrid({ images, onSelect }: { images: GalleryImage[]; onSelect: (img: GalleryImage) => void }) {
-  return (
-    <div className={styles.grid}>
-      {images.map((img, i) => (
-        <GalleryItem key={img.src} img={img} index={i} onSelect={onSelect} />
-      ))}
-    </div>
-  )
-}
-
-function GalleryItem({ img, index, onSelect }: { img: GalleryImage; index: number; onSelect: (img: GalleryImage) => void }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-40px' })
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 12 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.4, delay: (index % 6) * 0.05 }}
-      className={styles.gridItem}
-      onClick={() => onSelect(img)}
-    >
-      <div className={styles.imageWrap}>
-        <Image
-          src={img.src}
-          alt={img.alt}
-          width={img.width}
-          height={img.height}
-          className={styles.image}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          unoptimized
-        />
-        <div className={styles.imageOverlay} />
-      </div>
-    </motion.div>
   )
 }
 
@@ -206,7 +168,35 @@ export function StudioGallery() {
               <div className={styles.spinner} />
             </div>
           ) : currentImages.length > 0 ? (
-            <GalleryGrid images={currentImages} onSelect={setLightbox} />
+            <MasonryGrid
+              items={currentImages}
+              getItemKey={(img) => img.src}
+              className={styles.grid}
+              itemClassName={styles.gridItem}
+              gap="0.9rem"
+              columns={{ base: 1, sm: 2, lg: 3 }}
+              renderItem={(img) => (
+                <button
+                  type="button"
+                  className={styles.imageButton}
+                  onClick={() => setLightbox(img)}
+                  aria-label={`Open image: ${img.alt}`}
+                >
+                  <div className={styles.imageWrap}>
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      width={img.width}
+                      height={img.height}
+                      className={styles.image}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      unoptimized
+                    />
+                    <div className={styles.imageOverlay} />
+                  </div>
+                </button>
+              )}
+            />
           ) : (
             <EmptyState section={activeSection} />
           )}
