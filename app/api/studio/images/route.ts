@@ -61,12 +61,19 @@ export async function GET(request: NextRequest) {
         const minDimension = Math.min(r.width, r.height)
         return minDimension >= 500
       })
-      .map((r: any) => ({
-        publicId: r.public_id,
-        width: r.width,
-        height: r.height,
-        alt: r.public_id.split('/').pop()?.replaceAll('-', ' ').replaceAll('_', ' ') ?? '',
-      }))
+      .map((r: any) => {
+        // Cloudinary public_id should include the file extension for proper URL construction
+        const publicId = r.public_id.includes('.') 
+          ? r.public_id 
+          : `${r.public_id}.${r.format}`
+        
+        return {
+          publicId,
+          width: r.width,
+          height: r.height,
+          alt: r.public_id.split('/').pop()?.replaceAll('-', ' ').replaceAll('_', ' ') ?? '',
+        }
+      })
 
     return NextResponse.json(images)
   } catch (error) {
