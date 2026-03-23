@@ -7,6 +7,7 @@ import { useInView } from 'framer-motion'
 import type { CaseStudy } from '@/lib/case-studies'
 import { getAdjacentCaseStudies } from '@/lib/case-studies'
 import { CaseStudyImages } from './CaseStudyImages'
+import styles from './CaseStudyContent.module.css'
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -27,29 +28,29 @@ export function CaseStudyContent({ cs }: { cs: CaseStudy }) {
   const { prev, next } = getAdjacentCaseStudies(cs.slug)
 
   return (
-    <article className="pt-32 pb-24 px-6 md:px-10">
-      <div className="max-w-7xl mx-auto">
+    <article className={styles.article}>
+      <div className={styles.inner}>
 
         {/* Breadcrumb */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4 }}
-          className="flex items-center gap-3 text-xs text-mid-gray font-body mb-12"
+          className={styles.breadcrumb}
         >
-          <Link href="/work" className="hover:text-warm-off-white transition-colors">Work</Link>
-          <span className="text-mid-gray/30">/</span>
+          <Link href="/work" className={styles.breadcrumbLink}>Work</Link>
+          <span className={styles.breadcrumbSep}>/</span>
           <span>{cs.client}</span>
         </motion.div>
 
         {/* Hero */}
-        <div className="grid md:grid-cols-[1fr_auto] gap-8 md:gap-16 mb-20 items-start">
+        <div className={styles.heroGrid}>
           <div>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.4 }}
-              className="text-electric-orange text-xs font-body tracking-widest uppercase mb-4"
+              className={styles.industryLabel}
             >
               {cs.industry}
             </motion.p>
@@ -57,7 +58,7 @@ export function CaseStudyContent({ cs }: { cs: CaseStudy }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-display font-black text-[clamp(2.5rem,5.5vw,5rem)] leading-[0.97] tracking-tightest text-warm-off-white mb-6 text-balance"
+              className={styles.clientName}
             >
               {cs.client}
             </motion.h1>
@@ -65,24 +66,24 @@ export function CaseStudyContent({ cs }: { cs: CaseStudy }) {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-mid-gray font-body text-lg leading-relaxed max-w-2xl"
+              className={styles.tagline}
             >
               {cs.tagline}
             </motion.p>
           </div>
 
-          {/* Services */}
+          {/* Services sidebar */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="shrink-0 min-w-[200px]"
+            className={styles.services}
           >
-            <p className="text-xs text-mid-gray/60 font-body tracking-widest uppercase mb-3">Services</p>
-            <ul className="space-y-2">
+            <p className={styles.servicesLabel}>Services</p>
+            <ul className={styles.servicesList}>
               {cs.services?.map((s) => (
-                <li key={s} className="text-sm text-warm-off-white/80 font-body flex items-center gap-2">
-                  <span className="w-1 h-1 bg-electric-orange rounded-full shrink-0" />
+                <li key={s} className={styles.servicesItem}>
+                  <span className={styles.servicesDot} aria-hidden="true" />
                   {s}
                 </li>
               ))}
@@ -92,7 +93,7 @@ export function CaseStudyContent({ cs }: { cs: CaseStudy }) {
                 href={cs.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs text-electric-orange font-body hover:underline mt-5"
+                className={styles.siteLink}
               >
                 Visit site →
               </a>
@@ -103,13 +104,11 @@ export function CaseStudyContent({ cs }: { cs: CaseStudy }) {
         {/* Results bar */}
         {cs.hero?.results && (
           <FadeUp>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/8 mb-20">
+            <div className={styles.resultsBar}>
               {cs.hero.results.map((r) => (
-                <div key={r.label} className="bg-obsidian p-8 md:p-10">
-                  <p className="font-display font-black text-4xl md:text-5xl text-electric-orange leading-none tracking-tighter mb-2">
-                    {r.value}
-                  </p>
-                  <p className="text-sm text-mid-gray font-body leading-snug">{r.label}</p>
+                <div key={r.label} className={styles.resultCell}>
+                  <p className={styles.resultValue}>{r.value}</p>
+                  <p className={styles.resultLabel}>{r.label}</p>
                 </div>
               ))}
             </div>
@@ -118,17 +117,17 @@ export function CaseStudyContent({ cs }: { cs: CaseStudy }) {
 
         {/* Challenge / Solution */}
         {cs.hero && (
-          <div className="grid md:grid-cols-2 gap-12 md:gap-20 mb-20">
+          <div className={styles.twoCol}>
             <FadeUp>
               <div>
-                <p className="text-xs text-electric-orange font-body tracking-widest uppercase mb-5">The Challenge</p>
-                <p className="text-warm-off-white/80 font-body leading-relaxed">{cs.hero.challenge}</p>
+                <p className={styles.sectionEyebrow}>The Challenge</p>
+                <p className={styles.bodyText}>{cs.hero.challenge}</p>
               </div>
             </FadeUp>
             <FadeUp delay={0.1}>
               <div>
-                <p className="text-xs text-electric-orange font-body tracking-widest uppercase mb-5">The Solution</p>
-                <p className="text-warm-off-white/80 font-body leading-relaxed">{cs.hero.solution}</p>
+                <p className={styles.sectionEyebrow}>The Solution</p>
+                <p className={styles.bodyText}>{cs.hero.solution}</p>
               </div>
             </FadeUp>
           </div>
@@ -138,24 +137,22 @@ export function CaseStudyContent({ cs }: { cs: CaseStudy }) {
         {cs.body && (
           <>
             <FadeUp>
-              <div className="border-t border-white/5 pt-16 mb-16">
-                <p className="text-xs text-electric-orange font-body tracking-widest uppercase mb-6">Context</p>
-                <p className="text-warm-off-white/80 font-body leading-relaxed max-w-3xl text-lg">
-                  {cs.body.context}
-                </p>
+              <div className={styles.contextBlock}>
+                <p className={styles.sectionEyebrow}>Context</p>
+                <p className={styles.bodyTextLg}>{cs.body.context}</p>
               </div>
             </FadeUp>
 
             <FadeUp>
-              <div className="mb-16">
-                <p className="text-xs text-electric-orange font-body tracking-widest uppercase mb-8">Approach</p>
-                <ol className="space-y-5">
+              <div className={styles.approachBlock}>
+                <p className={styles.sectionEyebrow}>Approach</p>
+                <ol className={styles.approachList}>
                   {cs.body.approach.map((step, i) => (
-                    <li key={i} className="flex gap-6 items-start">
-                      <span className="font-display font-black text-5xl text-white/5 leading-none shrink-0 w-10 text-right">
+                    <li key={i} className={styles.approachItem}>
+                      <span className={styles.stepNum}>
                         {String(i + 1).padStart(2, '0')}
                       </span>
-                      <p className="text-warm-off-white/75 font-body leading-relaxed pt-1">{step}</p>
+                      <p className={styles.stepText}>{step}</p>
                     </li>
                   ))}
                 </ol>
@@ -163,11 +160,9 @@ export function CaseStudyContent({ cs }: { cs: CaseStudy }) {
             </FadeUp>
 
             <FadeUp>
-              <div className="border-t border-white/5 pt-16 mb-20">
-                <p className="text-xs text-electric-orange font-body tracking-widest uppercase mb-6">Outcome</p>
-                <p className="text-warm-off-white/80 font-body leading-relaxed max-w-3xl text-lg">
-                  {cs.body.outcome}
-                </p>
+              <div className={styles.outcomeBlock}>
+                <p className={styles.sectionEyebrow}>Outcome</p>
+                <p className={styles.bodyTextLg}>{cs.body.outcome}</p>
               </div>
             </FadeUp>
           </>
@@ -179,32 +174,22 @@ export function CaseStudyContent({ cs }: { cs: CaseStudy }) {
         {/* Prev / Next navigation */}
         {(prev || next) && (
           <FadeUp>
-            <div className="grid grid-cols-2 gap-px bg-white/5 mb-12">
+            <div className={styles.prevNext}>
               {prev ? (
-                <Link
-                  href={`/work/${prev.slug}`}
-                  className="bg-obsidian p-8 group hover:bg-white/[0.02] transition-colors"
-                >
-                  <p className="text-xs text-mid-gray/60 font-body tracking-widest uppercase mb-2">Previous</p>
-                  <p className="text-warm-off-white font-display font-bold text-lg tracking-tight group-hover:text-electric-orange transition-colors">
-                    ← {prev.client}
-                  </p>
+                <Link href={`/work/${prev.slug}`} className={styles.prevNextCell}>
+                  <p className={styles.prevNextLabel}>Previous</p>
+                  <p className={styles.prevNextTitle}>← {prev.client}</p>
                 </Link>
               ) : (
-                <div className="bg-obsidian p-8" />
+                <div className={styles.prevNextEmpty} />
               )}
               {next ? (
-                <Link
-                  href={`/work/${next.slug}`}
-                  className="bg-obsidian p-8 text-right group hover:bg-white/[0.02] transition-colors"
-                >
-                  <p className="text-xs text-mid-gray/60 font-body tracking-widest uppercase mb-2">Next</p>
-                  <p className="text-warm-off-white font-display font-bold text-lg tracking-tight group-hover:text-electric-orange transition-colors">
-                    {next.client} →
-                  </p>
+                <Link href={`/work/${next.slug}`} className={`${styles.prevNextCell} ${styles.prevNextRight}`}>
+                  <p className={styles.prevNextLabel}>Next</p>
+                  <p className={styles.prevNextTitle}>{next.client} →</p>
                 </Link>
               ) : (
-                <div className="bg-obsidian p-8" />
+                <div className={styles.prevNextEmpty} />
               )}
             </div>
           </FadeUp>
@@ -212,19 +197,11 @@ export function CaseStudyContent({ cs }: { cs: CaseStudy }) {
 
         {/* Bottom nav */}
         <FadeUp>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-8 border-t border-white/5">
-            <Link
-              href="/work"
-              className="text-sm text-mid-gray font-body hover:text-warm-off-white transition-colors"
-            >
-              ← All work
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 font-body font-medium text-sm bg-electric-orange text-warm-off-white px-6 py-3 hover:bg-electric-orange/90 transition-colors group"
-            >
+          <div className={styles.bottomNav}>
+            <Link href="/work" className={styles.backLink}>← All work</Link>
+            <Link href="/contact" className={styles.ctaBtn}>
               Start a project
-              <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+              <span className={styles.ctaArrow}>→</span>
             </Link>
           </div>
         </FadeUp>

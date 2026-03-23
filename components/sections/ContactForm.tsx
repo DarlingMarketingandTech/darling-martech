@@ -7,7 +7,7 @@ import { z } from 'zod'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { cn } from '@/lib/utils'
+import styles from './ContactForm.module.css'
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -47,11 +47,7 @@ export function ContactForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      if (res.ok) {
-        setStatus('success')
-      } else {
-        setStatus('error')
-      }
+      setStatus(res.ok ? 'success' : 'error')
     } catch {
       setStatus('error')
     }
@@ -59,104 +55,94 @@ export function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div className="py-16 px-10 border border-white/8 bg-white/[0.02]">
-        <div className="w-8 h-px bg-electric-orange mb-6" />
-        <p className="font-display font-bold text-2xl text-warm-off-white mb-3">
-          Got it.
-        </p>
-        <p className="text-mid-gray font-body">
-          I&apos;ll be in touch within 1 business day.
-        </p>
+      <div className={styles.successBox}>
+        <div className={styles.successLine} />
+        <p className={styles.successTitle}>Got it.</p>
+        <p className={styles.successBody}>I&apos;ll be in touch within 1 business day.</p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form} noValidate>
       {/* Name */}
-      <div className="space-y-1.5">
+      <div className={styles.field}>
         <Label htmlFor="name">Name</Label>
         <Input
           id="name"
           placeholder="Your name"
           {...register('name')}
-          className={cn(errors.name && 'border-red-500/50')}
+          data-error={!!errors.name}
         />
-        {errors.name && <p className="text-xs text-red-400 font-body">{errors.name.message}</p>}
+        {errors.name && <p className={styles.error}>{errors.name.message}</p>}
       </div>
 
       {/* Company */}
-      <div className="space-y-1.5">
-        <Label htmlFor="company">Company <span className="text-mid-gray/50">(optional)</span></Label>
-        <Input
-          id="company"
-          placeholder="Your company"
-          {...register('company')}
-        />
+      <div className={styles.field}>
+        <Label htmlFor="company">
+          Company <span className={styles.optional}>(optional)</span>
+        </Label>
+        <Input id="company" placeholder="Your company" {...register('company')} />
       </div>
 
       {/* Email */}
-      <div className="space-y-1.5">
+      <div className={styles.field}>
         <Label htmlFor="email">Email</Label>
         <Input
           id="email"
           type="email"
           placeholder="you@company.com"
           {...register('email')}
-          className={cn(errors.email && 'border-red-500/50')}
+          data-error={!!errors.email}
         />
-        {errors.email && <p className="text-xs text-red-400 font-body">{errors.email.message}</p>}
+        {errors.email && <p className={styles.error}>{errors.email.message}</p>}
       </div>
 
       {/* Service */}
-      <div className="space-y-1.5">
+      <div className={styles.field}>
         <Label htmlFor="service">Service</Label>
         <select
           id="service"
           {...register('service')}
-          className={cn(
-            'flex w-full border border-white/10 bg-white/5 px-4 py-3 text-sm font-body',
-            'focus:outline-none focus:border-electric-orange/60 transition-colors',
-            'text-mid-gray appearance-none',
-            errors.service && 'border-red-500/50'
-          )}
+          className={`${styles.select} ${errors.service ? styles.selectError : ''}`}
         >
           {serviceOptions.map((opt) => (
-            <option key={opt.value} value={opt.value} className="bg-obsidian text-warm-off-white">
+            <option key={opt.value} value={opt.value} className={styles.option}>
               {opt.label}
             </option>
           ))}
         </select>
-        {errors.service && <p className="text-xs text-red-400 font-body">{errors.service.message}</p>}
+        {errors.service && <p className={styles.error}>{errors.service.message}</p>}
       </div>
 
       {/* Message */}
-      <div className="space-y-1.5">
+      <div className={styles.field}>
         <Label htmlFor="message">Message</Label>
         <Textarea
           id="message"
           placeholder="Tell me what you're working on..."
           {...register('message')}
-          className={cn(errors.message && 'border-red-500/50')}
+          data-error={!!errors.message}
         />
-        {errors.message && <p className="text-xs text-red-400 font-body">{errors.message.message}</p>}
+        {errors.message && <p className={styles.error}>{errors.message.message}</p>}
       </div>
 
       {/* Submit */}
-      <div className="pt-2">
+      <div className={styles.submitRow}>
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="inline-flex items-center gap-2 font-body font-medium text-sm px-8 py-4 disabled:opacity-60 disabled:cursor-not-allowed group"
-          style={{ background: 'var(--color-accent)', color: 'var(--color-text)' }}
+          className={styles.submitBtn}
         >
-          {status === 'loading' ? 'Sending...' : <>Send it <span className="transition-transform duration-200 group-hover:translate-x-1">→</span></>}
+          {status === 'loading' ? 'Sending...' : (
+            <>Send it <span className={styles.arrow}>→</span></>
+          )}
         </button>
 
         {status === 'error' && (
-          <p className="mt-3 text-sm text-red-400 font-body">
-            Something went wrong. Please email me directly at{' '}
-            <a href="mailto:jacob@jacobdarling.com" className="underline">
+          <p className={styles.submitError}>
+            Something went wrong. Email me directly at{' '}
+            <a href="mailto:jacob@jacobdarling.com" className={styles.emailLink}>
               jacob@jacobdarling.com
             </a>
           </p>

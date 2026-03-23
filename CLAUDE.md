@@ -35,9 +35,13 @@ converts visitors into clients.
 
 | Layer | Technology | Notes |
 |---|---|---|
-| Framework | Next.js 14+ App Router | RSC default. `"use client"` only for interactive/animated components |
-| Styling | **CSS Modules + CSS custom properties** | Primary visual styling. Tailwind kept for spacing utilities only (`mt-4`, `px-6`, `gap-8`) |
-| Animation | Framer Motion | All motion. Spring physics only — no CSS `transition: all 0.3s ease` |
+| Framework | Next.js 16+ App Router | RSC default. `"use client"` only for interactive/animated/3D components |
+| Styling | **CSS Modules + CSS custom properties only** | Zero Tailwind colors/typography. Tailwind removed entirely for visual styling |
+| 2D Animation | **Framer Motion 11** | All UI motion. Spring physics only — presets in `lib/motion.ts` |
+| 3D / WebGL | **@react-three/fiber v8 + @react-three/drei v9 + Three.js** | Hero background, floating geometry, GPU-accelerated 3D |
+| Scroll animation | **GSAP + ScrollTrigger** | Timeline-based scroll sequences via `hooks/useScrollAnimation.ts` |
+| Smooth scroll | **Lenis** | Inertia scrolling, wraps full app in `LenisProvider` |
+| Interactivity | Custom hooks + motion components | Magnetic buttons, cursor spotlight, 3D card tilt |
 | Components | shadcn/ui (customized) | Always adapted to brand — never default shadcn appearance |
 | Icons | **@phosphor-icons/react** | `weight="light"` or `"regular"`. No Lucide. No Feather. No Heroicons. |
 | Fonts | next/font localFont — Cabinet Grotesk, Inter | Instrument Serif via next/font Google |
@@ -46,17 +50,31 @@ converts visitors into clients.
 | Hosting | Cloudflare Pages (GitHub auto-deploy) | |
 | Media | Cloudinary Next.js SDK | Cloud: `djhqowk67` |
 
-### Tailwind usage rule
-Tailwind is **only** permitted for structural/spacing utilities. Every
-color, typography, surface, and visual property must use CSS Modules and
-CSS custom properties. Violating this creates AI-looking code that is
-harder to audit.
+### Styling rule — CSS Modules ONLY for visual properties
+Tailwind is **removed** from all visual styling. Every color, typography,
+surface, animation, and visual property uses CSS Modules + CSS custom properties.
 
 ```
-✅ Allowed:  mt-4  px-6  gap-8  grid  flex  col-span-2
-❌ Remove:   bg-black  text-white  text-gray-500  shadow-lg  rounded-xl
-             font-bold  tracking-tight  border-gray-200
+✅ Allowed (layout only):  grid  flex  col-span-2  container  mx-auto
+❌ Never use:              bg-*  text-*  border-*  shadow-*  rounded-*
+                           font-*  tracking-*  transition-*  animate-*
 ```
+
+### 3D components rule
+
+All Three.js/R3F components MUST:
+
+- Be lazy-loaded with `dynamic(..., { ssr: false })` — Three.js is browser-only
+- Use `React.memo` or minimal re-render patterns
+- Accept mouse position via `ref` (not state) to avoid React re-renders
+- Target 60fps — never run heavy geometry inside `useFrame` without memoization
+
+### Motion hierarchy
+
+1. **Framer Motion** — React component animations, hover, entrance, spring physics
+2. **GSAP ScrollTrigger** — scroll-sequenced timelines via `useScrollAnimation` hook
+3. **Three.js `useFrame`** — per-frame 3D transforms (rotation, drift, camera rig)
+4. **CSS** — only `transition: border-color` for hover state color changes
 
 ---
 

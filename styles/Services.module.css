@@ -52,7 +52,6 @@
   Desktop: 8 virtual columns, 2 rows
   Row 1 — large left (5) + compact right (3)
   Row 2 — compact left (3) + large right (5)
-  The alternation is the "asymmetric" move.
 */
 
 .grid {
@@ -61,6 +60,13 @@
   gap: 1px;
   background: var(--color-border);
   border-radius: 16px;
+  overflow: hidden;
+}
+
+/* cardWrapper holds the grid position; FloatingCard is inside it */
+.cardWrapper {
+  position: relative;
+  /* Ensure overflow works correctly with 3D child */
   overflow: hidden;
 }
 
@@ -109,15 +115,13 @@
   flex-direction: column;
   padding: 2.5rem;
   background: var(--color-surface);
-
-  /* Border controlled here — not in GridCard inline style */
   border: 1px solid var(--color-border);
-  border-radius: 0; /* grid handles rounding via parent overflow:hidden */
-
+  border-radius: 0;
   overflow: hidden;
   cursor: default;
+  height: 100%;
 
-  /* Only transition border-color — leave transforms to Framer Motion */
+  /* Only transition border-color — transforms handled by FloatingCard */
   transition: border-color 0.4s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
@@ -137,7 +141,7 @@
   height: 55%;
   background: radial-gradient(
     circle at 0% 0%,
-    rgba(255, 77, 0, 0.08) 0%,
+    rgba(255, 77, 0, 0.1) 0%,
     transparent 70%
   );
   opacity: 0;
@@ -154,9 +158,32 @@
   opacity: 1;
 }
 
+/* ── Holographic gradient overlay ───────────── */
+
+/* Subtle conic-gradient that shifts on hover — identity effect */
+.holoOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: conic-gradient(
+    from 200deg at 50% 50%,
+    rgba(255, 77, 0, 0.04) 0deg,
+    rgba(245, 240, 232, 0.02) 90deg,
+    rgba(255, 77, 0, 0.04) 180deg,
+    transparent 270deg,
+    rgba(255, 77, 0, 0.04) 360deg
+  );
+  transition: opacity 0.5s ease;
+}
+
+.card:hover .holoOverlay {
+  opacity: 1;
+}
+
 /* ── Card: dot-grid texture ─────────────────── */
 
-/* Subtle repeating dot — atmosphere, not decoration */
 .gridTexture {
   position: absolute;
   inset: 0;
@@ -170,8 +197,8 @@
   background-size: 28px 28px;
   mask-image: linear-gradient(225deg, rgba(0,0,0,0.6) 0%, transparent 55%);
   -webkit-mask-image: linear-gradient(225deg, rgba(0,0,0,0.6) 0%, transparent 55%);
-  transition: opacity 0.3s ease;
   opacity: 0.7;
+  transition: opacity 0.3s ease;
 }
 
 .card:hover .gridTexture {

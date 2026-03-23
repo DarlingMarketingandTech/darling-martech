@@ -1,33 +1,39 @@
 import Link from 'next/link'
+import styles from './Footer.module.css'
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/5 py-12 px-6 md:px-10">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+    <footer className={styles.footer}>
+      <div className={styles.inner}>
         {/* Logo + tagline */}
-        <div className="flex flex-col gap-3">
-          <Link href="/" className="flex items-center gap-0">
-            <span className="font-display font-bold text-base text-warm-off-white">Darling</span>
-            <span className="font-display font-bold text-base text-electric-orange">MarTech</span>
+        <div className={styles.brand}>
+          <Link href="/" className={styles.logoLink}>
+            <span className={styles.logoName}>Darling</span>
+            <span className={styles.logoAccent}>MarTech</span>
           </Link>
-          <p className="text-sm text-mid-gray font-body max-w-xs">
+          <p className={styles.tagline}>
             Marketing strategy and technology for small businesses and startups.
           </p>
         </div>
 
-        {/* Links */}
-        <nav className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-sm text-mid-gray font-body">
-          <Link href="/work" className="hover:text-warm-off-white transition-colors">Work</Link>
-          <Link href="/lab" className="hover:text-warm-off-white transition-colors">Lab</Link>
-          <Link href="/studio" className="hover:text-warm-off-white transition-colors">Studio</Link>
-          <Link href="/about" className="hover:text-warm-off-white transition-colors">About</Link>
-          <Link href="/contact" className="hover:text-warm-off-white transition-colors">Contact</Link>
+        {/* Navigation links */}
+        <nav className={styles.nav} aria-label="Footer navigation">
+          <Link href="/work"    className={styles.navLink}>Work</Link>
+          <Link href="/lab"     className={styles.navLink}>Lab</Link>
+          <Link href="/studio"  className={styles.navLink}>Studio</Link>
+          <Link href="/about"   className={styles.navLink}>About</Link>
+          <Link href="/contact" className={styles.navLink}>Contact</Link>
         </nav>
 
         {/* Legal */}
-        <div className="text-xs text-mid-gray/60 font-body">
+        <div className={styles.legal}>
           <p>© {new Date().getFullYear()} Marketing and Technology LLC</p>
-          <p className="mt-1">Indianapolis, IN · <a href="mailto:jacob@jacobdarling.com" className="hover:text-mid-gray transition-colors">jacob@jacobdarling.com</a></p>
+          <p className={styles.legalEmail}>
+            Indianapolis, IN ·{' '}
+            <a href="mailto:jacob@jacobdarling.com" className={styles.emailLink}>
+              jacob@jacobdarling.com
+            </a>
+          </p>
         </div>
       </div>
     </footer>

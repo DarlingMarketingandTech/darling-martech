@@ -1,0 +1,233 @@
+.main {
+  padding-top: 8rem;
+  padding-bottom: 6rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .main {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+.inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+
+.headerWrap {
+  margin-bottom: 5rem;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 1.5rem;
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.5rem, 5.5vw, 5rem);
+  line-height: 0.97;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+  text-wrap: balance;
+  max-width: 22ch;
+  margin: 0 0 1.5rem;
+}
+
+.subheadline {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--color-muted);
+  max-width: 55ch;
+  margin: 0;
+}
+
+/* ── Grid ── */
+
+.grid {
+  display: grid;
+  gap: 1px;
+  background: var(--color-border);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ── Card ── */
+
+.cardLink {
+  display: block;
+  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.01);
+  text-decoration: none;
+}
+
+.cardLink:hover {
+  border-color: var(--color-border-accent);
+}
+
+.cardDisabled {
+  display: block;
+  border: 1px solid rgba(245, 240, 232, 0.05);
+  opacity: 0.6;
+  cursor: default;
+}
+
+.cardPadding {
+  padding: 2rem;
+}
+
+@media (min-width: 768px) {
+  .cardPadding {
+    padding: 2.5rem;
+  }
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cardIndustry {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.cardClient {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0.5rem 0 0;
+}
+
+.cardLink:hover .cardClient {
+  color: var(--color-accent);
+}
+
+.cardMetricWrap {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.cardMetric {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+  margin: 0;
+}
+
+.cardMetricLabel {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin: 0.25rem 0 0;
+}
+
+.cardDesc {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--color-muted);
+  margin: 0 0 1.5rem;
+}
+
+.cardBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.cardTag {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: rgba(136, 136, 136, 0.7);
+  border: 1px solid var(--color-border);
+  padding: 0.25rem 0.625rem;
+}
+
+.cardCta {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  display: inline-block;
+}
+
+.cardLink:hover .cardCta {
+  transform: translateX(4px);
+}
+
+.cardSoon {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: rgba(136, 136, 136, 0.4);
+}
+
+/* ── CTA strip ── */
+
+.cta {
+  margin-top: 5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.ctaBody {
+  font-family: var(--font-body);
+  color: var(--color-muted);
+  margin: 0 0 1rem;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-accent);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.ctaArrow {
+  display: inline-block;
+}
+
+.ctaBtn:hover .ctaArrow {
+  transform: translateX(4px);
+}

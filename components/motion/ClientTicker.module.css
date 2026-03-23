@@ -1,0 +1,77 @@
+.container {
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.track {
+  overflow: hidden;
+}
+
+/* Parallax wrapper from Framer Motion — inner CSS animation runs the scroll */
+.inner {
+  display: flex;
+  will-change: transform;
+}
+
+.tickerRow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  white-space: nowrap;
+  animation: ticker 30s linear infinite;
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 2rem;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.name {
+  font-family: var(--font-cabinet-grotesk), sans-serif;
+  font-weight: 500;
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
+  color: var(--color-muted);
+  letter-spacing: 0.02em;
+  cursor: default;
+  transition: color 0.2s ease;
+}
+
+/* Gradient fade edges */
+.fadeLeft,
+.fadeRight {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.fadeLeft {
+  left: 0;
+  background: linear-gradient(to right, var(--color-base), transparent);
+}
+
+.fadeRight {
+  right: 0;
+  background: linear-gradient(to left, var(--color-base), transparent);
+}

@@ -67,7 +67,7 @@ const config: Config = {
       },
     },
   },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  plugins: [require('tailwindcss-animate') as any],
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  plugins: [require('tailwindcss-animate') as unknown as ReturnType<typeof import('tailwindcss/plugin')>],
 }
 export default config

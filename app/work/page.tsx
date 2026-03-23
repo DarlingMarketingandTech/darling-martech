@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { getAllCaseStudies } from '@/lib/case-studies'
 import { containerVariants, itemVariants, fadeVariants, springEntrance, viewport } from '@/lib/motion'
+import styles from './Work.module.css'
 
 const allStudies = getAllCaseStudies()
 
@@ -18,18 +19,11 @@ function WorkCard({ cs, index }: { cs: ReturnType<typeof getAllCaseStudies>[0]; 
       transition={springEntrance}
     >
       {isReady ? (
-        <Link
-          href={`/work/${cs.slug}`}
-          className="group block border hover:border-[var(--color-border-accent)]"
-          style={{
-            borderColor: 'var(--color-border)',
-            background: 'rgba(255,255,255,0.01)',
-          }}
-        >
+        <Link href={`/work/${cs.slug}`} className={styles.cardLink}>
           <WorkCardInner cs={cs} />
         </Link>
       ) : (
-        <div className="block border opacity-60 cursor-default" style={{ borderColor: 'rgba(245,240,232,0.05)' }}>
+        <div className={styles.cardDisabled}>
           <WorkCardInner cs={cs} />
         </div>
       )}
@@ -39,50 +33,31 @@ function WorkCard({ cs, index }: { cs: ReturnType<typeof getAllCaseStudies>[0]; 
 
 function WorkCardInner({ cs }: { cs: ReturnType<typeof getAllCaseStudies>[0] }) {
   return (
-    <div className="p-8 md:p-10">
-      <div className="flex items-start justify-between gap-4 mb-6">
+    <div className={styles.cardPadding}>
+      <div className={styles.cardTop}>
         <div>
-          <span className="text-xs font-body tracking-widest uppercase" style={{ color: 'var(--color-accent)' }}>
-            {cs.industry}
-          </span>
-          <h2
-            className="font-display font-bold text-xl md:text-2xl mt-2 leading-tight tracking-tight group-hover:text-[var(--color-accent)]"
-            style={{ color: 'var(--color-text)' }}
-          >
-            {cs.client}
-          </h2>
+          <span className={styles.cardIndustry}>{cs.industry}</span>
+          <h2 className={styles.cardClient}>{cs.client}</h2>
         </div>
-        <div className="text-right shrink-0">
-          <p className="font-display font-black text-3xl md:text-4xl leading-none tabular" style={{ color: 'var(--color-accent)' }}>
-            {cs.metric}
-          </p>
-          <p className="text-xs font-body mt-1" style={{ color: 'var(--color-muted)' }}>{cs.metricLabel}</p>
+        <div className={styles.cardMetricWrap}>
+          <p className={styles.cardMetric}>{cs.metric}</p>
+          <p className={styles.cardMetricLabel}>{cs.metricLabel}</p>
         </div>
       </div>
 
-      <p className="font-body text-sm leading-relaxed mb-6" style={{ color: 'var(--color-muted)' }}>
-        {cs.description}
-      </p>
+      <p className={styles.cardDesc}>{cs.description}</p>
 
-      <div className="flex items-center justify-between">
-        <div className="flex flex-wrap gap-2">
+      <div className={styles.cardBottom}>
+        <div className={styles.cardTags}>
           {cs.services?.slice(0, 3).map((s) => (
-            <span
-              key={s}
-              className="text-xs font-body border px-2.5 py-1"
-              style={{ color: 'rgba(136,136,136,0.7)', borderColor: 'var(--color-border)' }}
-            >
-              {s}
-            </span>
+            <span key={s} className={styles.cardTag}>{s}</span>
           ))}
         </div>
         {cs.status === 'ready' && (
-          <span className="text-xs font-body group-hover:translate-x-1 inline-block" style={{ color: 'var(--color-accent)', transition: 'transform 0.2s' }}>
-            View case study →
-          </span>
+          <span className={styles.cardCta}>View case study →</span>
         )}
         {cs.status === 'content-needed' && (
-          <span className="text-xs font-body" style={{ color: 'rgba(136,136,136,0.4)' }}>Coming soon</span>
+          <span className={styles.cardSoon}>Coming soon</span>
         )}
       </div>
     </div>
@@ -91,34 +66,22 @@ function WorkCardInner({ cs }: { cs: ReturnType<typeof getAllCaseStudies>[0] }) 
 
 export default function WorkPage() {
   return (
-    <main className="pt-32 pb-24 px-6 md:px-10">
-      <div className="max-w-7xl mx-auto">
-        {/* Header — above fold, use animate */}
+    <main className={styles.main}>
+      <div className={styles.inner}>
+        {/* Header */}
         <motion.div
-          className="mb-20"
+          className={styles.headerWrap}
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <motion.p
-            variants={fadeVariants}
-            className="text-xs font-body tracking-widest uppercase mb-6"
-            style={{ color: 'var(--color-accent)' }}
-          >
+          <motion.p variants={fadeVariants} className={styles.eyebrow}>
             Selected Work
           </motion.p>
-          <motion.h1
-            variants={itemVariants}
-            className="font-display font-black text-[clamp(2.5rem,5.5vw,5rem)] leading-[0.97] tracking-tightest mb-6 text-balance max-w-3xl"
-            style={{ color: 'var(--color-text)' }}
-          >
+          <motion.h1 variants={itemVariants} className={styles.headline}>
             Work that proves the point.
           </motion.h1>
-          <motion.p
-            variants={itemVariants}
-            className="font-body text-lg leading-relaxed max-w-xl"
-            style={{ color: 'var(--color-muted)' }}
-          >
+          <motion.p variants={itemVariants} className={styles.subheadline}>
             Across healthcare, legal, finance, retail, nonprofits, and local business — here&apos;s
             what strategy and execution look like when the same person does both.
           </motion.p>
@@ -126,8 +89,7 @@ export default function WorkPage() {
 
         {/* Case study grid */}
         <motion.div
-          className="grid md:grid-cols-2 gap-px"
-          style={{ background: 'var(--color-border)' }}
+          className={styles.grid}
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -140,14 +102,13 @@ export default function WorkPage() {
 
         {/* CTA */}
         <motion.div
-          className="mt-20 pt-12 border-t"
-          style={{ borderColor: 'var(--color-border)' }}
+          className={styles.cta}
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
           variants={containerVariants}
         >
-          <motion.p variants={itemVariants} className="font-body mb-4" style={{ color: 'var(--color-muted)' }}>
+          <motion.p variants={itemVariants} className={styles.ctaBody}>
             More case studies are in development. Ready to become the next one?
           </motion.p>
           <motion.div variants={itemVariants}>
@@ -155,15 +116,11 @@ export default function WorkPage() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               transition={springEntrance}
-              className="inline-block"
+              style={{ display: 'inline-block' }}
             >
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 font-body font-medium text-sm px-6 py-3 group"
-                style={{ background: 'var(--color-accent)', color: 'var(--color-text)' }}
-              >
+              <Link href="/contact" className={styles.ctaBtn}>
                 Let&apos;s talk
-                <span className="group-hover:translate-x-1" style={{ transition: 'transform 0.2s' }}>→</span>
+                <span className={styles.ctaArrow}>→</span>
               </Link>
             </motion.div>
           </motion.div>

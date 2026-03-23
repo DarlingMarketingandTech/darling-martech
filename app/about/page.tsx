@@ -5,8 +5,9 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { containerVariants, itemVariants, slideInRight, fadeVariants, springEntrance, viewport } from '@/lib/motion'
 import { buildCloudinaryUrl } from '@/lib/cloudinary'
+import { MagneticButton } from '@/components/interactive/MagneticButton'
+import styles from './About.module.css'
 
-// Bio portrait — studio/graphic-design/bio-featured-2 (1009×1188)
 const BIO_PHOTO_SRC = buildCloudinaryUrl('studio/graphic-design/bio-featured-2')
 
 const career = [
@@ -54,22 +55,14 @@ const career = [
 ]
 
 const industries = [
-  'Healthcare',
-  'Legal',
-  'Finance',
-  'SaaS / Tech',
-  'Retail / E-commerce',
-  'Media / Entertainment',
-  'Nonprofit',
-  'B2B',
-  'B2C',
-  'Local Service',
+  'Healthcare', 'Legal', 'Finance', 'SaaS / Tech',
+  'Retail / E-commerce', 'Media / Entertainment',
+  'Nonprofit', 'B2B', 'B2C', 'Local Service',
 ]
 
 export default function AboutPage() {
   return (
     <>
-      {/* Structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -90,35 +83,19 @@ export default function AboutPage() {
         }}
       />
 
-      <article className="pt-32 pb-24 px-6 md:px-10">
-        <div className="max-w-7xl mx-auto">
-          {/* Hero block */}
-          <div className="grid md:grid-cols-2 gap-16 md:gap-24 mb-28 items-start">
-            {/* Copy — above the fold, use animate not whileInView */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <motion.p
-                variants={fadeVariants}
-                className="text-xs font-body tracking-widest uppercase mb-6"
-                style={{ color: 'var(--color-accent)' }}
-              >
+      <article className={styles.article}>
+        <div className={styles.inner}>
+
+          {/* ── Hero block ── */}
+          <div className={styles.heroGrid}>
+            <motion.div variants={containerVariants} initial="hidden" animate="visible">
+              <motion.p variants={fadeVariants} className={styles.eyebrow}>
                 About Jacob Darling
               </motion.p>
-              <motion.h1
-                variants={itemVariants}
-                className="font-display font-black text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.97] tracking-tightest mb-10 text-balance"
-                style={{ color: 'var(--color-text)' }}
-              >
+              <motion.h1 variants={itemVariants} className={styles.headline}>
                 Strategy and systems — built by someone who&apos;s done both for 15 years.
               </motion.h1>
-              <motion.div
-                variants={containerVariants}
-                className="space-y-5 font-body leading-relaxed text-base md:text-lg"
-                style={{ color: 'var(--color-muted)' }}
-              >
+              <motion.div variants={containerVariants} className={styles.bio}>
                 <motion.p variants={itemVariants}>
                   I&apos;m Jacob Darling — a marketing strategist, systems architect, and technologist
                   based in Indianapolis. Over the past 15 years I&apos;ve built marketing infrastructure
@@ -140,16 +117,8 @@ export default function AboutPage() {
               </motion.div>
             </motion.div>
 
-            <motion.div
-              variants={slideInRight}
-              initial="hidden"
-              animate="visible"
-              className="relative"
-            >
-              <div
-                className="relative aspect-[3/4] overflow-hidden"
-                style={{ background: 'rgba(255,255,255,0.05)' }}
-              >
+            <motion.div variants={slideInRight} initial="hidden" animate="visible">
+              <div className={styles.photoWrap}>
                 <Image
                   src={BIO_PHOTO_SRC}
                   alt="Jacob Darling — Marketing Strategist"
@@ -160,17 +129,11 @@ export default function AboutPage() {
                   unoptimized
                 />
               </div>
-              {/* Credentials card */}
-              <div
-                className="mt-6 p-6 border space-y-3"
-                style={{ borderColor: 'var(--color-border)', background: 'rgba(255,255,255,0.02)' }}
-              >
-                <p className="text-xs font-body tracking-widest uppercase" style={{ color: 'var(--color-accent)' }}>
-                  Credentials
-                </p>
-                <ul className="space-y-2 text-sm font-body" style={{ color: 'var(--color-muted)' }}>
+              <div className={styles.credentialsCard}>
+                <p className={styles.credLabel}>Credentials</p>
+                <ul className={styles.credList}>
                   <li>B.S. Business Management — Indiana University, 2008</li>
-                  <li>Gold Key Photography Award — Scholastic Art & Writing Awards, 2008</li>
+                  <li>Gold Key Photography Award — Scholastic Art &amp; Writing Awards, 2008</li>
                   <li>15+ years across healthcare, legal, finance, e-commerce, nonprofit</li>
                   <li>Indianapolis, IN</li>
                 </ul>
@@ -178,107 +141,84 @@ export default function AboutPage() {
             </motion.div>
           </div>
 
-          {/* Industries */}
+          {/* ── Industries ── */}
           <motion.div
-            className="py-16 border-t mb-20"
-            style={{ borderColor: 'var(--color-border)' }}
+            className={styles.industries}
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
             variants={containerVariants}
           >
-            <motion.p
-              variants={fadeVariants}
-              className="text-xs font-body tracking-widest uppercase mb-8"
-              style={{ color: 'var(--color-accent)' }}
-            >
+            <motion.p variants={fadeVariants} className={styles.sectionLabel}>
               Industries
             </motion.p>
-            <motion.div variants={containerVariants} className="flex flex-wrap gap-3">
+            <motion.div variants={containerVariants} className={styles.tagGrid}>
               {industries.map((ind) => (
-                <motion.span
-                  key={ind}
-                  variants={itemVariants}
-                  className="text-sm font-body border px-4 py-2"
-                  style={{ color: 'var(--color-muted)', borderColor: 'var(--color-border)' }}
-                >
+                <motion.span key={ind} variants={itemVariants} className={styles.tag}>
                   {ind}
                 </motion.span>
               ))}
             </motion.div>
           </motion.div>
 
-          {/* Career */}
+          {/* ── Career ── */}
           <motion.div
-            className="mb-20"
+            className={styles.career}
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
             variants={containerVariants}
           >
-            <motion.p
-              variants={fadeVariants}
-              className="text-xs font-body tracking-widest uppercase mb-10"
-              style={{ color: 'var(--color-accent)' }}
-            >
+            <motion.p variants={fadeVariants} className={styles.sectionLabel}>
               Career History
             </motion.p>
-            <div className="space-y-0 divide-y" style={{ borderColor: 'var(--color-border)' }}>
+            <div className={styles.careerList}>
               {career.map((job) => (
                 <motion.div
                   key={job.company + job.period}
                   variants={itemVariants}
-                  className="py-8 grid md:grid-cols-[220px_1fr] gap-4 md:gap-12"
+                  className={styles.careerItem}
                 >
                   <div>
-                    <p className="font-body font-medium text-sm" style={{ color: 'var(--color-text)' }}>{job.title}</p>
-                    <p className="text-sm font-body mt-0.5" style={{ color: 'var(--color-accent)' }}>{job.company}</p>
-                    <p className="text-xs font-body mt-1" style={{ color: 'rgba(136,136,136,0.6)' }}>{job.period}</p>
+                    <p className={styles.jobTitle}>{job.title}</p>
+                    <p className={styles.jobCompany}>{job.company}</p>
+                    <p className={styles.jobPeriod}>{job.period}</p>
                   </div>
-                  <p className="font-body text-sm leading-relaxed" style={{ color: 'var(--color-muted)' }}>{job.description}</p>
+                  <p className={styles.jobDesc}>{job.description}</p>
                 </motion.div>
               ))}
             </div>
           </motion.div>
 
-          {/* CTA */}
+          {/* ── CTA ── */}
           <motion.div
-            className="pt-16 border-t flex flex-col md:flex-row md:items-center md:justify-between gap-8"
-            style={{ borderColor: 'var(--color-border)' }}
+            className={styles.ctaStrip}
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
             variants={containerVariants}
           >
             <motion.div variants={itemVariants}>
-              <h2
-                className="font-display font-black text-3xl md:text-4xl tracking-tightest"
-                style={{ color: 'var(--color-text)' }}
-              >
-                Ready to work together?
-              </h2>
-              <p className="font-body mt-2" style={{ color: 'var(--color-muted)' }}>
-                I keep my client list small. Let&apos;s see if we&apos;re a fit.
-              </p>
+              <h2 className={styles.ctaHeadline}>Ready to work together?</h2>
+              <p className={styles.ctaBody}>I keep my client list small. Let&apos;s see if we&apos;re a fit.</p>
             </motion.div>
             <motion.div variants={itemVariants}>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                transition={springEntrance}
-                className="inline-block"
-              >
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 font-body font-medium text-base px-8 py-4 whitespace-nowrap group"
-                  style={{ background: 'var(--color-accent)', color: 'var(--color-text)' }}
+              <MagneticButton radius={120} maxPull={16}>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={springEntrance}
+                  style={{ display: 'inline-block' }}
                 >
-                  Get in touch
-                  <span className="group-hover:translate-x-1" style={{ transition: 'transform 0.2s' }}>→</span>
-                </Link>
-              </motion.div>
+                  <Link href="/contact" className={styles.ctaBtn}>
+                    Get in touch
+                    <span className={styles.ctaArrow}>→</span>
+                  </Link>
+                </motion.div>
+              </MagneticButton>
             </motion.div>
           </motion.div>
+
         </div>
       </article>
     </>

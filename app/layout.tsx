@@ -10,6 +10,7 @@ import { GoogleAnalytics } from '@/components/providers/Analytics'
 import { ScrollProgress } from '@/components/ui/ScrollProgress'
 import { BackToTop } from '@/components/ui/BackToTop'
 import { CookieConsent } from '@/components/ui/CookieConsent'
+import { CursorSpotlight } from '@/components/interactive/CursorSpotlight'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -132,6 +133,7 @@ export default function RootLayout({
       <body>
         <GoogleAnalytics />
         <LenisProvider>
+          <CursorSpotlight />
           <LocalBusinessJsonLd />
           <ScrollProgress />
           <Nav />

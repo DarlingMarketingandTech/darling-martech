@@ -1,0 +1,22 @@
+.spotlight {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  /* Default — spotlight hidden until first mouse move */
+  --cx: 50vw;
+  --cy: 50vh;
+
+  background: radial-gradient(
+    500px circle at var(--cx) var(--cy),
+    rgba(255, 77, 0, 0.04) 0%,
+    rgba(255, 77, 0, 0.02) 30%,
+    transparent 65%
+  );
+
+  /* Only show on non-touch devices */
+  @media (pointer: coarse) {
+    display: none;
+  }
+}

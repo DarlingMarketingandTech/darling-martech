@@ -1,0 +1,12 @@
+.canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  /* Canvas is overlaid on hero — content sits above via z-index */
+}
+
+.canvas canvas {
+  width: 100% !important;
+  height: 100% !important;
+}

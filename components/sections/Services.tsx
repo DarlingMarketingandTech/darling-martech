@@ -11,9 +11,9 @@ import {
 import {
   containerVariants,
   itemVariants,
-  springStandard,
   viewport,
 } from '@/lib/motion'
+import { FloatingCard } from '@/components/3d/FloatingCard'
 import styles from '@/styles/Services.module.css'
 
 const services = [
@@ -86,27 +86,31 @@ export function Services() {
             return (
               <motion.div
                 key={service.title}
-                className={`${styles.card} ${service.posClass}`}
+                className={`${styles.cardWrapper} ${service.posClass}`}
                 variants={itemVariants}
-                whileHover={{ y: -4 }}
-                transition={springStandard}
               >
-                {/* Dot-grid texture layer */}
-                <div className={styles.gridTexture} aria-hidden="true" />
+                {/* FloatingCard adds 3D tilt — wraps the visual card */}
+                <FloatingCard maxTilt={10} className={styles.card}>
+                  {/* Dot-grid texture layer */}
+                  <div className={styles.gridTexture} aria-hidden="true" />
 
-                {/* Card content */}
-                <div className={styles.cardContent}>
-                  <div className={styles.cardTop}>
-                    <span className={styles.iconWrap}>
-                      <Icon size={28} weight="light" />
-                    </span>
-                    <span className={styles.arrowWrap}>
-                      <ArrowUpRightIcon size={20} weight="regular" />
-                    </span>
+                  {/* Holographic gradient overlay — shifts on hover via CSS */}
+                  <div className={styles.holoOverlay} aria-hidden="true" />
+
+                  {/* Card content */}
+                  <div className={styles.cardContent}>
+                    <div className={styles.cardTop}>
+                      <span className={styles.iconWrap}>
+                        <Icon size={28} weight="light" />
+                      </span>
+                      <span className={styles.arrowWrap}>
+                        <ArrowUpRightIcon size={20} weight="regular" />
+                      </span>
+                    </div>
+                    <h3 className={styles.cardTitle}>{service.title}</h3>
+                    <p className={styles.cardDesc}>{service.description}</p>
                   </div>
-                  <h3 className={styles.cardTitle}>{service.title}</h3>
-                  <p className={styles.cardDesc}>{service.description}</p>
-                </div>
+                </FloatingCard>
               </motion.div>
             )
           })}

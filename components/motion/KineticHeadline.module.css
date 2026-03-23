@@ -1,0 +1,19 @@
+.headline {
+  font-family: var(--font-cabinet-grotesk), sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+  text-wrap: balance;
+  margin: 0 0 2rem;
+  /* Needed for 3D word entrance */
+  overflow: visible;
+}
+
+.accent {
+  font-family: var(--font-instrument-serif), serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-accent);
+}
