@@ -3,11 +3,10 @@
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
-import { cloudinaryLoader } from '@/lib/cloudinary'
 import { containerVariants, itemVariants, viewport } from '@/lib/motion'
 
 type GalleryImage = {
-  publicId: string
+  src: string
   width: number
   height: number
   alt: string
@@ -27,13 +26,13 @@ function GalleryItem({ img, index }: { img: GalleryImage; index: number }) {
       style={{ transitionDelay: `${(index % 6) * 0.06}s` }}
     >
       <Image
-        loader={cloudinaryLoader}
-        src={img.publicId}
+        src={img.src}
         alt={img.alt}
         width={img.width}
         height={img.height}
         className="w-full h-auto object-cover"
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        unoptimized
       />
     </motion.div>
   )

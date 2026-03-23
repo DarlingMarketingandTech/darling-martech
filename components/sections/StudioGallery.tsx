@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
-import { buildCloudinaryUrl, cloudinaryLoader } from '@/lib/cloudinary'
+import { buildCloudinaryUrl } from '@/lib/cloudinary'
 
 type Section = 'photography' | 'graphic-design' | 'projects'
 
@@ -16,7 +16,7 @@ const sections: { key: Section; label: string; folder: string }[] = [
 // Cloudinary images are fetched client-side via the Cloudinary API
 // These are placeholder entries — the component fetches real images from Cloudinary
 type GalleryImage = {
-  publicId: string
+  src: string
   width: number
   height: number
   alt: string
@@ -54,13 +54,13 @@ function LightboxModal({
           onClick={(e) => e.stopPropagation()}
         >
           <Image
-            loader={cloudinaryLoader}
-            src={image.publicId}
+            src={image.src}
             alt={image.alt}
             width={image.width}
             height={image.height}
             className="object-contain max-h-[85vh] w-auto mx-auto"
             sizes="90vw"
+            unoptimized
           />
           <button
             onClick={onClose}
@@ -78,7 +78,7 @@ function GalleryGrid({ images, onSelect }: { images: GalleryImage[]; onSelect: (
   return (
     <div className="columns-1 sm:columns-2 lg:columns-3 gap-3 space-y-3">
       {images.map((img, i) => (
-        <GalleryItem key={img.publicId} img={img} index={i} onSelect={onSelect} />
+        <GalleryItem key={img.src} img={img} index={i} onSelect={onSelect} />
       ))}
     </div>
   )
@@ -107,13 +107,13 @@ function GalleryItem({
     >
       <div className="relative overflow-hidden bg-white/5">
         <Image
-          loader={cloudinaryLoader}
-          src={img.publicId}
+          src={img.src}
           alt={img.alt}
           width={img.width}
           height={img.height}
           className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          unoptimized
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
       </div>

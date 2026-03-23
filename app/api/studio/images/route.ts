@@ -62,12 +62,8 @@ export async function GET(request: NextRequest) {
         return minDimension >= 500
       })
       .map((r: any) => {
-        // Cloudinary URLs don't include file extensions — the format is inferred from metadata
-        // Use the raw public_id (e.g., "20220512_200850" not "20220512_200850.jpg")
-        const publicId = r.public_id
-        
         return {
-          publicId,
+          src: r.secure_url,
           width: r.width,
           height: r.height,
           alt: r.public_id.split('/').pop()?.replaceAll('-', ' ').replaceAll('_', ' ') ?? '',

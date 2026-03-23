@@ -4,11 +4,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { slideInLeft, slideInRight, itemVariants, containerVariants, viewport } from '@/lib/motion'
-import { cloudinaryLoader } from '@/lib/cloudinary'
+import { buildCloudinaryUrl } from '@/lib/cloudinary'
 import styles from './AboutTeaser.module.css'
 
 // Bio portrait — studio/graphic-design/bio-featured-2 (1009×1188)
-const BIO_PHOTO_PUBLIC_ID = 'studio/graphic-design/bio-featured-2'
+const BIO_PHOTO_SRC = buildCloudinaryUrl('studio/graphic-design/bio-featured-2')
 
 export function AboutTeaser() {
   return (
@@ -45,12 +45,12 @@ export function AboutTeaser() {
             <div className={styles.imageWrap}>
               <div className={styles.accentLine} aria-hidden="true" />
               <Image
-                loader={cloudinaryLoader}
-                src={BIO_PHOTO_PUBLIC_ID}
+                src={BIO_PHOTO_SRC}
                 alt="Jacob Darling — Marketing Strategist and Systems Architect based in Indianapolis"
                 fill
                 className={styles.image}
                 sizes="(max-width: 767px) 100vw, 40vw"
+                unoptimized
               />
             </div>
           </motion.div>
