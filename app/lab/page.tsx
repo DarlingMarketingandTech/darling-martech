@@ -51,7 +51,7 @@ const statusColors: Record<Tool['status'], { color: string; border: string }> = 
   Experimental: { color: 'var(--color-accent)',   border: 'var(--color-border-accent)' },
 }
 
-function ToolCard({ tool }: { tool: Tool }) {
+function ToolCard({ tool }: { readonly tool: Tool }) {
   const status = statusColors[tool.status]
   return (
     <motion.div variants={itemVariants} className={styles.card}>
