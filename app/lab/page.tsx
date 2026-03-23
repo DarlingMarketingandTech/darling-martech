@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
+import { Braces, FlaskConical, Megaphone, Orbit, Rocket, Sparkles } from 'lucide-react'
+import { GalleryHoverCard } from '@/components/ui/gallery-hover-card'
 import { containerVariants, itemVariants, fadeVariants, viewport } from '@/lib/motion'
 import { useFinePointer } from '@/hooks/useFinePointer'
 import styles from './Lab.module.css'
@@ -55,69 +57,84 @@ const tools: Tool[] = [
 
 const categories = ['All', 'Marketing', 'Developer', 'Technologist'] as const
 
-const statusColors: Record<Tool['status'], { color: string; border: string }> = {
-  Production:   { color: '#4ade80',               border: 'rgba(74,222,128,0.2)' },
-  Beta:         { color: '#facc15',               border: 'rgba(250,204,21,0.2)' },
-  Experimental: { color: 'var(--color-accent)',   border: 'var(--color-border-accent)' },
+const categoryCoverClass: Record<Tool['category'], string> = {
+  Marketing: styles.toolCoverMarketing,
+  Developer: styles.toolCoverDeveloper,
+  Technologist: styles.toolCoverTechnologist,
+}
+
+const categoryIcons = {
+  Marketing: Megaphone,
+  Developer: Braces,
+  Technologist: Orbit,
+} satisfies Record<Tool['category'], typeof Megaphone>
+
+const statusIcons = {
+  Production: Rocket,
+  Beta: Sparkles,
+  Experimental: FlaskConical,
+} satisfies Record<Tool['status'], typeof Rocket>
+
+function ToolCardCover({ tool }: { readonly tool: Tool }) {
+  const CategoryIcon = categoryIcons[tool.category]
+  const StatusIcon = statusIcons[tool.status]
+
+  return (
+    <div className={`${styles.toolCover} ${categoryCoverClass[tool.category]}`} aria-hidden="true">
+      <div className={styles.toolCoverGrid} />
+      <div className={styles.toolCoverOrb} />
+      <div className={styles.toolCoverSweep} />
+
+      <div className={styles.toolCoverStatus}>
+        <StatusIcon className={styles.toolCoverStatusIcon} />
+        <span>{tool.status}</span>
+      </div>
+
+      <div className={styles.toolCoverCore}>
+        <CategoryIcon className={styles.toolCoverIcon} />
+      </div>
+
+      <div className={styles.toolCoverStack}>
+        {tool.stack.slice(0, 2).map((item) => (
+          <span key={item} className={styles.toolCoverTag}>
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 function ToolCard({
   tool,
   onHighlight,
-  isFinePointer,
 }: {
   readonly tool: Tool
   readonly onHighlight: (target: string | null) => void
-  readonly isFinePointer: boolean
 }) {
-  const status = statusColors[tool.status]
   return (
-    <motion.div
-      variants={itemVariants}
-      className={styles.card}
-      onMouseEnter={isFinePointer ? () => onHighlight(tool.name) : undefined}
-      onMouseLeave={isFinePointer ? () => onHighlight(null) : undefined}
-      onFocusCapture={() => onHighlight(tool.name)}
-      onBlurCapture={() => onHighlight(null)}
-    >
-      <div className={styles.cardTop}>
-        <div>
-          <span
-            className={styles.statusBadge}
-            style={{ color: status.color, borderColor: status.border }}
-          >
-            {tool.status}
-          </span>
-          <h3 className={styles.toolName}>{tool.name}</h3>
-        </div>
-        <span className={styles.categoryBadge}>{tool.category}</span>
-      </div>
-
-      <p className={styles.description}>{tool.description}</p>
-
-      <div className={styles.stackList}>
-        {tool.stack.map((t) => (
-          <span key={t} className={styles.stackTag}>{t}</span>
-        ))}
-      </div>
-
-      {tool.url ? (
-        <a
-          href={tool.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.launchLink}
-          onMouseEnter={isFinePointer ? () => onHighlight(`${tool.name}-launch`) : undefined}
-          onMouseLeave={isFinePointer ? () => onHighlight(tool.name) : undefined}
-          onFocus={() => onHighlight(`${tool.name}-launch`)}
-          onBlur={() => onHighlight(tool.name)}
+    <GalleryHoverCard
+      title={tool.name}
+      summary={tool.description}
+      href={tool.url}
+      cover={<ToolCardCover tool={tool} />}
+      eyebrow={tool.category}
+      badges={[tool.status, ...tool.stack.slice(0, 2)]}
+      footer={
+        <span
+          className={styles.toolFooterMeta}
+          onMouseEnter={tool.url ? () => onHighlight(`${tool.name}-launch`) : undefined}
+          onMouseLeave={tool.url ? () => onHighlight(tool.name) : undefined}
         >
-          Launch app →
-        </a>
-      ) : (
-        <span className={styles.comingSoon}>Rebuilding — check back soon</span>
-      )}
-    </motion.div>
+          {tool.url ? 'Open deployed tool' : 'Rebuilding — check back soon'}
+        </span>
+      }
+      ctaLabel={tool.url ? 'Launch app' : undefined}
+      external={Boolean(tool.url)}
+      interactiveId={tool.name}
+      onHighlightChange={onHighlight}
+      variant="lab"
+    />
   )
 }
 
@@ -177,9 +194,9 @@ export default function LabPage() {
           viewport={viewport}
         >
           {filtered.map((tool) => (
-            <div key={tool.name} className={styles.gridCell}>
-              <ToolCard tool={tool} onHighlight={setHoveredTool} isFinePointer={isFinePointer} />
-            </div>
+            <motion.div key={tool.name} variants={itemVariants} className={styles.gridCell}>
+              <ToolCard tool={tool} onHighlight={setHoveredTool} />
+            </motion.div>
           ))}
         </motion.div>
       </div>

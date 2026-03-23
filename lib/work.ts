@@ -34,6 +34,8 @@ export type WorkCard = {
   category: WorkCategory
   logoPublicId?: string // Cloudinary public_id for logo/anchor image
   heroPublicId?: string // Optional hero image public_id
+  cardPreviewPublicId?: string
+  cardPreviewType?: 'image' | 'video'
   featured?: boolean    // Pinned to top of grid
   visualMode?: WorkVisualMode
   theme?: WorkTheme

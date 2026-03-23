@@ -145,6 +145,8 @@ export const workIndex: WorkCard[] = [
     category: 'Hospitality & Local',
     logoPublicId: 'hoosierboy-logo-anchor',
     heroPublicId: 'barbershop-4484297_1920',
+    cardPreviewPublicId: 'hoosier-boy-barbershop-website-preview',
+    cardPreviewType: 'video',
     featured: true,
     visualMode: 'signal',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'stack', density: 'kinetic' },

@@ -8,7 +8,10 @@ import { CldImage } from 'next-cloudinary'
 import { ArrowRight } from '@phosphor-icons/react'
 import { FloatingCard } from '@/components/3d/FloatingCard'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
+import { GalleryHoverCard } from '@/components/ui/gallery-hover-card'
+import { buildCloudinaryUrl, buildCloudinaryVideoUrl } from '@/lib/cloudinary'
 import { useFinePointer } from '@/hooks/useFinePointer'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
 import type { CaseStudy, WorkCategory } from '@/lib/work'
 import {
   containerVariants,
@@ -39,6 +42,8 @@ const filterOrder: Array<'All Work' | WorkCategory> = [
   'Non-Profit',
 ]
 
+const PRIMARY_FEATURED_SLUG = 'hoosier-boy-barbershop'
+
 function MetricPill({ text }: { text: string }) {
   const startsWithData = /^[\d+\-$£€¥×#]/.test(text.trim())
 
@@ -49,76 +54,155 @@ function MetricPill({ text }: { text: string }) {
   )
 }
 
-function LogoOrBadge({ study }: { study: CaseStudy }) {
-  if (study.logoPublicId) {
+function isLogoArtwork(publicId: string) {
+  return /(?:^|[_-])(logo|Logo)(?:[_-]|$)|Full_Logo/i.test(publicId)
+}
+
+function WorkCardCover({ study }: { study: CaseStudy }) {
+  const isFinePointer = useFinePointer()
+  const reducedMotion = useReducedMotion()
+  const shouldPlayPreviewVideo = Boolean(
+    study.cardPreviewPublicId &&
+    study.cardPreviewType === 'video' &&
+    isFinePointer &&
+    !reducedMotion
+  )
+
+  if (shouldPlayPreviewVideo) {
     return (
-      <CldImage
-        src={study.logoPublicId}
-        alt={`${study.client} logo`}
-        width={140}
-        height={40}
-        crop="fit"
-        className={styles.cardLogoImg}
-      />
+      <div className={styles.workCover}>
+        <video
+          className={styles.workCoverVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={
+            study.heroPublicId
+              ? buildCloudinaryUrl(study.heroPublicId, 'f_auto,q_auto,w_960')
+              : undefined
+          }
+        >
+          <source
+            src={buildCloudinaryVideoUrl(study.cardPreviewPublicId!, 'f_auto,q_auto,w_960')}
+            type="video/mp4"
+          />
+        </video>
+        <div className={styles.workCoverShade} />
+        <span className={styles.workCoverBadge}>{study.category}</span>
+      </div>
     )
   }
 
-  return <span className={styles.cardBadge}>{study.category}</span>
+  if (study.cardPreviewPublicId && study.cardPreviewType === 'image') {
+    return (
+      <div className={styles.workCover}>
+        <CldImage
+          src={study.cardPreviewPublicId}
+          alt={`${study.client} case study preview`}
+          width={960}
+          height={720}
+          crop="fill"
+          gravity="auto"
+          className={styles.workCoverImage}
+        />
+        <div className={styles.workCoverShade} />
+        <span className={styles.workCoverBadge}>{study.category}</span>
+      </div>
+    )
+  }
+
+  if (study.heroPublicId) {
+    if (isLogoArtwork(study.heroPublicId)) {
+      return (
+        <div className={`${styles.workCover} ${styles.workCoverArtwork}`}>
+          <div className={styles.workCoverGrid} aria-hidden="true" />
+          <div className={styles.workCoverArtworkGlow} aria-hidden="true" />
+          <CldImage
+            src={study.heroPublicId}
+            alt={`${study.client} case study cover`}
+            width={520}
+            height={420}
+            crop="fit"
+            className={styles.workCoverArtworkImage}
+          />
+          <span className={styles.workCoverBadge}>{study.category}</span>
+        </div>
+      )
+    }
+
+    return (
+      <div className={styles.workCover}>
+        <CldImage
+          src={study.heroPublicId}
+          alt={`${study.client} case study cover`}
+          width={960}
+          height={720}
+          crop="fill"
+          gravity="auto"
+          className={styles.workCoverImage}
+        />
+        <div className={styles.workCoverShade} />
+        <span className={styles.workCoverBadge}>{study.category}</span>
+      </div>
+    )
+  }
+
+  if (study.logoPublicId) {
+    return (
+      <div className={`${styles.workCover} ${styles.workCoverLogo}`}>
+        <div className={styles.workCoverGrid} aria-hidden="true" />
+        <CldImage
+          src={study.logoPublicId}
+          alt={`${study.client} logo`}
+          width={280}
+          height={120}
+          crop="fit"
+          className={styles.workCoverLogoImage}
+        />
+        <span className={styles.workCoverBadge}>{study.category}</span>
+      </div>
+    )
+  }
+
+  return (
+    <div className={`${styles.workCover} ${styles.workCoverFallback}`} aria-hidden="true">
+      <div className={styles.workFallbackGrid} />
+      <div className={styles.workFallbackBeam} />
+      <div className={styles.workFallbackWordmark}>{study.client}</div>
+      <span className={styles.workCoverBadge}>{study.category}</span>
+    </div>
+  )
 }
 
 function WorkCard({
   study,
-  index,
   onSignalChange,
-  isFinePointer,
 }: {
   study: CaseStudy
-  index: number
   onSignalChange: (target: string | null) => void
-  isFinePointer: boolean
 }) {
-  const isSubproject = Boolean(study.parentProjectSlug)
-
   return (
-    <motion.div variants={itemVariants} custom={index}>
-      <FloatingCard maxTilt={7} className={styles.cardFrame}>
-        <Link
-          href={`/work/${study.slug}`}
-          className={styles.card}
-          onMouseEnter={isFinePointer ? () => onSignalChange(study.slug) : undefined}
-          onMouseLeave={isFinePointer ? () => onSignalChange(null) : undefined}
-          onFocus={() => onSignalChange(study.slug)}
-          onBlur={() => onSignalChange(null)}
-        >
-          <span className={styles.cardAccent} aria-hidden="true" />
-          <div className={styles.cardTop}>
-            <div className={styles.cardLogoWrap}>
-              <LogoOrBadge study={study} />
-            </div>
-            {isSubproject && <span className={styles.subprojectTag}>System build</span>}
-          </div>
-
-          <div className={styles.cardBody}>
-            <p className={styles.cardLabel}>{study.label}</p>
-            <h3 className={styles.cardClient}>{study.client}</h3>
-            <p className={styles.cardHeadline}>{study.headline}</p>
-          </div>
-
-          <div className={styles.cardMetrics}>
-            {study.metrics.map((metric) => (
-              <MetricPill key={metric} text={metric} />
-            ))}
-          </div>
-
-          <div className={styles.cardFooter}>
-            <span className={styles.cardFooterText}>
-              View case study
-              <ArrowRight weight="regular" size={14} />
-            </span>
-          </div>
-        </Link>
-      </FloatingCard>
-    </motion.div>
+    <GalleryHoverCard
+      title={study.client}
+      summary={study.headline}
+      href={`/work/${study.slug}`}
+      cover={<WorkCardCover study={study} />}
+      eyebrow={study.label}
+      badges={study.metrics.slice(0, 3)}
+      footer={
+        study.parentProjectSlug ? (
+          <span className={styles.workFooterMeta}>System build</span>
+        ) : (
+          <span className={styles.workFooterMeta}>{study.category}</span>
+        )
+      }
+      ctaLabel="View case study"
+      interactiveId={study.slug}
+      onHighlightChange={onSignalChange}
+      variant="work"
+    />
   )
 }
 
@@ -328,7 +412,10 @@ export function WorkHero({
   onSignalChange: (target: string | null) => void
   isFinePointer: boolean
 }) {
-  const featuredStudy = studies.find((study) => study.featured) ?? studies[0]
+  const featuredStudy =
+    studies.find((study) => study.slug === PRIMARY_FEATURED_SLUG) ??
+    studies.find((study) => study.featured) ??
+    studies[0]
 
   return (
     <FeaturedLead
@@ -350,7 +437,10 @@ export function WorkGrid({
   isFinePointer: boolean
 }) {
   const [activeFilter, setActiveFilter] = useState<'All Work' | WorkCategory>('All Work')
-  const featuredLead = studies.find((study) => study.featured) ?? studies[0]
+  const featuredLead =
+    studies.find((study) => study.slug === PRIMARY_FEATURED_SLUG) ??
+    studies.find((study) => study.featured) ??
+    studies[0]
 
   const categories = useMemo(
     () => filterOrder.filter((filter) => filter === 'All Work' || studies.some((study) => study.category === filter)),
@@ -389,13 +479,9 @@ export function WorkGrid({
         viewport={viewport}
       >
         {filteredStudies.map((study, index) => (
-          <WorkCard
-            key={study.slug}
-            study={study}
-            index={index}
-            onSignalChange={onSignalChange}
-            isFinePointer={isFinePointer}
-          />
+          <motion.div key={study.slug} variants={itemVariants} custom={index}>
+            <WorkCard study={study} onSignalChange={onSignalChange} />
+          </motion.div>
         ))}
       </motion.div>
     </>

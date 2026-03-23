@@ -25,3 +25,8 @@ export function buildCloudinaryUrl(publicId: string, transforms = 'f_auto,q_auto
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
   return `https://res.cloudinary.com/${cloudName}/image/upload/${transforms}/${publicId}`
 }
+
+export function buildCloudinaryVideoUrl(publicId: string, transforms = 'f_auto,q_auto') {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+  return `https://res.cloudinary.com/${cloudName}/video/upload/${transforms}/${publicId}.mp4`
+}
