@@ -13,6 +13,7 @@ function FloatingPaths({ position }: { position: number }) {
       684 - i * 5 * position
     } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
     width: 0.5 + i * 0.03,
+    duration: 20 + ((i * 7 + (position > 0 ? 3 : 5)) % 10),
   }))
 
   return (
@@ -37,7 +38,7 @@ function FloatingPaths({ position }: { position: number }) {
               pathOffset: [0, 1, 0],
             }}
             transition={{
-              duration: 20 + Math.random() * 10,
+              duration: path.duration,
               repeat: Number.POSITIVE_INFINITY,
               ease: "linear",
             }}

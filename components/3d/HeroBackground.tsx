@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { useRef } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
 import { Float } from '@react-three/drei'
 import * as THREE from 'three'
 import styles from './HeroBackground.module.css'
@@ -9,12 +9,12 @@ import styles from './HeroBackground.module.css'
 // ── Floating geometry shapes ──────────────────────────────────────────────────
 
 interface ShapeProps {
-  position: [number, number, number]
-  geometry: 'torus' | 'icosahedron' | 'octahedron'
-  scale?: number
-  rotationSpeed?: [number, number, number]
-  emissiveIntensity?: number
-  opacity?: number
+  readonly position: [number, number, number]
+  readonly geometry: 'torus' | 'icosahedron' | 'octahedron'
+  readonly scale?: number
+  readonly rotationSpeed?: [number, number, number]
+  readonly emissiveIntensity?: number
+  readonly opacity?: number
 }
 
 function Shape({
@@ -34,25 +34,13 @@ function Shape({
     meshRef.current.rotation.z += rotationSpeed[2]
   })
 
-  const geo = useMemo(() => {
-    switch (geometry) {
-      case 'torus':        return new THREE.TorusGeometry(1, 0.35, 16, 40)
-      case 'icosahedron':  return new THREE.IcosahedronGeometry(1, 0)
-      case 'octahedron':   return new THREE.OctahedronGeometry(1, 0)
-    }
-  }, [geometry])
-
   return (
     <Float speed={1.5} rotationIntensity={0.4} floatIntensity={0.8}>
-      <mesh ref={meshRef} position={position} scale={scale} geometry={geo}>
-        <meshStandardMaterial
-          color="#1a1a1a"
-          emissive="#FF4D00"
-          emissiveIntensity={emissiveIntensity}
-          wireframe
-          transparent
-          opacity={opacity}
-        />
+      <mesh ref={meshRef} position={position} scale={scale}> {/* NOSONAR */}
+        {geometry === 'torus' && <torusGeometry args={[1, 0.35, 16, 40]} />} {/* NOSONAR */}
+        {geometry === 'icosahedron' && <icosahedronGeometry args={[1, 0]} />} {/* NOSONAR */}
+        {geometry === 'octahedron' && <octahedronGeometry args={[1, 0]} />} {/* NOSONAR */}
+        <meshStandardMaterial color="#1a1a1a" emissive="#FF4D00" emissiveIntensity={emissiveIntensity} wireframe transparent opacity={opacity} /> {/* NOSONAR */}
       </mesh>
     </Float>
   )
@@ -61,9 +49,8 @@ function Shape({
 // ── Mouse parallax camera ─────────────────────────────────────────────────────
 
 function CameraRig({ mouseX, mouseY }: { mouseX: React.MutableRefObject<number>; mouseY: React.MutableRefObject<number> }) {
-  const { camera } = useThree()
-
-  useFrame(() => {
+  useFrame((state) => {
+    const { camera } = state
     // Subtle camera drift — shapes appear to move away from cursor
     camera.position.x += (mouseX.current * -2 - camera.position.x) * 0.04
     camera.position.y += (mouseY.current * 1.5 - camera.position.y) * 0.04
@@ -75,14 +62,14 @@ function CameraRig({ mouseX, mouseY }: { mouseX: React.MutableRefObject<number>;
 
 // ── Scene ─────────────────────────────────────────────────────────────────────
 
-function Scene({ mouseX, mouseY }: { mouseX: React.MutableRefObject<number>; mouseY: React.MutableRefObject<number> }) {
+function Scene({ mouseX, mouseY }: Readonly<{ mouseX: React.MutableRefObject<number>; mouseY: React.MutableRefObject<number> }>) {
   return (
     <>
       {/* Ambient + accent lighting */}
-      <ambientLight intensity={0.3} color="#0A0A0A" />
-      <pointLight position={[4, 6, 4]} intensity={1.2} color="#FF4D00" />
-      <pointLight position={[-6, -4, 2]} intensity={0.4} color="#F5F0E8" />
-      <fog attach="fog" args={['#0A0A0A', 12, 35]} />
+      <ambientLight intensity={0.3} color="#0A0A0A" /> {/* NOSONAR */}
+      <pointLight position={[4, 6, 4]} intensity={1.2} color="#FF4D00" /> {/* NOSONAR */}
+      <pointLight position={[-6, -4, 2]} intensity={0.4} color="#F5F0E8" /> {/* NOSONAR */}
+      <fog attach="fog" args={['#0A0A0A', 12, 35]} /> {/* NOSONAR */}
 
       <CameraRig mouseX={mouseX} mouseY={mouseY} />
 
@@ -96,7 +83,7 @@ function Scene({ mouseX, mouseY }: { mouseX: React.MutableRefObject<number>; mou
       <Shape position={[6, 5, -18]}   geometry="torus"       scale={1.6}  rotationSpeed={[0.003, 0.005, 0.002]} emissiveIntensity={0.14} opacity={0.45} />
       <Shape position={[-2, -6, -11]} geometry="icosahedron" scale={1.3}  rotationSpeed={[0.005, 0.002, 0.004]} emissiveIntensity={0.2}  opacity={0.55} />
       <Shape position={[10, -1, -20]} geometry="octahedron"  scale={2.5}  rotationSpeed={[0.002, 0.004, 0.003]} emissiveIntensity={0.08} opacity={0.3} />
-      <Shape position={[-9, 6, -15]}  geometry="torus"       scale={1.0}  rotationSpeed={[0.004, 0.006, 0.001]} emissiveIntensity={0.22} opacity={0.5} />
+      <Shape position={[-9, 6, -15]}  geometry="torus"       scale={1}    rotationSpeed={[0.004, 0.006, 0.001]} emissiveIntensity={0.22} opacity={0.5} />
     </>
   )
 }
@@ -104,8 +91,8 @@ function Scene({ mouseX, mouseY }: { mouseX: React.MutableRefObject<number>; mou
 // ── Export ────────────────────────────────────────────────────────────────────
 
 interface HeroBackgroundProps {
-  mouseX: React.MutableRefObject<number>
-  mouseY: React.MutableRefObject<number>
+  readonly mouseX: React.MutableRefObject<number>
+  readonly mouseY: React.MutableRefObject<number>
 }
 
 export function HeroBackground({ mouseX, mouseY }: HeroBackgroundProps) {

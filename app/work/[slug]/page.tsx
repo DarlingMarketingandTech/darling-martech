@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { getCaseStudy, getReadyCaseStudies } from '@/lib/case-studies'
-import { CaseStudyContent } from '@/components/sections/CaseStudyContent'
+import workData, { getWorkBySlug, generateWorkStaticParams } from '@/data/work/work-data'
+import { WorkDetailContent } from '@/components/sections/WorkDetail/WorkDetailContent'
+import type { CaseStudy } from '@/lib/work'
 
 export function generateStaticParams() {
-  return getReadyCaseStudies().map((cs) => ({ slug: cs.slug }))
+  return generateWorkStaticParams()
 }
 
 export async function generateMetadata({
@@ -12,16 +13,39 @@ export async function generateMetadata({
 }: {
   params: { slug: string }
 }): Promise<Metadata> {
-  const cs = getCaseStudy(params.slug)
+  const cs = getWorkBySlug(params.slug)
   if (!cs) return {}
   return {
-    title: `${cs.client} — Case Study`,
-    description: cs.description,
+    title: cs.titleTag,
+    description: cs.metaDescription,
+    openGraph: {
+      title: cs.titleTag,
+      description: cs.metaDescription,
+      ...(cs.logoPublicId && {
+        images: [
+          {
+            url: `https://res.cloudinary.com/djhqowk67/image/upload/${cs.logoPublicId}`,
+          },
+        ],
+      }),
+    },
   }
 }
 
-export default function CaseStudyPage({ params }: { params: { slug: string } }) {
-  const cs = getCaseStudy(params.slug)
-  if (!cs || cs.status !== 'ready') notFound()
-  return <CaseStudyContent cs={cs} />
+function getAdjacentWork(slug: string): { prev: CaseStudy | null; next: CaseStudy | null } {
+  const index = workData.findIndex((cs) => cs.slug === slug)
+  if (index === -1) return { prev: null, next: null }
+  return {
+    prev: index > 0 ? workData[index - 1] : null,
+    next: index < workData.length - 1 ? workData[index + 1] : null,
+  }
+}
+
+export default function WorkDetailPage({ params }: { params: { slug: string } }) {
+  const cs = getWorkBySlug(params.slug)
+  if (!cs) notFound()
+
+  const { prev, next } = getAdjacentWork(params.slug)
+
+  return <WorkDetailContent cs={cs} prev={prev} next={next} />
 }

@@ -11,10 +11,9 @@ const nextConfig = {
       },
     ],
   },
-  // NOTE: If you get "generate is not a function" during build, run:
-  //   __NEXT_PRIVATE_STANDALONE_CONFIG="" npm run build
-  // This happens when another Next.js app sets that env var in your shell session.
-  generateBuildId: () => null,
+  // NOTE: If build fails with "generate is not a function", it's because
+  // __NEXT_PRIVATE_STANDALONE_CONFIG is set in your shell from another Next.js project.
+  // Fix: __NEXT_PRIVATE_STANDALONE_CONFIG="" npm run build
 }
 
 module.exports = nextConfig

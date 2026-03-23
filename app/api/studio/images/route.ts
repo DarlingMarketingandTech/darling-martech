@@ -3,6 +3,17 @@ import { NextRequest, NextResponse } from 'next/server'
 // Cloudinary Admin API is not available on edge runtime — use nodejs runtime
 export const runtime = 'nodejs'
 
+interface CloudinaryResource {
+  readonly width: number
+  readonly height: number
+  readonly secure_url: string
+  readonly public_id: string
+}
+
+interface CloudinarySearchResponse {
+  readonly resources?: CloudinaryResource[]
+}
+
 export async function GET(request: NextRequest) {
   const folder = request.nextUrl.searchParams.get('folder')
   const recursive = request.nextUrl.searchParams.get('recursive') === 'true'
@@ -51,17 +62,17 @@ export async function GET(request: NextRequest) {
       return NextResponse.json([])
     }
 
-    const data = await res.json()
+    const data = (await res.json()) as CloudinarySearchResponse
     const resources = data.resources ?? []
 
     // Filter out very small images (likely thumbnails/icons) and format as gallery items
     const images = resources
-      .filter((r: any) => {
+      .filter((r) => {
         // Exclude tiny images (< 500px on shortest side) — likely not portfolio-worthy
         const minDimension = Math.min(r.width, r.height)
         return minDimension >= 500
       })
-      .map((r: any) => {
+      .map((r) => {
         return {
           src: r.secure_url,
           width: r.width,

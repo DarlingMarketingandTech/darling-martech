@@ -15,10 +15,6 @@ export function useCursorFollow() {
   const [position, setPosition] = useState<CursorPosition>({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
 
-  const handleMove = useCallback((e: MouseEvent) => {
-    setPosition({ x: e.clientX, y: e.clientY })
-  }, [])
-
   const handleEnter = useCallback(() => setIsHovering(true), [])
   const handleLeave = useCallback(() => setIsHovering(false), [])
 

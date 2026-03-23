@@ -65,9 +65,6 @@ export function KineticHeadline({
     })
   }
 
-  const animatedTokens = tokens.filter((t) => !t.isSpace)
-  let animatedIndex = 0
-
   return (
     <Tag className={`${styles.headline} ${className ?? ''}`} style={{ perspective: '800px' }}>
       <motion.span
@@ -86,13 +83,10 @@ export function KineticHeadline({
             return <span key={i}> </span>
           }
 
-          const idx = animatedIndex++
-
           return (
             <motion.span
               key={i}
               variants={wordVariants}
-              custom={idx}
               style={{ display: 'inline-block' }}
               className={token.isAccent ? styles.accent : undefined}
             >

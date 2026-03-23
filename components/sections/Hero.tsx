@@ -1,10 +1,10 @@
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight } from '@phosphor-icons/react'
+import { ArrowRightIcon } from '@phosphor-icons/react'
 import { containerVariants, itemVariants, springEntrance } from '@/lib/motion'
 import { KineticHeadline } from '@/components/motion/KineticHeadline'
 import { StatCounter } from '@/components/motion/StatCounter'
@@ -14,7 +14,10 @@ import styles from './Hero.module.css'
 // Lazy-load the 3D canvas — never blocks initial render
 const HeroBackground = dynamic(
   () => import('@/components/3d/HeroBackground').then((m) => m.HeroBackground),
-  { ssr: false }
+  {
+    ssr: false,
+    loading: () => null,
+  }
 )
 
 // ── CTA arrow variants — parent hover propagates ──────────────────────────────
@@ -43,17 +46,19 @@ export function Hero() {
   const mouseX = useRef(0)
   const mouseY = useRef(0)
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    // Normalized -1 to 1 for 3D camera rig
-    mouseX.current = (e.clientX / window.innerWidth) * 2 - 1
-    mouseY.current = -(e.clientY / window.innerHeight) * 2 + 1
-  }
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      // Normalized -1 to 1 for 3D camera rig
+      mouseX.current = (e.clientX / window.innerWidth) * 2 - 1
+      mouseY.current = -(e.clientY / window.innerHeight) * 2 + 1
+    }
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [])
 
   return (
-    <section
-      className={styles.section}
-      onMouseMove={handleMouseMove}
-    >
+    <section className={styles.section}>
       {/* ── 3D canvas — lazy loaded, behind everything ── */}
       <HeroBackground mouseX={mouseX} mouseY={mouseY} />
 
@@ -113,7 +118,7 @@ export function Hero() {
                     <Link href="/contact" className={styles.ctaButton}>
                       <span>Let&apos;s build something that works</span>
                       <motion.span variants={arrowVariants} className={styles.ctaArrow}>
-                        <ArrowRight weight="regular" size={18} />
+                        <ArrowRightIcon weight="regular" size={18} />
                       </motion.span>
                     </Link>
                   </motion.div>
@@ -130,7 +135,7 @@ export function Hero() {
             >
               <StatCounter value={15}    suffix="+"  label="Years Experience"    delay={0.7} />
               <StatCounter value={400}   suffix="+"  label="Automations Built"   delay={0.85} />
-              <StatCounter value={30}    suffix="k+" label="Users Served"        delay={1.0} />
+              <StatCounter value={30}    suffix="k+" label="Users Served"        delay={1} />
               <StatCounter value={40}    suffix="%"  label="Avg Conversion Lift" delay={1.15} />
             </motion.div>
           </div>
@@ -158,7 +163,7 @@ export function Hero() {
 
 // ── SVG path accent (kept from original — now layered behind 3D) ──────────────
 
-function HeroPaths({ position }: { position: number }) {
+function HeroPaths({ position }: Readonly<{ position: number }>) {
   const paths = Array.from({ length: 36 }, (_, i) => ({
     id: i,
     d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${

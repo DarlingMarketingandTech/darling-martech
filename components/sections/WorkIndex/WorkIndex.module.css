@@ -1,0 +1,297 @@
+/* ── Page shell ── */
+
+.main {
+  padding-top: 8rem;
+  padding-bottom: 7rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .main {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+.inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ── Hero ── */
+
+.hero {
+  margin-bottom: 5rem;
+  padding-bottom: 4rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.heroEyebrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 1.5rem;
+}
+
+.heroHeadline {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+  text-wrap: balance;
+  max-width: 18ch;
+  margin: 0 0 1.75rem;
+}
+
+.heroSubhead {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--color-muted);
+  max-width: 55ch;
+  margin: 0;
+}
+
+/* ── Grid ── */
+
+.grid {
+  display: grid;
+  gap: 1px;
+  background: var(--color-border);
+  margin-bottom: 5rem;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+/* ── Card ── */
+
+.card {
+  background: var(--color-base);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  transition: border-color 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.cardEnabled {
+  cursor: pointer;
+}
+
+.cardEnabled:hover .cardBorder {
+  opacity: 1;
+}
+
+.cardEnabled:hover .cardClient {
+  color: var(--color-accent);
+}
+
+.cardEnabled:hover .cardArrow {
+  transform: translateX(4px);
+}
+
+.cardDisabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.cardPadding {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .cardPadding {
+    padding: 2.5rem;
+  }
+}
+
+/* Orange left accent bar */
+.cardBorder {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-accent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Logo area */
+.cardLogo {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.cardLogoImg {
+  max-width: 120px;
+  max-height: 36px;
+  object-fit: contain;
+  object-position: left center;
+  filter: brightness(0) invert(1);
+  opacity: 0.7;
+}
+
+.cardCategoryBadge {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  padding: 0.3rem 0.6rem;
+  margin-bottom: 1.5rem;
+  align-self: flex-start;
+}
+
+/* Card header row */
+.cardHeader {
+  margin-bottom: 1rem;
+}
+
+.cardLabel {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 0 0 0.5rem;
+  line-height: 1.5;
+}
+
+.cardClient {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 2vw, 1.375rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0 0 0.75rem;
+  transition: color 0.2s ease;
+}
+
+.cardHeadline {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* Metrics */
+.cardMetrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+  flex: 1;
+  align-content: flex-start;
+}
+
+.cardMetric {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 0.3rem 0.6rem;
+}
+
+.cardMetricAccent {
+  color: var(--color-accent);
+}
+
+/* Card footer */
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.cardArrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  transition: transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+/* ── Bottom CTA ── */
+
+.cta {
+  padding-top: 4rem;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .cta {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.ctaText {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  color: var(--color-text);
+  margin: 0;
+  max-width: 40ch;
+  line-height: 1.3;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.875rem 1.75rem;
+  background: var(--color-accent);
+  color: var(--color-text);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.ctaBtn:hover {
+  opacity: 0.88;
+}

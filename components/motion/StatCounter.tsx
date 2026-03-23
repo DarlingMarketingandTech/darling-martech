@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { motion, useInView, useMotionValue, useSpring, animate } from 'framer-motion'
+import { useInView, useMotionValue, animate } from 'framer-motion'
 import styles from './StatCounter.module.css'
 
 interface StatCounterProps {
@@ -23,7 +23,6 @@ export function StatCounter({
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-60px' })
   const displayValue = useMotionValue(0)
-  const springValue = useSpring(displayValue, { stiffness: 50, damping: 25, mass: 1 })
   const displayRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
