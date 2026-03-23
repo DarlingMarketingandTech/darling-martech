@@ -80,7 +80,7 @@ export function CaseStudyImages({ cloudinaryFolder }: { cloudinaryFolder?: strin
         className="columns-1 sm:columns-2 lg:columns-3 gap-3 space-y-3"
       >
         {images.map((img, i) => (
-          <GalleryItem key={img.publicId} img={img} index={i} />
+          <GalleryItem key={img.src} img={img} index={i} />
         ))}
       </motion.div>
     </section>
