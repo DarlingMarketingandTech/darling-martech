@@ -62,10 +62,9 @@ export async function GET(request: NextRequest) {
         return minDimension >= 500
       })
       .map((r: any) => {
-        // Cloudinary public_id should include the file extension for proper URL construction
-        const publicId = r.public_id.includes('.') 
-          ? r.public_id 
-          : `${r.public_id}.${r.format}`
+        // Cloudinary URLs don't include file extensions — the format is inferred from metadata
+        // Use the raw public_id (e.g., "20220512_200850" not "20220512_200850.jpg")
+        const publicId = r.public_id
         
         return {
           publicId,
