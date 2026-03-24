@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
 import { FloatingCard } from '@/components/3d/FloatingCard'
 import { useFinePointer } from '@/hooks/useFinePointer'
 import { cn } from '@/lib/utils'
@@ -96,7 +96,7 @@ export function GalleryHoverCard({
             {ctaText && (
               <span className={styles.cta}>
                 {ctaText}
-                <CtaIcon className={styles.ctaIcon} />
+                <CtaIcon weight="light" className={styles.ctaIcon} />
               </span>
             )}
           </div>

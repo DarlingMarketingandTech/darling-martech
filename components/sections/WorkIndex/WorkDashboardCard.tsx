@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { CldImage } from 'next-cloudinary'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight } from '@phosphor-icons/react'
 import type { CaseStudy, WorkDashboardTier } from '@/lib/work'
 import { cn } from '@/lib/utils'
 import styles from './WorkIndex.module.css'
@@ -152,7 +152,7 @@ export function WorkDashboardCard({
             </span>
             <span className={styles.dashboardCta}>
               Open case study
-              <ArrowRight className={styles.dashboardCtaIcon} />
+              <ArrowRight weight="light" className={styles.dashboardCtaIcon} />
             </span>
           </div>
         </div>

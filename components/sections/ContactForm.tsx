@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { motion } from 'framer-motion'
+import { springEntrance } from '@/lib/motion'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
@@ -47,11 +49,16 @@ export function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div className={styles.successBox}>
+      <motion.div
+        className={styles.successBox}
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={springEntrance}
+      >
         <div className={styles.successLine} />
         <p className={styles.successTitle}>Got it.</p>
         <p className={styles.successBody}>I&apos;ll be in touch within 1 business day.</p>
-      </div>
+      </motion.div>
     )
   }
 

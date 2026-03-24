@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Activity, ArrowRight, Boxes, Cpu, Gauge, Layers3 } from 'lucide-react'
+import { ArrowRight, Cpu, Gauge, Pulse, Stack, Cube } from '@phosphor-icons/react'
 import { ServicesAmbient } from '@/components/3d/ServicesAmbient'
 import {
   engagementModels,
@@ -17,7 +17,7 @@ import { containerVariants, itemVariants, viewport } from '@/lib/motion'
 import styles from './ServicesPage.module.css'
 
 function getLayerIcon(layer: ServiceLayer) {
-  if (layer === 'strategy') return Layers3
+  if (layer === 'strategy') return Stack
   if (layer === 'growth') return Gauge
   return Cpu
 }
@@ -53,7 +53,7 @@ function ArchitectureRail({
               }`}
             >
               <span className={mobile ? styles.mobileLayerIcon : styles.railIcon}>
-                <Icon size={mobile ? 14 : 16} strokeWidth={1.8} />
+                <Icon size={mobile ? 14 : 16} weight="light" />
               </span>
               <span className={mobile ? styles.mobileLayerCopy : styles.railCopy}>
                 <span className={styles.railTitle}>{layer.label}</span>
@@ -146,7 +146,7 @@ function ServiceModule({
             <div className={styles.panelHeader}>
               <p className={styles.panelLabel}>Highlight proof</p>
               <span className={styles.signalPill}>
-                <Activity size={14} strokeWidth={1.8} />
+                <Pulse size={14} weight="regular" />
                 {featuredProof.signalLabel}
               </span>
             </div>
@@ -174,7 +174,7 @@ function ServiceModule({
 
               <span className={styles.featuredProofCta}>
                 View case study
-                <ArrowRight size={16} strokeWidth={2} />
+                <ArrowRight size={16} weight="light" />
               </span>
             </Link>
 
@@ -324,7 +324,7 @@ export function ServicesExperience() {
                 return (
                   <div key={layer.id} className={styles.briefLayer}>
                     <span className={styles.briefLayerIcon}>
-                      <Icon size={16} strokeWidth={1.8} />
+                      <Icon size={16} weight="light" />
                     </span>
                     <div>
                       <p className={styles.briefLayerTitle}>{layer.label}</p>
@@ -427,7 +427,7 @@ export function ServicesExperience() {
                 <article key={model.id} className={styles.engagementCard}>
                   <div className={styles.engagementCardTop}>
                     <span className={styles.engagementIcon}>
-                      <Boxes size={17} strokeWidth={1.8} />
+                      <Cube size={17} weight="light" />
                     </span>
                     <h3 className={styles.engagementTitle}>{model.title}</h3>
                   </div>

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CldImage } from 'next-cloudinary'
-import { Activity, ArrowRight } from 'lucide-react'
+import { ArrowRight, Pulse } from '@phosphor-icons/react'
 import { gsap } from 'gsap'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
 import type { CaseStudy, WorkCategory, WorkDashboardTier } from '@/lib/work'
@@ -167,7 +167,7 @@ function WorkHeroSummary({
 
           <span className={styles.signalPanelCta}>
             Inspect case study
-            <ArrowRight className={styles.signalPanelCtaIcon} />
+            <ArrowRight weight="light" className={styles.signalPanelCtaIcon} />
           </span>
         </Link>
       </motion.div>
@@ -225,7 +225,7 @@ function MetricStream({
     <div className={styles.metricStream}>
       <div className={styles.metricStreamPrimary}>
         <div className={styles.metricStreamHeading}>
-          <Activity className={styles.metricStreamIcon} />
+          <Pulse weight="regular" className={styles.metricStreamIcon} />
           <span className={styles.metricStreamEyebrow}>Live signal</span>
         </div>
         <p ref={metricRef} className={styles.metricStreamValue}>
@@ -371,7 +371,7 @@ export function WorkBottomCTA() {
         >
           <Link href="/contact" className={styles.ctaBtn}>
             Start one
-            <ArrowRight className={styles.ctaIcon} />
+            <ArrowRight weight="light" className={styles.ctaIcon} />
           </Link>
         </motion.div>
       </MagneticButton>

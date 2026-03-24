@@ -1,9 +1,19 @@
+'use client'
+
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { fadeVariants, viewport } from '@/lib/motion'
 import styles from './Footer.module.css'
 
 export function Footer() {
   return (
-    <footer className={styles.footer}>
+    <motion.footer
+      className={styles.footer}
+      variants={fadeVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+    >
       <div className={styles.inner}>
         {/* Logo + tagline */}
         <div className={styles.brand}>
@@ -37,6 +47,6 @@ export function Footer() {
           </p>
         </div>
       </div>
-    </footer>
+    </motion.footer>
   )
 }

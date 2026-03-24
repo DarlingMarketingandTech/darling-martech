@@ -229,7 +229,7 @@
 
 .primaryCta {
   background: var(--color-accent);
-  color: #120d09;
+  color: var(--color-base);
 }
 
 .secondaryCta {

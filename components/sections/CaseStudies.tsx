@@ -4,7 +4,7 @@ import { useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { CldImage } from 'next-cloudinary'
 import { motion } from 'framer-motion'
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowRight, CaretLeft, CaretRight } from '@phosphor-icons/react'
 import { getAllWork } from '@/data/work/work-data'
 import type { CaseStudy } from '@/lib/work'
 import { cn } from '@/lib/utils'
@@ -115,7 +115,7 @@ function HomeWorkCard({
 
           <span className={styles.cardCta}>
             Open case study
-            <ArrowRight className={styles.cardCtaIcon} />
+            <ArrowRight weight="light" className={styles.cardCtaIcon} />
           </span>
         </div>
       </Link>
@@ -186,7 +186,7 @@ export function CaseStudies() {
           <motion.div variants={itemVariants} className={styles.headerActions}>
             <Link href="/work" className={styles.primaryCta}>
               Explore all work
-              <ArrowRight className={styles.primaryCtaIcon} />
+              <ArrowRight weight="light" className={styles.primaryCtaIcon} />
             </Link>
           </motion.div>
         </motion.div>
@@ -219,7 +219,7 @@ export function CaseStudies() {
               disabled={activeIndex === 0}
               aria-label="Previous project"
             >
-              <ChevronLeft className={styles.controlIcon} />
+              <CaretLeft weight="regular" className={styles.controlIcon} />
             </button>
             <button
               type="button"
@@ -228,7 +228,7 @@ export function CaseStudies() {
               disabled={activeIndex === studies.length - 1}
               aria-label="Next project"
             >
-              <ChevronRight className={styles.controlIcon} />
+              <CaretRight weight="regular" className={styles.controlIcon} />
             </button>
           </div>
         </motion.div>

@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import { Braces, FlaskConical, Megaphone, Orbit, Rocket, Sparkles } from 'lucide-react'
+import { Code, Flask, Megaphone, Planet, Rocket, Sparkle } from '@phosphor-icons/react'
 import { GalleryHoverCard } from '@/components/ui/gallery-hover-card'
 import { containerVariants, itemVariants, fadeVariants, viewport } from '@/lib/motion'
 import { useFinePointer } from '@/hooks/useFinePointer'
@@ -65,14 +65,14 @@ const categoryCoverClass: Record<Tool['category'], string> = {
 
 const categoryIcons = {
   Marketing: Megaphone,
-  Developer: Braces,
-  Technologist: Orbit,
+  Developer: Code,
+  Technologist: Planet,
 } satisfies Record<Tool['category'], typeof Megaphone>
 
 const statusIcons = {
   Production: Rocket,
-  Beta: Sparkles,
-  Experimental: FlaskConical,
+  Beta: Sparkle,
+  Experimental: Flask,
 } satisfies Record<Tool['status'], typeof Rocket>
 
 function ToolCardCover({ tool }: { readonly tool: Tool }) {
@@ -86,12 +86,12 @@ function ToolCardCover({ tool }: { readonly tool: Tool }) {
       <div className={styles.toolCoverSweep} />
 
       <div className={styles.toolCoverStatus}>
-        <StatusIcon className={styles.toolCoverStatusIcon} />
+        <StatusIcon weight="light" className={styles.toolCoverStatusIcon} />
         <span>{tool.status}</span>
       </div>
 
       <div className={styles.toolCoverCore}>
-        <CategoryIcon className={styles.toolCoverIcon} />
+        <CategoryIcon weight="light" className={styles.toolCoverIcon} />
       </div>
 
       <div className={styles.toolCoverStack}>
