@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
@@ -28,7 +29,6 @@ type Tool = {
 
 const tools: Tool[] = [
   // Marketing
-  { name: 'CMO Simulator', category: 'Marketing', status: 'Production', description: 'Interactive simulator that walks through CMO-level decision-making across strategy, budget, and execution scenarios.', stack: ['Next.js', 'React', 'Vercel'], url: 'https://cmo-simulator-3il5.vercel.app' },
   { name: 'Graston Growth Engine', category: 'Marketing', status: 'Experimental', description: 'Marketing automation and lead scoring engine built for the Graston Technique ecosystem.', stack: ['Next.js', 'FluentCRM', 'REST API'] },
   { name: 'ROI Calculator', category: 'Marketing', status: 'Beta', description: 'Marketing ROI calculator with inputs for channel spend, conversion rates, and lifetime value.', stack: ['React', 'TypeScript'], url: 'https://bearcave-marketing-v2.vercel.app/lab/roi-calculator' },
   { name: 'Brand Builder', category: 'Marketing', status: 'Beta', description: 'Brand positioning worksheet that outputs a one-page brand brief from structured inputs.', stack: ['React', 'TypeScript'], url: 'https://bearcave-marketing-v2.vercel.app/lab/brand-builder' },
@@ -138,6 +138,61 @@ function ToolCard({
   )
 }
 
+function LabFeaturedCard() {
+  return (
+    <div className={styles.featuredCard}>
+      <div className={styles.featuredLeft}>
+        <div>
+          <div className={styles.featuredPill}>
+            <motion.span
+              style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-accent)', display: 'inline-block', flexShrink: 0 }}
+              animate={{ opacity: [1, 0.3, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              aria-hidden="true"
+            />
+            Production · Featured
+          </div>
+          <h2 className={styles.featuredTitle}>CMO Simulator</h2>
+          <p className={styles.featuredDesc}>
+            Walk through CMO-level decision-making — budget allocation, channel strategy,
+            KPI selection, and execution priority. Same framework I use with clients.
+            Takes about 10 minutes.
+          </p>
+          <div className={styles.featuredStack}>
+            {['Next.js', 'React', 'Vercel', 'Marketing Strategy'].map((tag) => (
+              <span key={tag} className={styles.toolCoverTag}>{tag}</span>
+            ))}
+          </div>
+        </div>
+        <Link href="/lab/cmo-simulator" className={styles.featuredCta}>
+          Launch CMO Simulator →
+        </Link>
+      </div>
+
+      <div className={styles.featuredRight}>
+        <div className={styles.featuredRightGrid} aria-hidden="true" />
+        <div className={styles.featuredRightGlow} aria-hidden="true" />
+        <div className={styles.featuredRightContent}>
+          <div className={styles.featuredIconBox}>
+            <Megaphone weight="light" size={36} color="var(--color-accent)" />
+          </div>
+          <div className={styles.featuredStats}>
+            <div className={styles.featuredStat}>
+              <p className={styles.featuredStatValue}>~10m</p>
+              <p className={styles.featuredStatLabel}>Session</p>
+            </div>
+            <div className={styles.featuredStatDivider} />
+            <div className={styles.featuredStat}>
+              <p className={styles.featuredStatValue}>Free</p>
+              <p className={styles.featuredStatLabel}>Access</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function LabPage() {
   const [activeCategory, setActiveCategory] = useState<typeof categories[number]>('All')
   const [hoveredTool, setHoveredTool] = useState<string | null>(null)
@@ -184,6 +239,9 @@ export default function LabPage() {
             ))}
           </motion.div>
         </section>
+
+        {/* Featured tool — CMO Simulator */}
+        <LabFeaturedCard />
 
         {/* Tools grid */}
         <motion.div
