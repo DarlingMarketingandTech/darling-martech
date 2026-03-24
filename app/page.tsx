@@ -1,6 +1,7 @@
 import { Hero } from '@/components/sections/Hero'
 import { Services } from '@/components/sections/Services'
 import { AboutTeaser } from '@/components/sections/AboutTeaser'
+import { FeaturedTool } from '@/components/sections/FeaturedTool'
 import { CaseStudies } from '@/components/sections/CaseStudies'
 import { Testimonials } from '@/components/sections/Testimonials'
 import { ContactCTA } from '@/components/sections/ContactCTA'
@@ -18,6 +19,7 @@ export default function Home() {
       <Hero />
       <Services />
       <AboutTeaser />
+      <FeaturedTool />
       <CaseStudies />
       <Testimonials />
       <ContactCTA />
