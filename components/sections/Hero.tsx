@@ -160,10 +160,10 @@ export function Hero() {
               onMouseEnter={() => setInteractiveTarget('hero-stats')}
               onMouseLeave={() => setInteractiveTarget(null)}
             >
-              <StatCounter value={15}    suffix="+"  label="Years Experience"    delay={0.7} />
-              <StatCounter value={400}   suffix="+"  label="Automations Built"   delay={0.85} />
-              <StatCounter value={30}    suffix="k+" label="Users Served"        delay={1} />
-              <StatCounter value={40}    suffix="%"  label="Avg Conversion Lift" delay={1.15} />
+              <StatCounter value={15}    suffix="+"  label="Years Experience"    delay={0.7} startOnMount />
+              <StatCounter value={400}   suffix="+"  label="Automations Built"   delay={0.85} startOnMount />
+              <StatCounter value={30}    suffix="k+" label="Users Served"        delay={1} startOnMount />
+              <StatCounter value={40}    suffix="%"  label="Avg Conversion Lift" delay={1.15} startOnMount />
             </motion.div>
           </div>
 

@@ -11,6 +11,7 @@ interface StatCounterProps {
   label: string
   /** Delay before count begins, in seconds */
   delay?: number
+  startOnMount?: boolean
 }
 
 export function StatCounter({
@@ -19,6 +20,7 @@ export function StatCounter({
   prefix = '',
   label,
   delay = 0,
+  startOnMount = false,
 }: StatCounterProps) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-60px' })
@@ -26,10 +28,11 @@ export function StatCounter({
   const displayRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
-    if (!isInView) return
+    if (!startOnMount && !isInView) return
 
+    let controls: ReturnType<typeof animate> | null = null
     const timeout = setTimeout(() => {
-      animate(displayValue, value, {
+      controls = animate(displayValue, value, {
         duration: 1.8,
         ease: [0.16, 1, 0.3, 1],
         onUpdate: (latest) => {
@@ -44,8 +47,11 @@ export function StatCounter({
       })
     }, delay * 1000)
 
-    return () => clearTimeout(timeout)
-  }, [isInView, value, delay, displayValue])
+    return () => {
+      clearTimeout(timeout)
+      controls?.stop()
+    }
+  }, [isInView, value, delay, displayValue, startOnMount])
 
   return (
     <div ref={ref} className={styles.stat}>

@@ -5,10 +5,11 @@ import dynamic from 'next/dynamic'
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { CldImage } from 'next-cloudinary'
-import { ArrowLeft, ArrowRight } from '@phosphor-icons/react'
+import { ArrowLeft, ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
 import { FloatingCard } from '@/components/3d/FloatingCard'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
-import type { CaseStudy } from '@/lib/work'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
+import type { CaseStudy, CloudinaryAsset, Deliverable, ProcessPhase } from '@/lib/work'
 import { containerVariants, itemVariants, springEntrance } from '@/lib/motion'
 import styles from './WorkDetail.module.css'
 
@@ -23,25 +24,43 @@ const WorkAmbient = dynamic(
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
+  const reduceMotion = useReducedMotion()
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : undefined}
-      transition={{ ...springEntrance, delay }}
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+      animate={reduceMotion ? { opacity: 1, y: 0 } : inView ? { opacity: 1, y: 0 } : undefined}
+      transition={reduceMotion ? { duration: 0 } : { ...springEntrance, delay }}
     >
       {children}
     </motion.div>
   )
 }
 
-function BodyCopy({ text }: { text: string }) {
-  const paragraphs = text.split('\n\n').filter(Boolean)
+function getParagraphs(text: string) {
+  return text.split('\n\n').filter(Boolean)
+}
 
+function getLeadSentence(text: string) {
+  const firstParagraph = getParagraphs(text)[0] ?? ''
+  const normalized = firstParagraph.replace(/\s+/g, ' ').trim()
+  const sentenceMatch = normalized.match(/^.+?[.!?](?=\s|$)/)
+  const sentence = sentenceMatch?.[0] ?? normalized
+
+  if (sentence.length <= 170) return sentence
+  return `${sentence.slice(0, 167).trimEnd()}...`
+}
+
+function parseMetric(metric: string) {
+  const parts = metric.match(/^([^\s]+(?:\s[^\s]+)?)\s(.+)/) || [metric, metric, '']
+  return { value: parts[1], label: parts[2] || '\u00a0' }
+}
+
+function BodyCopy({ text }: { text: string }) {
   return (
     <>
-      {paragraphs.map((paragraph, index) => (
+      {getParagraphs(text).map((paragraph, index) => (
         <p key={index} className={styles.bodyParagraph}>
           {paragraph}
         </p>
@@ -50,24 +69,32 @@ function BodyCopy({ text }: { text: string }) {
   )
 }
 
-function MetricBand({ cs }: { cs: CaseStudy }) {
+function MetricBand({ cs, emphasizeFirst = false }: { cs: CaseStudy; emphasizeFirst?: boolean }) {
+  const metrics = cs.metrics.slice(0, 4)
   const metricClassName =
     cs.theme?.metricStyle === 'ticker'
       ? styles.metricsTicker
       : cs.theme?.metricStyle === 'pill'
         ? styles.metricsPill
         : styles.metricsPanel
+  const impactCountClassName =
+    metrics.length === 4 ? styles.metricsImpactFour : styles.metricsImpactThree
 
   return (
     <FadeUp>
-      <div className={`${styles.metricsBar} ${metricClassName}`}>
-        {cs.metrics.map((metric) => {
-          const parts = metric.match(/^([^\s]+(?:\s[^\s]+)?)\s(.+)/) || [metric, metric, '']
+      <div
+        className={`${styles.metricsBar} ${emphasizeFirst ? styles.metricsImpact : metricClassName} ${emphasizeFirst ? impactCountClassName : ''}`}
+      >
+        {metrics.map((metric, index) => {
+          const parts = parseMetric(metric)
 
           return (
-            <div key={metric} className={styles.metricCell}>
-              <p className={styles.metricValue}>{parts[1]}</p>
-              <p className={styles.metricLabel}>{parts[2] || '\u00a0'}</p>
+            <div
+              key={metric}
+              className={`${styles.metricCell} ${emphasizeFirst && index === 0 ? styles.metricCellPrimary : ''}`}
+            >
+              <p className={styles.metricValue}>{parts.value}</p>
+              <p className={styles.metricLabel}>{parts.label}</p>
             </div>
           )
         })}
@@ -126,6 +153,259 @@ function SectionBlock({
   )
 }
 
+function ProblemVisualPanel({
+  cs,
+  parent,
+  heroImage,
+}: {
+  cs: CaseStudy
+  parent: CaseStudy | null
+  heroImage?: string
+}) {
+  const fallbackAsset =
+    cs.cloudinaryAssets?.find((asset) => asset.publicId !== heroImage) ??
+    cs.cloudinaryAssets?.[0]
+  const visualAsset: CloudinaryAsset | undefined = cs.problemVisualPublicId
+    ? {
+        publicId: cs.problemVisualPublicId,
+        label: `${cs.client} problem visual`,
+        folder: '',
+      }
+    : fallbackAsset
+
+  if (visualAsset) {
+    return (
+      <div className={styles.problemVisualFrame}>
+        <CldImage
+          src={visualAsset.publicId}
+          alt={visualAsset.label}
+          width={880}
+          height={880}
+          crop="fill"
+          gravity="auto"
+          className={styles.problemVisualImage}
+        />
+      </div>
+    )
+  }
+
+  return (
+    <div className={styles.problemStatementCard}>
+      <p className={styles.problemStatementEyebrow}>System framing</p>
+      <p className={styles.problemStatementHeadline}>{cs.headline}</p>
+      <p className={styles.problemStatementCopy}>{getLeadSentence(cs.challenge)}</p>
+      <div className={styles.problemStatementTags}>
+        {parent && <span className={styles.problemStatementTag}>Inside {parent.client}</span>}
+        <span className={styles.problemStatementTag}>{cs.category}</span>
+        <span className={styles.problemStatementTag}>{parseMetric(cs.metrics[0] ?? cs.client).value}</span>
+      </div>
+    </div>
+  )
+}
+
+function ProblemSystemSection({
+  cs,
+  parent,
+  heroImage,
+}: {
+  cs: CaseStudy
+  parent: CaseStudy | null
+  heroImage?: string
+}) {
+  return (
+    <FadeUp>
+      <section className={`${styles.section} ${styles.problemSystemSection}`}>
+        <div className={styles.problemSystemGrid}>
+          <div className={styles.problemRail}>
+            <div className={styles.problemRailInner}>
+              <p className={styles.sectionEyebrow}>Problem / System</p>
+              <h2 className={styles.problemRailHeadline}>{cs.headline}</h2>
+              <p className={styles.problemRailCopy}>{getLeadSentence(cs.challenge)}</p>
+
+              <div className={styles.problemRailMeta}>
+                {parent && <span className={styles.problemRailBadge}>Inside {parent.client}</span>}
+                <span className={styles.problemRailBadge}>Built for conversion</span>
+              </div>
+
+              <ProblemVisualPanel cs={cs} parent={parent} heroImage={heroImage} />
+            </div>
+          </div>
+
+          <div className={styles.problemContent}>
+            <div className={styles.problemCopyBlock}>
+              <p className={styles.sectionEyebrow}>The Challenge</p>
+              <BodyCopy text={cs.challenge} />
+            </div>
+
+            <div className={styles.problemCopyBlock}>
+              <p className={styles.sectionEyebrow}>The Approach</p>
+              <BodyCopy text={cs.approach} />
+            </div>
+          </div>
+        </div>
+      </section>
+    </FadeUp>
+  )
+}
+
+function DeliverableGrid({
+  deliverables,
+  isSystemPage,
+}: {
+  deliverables: Deliverable[]
+  isSystemPage: boolean
+}) {
+  return (
+    <motion.div
+      className={`${styles.deliverableGrid} ${isSystemPage ? styles.deliverableBento : ''}`}
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-80px' }}
+    >
+      {deliverables.map((deliverable, index) => (
+        <motion.div
+          key={deliverable.title}
+          variants={itemVariants}
+          className={`${styles.deliverable} ${isSystemPage ? styles.deliverableBentoCard : ''} ${deliverable.emphasis === 'feature' ? styles.deliverableFeature : ''}`}
+        >
+          {isSystemPage && (
+            <div className={styles.deliverableMeta}>
+              <span className={styles.deliverableIndex}>{String(index + 1).padStart(2, '0')}</span>
+              <ArrowUpRight weight="bold" size={14} className={styles.deliverableIcon} />
+            </div>
+          )}
+
+          <h3 className={styles.deliverableTitle}>{deliverable.title}</h3>
+          <p className={styles.deliverableDesc}>{deliverable.description}</p>
+        </motion.div>
+      ))}
+    </motion.div>
+  )
+}
+
+function ProcessTimeline({ process }: { process: ProcessPhase[] }) {
+  return (
+    <SectionBlock eyebrow="The Process" title="How the system got built">
+      <div className={styles.processTimeline}>
+        {process.map((phase, index) => (
+          <FadeUp key={phase.label} delay={index * 0.05}>
+            <div className={styles.processStep}>
+              <div className={styles.processMarker}>
+                <span className={styles.processNumber}>{String(index + 1).padStart(2, '0')}</span>
+                <span className={styles.processLine} aria-hidden="true" />
+              </div>
+
+              <div className={styles.processContent}>
+                <div className={styles.processHeading}>
+                  <p className={styles.processLabel}>{phase.label}</p>
+                </div>
+                <p className={styles.processDesc}>{phase.description}</p>
+              </div>
+            </div>
+          </FadeUp>
+        ))}
+      </div>
+    </SectionBlock>
+  )
+}
+
+function RelatedProjects({
+  related,
+  parent,
+}: {
+  related: CaseStudy[]
+  parent: CaseStudy | null
+}) {
+  if (related.length === 0) return null
+
+  return (
+    <SectionBlock eyebrow={parent ? 'Related Projects' : 'Systems Built'}>
+      <div className={styles.relatedGrid}>
+        {related.map((study) => (
+          <Link key={study.slug} href={`/work/${study.slug}`} className={styles.relatedCard}>
+            <p className={styles.relatedLabel}>{study.label}</p>
+            <p className={styles.relatedClient}>{study.client}</p>
+            <p className={styles.relatedHeadline}>{study.headline}</p>
+            <span className={styles.relatedArrow}>
+              View case study
+              <ArrowRight weight="regular" size={13} />
+            </span>
+          </Link>
+        ))}
+      </div>
+    </SectionBlock>
+  )
+}
+
+function ContactCta({ cs }: { cs: CaseStudy }) {
+  return (
+    <FadeUp>
+      <section className={styles.ctaSection}>
+        <h2 className={styles.ctaHeadline}>
+          Ready to <span className={styles.ctaAccent}>{cs.ctaLine}</span>?
+        </h2>
+        <p className={styles.ctaSub}>Let&apos;s talk about what that looks like.</p>
+
+        <div className={styles.ctaActions}>
+          <MagneticButton radius={120} maxPull={16}>
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={springEntrance}
+              style={{ display: 'inline-block' }}
+            >
+              <Link href="/contact" className={styles.ctaBtn}>
+                Let&apos;s talk
+                <ArrowRight weight="regular" size={14} />
+              </Link>
+            </motion.div>
+          </MagneticButton>
+
+          <Link href="/work" className={styles.backLink}>
+            <ArrowLeft weight="regular" size={14} />
+            All work
+          </Link>
+        </div>
+      </section>
+    </FadeUp>
+  )
+}
+
+function PrevNextNav({
+  prev,
+  next,
+}: {
+  prev: CaseStudy | null
+  next: CaseStudy | null
+}) {
+  if (!prev && !next) return null
+
+  return (
+    <FadeUp>
+      <div className={styles.prevNext}>
+        {prev ? (
+          <Link href={`/work/${prev.slug}`} className={styles.prevNextCell}>
+            <p className={styles.prevNextLabel}>Previous</p>
+            <p className={styles.prevNextTitle}>← {prev.client}</p>
+          </Link>
+        ) : (
+          <div />
+        )}
+
+        {next ? (
+          <Link href={`/work/${next.slug}`} className={`${styles.prevNextCell} ${styles.prevNextRight}`}>
+            <p className={styles.prevNextLabel}>Next</p>
+            <p className={styles.prevNextTitle}>{next.client} →</p>
+          </Link>
+        ) : (
+          <div />
+        )}
+      </div>
+    </FadeUp>
+  )
+}
+
 export function WorkDetailContent({
   cs,
   prev,
@@ -146,6 +426,7 @@ export function WorkDetailContent({
       : cs.theme?.layout === 'editorial'
         ? styles.layoutEditorial
         : styles.layoutSplit
+  const isSystemPage = Boolean(cs.parentProjectSlug)
 
   return (
     <article className={`${styles.article} ${layoutClassName}`}>
@@ -269,126 +550,59 @@ export function WorkDetailContent({
             </motion.div>
           </div>
 
-          <MetricBand cs={cs} />
+          <MetricBand cs={cs} emphasizeFirst={isSystemPage} />
         </section>
 
-        <SectionBlock eyebrow="The Challenge">
-          <BodyCopy text={cs.challenge} />
-        </SectionBlock>
+        {isSystemPage ? (
+          <>
+            <ProblemSystemSection cs={cs} parent={parent} heroImage={heroImage} />
 
-        <SectionBlock eyebrow="The Approach">
-          <BodyCopy text={cs.approach} />
-        </SectionBlock>
+            <SectionBlock eyebrow="The Work" title="What got rebuilt">
+              <DeliverableGrid deliverables={cs.deliverables} isSystemPage />
+            </SectionBlock>
 
-        <SectionBlock eyebrow="The Work">
-          <motion.div
-            className={styles.deliverableGrid}
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-80px' }}
-          >
-            {cs.deliverables.map((deliverable) => (
-              <motion.div key={deliverable.title} variants={itemVariants} className={styles.deliverable}>
-                <h3 className={styles.deliverableTitle}>{deliverable.title}</h3>
-                <p className={styles.deliverableDesc}>{deliverable.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </SectionBlock>
+            {cs.process && cs.process.length > 0 && <ProcessTimeline process={cs.process} />}
 
-        {related.length > 0 && (
-          <SectionBlock eyebrow={parent ? 'Related Projects' : 'Systems Built'}>
-            <div className={styles.relatedGrid}>
-              {related.map((study) => (
-                <Link key={study.slug} href={`/work/${study.slug}`} className={styles.relatedCard}>
-                  <p className={styles.relatedLabel}>{study.label}</p>
-                  <p className={styles.relatedClient}>{study.client}</p>
-                  <p className={styles.relatedHeadline}>{study.headline}</p>
-                  <span className={styles.relatedArrow}>
-                    View case study
-                    <ArrowRight weight="regular" size={13} />
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </SectionBlock>
+            <SectionBlock eyebrow="The Outcome">
+              <BodyCopy text={cs.outcome} />
+            </SectionBlock>
+
+            <SectionBlock eyebrow="What This Means For You">
+              <BodyCopy text={cs.whatThisMeansForYou} />
+            </SectionBlock>
+
+            <RelatedProjects related={related} parent={parent} />
+          </>
+        ) : (
+          <>
+            <SectionBlock eyebrow="The Challenge">
+              <BodyCopy text={cs.challenge} />
+            </SectionBlock>
+
+            <SectionBlock eyebrow="The Approach">
+              <BodyCopy text={cs.approach} />
+            </SectionBlock>
+
+            <SectionBlock eyebrow="The Work">
+              <DeliverableGrid deliverables={cs.deliverables} isSystemPage={false} />
+            </SectionBlock>
+
+            <RelatedProjects related={related} parent={parent} />
+
+            {cs.process && cs.process.length > 0 && <ProcessTimeline process={cs.process} />}
+
+            <SectionBlock eyebrow="The Outcome">
+              <BodyCopy text={cs.outcome} />
+            </SectionBlock>
+
+            <SectionBlock eyebrow="What This Means For You">
+              <BodyCopy text={cs.whatThisMeansForYou} />
+            </SectionBlock>
+          </>
         )}
 
-        {cs.process && cs.process.length > 0 && (
-          <SectionBlock eyebrow="The Process">
-            <div className={styles.processList}>
-              {cs.process.map((phase) => (
-                <div key={phase.label} className={styles.processPhase}>
-                  <p className={styles.processLabel}>{phase.label}</p>
-                  <p className={styles.processDesc}>{phase.description}</p>
-                </div>
-              ))}
-            </div>
-          </SectionBlock>
-        )}
-
-        <SectionBlock eyebrow="The Outcome">
-          <BodyCopy text={cs.outcome} />
-        </SectionBlock>
-
-        <SectionBlock eyebrow="What This Means For You">
-          <BodyCopy text={cs.whatThisMeansForYou} />
-        </SectionBlock>
-
-        <FadeUp>
-          <section className={styles.ctaSection}>
-            <h2 className={styles.ctaHeadline}>
-              Ready to <span className={styles.ctaAccent}>{cs.ctaLine}</span>?
-            </h2>
-            <p className={styles.ctaSub}>Let&apos;s talk about what that looks like.</p>
-
-            <div className={styles.ctaActions}>
-              <MagneticButton radius={120} maxPull={16}>
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={springEntrance}
-                  style={{ display: 'inline-block' }}
-                >
-                  <Link href="/contact" className={styles.ctaBtn}>
-                    Let&apos;s talk
-                    <ArrowRight weight="regular" size={14} />
-                  </Link>
-                </motion.div>
-              </MagneticButton>
-
-              <Link href="/work" className={styles.backLink}>
-                <ArrowLeft weight="regular" size={14} />
-                All work
-              </Link>
-            </div>
-          </section>
-        </FadeUp>
-
-        {(prev || next) && (
-          <FadeUp>
-            <div className={styles.prevNext}>
-              {prev ? (
-                <Link href={`/work/${prev.slug}`} className={styles.prevNextCell}>
-                  <p className={styles.prevNextLabel}>Previous</p>
-                  <p className={styles.prevNextTitle}>← {prev.client}</p>
-                </Link>
-              ) : (
-                <div />
-              )}
-
-              {next ? (
-                <Link href={`/work/${next.slug}`} className={`${styles.prevNextCell} ${styles.prevNextRight}`}>
-                  <p className={styles.prevNextLabel}>Next</p>
-                  <p className={styles.prevNextTitle}>{next.client} →</p>
-                </Link>
-              ) : (
-                <div />
-              )}
-            </div>
-          </FadeUp>
-        )}
+        <ContactCta cs={cs} />
+        <PrevNextNav prev={prev} next={next} />
       </div>
     </article>
   )

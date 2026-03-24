@@ -9,7 +9,7 @@ import styles from './Nav.module.css'
 
 const navLinks = [
   { href: '/work', label: 'Work' },
-  { href: '/#services', label: 'Services' },
+  { href: '/services', label: 'Services' },
   { href: '/about', label: 'About' },
   { href: '/lab', label: 'Lab' },
   { href: '/studio', label: 'Studio' },

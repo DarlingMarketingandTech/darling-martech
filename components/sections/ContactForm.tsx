@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import { contactServiceOptions } from '@/data/services'
 import styles from './ContactForm.module.css'
 
 const schema = z.object({
@@ -18,15 +19,6 @@ const schema = z.object({
 })
 
 type FormData = z.infer<typeof schema>
-
-const serviceOptions = [
-  { value: '', label: 'What do you need help with?' },
-  { value: 'Marketing Strategy & Consulting', label: 'Marketing Strategy & Consulting' },
-  { value: 'Web & App Development', label: 'Web & App Development' },
-  { value: 'Tech Implementation', label: 'Tech Implementation' },
-  { value: 'SEO & Digital Marketing', label: 'SEO & Digital Marketing' },
-  { value: "Not sure yet — let's talk", label: "Not sure yet — let's talk" },
-]
 
 export function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -106,7 +98,7 @@ export function ContactForm() {
           {...register('service')}
           className={`${styles.select} ${errors.service ? styles.selectError : ''}`}
         >
-          {serviceOptions.map((opt) => (
+          {contactServiceOptions.map((opt) => (
             <option key={opt.value} value={opt.value} className={styles.option}>
               {opt.label}
             </option>

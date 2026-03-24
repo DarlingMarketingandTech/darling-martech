@@ -1,5 +1,5 @@
 .main {
-  padding-top: 8rem;
+  padding-top: clamp(5.5rem, 10vh, 8.5rem);
   padding-bottom: 6rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -7,13 +7,13 @@
 
 @media (min-width: 768px) {
   .main {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+    padding-left: 5vw;
+    padding-right: 5vw;
   }
 }
 
 .inner {
-  max-width: 1400px;
+  max-width: 1520px;
   margin: 0 auto;
 }
 

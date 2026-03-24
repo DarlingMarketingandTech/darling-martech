@@ -17,6 +17,7 @@ export type WorkLayoutMode = 'editorial' | 'split' | 'stacked'
 export type WorkMetricStyle = 'pill' | 'panel' | 'ticker'
 
 export type WorkMediaStyle = 'portrait' | 'landscape' | 'stack'
+export type WorkDashboardTier = 'flagship' | 'system' | 'standard'
 
 export type WorkTheme = {
   layout?: WorkLayoutMode
@@ -34,11 +35,13 @@ export type WorkCard = {
   category: WorkCategory
   logoPublicId?: string // Cloudinary public_id for logo/anchor image
   heroPublicId?: string // Optional hero image public_id
+  cardPublicId?: string // Optional still image override for the /work index cards only
   cardPreviewPublicId?: string
   cardPreviewType?: 'image' | 'video'
   featured?: boolean    // Pinned to top of grid
   visualMode?: WorkVisualMode
   theme?: WorkTheme
+  dashboardTier?: WorkDashboardTier
   parentProjectSlug?: string
   relatedProjectSlugs?: string[]
 }
@@ -46,6 +49,7 @@ export type WorkCard = {
 export type Deliverable = {
   title: string
   description: string
+  emphasis?: 'feature' | 'standard'
 }
 
 export type ProcessPhase = {
@@ -70,6 +74,7 @@ export type CaseStudy = WorkCard & {
   process?: ProcessPhase[]
   whatThisMeansForYou: string
   ctaLine: string
+  problemVisualPublicId?: string
   cloudinaryAssets?: CloudinaryAsset[]
 }
 

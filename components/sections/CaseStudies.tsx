@@ -1,80 +1,168 @@
 'use client'
 
+import { useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
+import { CldImage } from 'next-cloudinary'
 import { motion } from 'framer-motion'
-import { ArrowRight } from '@phosphor-icons/react'
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { getAllWork } from '@/data/work/work-data'
-import { containerVariants, itemVariants, fadeVariants, viewport, springStandard, springEntrance } from '@/lib/motion'
+import type { CaseStudy } from '@/lib/work'
+import { cn } from '@/lib/utils'
+import {
+  containerVariants,
+  fadeVariants,
+  itemVariants,
+  springEntrance,
+  viewport,
+} from '@/lib/motion'
 import styles from './CaseStudies.module.css'
 
-const featuredTeasers = [
-  {
-    slug: 'primarycare-indy',
-    description: 'Independent clinic positioning, patient intake clarity, and local search infrastructure that made the practice competitive with major health systems.',
-  },
-  {
-    slug: 'hoosier-boy-barbershop',
-    description: 'Indiana-rooted brand identity, booking experience, and local discovery system built to win without paid media.',
-  },
-  {
-    slug: 'behr-pet-essentials',
-    description: 'Infographic-first product education and direct-response content that turned complexity into conversion.',
-  },
-  {
-    slug: 'primary-colours',
-    description: 'Sponsorship architecture and exhibition marketing that turned a community event into a real revenue engine.',
-  },
-  {
-    slug: 'russell-painting',
-    description: 'Trust-led web architecture and local SEO that made a legacy reputation visible online.',
-  },
+const showcaseSlugs = [
+  '317-bbq',
+  'graston-technique',
+  'hoosier-boy-barbershop',
+  'pike-medical-consultants',
+  'behr-pet-essentials',
 ] as const
 
-const caseStudies = featuredTeasers
-  .map((teaser, index) => {
-    const study = getAllWork().find((item) => item.slug === teaser.slug)
-    if (!study) return null
-
-    return {
-      num: String(index + 1).padStart(2, '0'),
-      client: study.client,
-      industry: study.label.split('·')[0]?.trim() ?? study.category,
-      stat: study.metrics[0],
-      description: teaser.description,
-      slug: study.slug,
-    }
-  })
-  .filter((study): study is NonNullable<typeof study> => Boolean(study))
-
-const rowVariants = {
-  rest: {
-    backgroundColor: 'rgba(0,0,0,0)',
-    transition: springStandard,
-  },
-  hover: {
-    backgroundColor: 'var(--color-surface)',
-    transition: springStandard,
-  },
+function isArtwork(publicId: string) {
+  return /(?:^|[_-])(logo|Logo)(?:[_-]|$)|Full_Logo|webheader/i.test(publicId)
 }
 
-const borderVariants = {
-  rest: { scaleY: 0, transition: springStandard },
-  hover: { scaleY: 1, transition: springStandard },
+function getShowcaseStudies() {
+  return showcaseSlugs
+    .map((slug) => getAllWork().find((study) => study.slug === slug))
+    .filter((study): study is CaseStudy => Boolean(study))
 }
 
-const arrowVariants = {
-  rest: { x: 0, opacity: 0.45, transition: springStandard },
-  hover: { x: 4, opacity: 1, transition: springStandard },
-}
+function HomeWorkCard({
+  study,
+  active,
+  onActivate,
+}: {
+  study: CaseStudy
+  active: boolean
+  onActivate: () => void
+}) {
+  const mediaPublicId = study.cardPublicId ?? study.heroPublicId ?? study.logoPublicId
+  const metrics = study.metrics.slice(0, 2)
 
-const MotionLink = motion(Link)
+  return (
+    <motion.article
+      className={cn(styles.cardShell, active && styles.cardShellActive)}
+      whileHover={{ y: -6 }}
+      transition={springEntrance}
+    >
+      <Link
+        href={`/work/${study.slug}`}
+        className={styles.card}
+        onMouseEnter={onActivate}
+        onFocus={onActivate}
+      >
+        <div className={styles.cardMediaWrap}>
+          {mediaPublicId && isArtwork(mediaPublicId) ? (
+            <div className={cn(styles.cardMedia, styles.cardArtwork)}>
+              <div className={styles.cardBackdropGrid} aria-hidden="true" />
+              <div className={styles.cardArtworkGlow} aria-hidden="true" />
+              <CldImage
+                src={mediaPublicId}
+                alt={`${study.client} case study cover`}
+                width={900}
+                height={560}
+                crop="fit"
+                className={styles.cardArtworkImage}
+                sizes="(min-width: 1200px) 28rem, (min-width: 768px) 22rem, 86vw"
+              />
+              <span className={styles.cardBadge}>{study.category}</span>
+            </div>
+          ) : mediaPublicId ? (
+            <div className={styles.cardMedia}>
+              <CldImage
+                src={mediaPublicId}
+                alt={`${study.client} case study cover`}
+                width={1200}
+                height={900}
+                crop="fill"
+                gravity="auto"
+                className={styles.cardMediaImage}
+                sizes="(min-width: 1200px) 28rem, (min-width: 768px) 22rem, 86vw"
+              />
+              <div className={styles.cardMediaShade} />
+              <span className={styles.cardBadge}>{study.category}</span>
+            </div>
+          ) : (
+            <div className={cn(styles.cardMedia, styles.cardFallback)} aria-hidden="true">
+              <div className={styles.cardBackdropGrid} />
+              <div className={styles.cardFallbackBeam} />
+              <div className={styles.cardFallbackWordmark}>{study.client}</div>
+              <span className={styles.cardBadge}>{study.category}</span>
+            </div>
+          )}
+        </div>
+
+        <div className={styles.cardBody}>
+          <p className={styles.cardEyebrow}>{study.label}</p>
+          <h3 className={styles.cardTitle}>{study.client}</h3>
+          <p className={styles.cardSummary}>{study.headline}</p>
+
+          <div className={styles.cardMetrics}>
+            {metrics.map((metric, index) => (
+              <span key={metric} className={cn(styles.cardMetric, index === 0 && styles.cardMetricAccent)}>
+                {metric}
+              </span>
+            ))}
+          </div>
+
+          <span className={styles.cardCta}>
+            Open case study
+            <ArrowRight className={styles.cardCtaIcon} />
+          </span>
+        </div>
+      </Link>
+    </motion.article>
+  )
+}
 
 export function CaseStudies() {
+  const studies = useMemo(() => getShowcaseStudies(), [])
+  const railRef = useRef<HTMLDivElement | null>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  const activeStudy = studies[activeIndex] ?? studies[0]
+
+  const scrollToIndex = (index: number) => {
+    const rail = railRef.current
+    if (!rail) return
+
+    const nextIndex = Math.max(0, Math.min(index, studies.length - 1))
+    const child = rail.children[nextIndex] as HTMLElement | undefined
+    child?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+    setActiveIndex(nextIndex)
+  }
+
+  const handleScroll = () => {
+    const rail = railRef.current
+    if (!rail) return
+
+    const snapPoint = rail.scrollLeft + rail.clientWidth * 0.18
+    let closestIndex = 0
+    let closestDistance = Number.POSITIVE_INFINITY
+
+    Array.from(rail.children).forEach((child, index) => {
+      const element = child as HTMLElement
+      const distance = Math.abs(element.offsetLeft - snapPoint)
+      if (distance < closestDistance) {
+        closestDistance = distance
+        closestIndex = index
+      }
+    })
+
+    setActiveIndex((current) => (current === closestIndex ? current : closestIndex))
+  }
+
   return (
     <section id="work" className={styles.section}>
       <div className={styles.container}>
-
-        {/* Header */}
         <motion.div
           className={styles.header}
           variants={containerVariants}
@@ -82,80 +170,96 @@ export function CaseStudies() {
           whileInView="visible"
           viewport={viewport}
         >
-          <motion.p variants={fadeVariants} className={styles.label}>
-            Selected Work
-          </motion.p>
-          <motion.h2 variants={itemVariants} className={styles.heading}>
-            Work that proves the point.
-          </motion.h2>
-          <motion.p variants={itemVariants} className={styles.subheading}>
-            Across healthcare, legal, finance, retail, nonprofits, and local business — here&apos;s what
-            strategy and execution look like when the same person does both.
-          </motion.p>
+          <div className={styles.headerCopy}>
+            <motion.p variants={fadeVariants} className={styles.label}>
+              Selected Work
+            </motion.p>
+            <motion.h2 variants={itemVariants} className={styles.heading}>
+              Work that proves the point.
+            </motion.h2>
+            <motion.p variants={itemVariants} className={styles.subheading}>
+              A smaller command-center view of a few case studies. Browse the highlights here, then
+              step into the full system on the work page.
+            </motion.p>
+          </div>
+
+          <motion.div variants={itemVariants} className={styles.headerActions}>
+            <Link href="/work" className={styles.primaryCta}>
+              Explore all work
+              <ArrowRight className={styles.primaryCtaIcon} />
+            </Link>
+          </motion.div>
         </motion.div>
 
-        {/* Case study list */}
-        <motion.ul
-          className={styles.list}
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-        >
-          {caseStudies.map((cs) => (
-            <motion.li key={cs.client} variants={itemVariants}>
-              <MotionLink
-                href={`/work/${cs.slug}`}
-                className={styles.row}
-                initial="rest"
-                whileHover="hover"
-                variants={rowVariants}
-              >
-                {/* Orange left border — scaleY reveal from center */}
-                <motion.span
-                  className={styles.rowBorder}
-                  variants={borderVariants}
-                  style={{ originY: 0.5 }}
-                />
-
-                {/* Decorative sequential number */}
-                <span className={styles.number} aria-hidden="true">
-                  {cs.num}
-                </span>
-
-                {/* Info block */}
-                <div className={styles.info}>
-                  <span className={styles.clientName}>{cs.client}</span>
-                  <span className={styles.industry}>{cs.industry}</span>
-                  <p className={styles.description}>{cs.description}</p>
-                </div>
-
-                {/* Stat + arrow */}
-                <div className={styles.statGroup}>
-                  <span className={styles.stat}>{cs.stat}</span>
-                  <motion.span variants={arrowVariants} className={styles.arrowWrap}>
-                    <ArrowRight size={18} weight="regular" />
-                  </motion.span>
-                </div>
-              </MotionLink>
-            </motion.li>
-          ))}
-        </motion.ul>
-
-        {/* Footer CTA */}
         <motion.div
-          className={styles.footer}
-          initial={{ opacity: 0, y: 16 }}
+          className={styles.signalBar}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewport}
           transition={springEntrance}
         >
-          <Link href="/work" className={styles.cta}>
-            See all work
-            <ArrowRight size={15} weight="regular" />
-          </Link>
+          <div className={styles.signalGroup}>
+            <span className={styles.signalLabel}>Current signal</span>
+            <div className={styles.signalPrimary}>
+              <span className={styles.signalMetric}>{activeStudy?.metrics[0] ?? 'Selected work'}</span>
+              <span className={styles.signalClient}>{activeStudy?.client ?? 'Darling MarTech'}</span>
+            </div>
+          </div>
+
+          <div className={styles.signalGroup}>
+            <span className={styles.signalLabel}>Visible projects</span>
+            <span className={styles.signalCount}>{String(studies.length).padStart(2, '0')}</span>
+          </div>
+
+          <div className={styles.controls}>
+            <button
+              type="button"
+              className={styles.controlButton}
+              onClick={() => scrollToIndex(activeIndex - 1)}
+              disabled={activeIndex === 0}
+              aria-label="Previous project"
+            >
+              <ChevronLeft className={styles.controlIcon} />
+            </button>
+            <button
+              type="button"
+              className={styles.controlButton}
+              onClick={() => scrollToIndex(activeIndex + 1)}
+              disabled={activeIndex === studies.length - 1}
+              aria-label="Next project"
+            >
+              <ChevronRight className={styles.controlIcon} />
+            </button>
+          </div>
         </motion.div>
 
+        <motion.div
+          className={styles.railOuter}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={viewport}
+          transition={springEntrance}
+        >
+          <div className={styles.rail} ref={railRef} onScroll={handleScroll}>
+            {studies.map((study, index) => (
+              <div key={study.slug} className={styles.railSlide}>
+                <HomeWorkCard
+                  study={study}
+                  active={index === activeIndex}
+                  onActivate={() => setActiveIndex(index)}
+                />
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        <div className={styles.progressTrack} aria-hidden="true">
+          <motion.div
+            className={styles.progressBar}
+            animate={{ width: `${((activeIndex + 1) / Math.max(studies.length, 1)) * 100}%` }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+          />
+        </div>
       </div>
     </section>
   )

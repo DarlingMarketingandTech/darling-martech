@@ -8,6 +8,8 @@ interface CloudinaryResource {
   readonly height: number
   readonly secure_url: string
   readonly public_id: string
+  readonly resource_type?: string
+  readonly format?: string
 }
 
 interface CloudinarySearchResponse {
@@ -65,10 +67,19 @@ export async function GET(request: NextRequest) {
     const data = (await res.json()) as CloudinarySearchResponse
     const resources = data.resources ?? []
 
-    // Filter out very small images (likely thumbnails/icons) and format as gallery items
+    const supportedFormats = new Set(['jpg', 'jpeg', 'png', 'webp', 'gif', 'avif'])
+
+    // Filter out non-displayable assets and very small images
     const images = resources
       .filter((r) => {
-        // Exclude tiny images (< 500px on shortest side) — likely not portfolio-worthy
+        const normalizedFormat = r.format?.toLowerCase() ?? ''
+        const isDisplayableImage =
+          r.resource_type !== 'video' &&
+          r.secure_url.includes('/image/upload/') &&
+          supportedFormats.has(normalizedFormat)
+
+        if (!isDisplayableImage) return false
+
         const minDimension = Math.min(r.width, r.height)
         return minDimension >= 500
       })

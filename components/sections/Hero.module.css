@@ -144,8 +144,37 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   margin-top: 4.5rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+  padding: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--color-border) 82%, transparent);
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 7%, transparent), transparent 58%),
+    color-mix(in srgb, var(--color-surface) 82%, transparent);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+}
+
+.statsBar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(245, 240, 232, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245, 240, 232, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.24;
+  pointer-events: none;
+}
+
+.statsBar > * {
+  position: relative;
+  z-index: 1;
+  padding: 1.35rem 1.5rem 1.2rem;
+}
+
+.statsBar > *:not(:first-child) {
+  border-left: 1px solid color-mix(in srgb, var(--color-border) 78%, transparent);
 }
 
 .statItem {
@@ -240,19 +269,18 @@
     grid-template-columns: repeat(2, 1fr);
     row-gap: 1.5rem;
     margin-top: 3rem;
+    padding: 0.25rem;
   }
 
-  .statItem {
-    padding-right: 0;
+  .statsBar > * {
+    padding: 1.15rem 1rem 1rem;
   }
 
-  .statItem:not(:first-child) {
-    padding-left: 0;
+  .statsBar > *:not(:first-child) {
     border-left: none;
   }
 
-  .statItem:nth-child(even) {
-    padding-left: 1.25rem;
-    border-left: 1px solid var(--color-border);
+  .statsBar > *:nth-child(even) {
+    border-left: 1px solid color-mix(in srgb, var(--color-border) 78%, transparent);
   }
 }

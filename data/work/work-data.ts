@@ -264,6 +264,9 @@ const workData: CaseStudy[] = [
     ctaLine: 'turn your platform into something that runs itself',
     cloudinaryAssets: [
       { publicId: 'graston_technique_logo', label: 'Graston Technique logo', folder: 'studio/projects' },
+      { publicId: 'graston-website', label: 'Graston website overview', folder: 'studio/projects/graston-technique' },
+      { publicId: 'graston-website-training', label: 'Graston training page preview', folder: 'studio/projects/graston-technique' },
+      { publicId: 'graston-website-shop', label: 'Graston shop page preview', folder: 'studio/projects/graston-technique' },
     ],
   },
 
@@ -408,6 +411,12 @@ const workData: CaseStudy[] = [
     whatThisMeansForYou:
       'If you\'re running a multi-location practice, a growing healthcare group, or any service business where multiple divisions are operating without a coherent parent-brand strategy, you\'re leaving patient lifetime value and organizational credibility on the table. I build the infrastructure that holds it together. That\'s what I build.',
     ctaLine: 'build a healthcare platform instead of a collection of websites',
+    cloudinaryAssets: [
+      { publicId: '635889083997282366-Dr.-James-Pike', label: 'Dr. James Pike portrait', folder: 'studio/projects/pike-medical' },
+      { publicId: 'pmc-welcome', label: 'Pike Medical welcome graphic', folder: 'studio/projects/pike-medical' },
+      { publicId: 'pmc-webheader-med', label: 'Pike Medical header graphic', folder: 'studio/projects/pike-medical' },
+      { publicId: 'download', label: 'Pike Medical brand graphic', folder: 'studio/projects/pike-medical' },
+    ],
   },
 
   // ── PrimaryCare Indy ───────────────────────────────────────────────────────
@@ -416,6 +425,7 @@ const workData: CaseStudy[] = [
     titleTag: 'PrimaryCare Indy — Healthcare Brand, Website & Patient Acquisition | Darling MarTech',
     metaDescription:
       'How a full digital transformation drove 75% more online bookings, 300% organic traffic growth, and 210% ROI for an independent Indianapolis primary care clinic.',
+    problemVisualPublicId: 'primary-care-indy-website',
     subhead:
       'PrimaryCare Indy had the clinical expertise and the personal touch. What it lacked was a digital presence that made patients trust it before the first appointment. I built that from the ground up.',
     challenge:
@@ -430,6 +440,7 @@ const workData: CaseStudy[] = [
       },
       {
         title: 'Website Redesign (WordPress, Mobile-First)',
+        emphasis: 'feature',
         description:
           'The site was built on WordPress with a custom theme, mobile-first layout, optimized load times, schema markup for medical services, integrated Google Maps, HIPAA-safe form routing, SSL, and Core Web Vitals readiness. A patient can move from "what does this clinic do?" to "how do I schedule?" in under three clicks.',
       },
@@ -445,6 +456,7 @@ const workData: CaseStudy[] = [
       },
       {
         title: 'Local SEO & Google Business Optimization',
+        emphasis: 'feature',
         description:
           'Built a comprehensive local SEO strategy targeting high-intent queries. Google Business profile work included improved completeness, keyword targeting, a systematic review management and response workflow, optimized imagery and metadata, and consistent NAP across all directory listings. Result: 300% increase in organic traffic over 12 months, 70% of inbound appointments tracing directly to Google.',
       },
@@ -454,12 +466,36 @@ const workData: CaseStudy[] = [
           'Built a HIPAA-compliant Mailchimp email infrastructure for ongoing patient communication — seasonal health reminders, flu campaigns, wellness check prompts, service updates, and patient education content.',
       },
     ],
+    process: [
+      {
+        label: 'Phase 1: Visibility Audit',
+        description:
+          'Audited the clinic website, Google Business profile, review presence, and patient decision path to identify the gaps causing larger health systems to win before PrimaryCare Indy was even considered.',
+      },
+      {
+        label: 'Phase 2: Brand & Experience Design',
+        description:
+          'Built the identity system, restructured the site architecture, and rewrote the service narrative around clarity, trust, and fast patient decision-making.',
+      },
+      {
+        label: 'Phase 3: Scheduling & Search Infrastructure',
+        description:
+          'Integrated the patient portal and scheduling flow, deployed local SEO improvements, and tightened every high-intent page around conversion rather than brochure copy.',
+      },
+      {
+        label: 'Phase 4: Patient Growth Optimisation',
+        description:
+          'Tracked booking behavior, administrative friction, reviews, and local search performance to compound gains after launch and confirm the clinic was now winning through Google.',
+      },
+    ],
     outcome:
       'The results were significant across every channel. Online appointment bookings grew 75%. Organic traffic climbed 300% over 12 months. Seventy percent of inbound appointments could be directly attributed to Google Search and Maps. Administrative call volume dropped 50%. Patient satisfaction improved 20%. New patient referrals grew 35%. The Google rating held at 5 stars across 50+ reviews. Total ROI on the engagement: 210%.',
     whatThisMeansForYou:
       'If you run an independent practice — in healthcare or any professional service — that\'s consistently losing to larger, better-funded competitors in Google results, the answer isn\'t a bigger budget. It\'s a smarter system. That\'s what I build.',
     ctaLine: 'build a patient acquisition system your practice can actually own',
     cloudinaryAssets: [
+      { publicId: 'primary-care-indy-website', label: 'PrimaryCare Indy website overview', folder: 'studio/projects/primarycare-indy' },
+      { publicId: 'primary-care-indy-website-telehealth', label: 'PrimaryCare Indy telehealth page preview', folder: 'studio/projects/primarycare-indy' },
       { publicId: 'primarycare-logo-anchor', label: 'PrimaryCare Indy logo', folder: 'studio/projects/primarycare-indy' },
       { publicId: 'Dr._PIke', label: 'Dr. Pike portrait', folder: 'studio/projects/primarycare-indy' },
       { publicId: 'Primary_Care_Logo_with_PMC', label: 'PrimaryCare Indy PMC logo', folder: 'studio/projects/primarycare-indy' },
@@ -519,6 +555,7 @@ const workData: CaseStudy[] = [
     ctaLine: 'find a long-term marketing partner who actually understands your field',
     cloudinaryAssets: [
       { publicId: 'rbe-logo-anchor', label: 'Riley Bennett Egloff logo', folder: 'studio/projects/riley-bennett-egloff' },
+      { publicId: 'dss', label: 'Riley Bennett Egloff website still', folder: 'studio/projects/riley-bennett-egloff' },
     ],
   },
 
@@ -542,6 +579,7 @@ const workData: CaseStudy[] = [
       },
       {
         title: 'WooCommerce Order & Checkout System',
+        emphasis: 'feature',
         description:
           'Customized the WooCommerce checkout flow for high-ticket B2B and B2C purchases. Buyers could see exactly what they were committing to — total cost, payment schedule, and per-installment amount — before confirming. Payment plan selection as a native checkout option.',
       },
@@ -552,6 +590,7 @@ const workData: CaseStudy[] = [
       },
       {
         title: 'Stripe Integration & Installment Automation',
+        emphasis: 'feature',
         description:
           'Integrated Stripe for payment processing with support for both one-time charges and installment schedules. Initial deposit or full payment collected at checkout; subsequent installments auto-charged via Stripe. Failed payment retry logic and payment confirmation emails all handled automatically.',
       },
@@ -559,6 +598,28 @@ const workData: CaseStudy[] = [
         title: 'Revenue Reporting Dashboard',
         description:
           'Built a WooCommerce admin dashboard view showing active payment plans, upcoming charges, total committed revenue, and outstanding balances. The operations team could see the full revenue pipeline in one view.',
+      },
+    ],
+    process: [
+      {
+        label: 'Phase 1: Revenue Friction Audit',
+        description:
+          'Mapped the existing quote, invoice, and payment-plan handoff to locate where sales momentum was stalling and where operations was spending manual effort to keep deals alive.',
+      },
+      {
+        label: 'Phase 2: Checkout Architecture',
+        description:
+          'Designed a quote-to-order flow that could turn custom configurations into draft orders, expose payment options clearly, and replace invoice chasing with a guided checkout path.',
+      },
+      {
+        label: 'Phase 3: Payment Plan Engine',
+        description:
+          'Built the ACF-driven plan configuration layer and Stripe installment automation so staff could deploy financing options without code changes or manual follow-up.',
+      },
+      {
+        label: 'Phase 4: Revenue Operations Visibility',
+        description:
+          'Added reporting and monitoring around active plans, upcoming charges, and failed payments so the system could be operated as a revenue engine rather than a patchwork of manual admin.',
       },
     ],
     outcome:
@@ -593,11 +654,13 @@ const workData: CaseStudy[] = [
       },
       {
         title: 'Custom Anomaly Scoring Model',
+        emphasis: 'feature',
         description:
           'Built a custom scoring model that evaluated incoming signals against rolling historical baselines rather than static thresholds. Seasonal traffic patterns, deployment-correlated spikes, and known-good variance windows were all factored in. The model assigned anomaly scores rather than binary alerts.',
       },
       {
         title: 'Auto-Resolution Workflows',
+        emphasis: 'feature',
         description:
           'For the 15+ failure patterns that were well-understood and repeatedly occurring, built automated remediation workflows: cache flushes on memory saturation signals, auto-scaling triggers on traffic anomalies, queue resets on message backlog spikes, container restarts on unhealthy health checks. These handled 94% of issues without human intervention.',
       },
@@ -605,6 +668,28 @@ const workData: CaseStudy[] = [
         title: 'Alert Routing & On-Call Optimization',
         description:
           'Redesigned the alert routing logic to eliminate notification fatigue. High-confidence, high-severity signals paged the on-call engineer with full context attached. Low-confidence signals were logged, scored, and monitored without triggering pages. MTTR dropped 40%.',
+      },
+    ],
+    process: [
+      {
+        label: 'Phase 1: Signal Audit',
+        description:
+          'Audited dashboards, alerts, and incident history across the platform to identify where fragmented monitoring was hiding problems instead of surfacing them.',
+      },
+      {
+        label: 'Phase 2: Observability Unification',
+        description:
+          'Connected Datadog APM and CloudWatch into a shared observability plane so application traces and infrastructure signals could be read as one system.',
+      },
+      {
+        label: 'Phase 3: Anomaly Intelligence',
+        description:
+          'Built the scoring model that compared live signals against historical baselines and produced confidence-weighted anomalies instead of noisy threshold alerts.',
+      },
+      {
+        label: 'Phase 4: Auto-Resolution & On-Call Tuning',
+        description:
+          'Automated the known failure patterns, tightened alert routing, and reduced the number of human interventions required to keep the platform healthy.',
       },
     ],
     outcome:
@@ -629,11 +714,13 @@ const workData: CaseStudy[] = [
     deliverables: [
       {
         title: 'Cloudflare WAF Deployment & Tuning',
+        emphasis: 'feature',
         description:
           'Deployed Cloudflare Web Application Firewall with custom ruleset tuned to the platform\'s actual traffic profile. OWASP Core Ruleset enabled and configured to minimize false positives. Result: 85,000+ threats blocked per month at the edge, before they ever reached the origin.',
       },
       {
         title: 'Authenticated Origin Pulls',
+        emphasis: 'feature',
         description:
           'Configured Cloudflare Authenticated Origin Pulls — a mutual TLS (mTLS) handshake that ensures the origin server only accepts connections from Cloudflare\'s edge. Any direct-to-origin request receives a TLS rejection. Direct origin exposure: zero.',
       },
@@ -651,6 +738,28 @@ const workData: CaseStudy[] = [
         title: 'Firewall Rules & Page Rules',
         description:
           'Built a layered ruleset covering geographic restrictions on admin paths, challenge requirements for suspicious behavioral signals, and page-level caching rules that reduced origin hits for static and semi-static content.',
+      },
+    ],
+    process: [
+      {
+        label: 'Phase 1: Exposure Audit',
+        description:
+          'Confirmed the direct-origin risk, mapped the current traffic path, and identified the DNS and certificate signals that could allow attackers to route around edge protection.',
+      },
+      {
+        label: 'Phase 2: Edge Security Deployment',
+        description:
+          'Deployed Cloudflare WAF, bot mitigation, and rate limiting with rules tuned to the platform\'s real traffic behavior rather than generic defaults.',
+      },
+      {
+        label: 'Phase 3: Origin Lockdown',
+        description:
+          'Implemented Authenticated Origin Pulls and DNSSEC so the origin would only accept traffic from the edge and the resolution layer could not be spoofed.',
+      },
+      {
+        label: 'Phase 4: Performance & Threat Tuning',
+        description:
+          'Adjusted firewall behavior, caching rules, and challenge thresholds to reduce server load while holding a tighter perimeter against ongoing malicious traffic.',
       },
     ],
     outcome:
@@ -675,6 +784,7 @@ const workData: CaseStudy[] = [
     deliverables: [
       {
         title: 'LearnDash-to-FluentCRM Webhook Bridge',
+        emphasis: 'feature',
         description:
           'Built a custom webhook handler that captured every LearnDash enrollment event — new member, course access, group assignment, completion — and translated each into a real-time FluentCRM API call. No polling, no cron jobs, no lag. When a member enrolled, CRM was updated within seconds.',
       },
@@ -685,6 +795,7 @@ const workData: CaseStudy[] = [
       },
       {
         title: 'Full Lifecycle CRM Automation',
+        emphasis: 'feature',
         description:
           'Mapped the complete member lifecycle — from first enrollment through active engagement, milestone completions, at-risk signals, and cancellation — and built FluentCRM automation sequences for each stage. Welcome sequences, progress nudges, completion congratulations, re-engagement campaigns, and offboarding flows all triggered automatically.',
       },
@@ -697,6 +808,28 @@ const workData: CaseStudy[] = [
         title: 'Monitoring & Error Handling',
         description:
           'Built webhook failure logging and retry logic so that any enrollment event that failed to process was queued, retried, and escalated for review if it failed three times. No silent failures.',
+      },
+    ],
+    process: [
+      {
+        label: 'Phase 1: Lifecycle Mapping',
+        description:
+          'Mapped every manual handoff between enrollment, access provisioning, CRM tagging, and follow-up so the automation design matched the real member journey.',
+      },
+      {
+        label: 'Phase 2: Integration Bridge',
+        description:
+          'Built the webhook layer between LearnDash and FluentCRM so every important state change in the course platform could trigger CRM actions in real time.',
+      },
+      {
+        label: 'Phase 3: Automation Coverage',
+        description:
+          'Configured onboarding, progress, re-engagement, and cancellation sequences so the lifecycle ran automatically across every major membership state.',
+      },
+      {
+        label: 'Phase 4: Reliability Layer',
+        description:
+          'Added monitoring, retries, and escalation paths to ensure that failed webhook events were recoverable and never became silent experience breaks for members.',
       },
     ],
     outcome:
@@ -752,6 +885,7 @@ const workData: CaseStudy[] = [
     ctaLine: 'close the gap between your reputation and your digital presence',
     cloudinaryAssets: [
       { publicId: 'tbm-logo-anchor', label: 'Tuohy Bailey & Moore logo', folder: 'studio/projects/tuohy-bailey-moore' },
+      { publicId: 'law-firm-18', label: 'Tuohy Bailey & Moore office photography', folder: 'studio/projects/tuohy-bailey-moore' },
     ],
   },
 
@@ -761,6 +895,7 @@ const workData: CaseStudy[] = [
     titleTag: 'UrgentCare Indy — Healthcare Brand, Website & Patient Acquisition | Darling MarTech',
     metaDescription:
       'How a full digital rebuild cut wait-time friction, drove 35% more online bookings, and made online check-in the default for 60% of UrgentCare Indy patients.',
+    problemVisualPublicId: 'urgentorED3',
     subhead:
       'UrgentCare Indy needed a digital front door that matched the speed and clarity of the care inside. I rebuilt it from the brand up — and turned a frustrating check-in process into a conversion system.',
     challenge:
@@ -775,11 +910,13 @@ const workData: CaseStudy[] = [
       },
       {
         title: 'Website Redesign (WordPress, Mobile-First)',
+        emphasis: 'feature',
         description:
           'Built on WordPress with a mobile-first layout — because urgent care patients are almost universally on a phone, in a hurry, often anxious. I structured the homepage to immediately surface: conditions treated, clinic hours, insurance and self-pay options, online check-in, and a direct bridge into PrimaryCare Indy for continuity of care.',
       },
       {
         title: 'Clockwise MD / Online Check-In Integration',
+        emphasis: 'feature',
         description:
           'Integrated Clockwise MD for real-time online check-in and live wait-time estimates. This single feature changed how patients interacted with the clinic before they arrived — giving them control over timing, reducing lobby dwell time. Result: 60% of visits shifted to online check-in, and average wait time dropped 30%.',
       },
@@ -799,6 +936,28 @@ const workData: CaseStudy[] = [
           'Built out a dedicated Occupational Health section that repositioned UrgentCare Indy beyond consumer walk-ins: pre-employment physicals, drug screening, fit-for-duty exams, work injury care, and workers\' comp support.',
       },
     ],
+    process: [
+      {
+        label: 'Phase 1: Urgency Audit',
+        description:
+          'Mapped the real patient decision path to identify where the existing site was creating friction for people who needed answers quickly on a phone.',
+      },
+      {
+        label: 'Phase 2: Fast-and-Calm Experience Design',
+        description:
+          'Built the brand and site architecture around the balance of urgency and trust so patients could move quickly without the experience feeling chaotic.',
+      },
+      {
+        label: 'Phase 3: Check-In & Pricing Infrastructure',
+        description:
+          'Integrated Clockwise MD, surfaced transparent self-pay pricing, and structured the site around the exact information patients need before arrival.',
+      },
+      {
+        label: 'Phase 4: Search & Demand Optimisation',
+        description:
+          'Expanded visibility through local SEO, Google Business optimisation, and paid acquisition so the rebuilt experience had qualified patient demand flowing into it.',
+      },
+    ],
     outcome:
       'Online bookings climbed 35%. Online check-in accounted for 60% of all visits. Average patient wait time dropped 30%. Patient satisfaction scores rose 25%. Local search visibility reached the top 3 in Indianapolis.\n\nUrgentCare Indy stopped being a clinic with a website and started being a clinic with a digital patient acquisition system. Every layer of the experience — brand, site architecture, check-in flow, pricing transparency, local visibility, paid demand — was working together.',
     whatThisMeansForYou:
@@ -806,6 +965,7 @@ const workData: CaseStudy[] = [
     ctaLine: 'turn your clinic\'s website into a real patient acquisition system',
     cloudinaryAssets: [
       { publicId: 'urgentcare-logo-anchor', label: 'UrgentCare Indy logo', folder: 'studio/projects/urgentcare-indy' },
+      { publicId: 'slide3-with-phone', label: 'UrgentCare Indy mobile website mockup', folder: 'studio/projects/urgentcare-indy' },
       { publicId: 'urgentorED3', label: 'UrgentCare Indy patient education graphic', folder: 'studio/projects/urgentcare-indy' },
       { publicId: 'Facebook-When-to-Go-Where', label: 'UrgentCare Indy channel education graphic', folder: 'studio/projects/urgentcare-indy' },
       { publicId: 'do_you_know_where_to_go_urgent_care__primary_care_or_er', label: 'UrgentCare Indy triage education graphic', folder: 'studio/projects/urgentcare-indy' },
@@ -961,6 +1121,8 @@ const workData: CaseStudy[] = [
       'If your business has been around long enough to have a reputation, you already have the most powerful thing in local marketing: proof. The question is whether your digital presence reflects it. A website that doesn\'t show why someone should trust you isn\'t a marketing asset. It\'s a liability. Let\'s turn yours into the former.',
     ctaLine: 'turn what you\'ve built into leads',
     cloudinaryAssets: [
+      { publicId: 'russell-painting-website', label: 'Russell Painting website overview', folder: 'studio/projects/Russell Painting' },
+      { publicId: 'russell-painting-website-services', label: 'Russell Painting services page preview', folder: 'studio/projects/Russell Painting' },
       { publicId: 'russell-painting-logo', label: 'Russell Painting Co. logo', folder: 'studio/projects' },
       { publicId: 'russell-painting-logo2', label: 'Russell Painting Co. logo variant', folder: 'studio/projects' },
     ],

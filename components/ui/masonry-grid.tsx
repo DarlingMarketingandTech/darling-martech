@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { FloatingCard } from '@/components/3d/FloatingCard'
 import { useFinePointer } from '@/hooks/useFinePointer'
 import { cn } from '@/lib/utils'
@@ -36,15 +36,7 @@ const DEFAULT_COLUMNS: MasonryGridColumns = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 30, scale: 0.97 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: 'easeOut',
-    },
-  },
+  visible: { opacity: 1, y: 0, scale: 1 },
 }
 
 export function MasonryGrid<T>({
@@ -59,20 +51,13 @@ export function MasonryGrid<T>({
   enableTilt = true,
   tiltClassName,
 }: MasonryGridProps<T>) {
-  const containerRef = React.useRef<HTMLDivElement>(null)
-  const isInView = useInView(containerRef, { once: true, amount: 0.15 })
+  const [isVisible, setIsVisible] = React.useState(false)
   const isFinePointer = useFinePointer()
-  const containerVariants = React.useMemo(
-    () => ({
-      hidden: {},
-      visible: {
-        transition: {
-          staggerChildren: staggerDelay,
-        },
-      },
-    }),
-    [staggerDelay]
-  )
+
+  React.useEffect(() => {
+    const frame = window.requestAnimationFrame(() => setIsVisible(true))
+    return () => window.cancelAnimationFrame(frame)
+  }, [items.length])
 
   const style = {
     '--masonry-gap': gap,
@@ -85,12 +70,8 @@ export function MasonryGrid<T>({
 
   return (
     <motion.div
-      ref={containerRef}
       className={cn(styles.grid, className)}
       style={style}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
-      variants={containerVariants}
       role="list"
     >
       {items.map((item, index) => {
@@ -100,7 +81,14 @@ export function MasonryGrid<T>({
           <motion.div
             key={getItemKey ? getItemKey(item, index) : index}
             className={cn(styles.item, itemClassName)}
+            initial="hidden"
+            animate={isVisible ? 'visible' : 'hidden'}
             variants={itemVariants}
+            transition={{
+              duration: 0.5,
+              ease: 'easeOut',
+              delay: isVisible ? index * staggerDelay : 0,
+            }}
             role="listitem"
           >
             {enableTilt && isFinePointer ? (
