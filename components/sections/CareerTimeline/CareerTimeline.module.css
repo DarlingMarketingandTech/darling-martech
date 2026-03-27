@@ -168,7 +168,6 @@
     border-radius: 50%;
     background: var(--color-accent);
     transform: translateX(-50%);
-    transition: transform 0.2s ease;
   }
 }
 
