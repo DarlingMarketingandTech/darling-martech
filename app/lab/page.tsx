@@ -25,20 +25,21 @@ type Tool = {
   description: string
   stack: string[]
   url?: string
+  detailHref?: string
 }
 
 const tools: Tool[] = [
   // Marketing
-  { name: 'Graston Growth Engine', category: 'Marketing', status: 'Experimental', description: 'Marketing automation and lead scoring engine built for the Graston Technique ecosystem.', stack: ['Next.js', 'FluentCRM', 'REST API'] },
+  { name: 'Investment ROI Planner', category: 'Marketing', status: 'Production', description: 'Self-serve financial planning tool that helps practitioners calculate ROI on Graston certification before talking to sales.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/investment-roi-planner' },
   { name: 'ROI Calculator', category: 'Marketing', status: 'Beta', description: 'Marketing ROI calculator with inputs for channel spend, conversion rates, and lifetime value.', stack: ['React', 'TypeScript'], url: 'https://bearcave-marketing-v2.vercel.app/lab/roi-calculator' },
   { name: 'Brand Builder', category: 'Marketing', status: 'Beta', description: 'Brand positioning worksheet that outputs a one-page brand brief from structured inputs.', stack: ['React', 'TypeScript'], url: 'https://bearcave-marketing-v2.vercel.app/lab/brand-builder' },
   { name: 'Marketing Simulator', category: 'Marketing', status: 'Beta', description: 'Simulate marketing campaigns across channels and see projected outcomes before spending.', stack: ['React', 'D3.js'], url: 'https://bearcave-marketing-v2.vercel.app/lab/marketing-simulator' },
   { name: 'Email Simulator', category: 'Marketing', status: 'Beta', description: 'Preview and test email sequences with simulated send/open/click behavior.', stack: ['React', 'TypeScript'], url: 'https://bearcave-marketing-v2.vercel.app/lab/email-simulator' },
   { name: 'Social Simulator', category: 'Marketing', status: 'Beta', description: 'Map content calendars against projected reach and engagement by platform and posting frequency.', stack: ['React', 'Chart.js'], url: 'https://bearcave-marketing-v2.vercel.app/lab/social-simulator' },
   // Developer
-  { name: 'Clinical Compass', category: 'Developer', status: 'Production', description: 'Healthcare provider lookup and clinical resource tool built for patient-facing use.', stack: ['Next.js', 'REST API', 'TypeScript'], url: 'https://bearcave-marketing-v2.vercel.app/lab/clinical-compass' },
-  { name: 'License Hub', category: 'Developer', status: 'Production', description: 'Professional license verification hub with state-level lookup and expiration tracking.', stack: ['Next.js', 'Node.js', 'API'], url: 'https://bearcave-marketing-v2.vercel.app/lab/license-hub' },
-  { name: 'GT9 Pricing Tool', category: 'Developer', status: 'Production', description: 'Custom pricing calculator for Graston Technique product configurations and course bundles.', stack: ['React', 'TypeScript', 'WooCommerce API'], url: 'https://bearcave-marketing-v2.vercel.app/lab/gt9-pricing' },
+  { name: 'Clinical Compass', category: 'Developer', status: 'Production', description: 'Decision-support tool helping Graston practitioners navigate clinical protocols and treatment pathways without calling the home office.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/clinical-compass' },
+  { name: 'License Requirements Navigator', category: 'Developer', status: 'Production', description: 'State-by-state licensing lookup for healthcare practitioners — which credentials they need, which Graston certs count toward them.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/license-requirements' },
+  { name: 'Smart Sales & Pricing Tool', category: 'Developer', status: 'Production', description: 'Real-time pricing calculator for Graston certification bundles, equipment configurations, and institutional accounts.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/smart-sales-pricing' },
   { name: 'SEO Scanner', category: 'Developer', status: 'Beta', description: 'On-page SEO audit tool that scores pages against technical and content best practices.', stack: ['Next.js', 'Cheerio', 'Node.js'], url: 'https://bearcave-marketing-v2.vercel.app/lab/seo-scanner' },
   { name: 'Lead Score Lab', category: 'Developer', status: 'Beta', description: 'Build and test custom lead scoring models against historical CRM data.', stack: ['React', 'TypeScript', 'HubSpot API'], url: 'https://bearcave-marketing-v2.vercel.app/lab/lead-score-lab' },
   // Technologist
@@ -112,25 +113,28 @@ function ToolCard({
   readonly tool: Tool
   readonly onHighlight: (target: string | null) => void
 }) {
+  const hasDetail = Boolean(tool.detailHref)
+  const hasUrl = Boolean(tool.url)
+
   return (
     <GalleryHoverCard
       title={tool.name}
       summary={tool.description}
-      href={tool.url}
+      href={tool.detailHref ?? tool.url}
       cover={<ToolCardCover tool={tool} />}
       eyebrow={tool.category}
       badges={[tool.status, ...tool.stack.slice(0, 2)]}
       footer={
         <span
           className={styles.toolFooterMeta}
-          onMouseEnter={tool.url ? () => onHighlight(`${tool.name}-launch`) : undefined}
-          onMouseLeave={tool.url ? () => onHighlight(tool.name) : undefined}
+          onMouseEnter={hasDetail || hasUrl ? () => onHighlight(`${tool.name}-launch`) : undefined}
+          onMouseLeave={hasDetail || hasUrl ? () => onHighlight(tool.name) : undefined}
         >
-          {tool.url ? 'Open deployed tool' : 'Rebuilding — check back soon'}
+          {hasDetail ? 'Explore build details' : hasUrl ? 'Open deployed tool' : 'Rebuilding — check back soon'}
         </span>
       }
-      ctaLabel={tool.url ? 'Launch app' : undefined}
-      external={Boolean(tool.url)}
+      ctaLabel={hasDetail ? 'Read the build' : hasUrl ? 'Launch app' : undefined}
+      external={!hasDetail && hasUrl}
       interactiveId={tool.name}
       onHighlightChange={onHighlight}
       variant="lab"
