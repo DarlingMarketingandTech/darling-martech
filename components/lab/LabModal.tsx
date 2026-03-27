@@ -2,17 +2,17 @@
 
 import { useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ArrowSquareOut } from '@phosphor-icons/react'
+import { XIcon, ArrowSquareOutIcon } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { springCinematic } from '@/lib/motion'
 import styles from './LabModal.module.css'
 
 interface LabModalProps {
-  isOpen: boolean
-  onClose: () => void
-  toolSrc: string
-  toolName: string
-  toolSlug: string
+  readonly isOpen: boolean
+  readonly onClose: () => void
+  readonly toolSrc: string
+  readonly toolName: string
+  readonly toolSlug: string
 }
 
 export default function LabModal({ isOpen, onClose, toolSrc, toolName, toolSlug }: LabModalProps) {
@@ -63,11 +63,11 @@ export default function LabModal({ isOpen, onClose, toolSrc, toolName, toolSlug 
               </div>
               <div className={styles.titleActions}>
                 <Link href={`/lab/${toolSlug}`} className={styles.readLink}>
-                  <ArrowSquareOut weight="regular" size={16} />
+                  <ArrowSquareOutIcon weight="regular" size={16} />
                   Read the build
                 </Link>
                 <button className={styles.closeBtn} onClick={onClose} aria-label="Close tool">
-                  <X weight="regular" size={18} />
+                  <XIcon weight="regular" size={18} />
                 </button>
               </div>
             </div>
@@ -76,7 +76,7 @@ export default function LabModal({ isOpen, onClose, toolSrc, toolName, toolSlug 
                 src={toolSrc}
                 title={toolName}
                 className={styles.iframe}
-                sandbox="allow-scripts allow-forms allow-same-origin"
+                sandbox="allow-scripts allow-forms allow-same-origin allow-popups"
                 loading="lazy"
               />
             </div>

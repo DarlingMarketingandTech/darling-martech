@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import { Code, Flask, Megaphone, Planet, Rocket, Sparkle } from '@phosphor-icons/react'
+import { CodeIcon, MegaphoneIcon, PlanetIcon, RocketIcon } from '@phosphor-icons/react'
 import { GalleryHoverCard } from '@/components/ui/gallery-hover-card'
 import { containerVariants, itemVariants, fadeVariants, viewport } from '@/lib/motion'
 import { useFinePointer } from '@/hooks/useFinePointer'
@@ -21,39 +22,29 @@ const LabTelemetryScene = dynamic(
 type Tool = {
   name: string
   category: 'Marketing' | 'Developer' | 'Technologist'
-  status: 'Production' | 'Beta' | 'Experimental'
+  status: 'Production'
   description: string
   stack: string[]
   url?: string
   detailHref?: string
+  coverImage?: string
 }
 
 const tools: Tool[] = [
   // Marketing
-  { name: 'Investment ROI Planner', category: 'Marketing', status: 'Production', description: 'Self-serve financial planning tool that helps practitioners calculate ROI on Graston certification before talking to sales.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/investment-roi-planner' },
-  { name: 'ROI Calculator', category: 'Marketing', status: 'Beta', description: 'Marketing ROI calculator with inputs for channel spend, conversion rates, and lifetime value.', stack: ['React', 'TypeScript'], url: 'https://bearcave-marketing-v2.vercel.app/lab/roi-calculator' },
-  { name: 'Brand Builder', category: 'Marketing', status: 'Beta', description: 'Brand positioning worksheet that outputs a one-page brand brief from structured inputs.', stack: ['React', 'TypeScript'], url: 'https://bearcave-marketing-v2.vercel.app/lab/brand-builder' },
-  { name: 'Marketing Simulator', category: 'Marketing', status: 'Beta', description: 'Simulate marketing campaigns across channels and see projected outcomes before spending.', stack: ['React', 'D3.js'], url: 'https://bearcave-marketing-v2.vercel.app/lab/marketing-simulator' },
-  { name: 'Email Simulator', category: 'Marketing', status: 'Beta', description: 'Preview and test email sequences with simulated send/open/click behavior.', stack: ['React', 'TypeScript'], url: 'https://bearcave-marketing-v2.vercel.app/lab/email-simulator' },
-  { name: 'Social Simulator', category: 'Marketing', status: 'Beta', description: 'Map content calendars against projected reach and engagement by platform and posting frequency.', stack: ['React', 'Chart.js'], url: 'https://bearcave-marketing-v2.vercel.app/lab/social-simulator' },
+  { name: 'Graston Growth Engine', category: 'Marketing', status: 'Production', description: 'Full-stack provider directory and lead-gen OS — map-integrated spatial search, AI assistant console, Premier analytics suite, and automated support ticketing for a national healthcare brand.', stack: ['Next.js', 'Supabase', 'Google Maps API', 'TypeScript'], detailHref: '/lab/graston-growth-engine', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/graston-growth-engine_-_for_providers.png' },
+  { name: 'Investment ROI Planner', category: 'Marketing', status: 'Production', description: 'Self-serve financial planning tool that helps practitioners calculate ROI on Graston certification before talking to sales.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/investment-roi-planner', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Graston_Technique_ROI_Calculator_-_main.png' },
   // Developer
-  { name: 'Clinical Compass', category: 'Developer', status: 'Production', description: 'Decision-support tool helping Graston practitioners navigate clinical protocols and treatment pathways without calling the home office.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/clinical-compass' },
-  { name: 'License Requirements Navigator', category: 'Developer', status: 'Production', description: 'State-by-state licensing lookup for healthcare practitioners — which credentials they need, which Graston certs count toward them.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/license-requirements' },
-  { name: 'Smart Sales & Pricing Tool', category: 'Developer', status: 'Production', description: 'Real-time pricing calculator for Graston certification bundles, equipment configurations, and institutional accounts.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/smart-sales-pricing' },
-  { name: 'SEO Scanner', category: 'Developer', status: 'Beta', description: 'On-page SEO audit tool that scores pages against technical and content best practices.', stack: ['Next.js', 'Cheerio', 'Node.js'], url: 'https://bearcave-marketing-v2.vercel.app/lab/seo-scanner' },
-  { name: 'Lead Score Lab', category: 'Developer', status: 'Beta', description: 'Build and test custom lead scoring models against historical CRM data.', stack: ['React', 'TypeScript', 'HubSpot API'], url: 'https://bearcave-marketing-v2.vercel.app/lab/lead-score-lab' },
+  { name: 'Barbershop Command Center', category: 'Developer', status: 'Production', description: 'Full-stack business OS for barbershop owners — unified scheduling dashboard, revenue projection, barber-specific availability, and a high-conversion client booking engine.', stack: ['Next.js', 'React', 'Supabase'], detailHref: '/lab/barbershop-command-center', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Barbershop_Command_Center.jpg' },
+  { name: 'Clinical Compass', category: 'Developer', status: 'Production', description: 'Decision-support tool helping Graston practitioners navigate clinical protocols and treatment pathways without calling the home office.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/clinical-compass', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/graston_instruments_-_clinical_compass.jpg' },
+  { name: 'License Requirements Navigator', category: 'Developer', status: 'Production', description: 'State-by-state licensing lookup for healthcare practitioners — which credentials they need, which Graston certs count toward them.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/license-requirements', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Practitioner_License_Requirements_I_Graston_Technique_-_search.png' },
+  { name: 'Smart Sales & Pricing Tool', category: 'Developer', status: 'Production', description: 'Real-time pricing calculator for Graston certification bundles, equipment configurations, and institutional accounts.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/smart-sales-pricing', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Graston_Technique_Smart_Pricing_Tool_-_home.png' },
   // Technologist
-  { name: 'Piko Artist Website', category: 'Technologist', status: 'Production', description: 'Full artist portfolio and music platform with streaming integrations and tour management.', stack: ['Next.js', 'Cloudinary', 'Spotify API'], url: 'https://piko-artist-website-v3-three.vercel.app' },
-  { name: 'Strum AI', category: 'Technologist', status: 'Beta', description: 'AI-powered music practice and feedback tool built on the Claude API.', stack: ['Next.js', 'Claude API', 'Web Audio API'], url: 'https://jacobs-music-plum.vercel.app' },
-  { name: 'Site Optimization & Security', category: 'Technologist', status: 'Production', description: 'Cloudflare Workers-based site optimization pipeline with security headers and edge caching.', stack: ['Cloudflare Workers', 'TypeScript', 'Edge Runtime'], url: 'https://bearcave-marketing-v2.vercel.app/lab/site-optimization' },
-  { name: 'Campaign Performance Analyzer', category: 'Technologist', status: 'Beta', description: 'Cross-channel campaign analytics aggregator with GA4, Meta, and Google Ads integration.', stack: ['Next.js', 'GA4 API', 'BigQuery'], url: 'https://bearcave-marketing-v2.vercel.app/lab/campaign-analyzer' },
-  { name: 'GA4 Analytics Bridge', category: 'Technologist', status: 'Production', description: 'GA4 to custom dashboard bridge with event schema normalization and automated reporting.', stack: ['Node.js', 'GA4 API', 'Google Sheets API'], url: 'https://bearcave-marketing-v2.vercel.app/lab/ga4-bridge' },
-  { name: 'CRM-Aware AI Hook', category: 'Technologist', status: 'Experimental', description: 'React hook that injects CRM contact context into Claude API calls for personalized AI responses.', stack: ['React', 'Claude API', 'HubSpot API'], url: 'https://bearcave-marketing-v2.vercel.app/lab/crm-ai-hook' },
-  { name: 'Zero-FOUC Theme Engine', category: 'Technologist', status: 'Production', description: 'Flash-of-unstyled-content elimination system for theme switching in Next.js apps.', stack: ['Next.js', 'TypeScript', 'CSS Variables'], url: 'https://bearcave-marketing-v2.vercel.app/lab/zero-fouc' },
-  { name: 'Edge Image Negotiator', category: 'Technologist', status: 'Experimental', description: 'Cloudflare Worker that negotiates optimal image format and size at the edge based on client hints.', stack: ['Cloudflare Workers', 'TypeScript', 'Cloudinary API'], url: 'https://bearcave-marketing-v2.vercel.app/lab/edge-image' },
-  { name: 'Global Telemetry Monitor', category: 'Technologist', status: 'Experimental', description: 'Real-time telemetry aggregator for distributed marketing systems and API health monitoring.', stack: ['Node.js', 'WebSockets', 'Grafana'], url: 'https://bearcave-marketing-v2.vercel.app/lab/telemetry' },
-  { name: 'Competitor Intelligence Platform', category: 'Technologist', status: 'Beta', description: 'Automated competitor monitoring across web, social, and ad channels with weekly digest.', stack: ['Next.js', 'Playwright', 'OpenAI API'], url: 'https://bearcave-marketing-v2.vercel.app/lab/competitor-intel' },
-  { name: 'Link Architect', category: 'Technologist', status: 'Beta', description: 'UTM parameter builder and link management system with campaign attribution tracking.', stack: ['Next.js', 'Supabase', 'TypeScript'], url: 'https://bearcave-marketing-v2.vercel.app/lab/link-architect' },
+  { name: 'PRO DJ Studio', category: 'Technologist', status: 'Production', description: 'Professional-grade mixing environment built for the browser — dual-deck architecture, real-time AI STEM separation, and a 3D-accelerated interface at near-hardware latency.', stack: ['Next.js', 'Web Audio API', 'Zustand'], detailHref: '/lab/pro-dj-studio', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/PRO_DJ_STUDIO_-_home.png' },
+  { name: 'Strum AI', category: 'Technologist', status: 'Production', description: 'AI-driven guitar transcription engine — converts audio ideas into chord charts, tabs, and interactive notation with a Notion-like song management system.', stack: ['React', 'Vite', 'AI Audio'], detailHref: '/lab/strum-ai', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/STRUM_AI_I_Pro_Guitar_Transcription.png' },
+  { name: 'Site Optimization & Security', category: 'Technologist', status: 'Production', description: 'Cloudflare Workers-based site optimization pipeline with security headers and edge caching.', stack: ['Cloudflare Workers', 'TypeScript', 'Edge Runtime'], url: 'https://bearcave-marketing-v2.vercel.app/lab/site-optimization', coverImage: 'https://images.pexels.com/photos/6466141/pexels-photo-6466141.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' },
+  { name: 'GA4 Analytics Bridge', category: 'Technologist', status: 'Production', description: 'GA4 to custom dashboard bridge with event schema normalization and automated reporting.', stack: ['Node.js', 'GA4 API', 'Google Sheets API'], url: 'https://bearcave-marketing-v2.vercel.app/lab/ga4-bridge', coverImage: 'https://images.pexels.com/photos/97080/pexels-photo-97080.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' },
+  { name: 'Zero-FOUC Theme Engine', category: 'Technologist', status: 'Production', description: 'Flash-of-unstyled-content elimination system for theme switching in Next.js apps.', stack: ['Next.js', 'TypeScript', 'CSS Variables'], url: 'https://bearcave-marketing-v2.vercel.app/lab/zero-fouc', coverImage: 'https://images.pexels.com/photos/36571389/pexels-photo-36571389.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' },
 ]
 
 const categories = ['All', 'Marketing', 'Developer', 'Technologist'] as const
@@ -65,16 +56,14 @@ const categoryCoverClass: Record<Tool['category'], string> = {
 }
 
 const categoryIcons = {
-  Marketing: Megaphone,
-  Developer: Code,
-  Technologist: Planet,
-} satisfies Record<Tool['category'], typeof Megaphone>
+  Marketing: MegaphoneIcon,
+  Developer: CodeIcon,
+  Technologist: PlanetIcon,
+} satisfies Record<Tool['category'], typeof MegaphoneIcon>
 
 const statusIcons = {
-  Production: Rocket,
-  Beta: Sparkle,
-  Experimental: Flask,
-} satisfies Record<Tool['status'], typeof Rocket>
+  Production: RocketIcon,
+} satisfies Record<Tool['status'], typeof RocketIcon>
 
 function ToolCardCover({ tool }: { readonly tool: Tool }) {
   const CategoryIcon = categoryIcons[tool.category]
@@ -82,6 +71,19 @@ function ToolCardCover({ tool }: { readonly tool: Tool }) {
 
   return (
     <div className={`${styles.toolCover} ${categoryCoverClass[tool.category]}`} aria-hidden="true">
+      {tool.coverImage && (
+        <>
+          <Image
+            src={tool.coverImage}
+            alt=""
+            fill
+            sizes="(max-width: 768px) 100vw, 400px"
+            className={styles.toolCoverImage}
+            unoptimized
+          />
+          <div className={styles.toolCoverImageScrim} />
+        </>
+      )}
       <div className={styles.toolCoverGrid} />
       <div className={styles.toolCoverOrb} />
       <div className={styles.toolCoverSweep} />
@@ -91,9 +93,11 @@ function ToolCardCover({ tool }: { readonly tool: Tool }) {
         <span>{tool.status}</span>
       </div>
 
-      <div className={styles.toolCoverCore}>
-        <CategoryIcon weight="light" className={styles.toolCoverIcon} />
-      </div>
+      {!tool.coverImage && (
+        <div className={styles.toolCoverCore}>
+          <CategoryIcon weight="light" className={styles.toolCoverIcon} />
+        </div>
+      )}
 
       <div className={styles.toolCoverStack}>
         {tool.stack.slice(0, 2).map((item) => (
@@ -115,6 +119,23 @@ function ToolCard({
 }) {
   const hasDetail = Boolean(tool.detailHref)
   const hasUrl = Boolean(tool.url)
+  const isInteractive = hasDetail || hasUrl
+
+  let footerText: string
+  if (hasDetail) {
+    footerText = 'Explore build details'
+  } else if (hasUrl) {
+    footerText = 'Open deployed tool'
+  } else {
+    footerText = 'Rebuilding — check back soon'
+  }
+
+  let ctaLabel: string | undefined
+  if (hasDetail) {
+    ctaLabel = 'Read the build'
+  } else if (hasUrl) {
+    ctaLabel = 'Launch app'
+  }
 
   return (
     <GalleryHoverCard
@@ -125,15 +146,9 @@ function ToolCard({
       eyebrow={tool.category}
       badges={[tool.status, ...tool.stack.slice(0, 2)]}
       footer={
-        <span
-          className={styles.toolFooterMeta}
-          onMouseEnter={hasDetail || hasUrl ? () => onHighlight(`${tool.name}-launch`) : undefined}
-          onMouseLeave={hasDetail || hasUrl ? () => onHighlight(tool.name) : undefined}
-        >
-          {hasDetail ? 'Explore build details' : hasUrl ? 'Open deployed tool' : 'Rebuilding — check back soon'}
-        </span>
+        <span className={styles.toolFooterMeta}>{footerText}</span>
       }
-      ctaLabel={hasDetail ? 'Read the build' : hasUrl ? 'Launch app' : undefined}
+      ctaLabel={ctaLabel}
       external={!hasDetail && hasUrl}
       interactiveId={tool.name}
       onHighlightChange={onHighlight}
@@ -177,19 +192,15 @@ function LabFeaturedCard() {
         <div className={styles.featuredRightGrid} aria-hidden="true" />
         <div className={styles.featuredRightGlow} aria-hidden="true" />
         <div className={styles.featuredRightContent}>
-          <div className={styles.featuredIconBox}>
-            <Megaphone weight="light" size={36} color="var(--color-accent)" />
-          </div>
-          <div className={styles.featuredStats}>
-            <div className={styles.featuredStat}>
-              <p className={styles.featuredStatValue}>~10m</p>
-              <p className={styles.featuredStatLabel}>Session</p>
-            </div>
-            <div className={styles.featuredStatDivider} />
-            <div className={styles.featuredStat}>
-              <p className={styles.featuredStatValue}>Free</p>
-              <p className={styles.featuredStatLabel}>Access</p>
-            </div>
+          <div className={styles.featuredScreenshot}>
+            <Image
+              src="https://res.cloudinary.com/djhqowk67/image/upload/w_900,f_auto,q_auto/CMO_Simulator.jpg"
+              alt="CMO Simulator interface preview"
+              width={900}
+              height={476}
+              className={styles.featuredScreenshotImg}
+              unoptimized
+            />
           </div>
         </div>
       </div>

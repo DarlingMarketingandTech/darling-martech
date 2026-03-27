@@ -1,0 +1,274 @@
+/* components/lab/CmoAccessModal.module.css */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal {
+  position: relative;
+  z-index: 201;
+  width: min(92vw, 560px);
+  max-height: min(88vh, 720px);
+  background: var(--color-surface, #141414);
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.modalLarge {
+  width: min(92vw, 1200px);
+  height: min(88vh, 860px);
+  max-height: min(88vh, 860px);
+}
+
+/* ── Title bar ── */
+
+.titleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.08);
+  flex-shrink: 0;
+}
+
+.titleLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.titleLabel {
+  font-family: var(--font-display, 'Cabinet Grotesk', sans-serif);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-accent, #FF4D00);
+  text-transform: uppercase;
+}
+
+.titleName {
+  font-family: var(--font-display, 'Cabinet Grotesk', sans-serif);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text, #F5F0E8);
+  letter-spacing: -0.01em;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  border-radius: 6px;
+  color: var(--color-muted, #888888);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.closeBtn:hover {
+  background: rgba(245, 240, 232, 0.06);
+  color: var(--color-text, #F5F0E8);
+  border-color: rgba(245, 240, 232, 0.2);
+}
+
+/* ── Form phase ── */
+
+.formWrap {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.formInner {
+  padding: 2rem;
+}
+
+.formHeading {
+  font-family: var(--font-display, 'Cabinet Grotesk', sans-serif);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  color: var(--color-text, #F5F0E8);
+  margin: 0 0 0.4rem;
+}
+
+.formSub {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-muted, #888888);
+  margin: 0 0 1.5rem;
+}
+
+.proof {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.75rem;
+}
+
+.proofItem {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8rem;
+  color: var(--color-muted, #888888);
+}
+
+.proofDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-accent, #FF4D00);
+  flex-shrink: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.field {
+  margin-bottom: 1.25rem;
+}
+
+.label {
+  display: block;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--color-muted, #888888);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  width: 100%;
+  background: var(--color-surface-raised, #1A1A1A);
+  border: 1px solid rgba(245, 240, 232, 0.08);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: var(--color-text, #F5F0E8);
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border-color: rgba(255, 77, 0, 0.3);
+}
+
+.input[data-error='true'] {
+  border-color: var(--color-accent, #FF4D00);
+}
+
+.fieldError {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.78rem;
+  color: var(--color-accent, #FF4D00);
+  margin: 0.35rem 0 0;
+}
+
+.submitBtn {
+  width: 100%;
+  background: var(--color-accent, #FF4D00);
+  color: #fff;
+  font-family: var(--font-display, 'Cabinet Grotesk', sans-serif);
+  font-weight: 800;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  padding: 0.875rem;
+  cursor: pointer;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s ease;
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submitBtn:not(:disabled):hover {
+  opacity: 0.9;
+}
+
+.apiError {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.8rem;
+  color: var(--color-muted, #888888);
+  margin: 0.75rem 0 0;
+  text-align: center;
+}
+
+.apiError a {
+  color: var(--color-text, #F5F0E8);
+}
+
+.disclaimer {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.7rem;
+  color: rgba(136, 136, 136, 0.55);
+  text-align: center;
+  margin: 1rem 0 0;
+  line-height: 1.5;
+}
+
+/* ── Iframe phase ── */
+
+.iframeWrap {
+  flex: 1;
+  overflow: hidden;
+  background: #fff;
+  min-height: 0;
+}
+
+.iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* ── Mobile ── */
+
+@media (max-width: 640px) {
+  .scrim {
+    padding: 0;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .modal,
+  .modalLarge {
+    width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+}

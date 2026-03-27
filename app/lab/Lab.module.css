@@ -164,6 +164,23 @@
   background-color: #0e1016;
 }
 
+.toolCoverImage {
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.toolCoverImageScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 10, 0.45) 0%,
+    rgba(10, 10, 10, 0.72) 100%
+  );
+  z-index: 0;
+}
+
 .toolCoverGrid {
   position: absolute;
   inset: -8%;
@@ -458,4 +475,21 @@
   width: 1px;
   height: 32px;
   background: var(--color-border);
+}
+
+.featuredScreenshot {
+  position: absolute;
+  inset: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+.featuredScreenshotImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
 }
