@@ -421,8 +421,8 @@ export const LAB_DETAIL_DATA: Record<string, LabDetailProps> = {
     ctaLine: 'Need a lead-gen asset that does the qualifying work for you? Let\'s build it.',
     toolSrc: '/labs/investment-roi-planner/Investment ROI Planner Tool.html',
     screenshots: [
-      'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/Graston_Technique_ROI_Calculator_-_main.png',
-      'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/Graston_Technique_ROI_Calculator_-_2.png',
+      { src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/Graston_Technique_ROI_Calculator_-_main.png', alt: 'Investment ROI Planner main view', caption: '' },
+      { src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/Graston_Technique_ROI_Calculator_-_2.png', alt: 'Investment ROI Planner detail view', caption: '' },
     ],
   },
 
@@ -461,8 +461,8 @@ export const LAB_DETAIL_DATA: Record<string, LabDetailProps> = {
     ctaLine: 'Have a support burden that should be self-serve? I build things that scale.',
     toolSrc: '/labs/license-requirements/Practitioner License Requirements Tool.html',
     screenshots: [
-      'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/Practitioner_License_Requirements_I_Graston_Technique_-_search.png',
-      'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/Practitioner_License_Requirements_I_Graston_Technique_-_search_2.png',
+      { src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/Practitioner_License_Requirements_I_Graston_Technique_-_search.png', alt: 'License Requirements Navigator search view', caption: '' },
+      { src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/Practitioner_License_Requirements_I_Graston_Technique_-_search_2.png', alt: 'License Requirements Navigator results view', caption: '' },
     ],
   },
 }
