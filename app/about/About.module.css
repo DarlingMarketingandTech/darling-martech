@@ -152,61 +152,6 @@
   padding: 0.5rem 1rem;
 }
 
-/* ── Career ── */
-
-.career {
-  margin-bottom: 5rem;
-}
-
-.careerList {
-  border-top: 1px solid var(--color-border);
-}
-
-.careerItem {
-  display: grid;
-  gap: 1rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--color-border);
-}
-
-@media (min-width: 768px) {
-  .careerItem {
-    grid-template-columns: 220px 1fr;
-    gap: 3rem;
-  }
-}
-
-.jobTitle {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 0.875rem;
-  color: var(--color-text);
-  margin: 0;
-}
-
-.jobCompany {
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  color: var(--color-accent);
-  margin: 0.125rem 0 0;
-}
-
-.jobPeriod {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  color: rgba(136, 136, 136, 0.6);
-  margin: 0.25rem 0 0;
-}
-
-.jobDesc {
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  line-height: 1.7;
-  color: var(--color-muted);
-  margin: 0;
-}
-
 /* ── CTA strip ── */
 
 .ctaStrip {

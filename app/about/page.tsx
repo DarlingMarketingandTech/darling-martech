@@ -6,53 +6,10 @@ import { motion } from 'framer-motion'
 import { containerVariants, itemVariants, slideInRight, fadeVariants, springEntrance, viewport } from '@/lib/motion'
 import { buildCloudinaryUrl } from '@/lib/cloudinary'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
+import { CareerTimeline } from '@/components/sections/CareerTimeline/CareerTimeline'
 import styles from './About.module.css'
 
 const BIO_PHOTO_SRC = buildCloudinaryUrl('studio/graphic-design/bio-featured-2')
-
-const career = [
-  {
-    title: 'Marketing Director',
-    company: 'Graston Technique LLC',
-    period: 'Aug 2023 – Dec 2025',
-    description:
-      'Built full MarTech ecosystem: LearnDash LMS, WooCommerce, WP Fusion, FluentCRM. Deployed GPT-powered AI assistant via REST APIs. Built 400+ automations. Created GA4 analytics dashboards.',
-  },
-  {
-    title: 'Interim Director of Marketing',
-    company: 'Ultimate Technologies Group',
-    period: 'Mar – Jul 2023',
-    description:
-      'Led marketing strategy during transition. Google Ads optimization, marketing automation, CRM integration, branding updates.',
-  },
-  {
-    title: 'Marketing Manager',
-    company: 'Riley Bennett Egloff LLP',
-    period: 'Jul 2022 – Mar 2023',
-    description:
-      'Full marketing ownership for law firm. Website, SEO, PR, email, social, business development plans, RFP responses.',
-  },
-  {
-    title: 'Marketing Administrator',
-    company: 'Riley Bennett Egloff LLP',
-    period: 'Jun 2015 – Nov 2022',
-    description:
-      'Content marketing, website, social media, graphic design, brand development, strategic marketing plan execution.',
-  },
-  {
-    title: 'Marketing Coordinator',
-    company: 'Deerfield Financial Advisors',
-    period: 'Jun 2013 – Jun 2015',
-    description: 'Events, content, tech platforms, FINRA/SEC compliance review.',
-  },
-  {
-    title: 'Marketing Coordinator',
-    company: 'Pike Medical Consultants',
-    period: 'Sep 2009 – Jun 2013',
-    description:
-      'Drove 45% increase in patient visits over 3 years. Full marketing ownership reporting directly to company president.',
-  },
-]
 
 const industries = [
   'Healthcare', 'Legal', 'Finance', 'SaaS / Tech',
@@ -161,34 +118,8 @@ export default function AboutPage() {
             </motion.div>
           </motion.div>
 
-          {/* ── Career ── */}
-          <motion.div
-            className={styles.career}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-            variants={containerVariants}
-          >
-            <motion.p variants={fadeVariants} className={styles.sectionLabel}>
-              Career History
-            </motion.p>
-            <div className={styles.careerList}>
-              {career.map((job) => (
-                <motion.div
-                  key={job.company + job.period}
-                  variants={itemVariants}
-                  className={styles.careerItem}
-                >
-                  <div>
-                    <p className={styles.jobTitle}>{job.title}</p>
-                    <p className={styles.jobCompany}>{job.company}</p>
-                    <p className={styles.jobPeriod}>{job.period}</p>
-                  </div>
-                  <p className={styles.jobDesc}>{job.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+          {/* ── Career Timeline ── */}
+          <CareerTimeline />
 
           {/* ── CTA ── */}
           <motion.div
