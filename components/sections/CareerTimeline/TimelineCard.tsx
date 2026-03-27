@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { CaretDown } from '@phosphor-icons/react'
-import { springStandard } from '@/lib/motion'
+import { springStandard, springEntrance } from '@/lib/motion'
 import styles from './CareerTimeline.module.css'
 
 export type JobDetail = {
@@ -34,7 +34,7 @@ const cardVariants = {
     y: 0,
     rotateX: 0,
     scale: 1,
-    transition: { type: 'spring', stiffness: 80, damping: 18 },
+    transition: springEntrance,
   },
 }
 
