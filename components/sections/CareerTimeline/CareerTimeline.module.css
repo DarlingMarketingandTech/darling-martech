@@ -1,0 +1,319 @@
+/* ── Founder Block ── */
+
+.founderBlock {
+  position: relative;
+  display: grid;
+  gap: 2.5rem;
+  padding: 2.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-accent);
+  border-radius: 16px;
+  margin-bottom: 5rem;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .founderBlock {
+    grid-template-columns: 180px 1fr;
+    gap: 4rem;
+    padding: 3rem;
+  }
+}
+
+.founderYear {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(4rem, 8vw, 7rem);
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+  opacity: 0.12;
+  margin: 0;
+  line-height: 0.9;
+}
+
+.founderPresent {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0.75rem 0 0.25rem;
+}
+
+.founderRole {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.founderCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.founderHeading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0 0 0.5rem;
+}
+
+.founderPara {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-muted);
+  margin: 0;
+  max-width: 65ch;
+}
+
+/* ── Timeline wrapper ── */
+
+.timelineSection {
+  margin-bottom: 5rem;
+}
+
+.sectionLabel {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 3rem;
+}
+
+.timelineOuter {
+  position: relative;
+}
+
+/* Spine line — animated via GSAP */
+.spine {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .spine {
+    display: block;
+    position: absolute;
+    left: 72px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-border-accent);
+    transform-origin: top;
+  }
+}
+
+.timelineList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  perspective: 1200px;
+}
+
+@media (min-width: 768px) {
+  .timelineList {
+    padding-left: 100px;
+  }
+}
+
+/* ── Timeline Card ── */
+
+.cardOuter {
+  position: relative;
+}
+
+/* Year label — left of spine, desktop only */
+.yearLabel {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .yearLabel {
+    display: block;
+    position: absolute;
+    left: -100px;
+    top: 1.75rem;
+    width: 60px;
+    text-align: right;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    color: rgba(136, 136, 136, 0.6);
+    line-height: 1;
+  }
+}
+
+/* Dot connector */
+.dot {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .dot {
+    display: block;
+    position: absolute;
+    left: -32px;
+    top: 1.875rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    transform: translateX(-50%);
+    transition: transform 0.2s ease;
+  }
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  cursor: pointer;
+}
+
+.card:hover {
+  border-color: var(--color-border-accent);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.75rem 2rem;
+}
+
+.cardMeta {
+  flex: 1;
+  min-width: 0;
+}
+
+.cardTitle {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  margin: 0 0 0.25rem;
+}
+
+.cardCompany {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-accent);
+  margin: 0 0 0.125rem;
+}
+
+.cardLocation {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: rgba(136, 136, 136, 0.6);
+  margin: 0;
+}
+
+.cardPeriod {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: rgba(136, 136, 136, 0.6);
+  margin: 0.375rem 0 0;
+}
+
+/* Year inline for mobile */
+.cardYearMobile {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 0.375rem;
+}
+
+@media (min-width: 768px) {
+  .cardYearMobile {
+    display: none;
+  }
+}
+
+.cardSummary {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--color-muted);
+  margin: 0.75rem 0 0;
+  max-width: 72ch;
+}
+
+.chevron {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  color: var(--color-muted);
+}
+
+/* ── Accordion expanded content ── */
+
+.detailsWrap {
+  overflow: hidden;
+}
+
+.detailsInner {
+  padding: 1.5rem 2rem 1.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.detailGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.detailGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detailCategory {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0;
+}
+
+.detailBullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.detailBullets li {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--color-muted);
+  padding-left: 1rem;
+  position: relative;
+}
+
+.detailBullets li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--color-border-accent);
+}
