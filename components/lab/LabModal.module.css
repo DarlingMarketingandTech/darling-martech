@@ -7,13 +7,14 @@
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
 }
 
 .modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
   z-index: 201;
   width: min(92vw, 1200px);
   height: min(88vh, 860px);
@@ -23,6 +24,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 }
 
 .titleBar {
@@ -115,12 +117,15 @@
 }
 
 @media (max-width: 640px) {
+  .scrim {
+    padding: 0;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
   .modal {
-    width: 100vw;
+    width: 100%;
     height: 100dvh;
     border-radius: 0;
-    top: 0;
-    left: 0;
-    transform: none;
   }
 }

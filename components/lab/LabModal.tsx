@@ -37,16 +37,14 @@ export default function LabModal({ isOpen, onClose, toolSrc, toolName, toolSlug 
   return (
     <AnimatePresence>
       {isOpen && (
-        <>
-          <motion.div
-            className={styles.scrim}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            onClick={onClose}
-            aria-hidden="true"
-          />
+        <motion.div
+          className={styles.scrim}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          onClick={onClose}
+        >
           <motion.div
             className={styles.modal}
             role="dialog"
@@ -56,6 +54,7 @@ export default function LabModal({ isOpen, onClose, toolSrc, toolName, toolSlug 
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 24 }}
             transition={springCinematic}
+            onClick={(e) => e.stopPropagation()}
           >
             <div className={styles.titleBar}>
               <div className={styles.titleLeft}>
@@ -82,7 +81,7 @@ export default function LabModal({ isOpen, onClose, toolSrc, toolName, toolSlug 
               />
             </div>
           </motion.div>
-        </>
+        </motion.div>
       )}
     </AnimatePresence>
   )
