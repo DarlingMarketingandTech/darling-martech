@@ -163,6 +163,7 @@ type FeaturedLab = {
   href: string
   ctaLabel: string
   stack: string[]
+  external?: boolean
   screenshot?: {
     src: string
     alt: string
@@ -175,8 +176,8 @@ const featuredLabs: FeaturedLab[] = [
     name: 'CMO Simulator',
     description:
       'Walk through CMO-level decision-making — budget allocation, channel strategy, KPI selection, and execution priority. Same framework I use with clients. Takes about 10 minutes.',
-    href: '/lab/cmo-simulator',
-    ctaLabel: 'Launch CMO Simulator',
+    href: '/lab/cmo-simulator?launch=1',
+    ctaLabel: 'Launch CMO Simulator →',
     stack: ['Next.js', 'React', 'Vercel', 'Marketing Strategy'],
     screenshot: {
       src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_900,f_auto,q_auto/CMO_Simulator.jpg',
@@ -187,8 +188,9 @@ const featuredLabs: FeaturedLab[] = [
     name: 'GEO Readiness Auditor',
     description:
       'Is your site visible to AI? Run a fast 0-100 GEO audit, see top issues instantly, then unlock the full prioritized fix report by email.',
-    href: '/lab/geo-readiness-auditor',
-    ctaLabel: 'Run GEO Audit',
+    href: 'https://darling-martech-geo-audit-tool.vercel.app/',
+    ctaLabel: 'Run free GEO audit →',
+    external: true,
     stack: ['Next.js', 'TypeScript', 'Cheerio', 'Resend'],
     screenshot: {
       src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1200,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png',
@@ -221,8 +223,12 @@ function LabFeaturedCard({ lab }: { readonly lab: FeaturedLab }) {
             ))}
           </div>
         </div>
-        <Link href={lab.href} className={styles.featuredCta}>
-          {lab.ctaLabel} →
+        <Link
+          href={lab.href}
+          className={styles.featuredCta}
+          {...(lab.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          {lab.ctaLabel}
         </Link>
       </div>
 
@@ -323,11 +329,11 @@ export default function LabPage() {
 
         {/* Tools grid */}
         <motion.div
+          key={activeCategory}
           className={styles.grid}
           variants={containerVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
+          animate="visible"
         >
           {filtered.map((tool) => (
             <motion.div key={tool.name} variants={itemVariants} className={styles.gridCell}>

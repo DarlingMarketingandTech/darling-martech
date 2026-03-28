@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { PlayCircle, ArrowLeft, ArrowRight } from '@phosphor-icons/react'
 import Link from 'next/link'
@@ -8,6 +9,16 @@ import Image from 'next/image'
 import CmoAccessModal from '@/components/lab/CmoAccessModal'
 import { springEntrance, viewport } from '@/lib/motion'
 import styles from '@/components/lab/LabDetailPage.module.css'
+
+function AutoLaunch({ onLaunch }: { onLaunch: () => void }) {
+  const searchParams = useSearchParams()
+  useEffect(() => {
+    if (searchParams.get('launch') === '1') {
+      onLaunch()
+    }
+  }, [searchParams, onLaunch])
+  return null
+}
 
 export default function CmoSimulatorPage() {
   const [modalOpen, setModalOpen] = useState(false)
@@ -264,6 +275,11 @@ export default function CmoSimulatorPage() {
           ← Back to all builds
         </Link>
       </motion.section>
+
+      {/* Auto-launch from ?launch=1 query param */}
+      <Suspense>
+        <AutoLaunch onLaunch={() => setModalOpen(true)} />
+      </Suspense>
 
       {/* Access Modal */}
       <CmoAccessModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
