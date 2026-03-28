@@ -179,7 +179,6 @@ These are pre-vetted drop-in components from 21st.dev. Install via shadcn CLI.
 
 | Component | Purpose | Install URL |
 |---|---|---|
-| AnimatedNavFramer (reapollo) | Floating pill nav, collapses on scroll | `https://21st.dev/community/components/reapollo/navigation-menu/default` |
 | Hero ASCII (reapollo) | Left-aligned dark hero + geometric illustration right | `https://21st.dev/community/components/reapollo/hero-ascii/default` |
 | Background Paths (kokonutd) | Animated wire path background at 15–20% opacity | `https://21st.dev/community/components/kokonutd/background-paths/default` |
 | Grid Card (efferd) | Dark surface + animated grid pattern + gradient hover | `https://21st.dev/community/components/efferd/grid-card/default` |
@@ -435,7 +434,7 @@ Verbatim quotes. Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin 
 | `pike-medical-consultants` | Pike Medical Consultants | ✅ Parent page built |
 | `primarycare-indy` | PrimaryCare Indy | ✅ Built |
 | `urgentcare-indy` | UrgentCare Indy | ✅ Built |
-| `riley-bennett-egloff` | Riley Bennett Egloff LLP | Content session needed |
+| `riley-bennett-egloff` | Riley Bennett Egloff LLP | ✅ Built |
 | `tuohy-bailey-moore` | Tuohy Bailey & Moore LLP | ✅ Built |
 | `317-bbq` | 317 BBQ | ✅ Built |
 | `hoosier-boy-barbershop` | Hoosier Boy Barbershop | ✅ Built |
@@ -443,7 +442,7 @@ Verbatim quotes. Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin 
 | `behr-pet-essentials` | Behr Pet Essentials | ✅ Built |
 | `circle-city-kicks` | Circle City Kicks | ✅ Built |
 | `black-letter` | Black Letter | ✅ Built |
-| `clean-aesthetic` | Clean Aesthetic | Content session needed |
+| `clean-aesthetic` | Clean Aesthetic | ✅ Built |
 | `perpetual-movement-fitness` | Perpetual Movement Fitness | ✅ Built |
 | `primary-colours` | Primary Colours | ✅ Built |
 | `direct-care-indy` | Direct Care Indy | 🚧 In progress — do not publish |
@@ -603,7 +602,7 @@ src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/[pu
 - Loaded via `next/font` `localFont` in `app/layout.tsx`
 
 ### Environment Variables
-- `RESEND_API_KEY` — contact form email delivery (pending in .env.local)
+- `RESEND_API_KEY` — contact form email delivery (configured in .env.local + Vercel)
 - `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=djhqowk67`
 
 ---
@@ -755,7 +754,7 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
 - [x] Motion: KineticHeadline, ClientTicker, StatCounter
 - [x] LenisProvider smooth scroll
 - [x] Analytics provider + CookieConsent
-- [ ] Resend API key (pending — add to .env.local)
+- [x] Resend API key — configured in .env.local and Vercel env vars (rotated 2026-03-27)
 - [ ] Remaining Tailwind visual classes → CSS Modules migration
 
 ### Phase 2 — Complete ✅
@@ -769,21 +768,17 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
 - [x] `/studio` page — Cloudinary masonry gallery
 - [x] WorkAmbient + ServicesAmbient 3D scenes
 - [x] 21st.dev components adapted: background-paths, button-colorful, grid-card, underline-animation
-- [ ] 21st.dev AnimatedNavFramer (floating pill nav — remaining)
-- [ ] Resend API integration (pending env key)
+- [x] Resend API integration — key configured in .env.local and Vercel
 
 ### Phase 3 — Planned
 - [ ] `/pricing` page (after content session)
-- [ ] Remaining case studies: riley-bennett-egloff, clean-aesthetic (content sessions needed)
 - [ ] Blog infrastructure (MDX)
 
 ---
 
 ## Content Sessions Still Needed
-1. Riley Bennett Egloff — full scope (7+ year engagement detail)
-2. Clean Aesthetic — full scope
-3. Pricing — define service tiers before building page
-4. Services — expand each service page with process steps if needed
+1. Pricing — define service tiers before building page
+2. Services — expand each service page with process steps if needed
 
 ---
 
