@@ -23,7 +23,9 @@
       "mcp__plugin_vercel_vercel__list_teams",
       "mcp__plugin_vercel_vercel__list_projects",
       "mcp__plugin_vercel_vercel__list_deployments",
-      "mcp__plugin_vercel_vercel__get_deployment"
+      "mcp__plugin_vercel_vercel__get_deployment",
+      "Bash(ls c:/dev/darling-martech/app/lab/[slug]/)",
+      "Bash(cat c:/dev/darling-martech/app/lab/[slug]/page.tsx)"
     ]
   },
   "enabledPlugins": {

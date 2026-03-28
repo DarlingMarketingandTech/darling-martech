@@ -694,9 +694,50 @@ before building this page.
 
 ---
 
+## Quick Start
+
+```bash
+npm run dev    # Development server on localhost:3000
+npm run build  # Production build
+npm run lint   # ESLint
+```
+
+**Build gotcha:** If `npm run build` fails with "generate is not a function", a conflicting shell env var is set from another Next.js project:
+
+```bash
+__NEXT_PRIVATE_STANDALONE_CONFIG="" npm run build
+```
+
+---
+
+## Gotchas
+
+- **Tailwind is NOT fully removed** — `tailwind.config.ts` remains for shadcn token infrastructure. Rule: no Tailwind for visual styling (colors, typography, shadows). Layout utilities and shadcn plumbing are still Tailwind-backed.
+- **`next/image` is `unoptimized: true`** — Cloudflare Pages doesn't support Next.js image optimization. Don't add transformation params expecting server-side resizing.
+- **Slug renames** — Several case study slugs were renamed; redirects live in `next.config.js`. Canonical slugs: `riley-bennett-egloff`, `primarycare-indy`, `urgentcare-indy` (not the old hyphenated forms in this brief).
+- **`lucide-react` in package.json** — Still listed as a dependency but not imported anywhere. Don't add new imports from it; use `@phosphor-icons/react` only.
+- **Lab content lives in `data/labs.ts`** — All 9 lab detail pages are data-driven from `LAB_DETAIL_DATA`. No `.md` files needed or used for labs.
+
+---
+
+## Data Directory
+
+`/data/` holds all typed TS content files — use these instead of hardcoding content in components:
+
+- `labs.ts` — 9 lab entries (`LAB_DETAIL_DATA`)
+- `services.ts` — service page content
+- `testimonials.ts` — testimonial data
+- `work/work-index.ts` — work card grid data
+- `work/work-data.ts` — full case study content
+
+Implementation specs for each feature sprint: `/docs/superpowers/plans/` and `/docs/superpowers/specs/`
+
+---
+
 ## Build Order for Claude Code
 
-### Phase 1 (complete — deployed to Cloudflare preview URL)
+### Phase 1 — Complete
+
 - [x] Project scaffold
 - [x] Brand tokens + CSS custom properties in globals.css
 - [x] Nav + Footer
@@ -704,31 +745,34 @@ before building this page.
 - [x] About page
 - [x] Contact page + API route
 - [x] SEO files + structured data
-- [ ] Cabinet Grotesk fonts (pending — download from fontshare, add to /public/fonts)
+- [x] Cabinet Grotesk fonts — `/public/fonts/cabinet-grotesk/`
+- [x] `lib/motion.ts` spring presets
+- [x] Phosphor icons (`@phosphor-icons/react`) — lucide-react still in package.json but unused
 - [ ] Resend API key (pending — add to .env.local)
-- [ ] Migrate Phase 1 Tailwind color/typography classes → CSS Modules
-- [ ] Add Framer Motion spring presets to lib/motion.ts
-- [ ] Replace Lucide icons with @phosphor-icons/react
+- [ ] Migrate remaining Tailwind visual classes → CSS Modules
 
-### Phase 2 (next sprint)
-- [ ] /work index page — masonry/staggered grid
-- [ ] /work/[slug] — start with Hoosier Boy, Behr Pet, Primary Colours
-- [ ] /lab page with tool cards (machine aesthetic, not tiles)
-- [ ] /studio page with Cloudinary masonry gallery
-- [ ] Cloudinary SDK integration
+### Phase 2 — In Progress
+
+- [x] `/work` index page — masonry/staggered grid
+- [x] `/work/[slug]` dynamic route — data in `data/work/`
+- [x] `/lab` page with tool cards + 9 detail pages
+- [x] `/lab/[slug]` dynamic route — data in `data/labs.ts`
+- [x] `/studio` page — Cloudinary masonry gallery
+- [x] `/services/[slug]` — 4 service detail pages
 - [ ] Install + adapt 21st.dev AnimatedNavFramer component
 - [ ] Install + adapt 21st.dev Background Paths for hero section
 - [ ] Install + adapt 21st.dev Grid Card for services section
 
 ### Phase 3
-- [ ] /services/[slug] — 4 service detail pages
-- [ ] /pricing page (after content session)
+
+- [ ] `/pricing` page (after content session)
 - [ ] Remaining case studies (after content sessions)
 - [ ] Blog infrastructure (MDX)
 
 ---
 
 ## Next Content Sessions Needed
+
 1. Pike Medical / Urgent Care Indy — full fractional CMO scope
 2. Primary Care Indy — full scope
 3. RBE Law — full scope
