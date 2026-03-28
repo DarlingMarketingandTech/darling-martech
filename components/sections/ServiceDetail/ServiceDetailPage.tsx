@@ -66,7 +66,7 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
             .map((slug) => allServicePages.find((s) => s.id === slug))
             .filter((s): s is NonNullable<typeof s> => Boolean(s))
         : [],
-    [service.kind, service.childServiceSlugs]
+    [service]
   )
 
   const parentService = useMemo(
