@@ -84,8 +84,26 @@
   cursor: default;
 }
 
+.surfaceAsButton {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  text-align: inherit;
+  font: inherit;
+  color: inherit;
+}
+
 .surface:focus-visible {
   outline: none;
+}
+
+.surface.surfaceAsButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
 .media {

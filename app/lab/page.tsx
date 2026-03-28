@@ -4,8 +4,9 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { Fragment, useState } from 'react'
+import { Fragment, useCallback, useRef, useState } from 'react'
 import { CodeIcon, MegaphoneIcon, PlanetIcon, RocketIcon } from '@phosphor-icons/react'
+import LabModal from '@/components/lab/LabModal'
 import { GalleryHoverCard } from '@/components/ui/gallery-hover-card'
 import { containerVariants, itemVariants, fadeVariants, viewport } from '@/lib/motion'
 import { useFinePointer } from '@/hooks/useFinePointer'
@@ -27,13 +28,22 @@ type Tool = {
   stack: string[]
   url?: string
   detailHref?: string
+  /** Opens `LabModal` on `/lab` instead of navigating away first. */
+  launchIframe?: { src: string; slug: string }
   coverImage?: string
+}
+
+type IframeToolSession = {
+  src: string
+  slug: string
+  name: string
 }
 
 const tools: Tool[] = [
   // Marketing
   { name: 'Graston Growth Engine', category: 'Marketing', status: 'Production', description: 'Full-stack provider directory and lead-gen OS — map-integrated spatial search, AI assistant console, Premier analytics suite, and automated support ticketing for a national healthcare brand.', stack: ['Next.js', 'Supabase', 'Google Maps API', 'TypeScript'], detailHref: '/lab/graston-growth-engine', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/graston-growth-engine_-_for_providers.png' },
-  { name: 'GEO Readiness Auditor', category: 'Marketing', status: 'Production', description: 'SMB-focused AI visibility audit that scores GEO readiness (0-100), flags top-priority issues, and unlocks a full fix roadmap by email.', stack: ['Next.js', 'TypeScript', 'Cheerio', 'Resend'], detailHref: '/lab/geo-readiness-auditor', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1200,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png' },
+  { name: 'GEO Readiness Auditor', category: 'Marketing', status: 'Production', description: 'SMB-focused AI visibility audit that scores GEO readiness (0-100), flags top-priority issues, and unlocks a full fix roadmap by email.', stack: ['Next.js', 'TypeScript', 'Cheerio', 'Resend'], launchIframe: { src: 'https://darling-martech-geo-audit-tool.vercel.app/', slug: 'geo-readiness-auditor' }, coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1200,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png' },
+  { name: 'CMO Roadmap Generator', category: 'Marketing', status: 'Production', description: 'Guided intake that turns your goals, budget reality, and constraints into a prioritized marketing roadmap you can run or hand to a team.', stack: ['Next.js', 'TypeScript', 'Vercel'], launchIframe: { src: 'https://cmo-roadmap-generator.vercel.app/intake', slug: 'cmo-roadmap-generator' }, coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/v1774736805/cmo-roadmap-generator-home.png' },
   { name: 'Investment ROI Planner', category: 'Marketing', status: 'Production', description: 'Self-serve financial planning tool that helps practitioners calculate ROI on Graston certification before talking to sales.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/investment-roi-planner', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Graston_Technique_ROI_Calculator_-_main.png' },
   // Developer
   { name: 'Barbershop Command Center', category: 'Developer', status: 'Production', description: 'Full-stack business OS for barbershop owners — unified scheduling dashboard, revenue projection, barber-specific availability, and a high-conversion client booking engine.', stack: ['Next.js', 'React', 'Supabase'], detailHref: '/lab/barbershop-command-center', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Barbershop_Command_Center.jpg' },
@@ -114,15 +124,21 @@ function ToolCardCover({ tool }: { readonly tool: Tool }) {
 function ToolCard({
   tool,
   onHighlight,
+  onOpenIframeTool,
 }: {
   readonly tool: Tool
   readonly onHighlight: (target: string | null) => void
+  readonly onOpenIframeTool: (session: IframeToolSession) => void
 }) {
+  const launch = tool.launchIframe
   const hasDetail = Boolean(tool.detailHref)
   const hasUrl = Boolean(tool.url)
+  const href = launch ? undefined : (tool.detailHref ?? tool.url)
 
   let footerText: string
-  if (hasDetail) {
+  if (launch) {
+    footerText = 'Opens in a panel on this page'
+  } else if (hasDetail) {
     footerText = 'Explore build details'
   } else if (hasUrl) {
     footerText = 'Open deployed tool'
@@ -131,17 +147,23 @@ function ToolCard({
   }
 
   let ctaLabel: string | undefined
-  if (hasDetail) {
+  if (launch) {
+    ctaLabel = 'Launch tool'
+  } else if (hasDetail) {
     ctaLabel = 'Read the build'
   } else if (hasUrl) {
     ctaLabel = 'Launch app'
   }
 
+  const onActivate = launch
+    ? () => onOpenIframeTool({ src: launch.src, slug: launch.slug, name: tool.name })
+    : undefined
+
   return (
     <GalleryHoverCard
       title={tool.name}
       summary={tool.description}
-      href={tool.detailHref ?? tool.url}
+      href={href}
       cover={<ToolCardCover tool={tool} />}
       eyebrow={tool.category}
       badges={[tool.status, ...tool.stack.slice(0, 2)]}
@@ -149,7 +171,8 @@ function ToolCard({
         <span className={styles.toolFooterMeta}>{footerText}</span>
       }
       ctaLabel={ctaLabel}
-      external={!hasDetail && hasUrl}
+      external={!launch && !hasDetail && hasUrl}
+      onActivate={onActivate}
       interactiveId={tool.name}
       onHighlightChange={onHighlight}
       variant="lab"
@@ -160,10 +183,11 @@ function ToolCard({
 type FeaturedLab = {
   name: string
   description: string
-  href: string
   ctaLabel: string
   stack: string[]
+  href?: string
   external?: boolean
+  iframeLaunch?: { src: string; slug: string }
   screenshot?: {
     src: string
     alt: string
@@ -188,9 +212,11 @@ const featuredLabs: FeaturedLab[] = [
     name: 'GEO Readiness Auditor',
     description:
       'Is your site visible to AI? Run a fast 0-100 GEO audit, see top issues instantly, then unlock the full prioritized fix report by email.',
-    href: 'https://darling-martech-geo-audit-tool.vercel.app/',
+    iframeLaunch: {
+      src: 'https://darling-martech-geo-audit-tool.vercel.app/',
+      slug: 'geo-readiness-auditor',
+    },
     ctaLabel: 'Run free GEO audit →',
-    external: true,
     stack: ['Next.js', 'TypeScript', 'Cheerio', 'Resend'],
     screenshot: {
       src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1200,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png',
@@ -199,8 +225,18 @@ const featuredLabs: FeaturedLab[] = [
   },
 ]
 
-function LabFeaturedCard({ lab }: { readonly lab: FeaturedLab }) {
+function LabFeaturedCard({
+  lab,
+  onOpenIframe,
+  screenshotPriority = false,
+}: {
+  readonly lab: FeaturedLab
+  readonly onOpenIframe: (session: IframeToolSession) => void
+  /** First featured card image is LCP on /lab — use Next.js priority loading. */
+  readonly screenshotPriority?: boolean
+}) {
   const statsLength = lab.stats?.length ?? 0
+  const launch = lab.iframeLaunch
 
   return (
     <div className={styles.featuredCard}>
@@ -223,13 +259,23 @@ function LabFeaturedCard({ lab }: { readonly lab: FeaturedLab }) {
             ))}
           </div>
         </div>
-        <Link
-          href={lab.href}
-          className={styles.featuredCta}
-          {...(lab.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        >
-          {lab.ctaLabel}
-        </Link>
+        {launch ? (
+          <button
+            type="button"
+            className={styles.featuredCta}
+            onClick={() => onOpenIframe({ src: launch.src, slug: launch.slug, name: lab.name })}
+          >
+            {lab.ctaLabel}
+          </button>
+        ) : (
+          <Link
+            href={lab.href!}
+            className={styles.featuredCta}
+            {...(lab.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            {lab.ctaLabel}
+          </Link>
+        )}
       </div>
 
       <div className={styles.featuredRight}>
@@ -245,6 +291,7 @@ function LabFeaturedCard({ lab }: { readonly lab: FeaturedLab }) {
                 height={476}
                 className={styles.featuredScreenshotImg}
                 unoptimized
+                priority={screenshotPriority}
               />
             </div>
           ) : (
@@ -276,6 +323,14 @@ function LabFeaturedCard({ lab }: { readonly lab: FeaturedLab }) {
 export default function LabPage() {
   const [activeCategory, setActiveCategory] = useState<typeof categories[number]>('All')
   const [hoveredTool, setHoveredTool] = useState<string | null>(null)
+  const [iframeTool, setIframeTool] = useState<IframeToolSession | null>(null)
+  const lastIframeToolRef = useRef<IframeToolSession | null>(null)
+  const openIframeTool = useCallback((session: IframeToolSession) => {
+    lastIframeToolRef.current = session
+    setIframeTool(session)
+  }, [])
+  const closeIframeTool = useCallback(() => setIframeTool(null), [])
+  const iframePayload = iframeTool ?? lastIframeToolRef.current
   const isFinePointer = useFinePointer()
   const filtered = activeCategory === 'All' ? tools : tools.filter((t) => t.category === activeCategory)
 
@@ -322,8 +377,13 @@ export default function LabPage() {
 
         {/* Featured labs */}
         <section className={styles.featuredGrid} aria-label="Featured labs">
-          {featuredLabs.map((lab) => (
-            <LabFeaturedCard key={lab.name} lab={lab} />
+          {featuredLabs.map((lab, index) => (
+            <LabFeaturedCard
+              key={lab.name}
+              lab={lab}
+              onOpenIframe={openIframeTool}
+              screenshotPriority={index === 0}
+            />
           ))}
         </section>
 
@@ -337,11 +397,21 @@ export default function LabPage() {
         >
           {filtered.map((tool) => (
             <motion.div key={tool.name} variants={itemVariants} className={styles.gridCell}>
-              <ToolCard tool={tool} onHighlight={setHoveredTool} />
+              <ToolCard tool={tool} onHighlight={setHoveredTool} onOpenIframeTool={openIframeTool} />
             </motion.div>
           ))}
         </motion.div>
       </div>
+
+      {iframePayload && (
+        <LabModal
+          isOpen={iframeTool !== null}
+          onClose={closeIframeTool}
+          toolSrc={iframePayload.src}
+          toolName={iframePayload.name}
+          toolSlug={iframePayload.slug}
+        />
+      )}
     </main>
   )
 }

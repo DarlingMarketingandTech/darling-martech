@@ -67,7 +67,7 @@ Conflict rule:
   `/work/[slug]`, `/lab`, `/lab/[slug]`, `/lab/cmo-simulator`, `/about`,
   `/contact`, `/studio`.
 - Planned priority pages/routes:
-  - `/process` (next)
+  - `/process` (Live)
   - child-service money pages under current service parents
   - `/industries/[slug]` after child service pages
   - `/pricing` later
@@ -662,7 +662,7 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 - `/contact` — Contact form page (React Hook Form + Zod + Resend)
 - `/work` — Case studies index (masonry/staggered grid — Live)
 - `/work/[slug]` — Individual case study pages (data-driven from `data/work/`)
-- `/lab` — Lab tools index (9 detail pages — Live)
+- `/lab` — Lab tools index (10 detail pages — Live)
 - `/lab/[slug]` — Lab detail pages (data-driven from `data/labs.ts`)
 - `/lab/cmo-simulator` — Special: gated access via `CmoAccessModal`
 - `/services` — Services page with 6 service categories (Live)
@@ -684,10 +684,12 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 
 **All content lives in `/data/` as typed TypeScript files. Never hardcode content in components.**
 
-### `/data/labs.ts` — 9 lab entries in `LAB_DETAIL_DATA`
+### `/data/labs.ts` — 10 lab entries in `LAB_DETAIL_DATA`
 | Slug | Name | Category | Live URL |
 |---|---|---|---|
 | `cmo-simulator` | CMO Simulator | Marketing | (gated — email access) |
+| `geo-readiness-auditor` | GEO Readiness Auditor | Marketing | https://darling-martech-geo-audit-tool.vercel.app/ |
+| `cmo-roadmap-generator` | CMO Roadmap Generator | Marketing | https://cmo-roadmap-generator.vercel.app/intake |
 | `graston-growth-engine` | Graston Growth Engine | Marketing | graston-growth-engine.vercel.app |
 | `pro-dj-studio` | PRO DJ Studio | Technologist | pro-dj-mixer.vercel.app |
 | `strum-ai` | Strum AI | Technologist | jacobs-music-plum.vercel.app |
@@ -789,6 +791,12 @@ These are self-contained vanilla HTML/CSS/JS files:
 
 ### Lab card visual modes (per entry in `data/labs.ts`)
 Each lab entry includes `screenshots[]` with Cloudinary URLs for the detail page.
+
+### Current lab launch pattern for lead-gen tools
+Same-tab modal launch from `/lab` where strategically appropriate; detail pages can still exist for deep links / "Read the build".
+
+### CTA-discipline note for tool placement
+Do not overuse tool CTAs; one relevant tool CTA per page max; use tools only where they fit naturally.
 
 ---
 

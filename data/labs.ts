@@ -126,6 +126,53 @@ export const LAB_DETAIL_DATA: Record<string, LabDetailProps> = {
     ],
   },
 
+  'cmo-roadmap-generator': {
+    slug: 'cmo-roadmap-generator',
+    name: 'CMO Roadmap Generator',
+    category: 'Marketing',
+    year: '2026',
+    tagline:
+      'A guided intake that captures your goals, constraints, and budget reality — then produces a prioritized marketing roadmap you can execute or hand to a team.',
+    metrics: [
+      { value: 'Guided', label: 'Intake flow' },
+      { value: 'Prioritized', label: 'Roadmap output' },
+      { value: 'Free', label: 'Self-serve entry' },
+    ],
+    problemBody: [
+      'Most SMB leaders know they need a clearer marketing plan, but turning goals into an ordered sequence of work is hard when you are inside the business every day.',
+      'I built CMO Roadmap Generator as a structured intake: answer the same framing questions I use with clients, then walk away with a roadmap shaped around your reality — not a generic template.',
+    ],
+    buildStack: [
+      { layer: 'Framework', choice: 'Next.js App Router', why: 'Fast, deployable lead-gen surface with a focused multi-step flow' },
+      { layer: 'Hosting', choice: 'Vercel', why: 'Global CDN and simple iteration on the intake experience' },
+    ],
+    buildBody: [
+      'The tool walks through goals, audience, channels, constraints, and timing — then synthesizes a prioritized roadmap. It is a lightweight companion to deeper strategy work: enough to act on, and a clear path if you want help executing.',
+      'Repository: github.com/DarlingMarketingandTech/CMO-Roadmap-Generator.',
+    ],
+    impactBody: [
+      'Operators get a tangible artifact from a short session — useful for internal alignment and for deciding what to tackle first without committing to a full engagement upfront.',
+    ],
+    proofStatement: 'That a disciplined intake can produce a credible roadmap without a months-long strategy project.',
+    ctaLine: 'Want help turning the roadmap into executed work?',
+    toolSrc: 'https://cmo-roadmap-generator.vercel.app/intake',
+    serviceIds: ['fractional-cmo', 'brand-strategy'],
+    industryIds: ['b2b', 'saas', 'local-service'],
+    outcomeIds: ['lead-gen', 'brand-awareness'],
+    screenshots: [
+      {
+        src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/v1774736805/cmo-roadmap-generator-home.png',
+        alt: 'CMO Roadmap Generator — intake home',
+        caption: 'Guided intake captures goals and constraints before synthesizing the roadmap.',
+      },
+      {
+        src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/v1774736805/cmo-roadmap-generator-results.png',
+        alt: 'CMO Roadmap Generator — roadmap results',
+        caption: 'Prioritized roadmap output ready to execute or discuss with your team.',
+      },
+    ],
+  },
+
   'graston-growth-engine': {
     slug: 'graston-growth-engine',
     name: 'Graston Growth Engine',

@@ -18,6 +18,8 @@ interface GalleryHoverCardProps {
   readonly footer?: React.ReactNode
   readonly ctaLabel?: string
   readonly external?: boolean
+  /** When set, the card acts as a button (e.g. open an in-page tool modal) instead of navigating. */
+  readonly onActivate?: () => void
   readonly interactiveId?: string
   readonly onHighlightChange?: (target: string | null) => void
   readonly variant?: 'work' | 'lab'
@@ -34,6 +36,7 @@ export function GalleryHoverCard({
   footer,
   ctaLabel,
   external = false,
+  onActivate,
   interactiveId,
   onHighlightChange,
   variant = 'work',
@@ -46,7 +49,8 @@ export function GalleryHoverCard({
     isInteractive ? styles.interactiveFine : styles.expanded,
     variant === 'lab' ? styles.variantLab : styles.variantWork
   )
-  const surfaceClassName = cn(styles.surface, !href && styles.staticSurface)
+  const isActivatable = Boolean(onActivate)
+  const surfaceClassName = cn(styles.surface, !href && !isActivatable && styles.staticSurface, isActivatable && styles.surfaceAsButton)
 
   const handleHighlight = React.useCallback(
     (target: string | null) => {
@@ -59,12 +63,31 @@ export function GalleryHoverCard({
     className: surfaceClassName,
     onMouseEnter: isFinePointer ? () => handleHighlight(interactiveId ?? null) : undefined,
     onMouseLeave: isFinePointer ? () => handleHighlight(null) : undefined,
-    onFocus: href ? () => handleHighlight(interactiveId ?? null) : undefined,
-    onBlur: href ? () => handleHighlight(null) : undefined,
+    onFocus: href || isActivatable ? () => handleHighlight(interactiveId ?? null) : undefined,
+    onBlur: href || isActivatable ? () => handleHighlight(null) : undefined,
   }
 
-  const ctaText = ctaLabel ?? (href ? (external ? 'Launch app' : 'View details') : undefined)
-  const CtaIcon = external ? ArrowUpRight : ArrowRight
+  const showExternalIcon = Boolean(href && external && !isActivatable)
+  const ctaText =
+    ctaLabel ??
+    (isActivatable ? 'Launch tool' : href ? (external ? 'Launch app' : 'View details') : undefined)
+  const CtaIcon = showExternalIcon ? ArrowUpRight : ArrowRight
+
+  /** Native `<button>` only allows phrasing content; our card shell uses block-level divs, which breaks HTML parsing and causes hydration mismatches. Use a focusable div instead. */
+  const activatableProps: React.HTMLAttributes<HTMLDivElement> | undefined = onActivate
+    ? {
+        role: 'button',
+        tabIndex: 0,
+        onClick: onActivate,
+        onKeyDown: (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onActivate()
+          }
+        },
+        'aria-label': `${ctaText ?? 'Open'} — ${title}`,
+      }
+    : undefined
 
   const shell = (
     <>
@@ -105,7 +128,11 @@ export function GalleryHoverCard({
     </>
   )
 
-  const content = href ? (
+  const content = onActivate ? (
+    <div {...commonProps} {...activatableProps}>
+      {shell}
+    </div>
+  ) : href ? (
     external ? (
       <a href={href} target="_blank" rel="noopener noreferrer" {...commonProps}>
         {shell}
