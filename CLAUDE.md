@@ -14,6 +14,109 @@ copy, architecture, and tone should reference this document.
 
 ---
 
+## Master Context Policy (Single-File Workflow)
+`CLAUDE.md` is the single master operating brief for Claude work in this repo.
+
+The docs below are still kept for traceability and deep reference, but their
+core directives are consolidated here:
+
+- `docs/REPO-OPTIMIZATION-PLAN.md`
+- `docs/context/README.md`
+- `docs/context/project/*`
+- `docs/context/strategy/*`
+- `docs/context/repo/*`
+- `docs/archive/outputs/marketing-strategy-service.md`
+
+Conflict rule:
+1. Runtime code and data (`app/`, `components/`, `data/`, `lib/`) win.
+2. This `CLAUDE.md` file is the default instruction layer.
+3. Archived/context docs are reference material unless this file explicitly
+   elevates a rule from them.
+
+### Consolidated Strategy Snapshot
+- Positioning: **high strategic depth + high technical depth** for SMB buyers.
+- Core commercial frame: strategy + implementation + measurement under one
+  accountable owner.
+- Priority buyer sequence:
+  1. Burned Founder
+  2. Scaling Operator
+  3. Tech-Confused CMO
+  4. Ambitious Newcomer
+- Offer ladder: audit -> foundation/build-out -> retainer.
+- Delivery model for strategy-led engagements (from archived strategy draft):
+  - Phase 1: Audit and strategy (`4-8 weeks`)
+  - Phase 2: Build and execution (ongoing)
+- Pricing guardrails (outcome-based, never hourly):
+  - Audit entry: `$1.5k-$5k` (MarTech Audit anchor: `$2k-$5k`)
+  - Foundation/build projects: `$4k-$30k+` depending on scope
+  - Retainers: `$3.5k-$12k/month` depending on engagement model
+- Messaging hierarchy for commercial pages:
+  1. Business problem
+  2. Why alternatives failed
+  3. What Darling MarTech does differently
+  4. Proof
+  5. Offer-specific CTA
+
+### Consolidated IA / Page Strategy Snapshot
+- Live core pages: `/`, `/services`, `/services/[slug]`, `/work`,
+  `/work/[slug]`, `/lab`, `/lab/[slug]`, `/lab/cmo-simulator`, `/about`,
+  `/contact`, `/studio`.
+- Planned priority pages/routes:
+  - `/process` (next)
+  - child-service money pages under current service parents
+  - `/industries/[slug]` after child service pages
+  - `/pricing` later
+- Immediate service-page execution priority:
+  1. `/services/martech-audit`
+  2. `/services/systems/agentic-marketing-systems`
+  3. `/services/systems/the-fortress`
+  4. `/services/growth/the-conductor`
+- Internal linking minimums:
+  - Every service page: link to `/contact` + at least 2 relevant work pages.
+  - Every work page: link to the service page it proves.
+  - Every lab page: exactly 1 primary service link + 1 supporting work link.
+
+### Consolidated Proof / Taxonomy Snapshot
+- Top reusable proof assets: Graston Technique, Pike Medical, PrimaryCare Indy,
+  UrgentCare Indy, 317 BBQ, Hoosier Boy, Riley Bennett Egloff, Tuohy Bailey &
+  Moore, Behr Pet, Russell Painting, Primary Colours.
+- Highest-leverage proof metrics to reuse:
+  - `+212% qualified leads`
+  - `95% overhead reduction`
+  - `48 hrs/week saved`
+  - `45% patient growth over 3 years`
+  - `300% organic traffic growth`
+  - `75% more bookings`
+  - `40% conversion lift`
+- Proof routing rule: every `/work/[slug]` and `/lab/[slug]` should map to a
+  primary parent service and explicit CTA destination.
+
+### Consolidated Repo Hygiene Snapshot (2026-03-28)
+- Canonical content/data lives in `data/` only. Do not recreate root-level
+  mirrors like old `services.ts`, `labs.ts`, or `work-*.ts`.
+- Generated artifacts stay untracked and local (`.next/`, `*.tsbuildinfo`,
+  temporary exports).
+- Root should stay lean: runtime/config entry points plus
+  `README.md` and `CLAUDE.md`.
+- Strategy and planning docs belong in `docs/context/` or `docs/archive/`,
+  not repo root.
+
+### Consolidated Ops / Sync Snapshot
+- `docs/context/repo/2026-03-27-claude-os-audit-report.md` is an operations
+  sync reference, not runtime product behavior guidance.
+- Prioritized sync tiers from that report:
+  - Tier 1: Revenue and client delivery artifacts
+  - Tier 2: Website and brand assets
+  - Tier 3: Job-search and operational docs
+  - Tier 4: Knowledge base archives
+- Maintenance cadence from that report:
+  - Tier 1 daily/weekly
+  - Tier 2 weekly/bi-weekly
+  - Tier 3 weekly/monthly
+  - Tier 4 monthly/as needed
+
+---
+
 ## Project Overview
 Official website for **Darling MarTech** — the consulting brand of Jacob
 Darling (Marketing and Technology LLC). The site targets small businesses
@@ -732,6 +835,14 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
 /docs/superpowers/       — Implementation specs and plans
   /plans/
   /specs/
+/docs/context/           — Consolidated strategy, architecture, messaging, repo maps
+  /project/
+  /strategy/
+  /repo/
+/docs/archive/           — Archived plans and research artifacts
+  /plans/
+  /outputs/
+/docs/REPO-OPTIMIZATION-PLAN.md — Repo cleanup governance + hygiene checklist
 ```
 
 ---
