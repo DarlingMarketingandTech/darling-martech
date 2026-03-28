@@ -1,133 +1,173 @@
 # Darling MarTech
 
-Official website for **Darling MarTech** — the consulting brand of Jacob Darling (Marketing and Technology LLC). Built to convert visitors into clients for a senior marketing strategist and systems architect based in Indianapolis, IN.
+Marketing systems portfolio and lead-generation site for Jacob Darling, built with Next.js App Router. The project combines brand storytelling, case studies, interactive lab tools, studio work, and conversion-focused contact flows in one codebase.
 
-- **Domain:** darlingmartech.com
-- **Hosting:** Cloudflare Pages (GitHub auto-deploy)
-- **Contact:** <jacob@jacobdarling.com>
+- Domain: `darlingmartech.com`
+- Primary brand: Darling MarTech / Marketing and Technology LLC
+- Location focus: Indianapolis, Indiana
+- Contact: `jacob@jacobdarling.com`
 
----
+## Current Site Surface
+
+### Core pages
+
+- `/` home page with Hero, Services, About teaser, Featured Tool, case study rail, testimonial spotlight, and contact CTA
+- `/about` long-form bio page with industry tags, credentials, and career timeline
+- `/services` services experience page
+- `/work` case study index
+- `/work/[slug]` individual case study pages
+- `/lab` lab index with category filtering, 3D telemetry panel, and featured CMO Simulator
+- `/lab/[slug]` dynamic lab detail pages for supported tools
+- `/lab/cmo-simulator` dedicated simulator experience
+- `/studio` Cloudinary-powered visual archive
+- `/contact` contact form page
+
+### API routes
+
+- `/api/contact` sends form submissions through Resend
+- `/api/studio/images` fetches Cloudinary assets for the studio gallery
+- `/api/cmo-simulator-access` handles simulator access workflow
+
+## Recent Updates
+
+- Rebuilt the testimonial section into a reusable branded spotlight module with Framer Motion, full recommendation data, animated quote transitions, and a selectable testimonial rail
+- Added structured testimonial data in `data/testimonials.ts` so the same credibility block can be reused across multiple pages
+- Added dynamic lab detail pages in `/lab/[slug]` backed by `data/labs.ts`
+- Expanded the about page with the career timeline section
+- Added the featured tool section and stronger home-page case study presentation
+- Connected studio gallery content to Cloudinary search via a server route
 
 ## Tech Stack
 
-| Layer | Technology | Version |
-| --- | --- | --- |
-| Framework | Next.js App Router | ^16.2.0 |
-| Language | TypeScript | 5.9.3 |
-| Styling | CSS Modules + CSS custom properties | — |
-| 2D Animation | Framer Motion | ^11.18.2 |
-| 3D / WebGL | @react-three/fiber + @react-three/drei + Three.js | ^8.18 / ^9.122 / ^0.183 |
-| Scroll animation | GSAP + ScrollTrigger | ^3.14.2 |
-| Smooth scroll | Lenis | ^1.3.19 |
-| Components | shadcn/ui (brand-customized) | — |
-| Icons | @phosphor-icons/react | ^2.1.10 |
-| Contact form | React Hook Form + Zod + Resend | — |
-| Images | next/image + next-cloudinary | ^6.17.5 |
-| Fonts | Cabinet Grotesk (localFont), Inter, Instrument Serif | — |
+| Layer | Technology |
+| --- | --- |
+| Framework | Next.js 16 App Router |
+| Language | TypeScript 5.9 |
+| UI styling | CSS Modules + CSS custom properties |
+| Motion | Framer Motion |
+| 3D | `@react-three/fiber`, `@react-three/drei`, `three` |
+| Smooth scroll | Lenis |
+| Additional animation | GSAP |
+| Forms | React Hook Form + Zod |
+| Email delivery | Resend |
+| Images | Next Image + next-cloudinary |
+| Icons | Phosphor Icons + Lucide |
+| UI primitives | Radix + shadcn-style components |
 
-**Cloudinary cloud name:** `djhqowk67`
+## Brand System
 
-**Styling rule:** Tailwind is removed from all visual styling. Every color, typography, and animation uses CSS Modules + CSS custom properties. Tailwind layout utilities only (`grid`, `flex`, `col-span-*`, `container`, `mx-auto`).
+Primary tokens live in [app/globals.css](./app/globals.css).
 
----
+```css
+--color-base: #0A0A0A;
+--color-surface: #141414;
+--color-surface-raised: #1A1A1A;
+--color-accent: #FF4D00;
+--color-text: #F5F0E8;
+--color-muted: #888888;
+--color-border: rgba(245, 240, 232, 0.08);
+--color-border-accent: rgba(255, 77, 0, 0.3);
+```
 
-## Getting Started
+Typography:
+
+- Display: Cabinet Grotesk
+- Body: Inter
+- Accent/editorial: Instrument Serif
+
+## Project Structure
+
+```text
+app/
+  about/
+  contact/
+  lab/
+    [slug]/
+    cmo-simulator/
+  services/
+  studio/
+  work/
+    [slug]/
+  api/
+    cmo-simulator-access/
+    contact/
+    studio/images/
+components/
+  3d/
+  interactive/
+  lab/
+  layout/
+  motion/
+  providers/
+  sections/
+  ui/
+data/
+  labs.ts
+  services.ts
+  testimonials.ts
+  work/
+lib/
+  analytics.ts
+  cloudinary.ts
+  motion.ts
+public/
+  fonts/
+  labs/
+```
+
+## Local Development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open `http://localhost:3000`.
 
 ### Environment Variables
 
-Create `.env.local`:
+Create `.env.local` with the values you actually use in your environment:
 
 ```env
-RESEND_API_KEY=your_key_here
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=djhqowk67
+RESEND_API_KEY=
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+NEXT_PUBLIC_GA_ID=
 ```
 
----
+Notes:
 
-## Project Structure
+- `RESEND_API_KEY` is required for the contact form
+- `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` is used for image URLs and Cloudinary loaders
+- `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET` are required for `/api/studio/images`
+- `NEXT_PUBLIC_GA_ID` is optional; analytics no-op when absent
 
-```text
-/app
-  /page.tsx                   — Home
-  /about/page.tsx             — About
-  /contact/page.tsx           — Contact
-  /lab/page.tsx               — Tools & Experiments
-  /work/page.tsx              — Case studies index (Phase 2)
-  /work/[slug]/page.tsx       — Case study detail (Phase 2)
-  /services/[slug]/page.tsx   — Service pages (Phase 2)
-  /pricing/page.tsx           — Pricing (Phase 2)
-/components
-  /ui                         — shadcn base components (brand-customized)
-  /sections                   — Page sections (Hero, Services, About, etc.)
-  /layout                     — Nav, Footer
-  /motion                     — "use client" Framer Motion wrapper components
-/lib
-  /motion.ts                  — Spring presets + shared animation variants
-/styles
-  /globals.css                — CSS custom properties + resets
-  /[Component].module.css     — Per-component CSS Modules
-/public
-  /fonts/cabinet-grotesk/     — .woff2 files
-  /images
-    /logo                     — SVG logo files
-    jacob-bio-photo-splash.jpg
+## Content and Data Sources
+
+- Case studies are driven from `data/work/` plus supporting content in `case-studies/`
+- Reusable lab detail content lives in `data/labs.ts`
+- Testimonials live in `data/testimonials.ts`
+- Studio image inventory is pulled from Cloudinary folder searches
+- Brand and site guidance also exists in `CLAUDE.md` and project docs under `docs/superpowers/`
+
+## Implementation Notes
+
+- The app uses CSS Modules as the primary styling system; Tailwind remains in the project for base layers and limited utility usage
+- Motion patterns are centralized in `lib/motion.ts`
+- 3D experiences should stay client-only and be loaded with `dynamic(..., { ssr: false })`
+- Contact handling runs through an Edge route; Cloudinary admin access runs on the Node runtime route
+
+## Scripts
+
+```bash
+npm run dev
+npm run build
+npm run start
+npm run lint
 ```
 
----
+## Known Repo Notes
 
-## Brand Tokens
-
-```css
---color-base:           #0A0A0A;   /* Primary background */
---color-surface:        #141414;   /* Elevated cards */
---color-accent:         #FF4D00;   /* Electric Orange */
---color-text:           #F5F0E8;   /* Warm Off-White */
---color-muted:          #888888;   /* Secondary text */
---color-border:         rgba(245, 240, 232, 0.08);
---color-border-accent:  rgba(255, 77, 0, 0.3);
-
---font-display: 'Cabinet Grotesk', sans-serif;
---font-body:    'Inter', sans-serif;
---font-accent:  'Instrument Serif', serif;
-```
-
----
-
-## 3D Component Rules
-
-All Three.js / R3F components must:
-
-- Be lazy-loaded with `dynamic(..., { ssr: false })`
-- Use `React.memo` or minimal re-render patterns
-- Accept mouse position via `ref` (not state)
-- Target 60fps — no heavy geometry inside `useFrame` without memoization
-
----
-
-## Build Status
-
-### Phase 1 — Live
-
-- Home, About, Contact pages
-- Nav + Footer
-- Brand tokens + CSS custom properties
-- Contact form (React Hook Form + Zod + Resend)
-
-### Phase 2 — In Progress
-
-- /work — case studies index + detail pages
-- /lab — tools & experiments
-- /studio — Cloudinary-powered visual gallery
-- /services/[slug] — service detail pages
-
-### Phase 3 — Planned
-
-- /blog — MDX-powered thought leadership
-- /pricing — after content session with Jacob
+- `npm run lint` may report unrelated existing issues in generated `.next` output or untouched files; use targeted linting on changed source files when validating focused work
+- The repository may contain local workspace and tool metadata that is not part of the site surface
