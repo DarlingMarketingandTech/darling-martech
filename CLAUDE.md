@@ -4,6 +4,7 @@
 This is the master project brief for the Darling MarTech website build.
 Read this file in full before doing any work. Every decision about design,
 copy, architecture, and tone should reference this document.
+Canonical tools/skills routing reference: `docs/tools-and-skills-map.md`.
 
 > **Skill files:** Extended design, redesign-audit, and copy instructions
 > live in `skills/` (co-located in this repo) AND in the Claude OS:
@@ -118,6 +119,214 @@ Conflict rule:
   - Tier 2 weekly/bi-weekly
   - Tier 3 weekly/monthly
   - Tier 4 monthly/as needed
+
+## Tools and Skills Map
+Last updated: 2026-03-28
+
+### Purpose
+This section tells Claude how to use local context, connectors, and project
+skills for Darling MarTech.
+
+Goals:
+- reduce unnecessary tool chaining
+- reduce token waste
+- keep work grounded in local repo and project docs
+- use the most direct source of truth for each task
+
+### Tool Use Hierarchy
+Use tools and skills in this order:
+1. Local project files
+2. Project memory files (if present)
+3. Project documentation in `docs/`
+4. Project-specific skills
+5. External connectors only when necessary
+6. Live-site/browser verification only when explicitly requested
+
+If the answer exists in repo files or docs, do not use external connectors.
+
+### Primary Working Context
+
+#### Filesystem
+Use for:
+- reading and editing repo files
+- inspecting routes, components, content files, and docs
+- understanding current implementation
+- making precise changes with minimal exploration
+
+#### Main Darling MarTech repo folder
+Primary source of truth for:
+- application routes
+- page content
+- service architecture
+- work/lab structures
+- shared UI components
+- internal linking patterns
+- local content/data sources
+
+#### Memory files (if present in workspace)
+Candidate memory files:
+- `MEMORY.md`
+- `project_darling_martech_site_state.md`
+- `project_darling_martech_skills.md`
+
+Use for:
+- current project status
+- known decisions
+- active priorities
+- continuity across sessions
+
+Do not override these casually without a clear reason.
+
+#### Project docs
+Use these docs before inferring architecture from partial code reads:
+- `CLAUDE.md`
+- `docs/REPO-OPTIMIZATION-PLAN.md`
+- `docs/context/README.md`
+- `docs/context/project/project_darling_martech_repo_map.md`
+- `docs/context/project/project_darling_martech_service_architecture.md`
+- `docs/context/project/project_darling_martech_work_taxonomy.md`
+- `docs/context/project/project_darling_martech_site_map.md`
+- `docs/context/project/project_darling_martech_page_briefs.md`
+- `docs/context/project/project_darling_martech_offers_and_packaging.md`
+- `docs/context/project/project_darling_martech_voice_and_messaging.md`
+- `docs/context/project/project_darling_martech_case_studies.md`
+- `docs/context/strategy/2026-03-19-competitor-analysis.md`
+- `docs/context/strategy/2026-03-19-value-proposition.md`
+- `docs/context/repo/2026-03-27-claude-os-audit-report.md`
+
+### Connector Policy
+External connectors are secondary. Use only when necessary for the task.
+
+#### Vercel
+Use for:
+- deployment verification
+- environment/project checks
+- confirming live deployment status
+- checking what is live when explicitly requested
+
+Do not use for:
+- reconstructing code that already exists locally
+- inferring page structure when route files are available
+- repeated recovery attempts if access fails
+
+#### Claude in Chrome
+Use for:
+- explicit live-site verification
+- checking rendered behavior
+- validating published content/UI when requested
+- confirming what users currently see on live site
+
+Do not use for:
+- reading code that exists locally
+- reverse-engineering structure from browser when repo files are available
+- repeated scraping attempts when local context is sufficient
+
+#### Notion
+Use for:
+- project notes/documents that live only in Notion
+- strategy references when requested
+- planning material not present in repo
+
+Do not use if same information exists locally.
+
+#### Supabase
+Use for:
+- schema/table/database tasks
+- data model review
+- backend data checks tied to implementation
+
+Do not use for general site structure/content work unless task is data-related.
+
+#### Cloudinary
+Use for:
+- media/asset organization
+- image delivery/reference workflows
+- asset management tasks
+
+Do not use unless task is specifically about media/assets.
+
+#### Gmail
+Use for email workflows only when explicitly requested.
+
+#### Google Calendar
+Use for scheduling only when explicitly requested.
+
+#### Zapier
+Use for automation/integration tasks only.
+Do not use as a fallback research tool.
+
+#### Desktop Commander
+Use only for local system operations not covered by normal file context.
+
+#### Windows-MCP
+Use only for machine/system tasks when explicitly needed.
+
+#### Three.js 3D Viewer
+Use only when working on 3D assets/previews.
+
+### Connector Restraint Rules
+- Do not chain multiple connectors to reconstruct info that already exists locally.
+- Do not escalate from one blocked connector to another unless external verification is truly required.
+- If connector fails and local context is available, proceed from local context.
+- Do not use live deployment/browser/API tools to infer code when local source files exist.
+- Use the most direct tool available and stop once enough context is available.
+
+### Project Skills
+Use project skills when they directly match the task. Avoid overlapping skill sprawl.
+
+Local repo skills:
+- `darling-martech-seo` — service/page SEO, metadata, linking strategy, taxonomy, GEO/AI-search structure.
+- `darling-martech-labs` — `/lab` structure, categorization, service-linking, lab-vs-work mapping.
+- `darling-martech-data` — analytics, attribution, reporting, KPI/measurement planning.
+- `darling-martech-services` — service architecture, parent/child design, packaging, intent-led service pages.
+- `darling-martech-copy` — messaging, headlines, CTAs, trust/conversion copy.
+- `darling-martech-ui` — interface, layout, hierarchy, conversion-focused visual structure.
+- `darling-martech-redesign` — audit and cleanup for AI-looking or inconsistent UI patterns.
+
+Optional skills (use only if present in the active runtime):
+- `darling-website-content`
+- `workspace-organizer`
+- `file-organizer`
+- `industrial-brutalist-ui`
+- `name-frontend-design`
+
+### Default Behavior by Task Type
+For code edits:
+1. local repo files
+2. relevant docs
+3. relevant project skill if needed
+
+Do not start with Vercel or Chrome.
+
+For content strategy:
+1. project docs
+2. memory files (if present)
+3. service/copy/content skills
+
+For service architecture:
+1. service docs
+2. taxonomy docs
+3. `darling-martech-services`
+4. `darling-martech-seo` when needed
+
+For `/work` and `/lab` mapping:
+1. taxonomy docs
+2. local content/data files
+3. `darling-martech-labs`
+4. `darling-martech-services`
+
+For live verification:
+- use Vercel or Chrome only when user explicitly asks for live-state confirmation
+
+### Operating Rule Summary
+- Local repo first
+- Docs and memory second
+- Skills third
+- Connectors only when necessary
+- Live verification only when explicitly requested
+- Smallest effective action
+- No unnecessary retries
+- No multi-tool reconstruction when local truth exists
 
 ---
 
