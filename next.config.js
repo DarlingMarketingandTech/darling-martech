@@ -14,6 +14,7 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // ── Work slug normalisation ──────────────────────────────────────────
       {
         source: '/work/primary-care-indy',
         destination: '/work/primarycare-indy',
@@ -27,6 +28,35 @@ const nextConfig = {
       {
         source: '/work/rbe-law',
         destination: '/work/riley-bennett-egloff',
+        permanent: true,
+      },
+      // ── Service nested route migrations ──────────────────────────────────
+      // Flat slugs → nested parent routes (canonical)
+      {
+        source: '/services/agentic-marketing-systems',
+        destination: '/services/systems/agentic-marketing-systems',
+        permanent: true,
+      },
+      {
+        source: '/services/the-fortress',
+        destination: '/services/systems/the-fortress',
+        permanent: true,
+      },
+      {
+        source: '/services/the-conductor',
+        destination: '/services/growth/the-conductor',
+        permanent: true,
+      },
+      // Old website-ux segment → correct growth segment
+      {
+        source: '/services/website-ux/geo-optimization',
+        destination: '/services/growth/geo-optimization',
+        permanent: true,
+      },
+      // Flat slug → nested route
+      {
+        source: '/services/geo-optimization',
+        destination: '/services/growth/geo-optimization',
         permanent: true,
       },
     ]

@@ -549,7 +549,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
   },
   {
     id: 'geo-optimization',
-    routePath: '/services/website-ux/geo-optimization',
+    routePath: '/services/growth/geo-optimization',
     kind: 'standalone',
     layer: 'growth',
     eyebrow: 'SEO / GEO Offer',
@@ -687,6 +687,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
   },
   {
     id: 'agentic-marketing-systems',
+    routePath: '/services/systems/agentic-marketing-systems',
     kind: 'standalone',
     layer: 'build',
     eyebrow: 'Systems',
@@ -756,6 +757,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
   },
   {
     id: 'the-fortress',
+    routePath: '/services/systems/the-fortress',
     kind: 'standalone',
     layer: 'build',
     eyebrow: 'Infrastructure',
@@ -812,6 +814,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
   },
   {
     id: 'the-conductor',
+    routePath: '/services/growth/the-conductor',
     kind: 'standalone',
     layer: 'growth',
     eyebrow: 'Measurement & Attribution',
@@ -1066,5 +1069,10 @@ export function getServicePageBySlug(slug: string) {
 }
 
 export function generateServiceStaticParams() {
-  return allServicePages.map((service) => ({ slug: service.id }))
+  // Exclude services that have a nested canonical route — those pages are
+  // served by their own route files and flat-slug redirects are handled in
+  // next.config.js before the dynamic route is ever reached.
+  return allServicePages
+    .filter((service) => !service.routePath || service.routePath === `/services/${service.id}`)
+    .map((service) => ({ slug: service.id }))
 }
