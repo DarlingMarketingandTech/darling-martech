@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // For Cloudflare Pages with next-on-pages, API routes run on Edge runtime
+  // Project deployment target: Vercel
   images: {
-    // next/image optimization not supported in Cloudflare Pages edge
+    // Keep unoptimized enabled per current project behavior.
+    // If you later want Vercel Image Optimization, set this to false.
     unoptimized: true,
     remotePatterns: [
       {

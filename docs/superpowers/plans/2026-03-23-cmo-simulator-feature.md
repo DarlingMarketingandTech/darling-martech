@@ -1496,4 +1496,4 @@ Expected: 4 commits visible — API route, home section, lab card, gate page.
 RESEND_API_KEY=re_xxxx
 ```
 
-For Cloudflare Pages deployment, add via the Cloudflare dashboard → Settings → Environment Variables.
+For Vercel deployment, add via the Vercel project settings → Environment Variables.

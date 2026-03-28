@@ -11,6 +11,10 @@ copy, architecture, and tone should reference this document.
 > - `skills/darling-martech-ui/SKILL.md` — Design system, component library, motion
 > - `skills/darling-martech-redesign/SKILL.md` — Audit protocol for upgrading AI-looking code
 > - `skills/darling-martech-copy/SKILL.md` — Voice, CTAs, error messages, microcopy
+> - `skills/darling-martech-data/SKILL.md` — Data model patterns for services/work/labs/testimonials
+> - `skills/darling-martech-labs/SKILL.md` — Lab lifecycle, integration, and linking rules
+> - `skills/darling-martech-services/SKILL.md` — Service architecture and commercial page build guidance
+> - `skills/darling-martech-seo/SKILL.md` — SEO, metadata, schema, and search-oriented content guidance
 
 ---
 
@@ -129,7 +133,8 @@ converts visitors into clients.
 - **Domain:** darlingmartech.com
 - **Email:** jacob@jacobdarling.com
 - **Portfolio reference:** bearcavemarketing.com
-- **Vercel preview:** darling-martech.vercel.app
+- **Vercel project:** [darling-mar-tech/darling-martech](https://vercel.com/darling-mar-tech/darling-martech)
+- **Vercel domain:** [darling-martech.vercel.app](https://darling-martech.vercel.app/)
 
 ---
 
@@ -148,8 +153,8 @@ converts visitors into clients.
 | Icons | **@phosphor-icons/react** | `weight="light"` or `"regular"`. No Lucide. No Feather. No Heroicons. |
 | Fonts | next/font localFont — Cabinet Grotesk, Inter | Instrument Serif via next/font Google |
 | Contact form | React Hook Form + Zod + Resend API | |
-| Images | next/image (always — never `<img>`) | unoptimized: true (Cloudflare Pages) |
-| Hosting | Cloudflare Pages (GitHub auto-deploy) | |
+| Images | next/image (always — never `<img>`) | `unoptimized: true` (current project setting) |
+| Hosting | Vercel (GitHub auto-deploy) | |
 | Media | Cloudinary Next.js SDK | Cloud: `djhqowk67` |
 | Physics | @dimforge/rapier3d-compat | Available in node_modules |
 | Geolocation | @mediapipe/tasks-vision | Available in node_modules |
@@ -754,12 +759,12 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
 - Framer Motion spring-physics for all animation (see presets above)
 - Contact form: React Hook Form + Zod + Resend API
 - All images via `next/image` with descriptive alt text (never `<img>`)
-- **`next/image` is `unoptimized: true`** — Cloudflare Pages doesn't support
-  Next.js image optimization. Don't add transformation params expecting server-side resizing.
+- **`next/image` is `unoptimized: true`** — this is the current project setting in `next.config.js`.
+  Don't assume server-side Next image transforms are active.
 - Full mobile responsiveness — mobile-first approach
 - Dark mode is the default and only mode — no toggle, ever
 - Target Lighthouse score: 95+ all metrics
-- Cloudflare Pages deployment via GitHub auto-deploy
+- Vercel deployment via GitHub auto-deploy
 - `robots.ts` and `sitemap.ts` auto-generated
 - Open Graph meta tags on every page
 - Structured data (JSON-LD) via `components/JsonLd.tsx`
@@ -913,7 +918,7 @@ __NEXT_PRIVATE_STANDALONE_CONFIG="" npm run build
 ## Gotchas & Known Issues
 
 - **Tailwind NOT fully removed** — `tailwind.config.ts` remains for shadcn token infrastructure. Visual styling must use CSS Modules.
-- **`next/image` is `unoptimized: true`** — Cloudflare Pages doesn't support Next.js image optimization.
+- **`next/image` is `unoptimized: true`** — current project setting; do not assume Next.js image optimization is enabled.
 - **Slug renames** — Canonical slugs: `riley-bennett-egloff`, `primarycare-indy`, `urgentcare-indy`. Redirects in `next.config.js`.
 - **`lucide-react` in package.json** — Still listed but unused. Use `@phosphor-icons/react` only.
 - **Lab content in `data/labs.ts`** — All 9 lab detail pages are data-driven from `LAB_DETAIL_DATA`.
