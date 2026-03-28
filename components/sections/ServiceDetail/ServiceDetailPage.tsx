@@ -59,6 +59,16 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
     [service.relatedServiceSlugs]
   )
 
+  const childServices = useMemo(
+    () =>
+      service.kind === 'parent'
+        ? (service.childServiceSlugs ?? [])
+            .map((slug) => allServicePages.find((s) => s.id === slug))
+            .filter((s): s is NonNullable<typeof s> => Boolean(s))
+        : [],
+    [service.kind, service.childServiceSlugs]
+  )
+
   const parentService = useMemo(
     () =>
       service.kind === 'standalone'
@@ -245,6 +255,28 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
         </section>
       ) : null}
 
+      {childServices.length ? (
+        <section className={styles.section}>
+          <FadeUp>
+            <h2 className={styles.sectionLabel}>Featured offers in this service</h2>
+          </FadeUp>
+          <div className={styles.relatedServicesGrid}>
+            {childServices.map((child, index) => (
+              <FadeUp key={child.id} delay={index * 0.05}>
+                <Link href={child.routePath ?? `/services/${child.id}`} className={styles.relatedServiceCard}>
+                  <span className={styles.relatedServiceEyebrow}>{child.eyebrow}</span>
+                  <h3 className={styles.relatedServiceTitle}>{child.title}</h3>
+                  <span className={styles.relatedServiceCta}>
+                    View offer
+                    <ArrowUpRight weight="regular" size={13} />
+                  </span>
+                </Link>
+              </FadeUp>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       {relatedServices.length ? (
         <section className={styles.section}>
           <FadeUp>
@@ -253,7 +285,7 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
           <div className={styles.relatedServicesGrid}>
             {relatedServices.map((s, index) => (
               <FadeUp key={s.id} delay={index * 0.05}>
-                <Link href={`/services/${s.id}`} className={styles.relatedServiceCard}>
+                <Link href={s.routePath ?? `/services/${s.id}`} className={styles.relatedServiceCard}>
                   <span className={styles.relatedServiceEyebrow}>{s.eyebrow}</span>
                   <h3 className={styles.relatedServiceTitle}>{s.title}</h3>
                   <span className={styles.relatedServiceCta}>

@@ -50,9 +50,10 @@ const FLAGSHIP_PROOF = [
 ]
 
 export function ServicesExperience() {
-  const auditOffer = standaloneServicePages.find((s) => s.id === 'martech-audit')
-  const geoOffer = standaloneServicePages.find((s) => s.id === 'geo-optimization')
-  const websiteOffer = standaloneServicePages.find((s) => s.id === 'website-redesign-conversion-ux')
+  const featuredOfferSlugs = ['martech-audit', 'agentic-marketing-systems', 'the-conductor'] as const
+  const featuredOffers = featuredOfferSlugs
+    .map((slug) => standaloneServicePages.find((s) => s.id === slug))
+    .filter((offer): offer is NonNullable<typeof offer> => Boolean(offer))
 
   return (
     <main className={styles.main}>
@@ -125,60 +126,28 @@ export function ServicesExperience() {
       </section>
 
       {/* ── Featured offers ── */}
-      {(auditOffer ?? geoOffer ?? websiteOffer) && (
+      {featuredOffers.length > 0 && (
         <section className={styles.offersSection}>
           <div className={styles.sectionContainer}>
             <p className={styles.sectionEyebrow}>Productized offers</p>
             <h2 className={styles.sectionHeadline}>Fixed-scope, deliverable-backed engagements.</h2>
             <div className={styles.offersGrid}>
-              {auditOffer && (
-                <article className={styles.offerCard}>
+              {featuredOffers.map((offer) => (
+                <article key={offer.id} className={styles.offerCard}>
                   <div className={styles.offerTop}>
-                    <span className={styles.offerEyebrow}>{auditOffer.eyebrow}</span>
-                    {auditOffer.pricingSignal && (
-                      <span className={styles.offerPricing}>{auditOffer.pricingSignal}</span>
+                    <span className={styles.offerEyebrow}>{offer.eyebrow}</span>
+                    {offer.pricingSignal && (
+                      <span className={styles.offerPricing}>{offer.pricingSignal}</span>
                     )}
                   </div>
-                  <h3 className={styles.offerTitle}>{auditOffer.title}</h3>
-                  <p className={styles.offerTagline}>{auditOffer.tagline}</p>
-                  <Link href={`/services/${auditOffer.id}`} className={styles.offerCta}>
+                  <h3 className={styles.offerTitle}>{offer.title}</h3>
+                  <p className={styles.offerTagline}>{offer.tagline}</p>
+                  <Link href={offer.routePath ?? `/services/${offer.id}`} className={styles.offerCta}>
                     See full offer details
                     <ArrowRight size={14} weight="light" />
                   </Link>
                 </article>
-              )}
-              {geoOffer && (
-                <article className={styles.offerCard}>
-                  <div className={styles.offerTop}>
-                    <span className={styles.offerEyebrow}>{geoOffer.eyebrow}</span>
-                    {geoOffer.pricingSignal && (
-                      <span className={styles.offerPricing}>{geoOffer.pricingSignal}</span>
-                    )}
-                  </div>
-                  <h3 className={styles.offerTitle}>{geoOffer.title}</h3>
-                  <p className={styles.offerTagline}>{geoOffer.tagline}</p>
-                  <Link href={`/services/${geoOffer.id}`} className={styles.offerCta}>
-                    See full offer details
-                    <ArrowRight size={14} weight="light" />
-                  </Link>
-                </article>
-              )}
-              {websiteOffer && (
-                <article className={styles.offerCard}>
-                  <div className={styles.offerTop}>
-                    <span className={styles.offerEyebrow}>{websiteOffer.eyebrow}</span>
-                    {websiteOffer.pricingSignal && (
-                      <span className={styles.offerPricing}>{websiteOffer.pricingSignal}</span>
-                    )}
-                  </div>
-                  <h3 className={styles.offerTitle}>{websiteOffer.title}</h3>
-                  <p className={styles.offerTagline}>{websiteOffer.tagline}</p>
-                  <Link href={`/services/${websiteOffer.id}`} className={styles.offerCta}>
-                    See full offer details
-                    <ArrowRight size={14} weight="light" />
-                  </Link>
-                </article>
-              )}
+              ))}
             </div>
           </div>
         </section>
