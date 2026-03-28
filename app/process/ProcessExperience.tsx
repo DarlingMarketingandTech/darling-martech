@@ -57,7 +57,7 @@ const BUYER_PATHS = [
     description:
       'Revenue is growing but the systems are not keeping up. The CRM is a mess, attribution is broken, and the marketing calendar is reactive. You need infrastructure, not just tactics.',
     recommended: 'Project Build or Embedded',
-    href: '/contact',
+    href: '/services/agentic-marketing-systems',
   },
   {
     type: 'Tech-Confused CMO',
@@ -71,7 +71,7 @@ const BUYER_PATHS = [
     description:
       'You are building something new and want to do it right the first time. No technical debt, no mismatched tools, no wasted budget. Start with a clear foundation.',
     recommended: 'Audit / Advisory → Project Build',
-    href: '/contact',
+    href: '/services/brand-strategy',
   },
 ]
 

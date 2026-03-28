@@ -28,12 +28,13 @@ export function Footer() {
 
         {/* Navigation links */}
         <nav className={styles.nav} aria-label="Footer navigation">
-          <Link href="/work"    className={styles.navLink}>Work</Link>
+          <Link href="/work"     className={styles.navLink}>Work</Link>
           <Link href="/services" className={styles.navLink}>Services</Link>
-          <Link href="/lab"     className={styles.navLink}>Lab</Link>
-          <Link href="/studio"  className={styles.navLink}>Studio</Link>
-          <Link href="/about"   className={styles.navLink}>About</Link>
-          <Link href="/contact" className={styles.navLink}>Contact</Link>
+          <Link href="/process"  className={styles.navLink}>Process</Link>
+          <Link href="/lab"      className={styles.navLink}>Lab</Link>
+          <Link href="/studio"   className={styles.navLink}>Studio</Link>
+          <Link href="/about"    className={styles.navLink}>About</Link>
+          <Link href="/contact"  className={styles.navLink}>Contact</Link>
         </nav>
 
         {/* Legal */}
