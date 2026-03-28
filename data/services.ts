@@ -27,6 +27,7 @@ export type ServiceStat = {
 
 type BaseServicePage = {
   id: string
+  routePath?: string
   kind: ServicePageKind
   layer: ServiceLayer
   eyebrow: string
@@ -461,6 +462,60 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     primaryCtaLabel: 'Request a MarTech Audit',
     secondaryCtaLabel: 'See audit proof',
     secondaryCtaHref: '/work',
+  },
+  {
+    id: 'geo-optimization',
+    routePath: '/services/website-ux/geo-optimization',
+    kind: 'standalone',
+    layer: 'growth',
+    eyebrow: 'SEO / GEO Offer',
+    title: 'GEO Optimization',
+    tagline: 'Make your site easier for AI systems to read, trust, and cite.',
+    summary:
+      'GEO Optimization is a focused service for businesses that want visibility in AI-assisted search and answer engines, not just traditional rankings. I audit structure, schema, content hierarchy, trust signals, and crawl directives, then implement the highest-leverage fixes in the right order.',
+    deliverables: [
+      'GEO readiness baseline using the live GEO Readiness Auditor',
+      'Schema coverage and machine-readability implementation plan',
+      'Robots and crawler directives aligned for AI bot access',
+      'E-E-A-T signal upgrades across author, about, and citation surfaces',
+      'FAQ, heading, and content-structure rewrites for answer-engine retrieval',
+      'Implementation roadmap with priority by impact and effort',
+    ],
+    proof: [
+      {
+        label: 'GEO Readiness Auditor',
+        href: '/lab/geo-readiness-auditor',
+        result: 'Live tool scores AI visibility from 0-100 and returns prioritized technical and content fixes.',
+        signalLabel: 'Live diagnostic',
+        metric: '0-100 GEO score',
+      },
+      {
+        label: 'PrimaryCare Indy',
+        href: '/work/primarycare-indy',
+        result: 'Search visibility architecture produced sustained organic growth and significantly higher booking volume.',
+        signalLabel: 'Organic visibility',
+        metric: '300% traffic growth',
+      },
+      {
+        label: 'Russell Painting',
+        href: '/work/russell-painting',
+        result: 'Trust-led technical and content structure rebuilt the site into a stronger lead acquisition channel.',
+        signalLabel: 'Trust architecture',
+        metric: 'Lead engine rebuilt',
+      },
+    ],
+    proofStats: [
+      { value: '0-100', label: 'GEO readiness score from the live auditor' },
+      { value: '60 sec', label: 'to generate a baseline report and top fixes' },
+      { value: '6', label: 'core AI visibility checks used to prioritize work' },
+    ],
+    proofWorkSlugs: ['primarycare-indy', 'russell-painting', 'graston-technique'],
+    serviceIds: ['geo-optimization', 'technical-seo', 'seo-content'],
+    industryIds: ['healthcare', 'local-service', 'b2b', 'saas'],
+    outcomeIds: ['traffic-growth', 'lead-gen', 'conversion-lift'],
+    primaryCtaLabel: 'Run the free GEO audit',
+    secondaryCtaLabel: 'See GEO build details',
+    secondaryCtaHref: '/lab/geo-readiness-auditor',
   },
 ]
 

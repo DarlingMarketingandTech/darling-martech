@@ -73,6 +73,59 @@ export const LAB_DETAIL_DATA: Record<string, LabDetailProps> = {
     ],
   },
 
+  'geo-readiness-auditor': {
+    slug: 'geo-readiness-auditor',
+    name: 'GEO Readiness Auditor',
+    category: 'Marketing',
+    year: '2026',
+    tagline: 'A free SMB-focused GEO audit tool that scores your site\'s AI visibility in under a minute and returns a prioritized fix roadmap you can actually execute.',
+    metrics: [
+      { value: '0-100', label: 'GEO readiness score' },
+      { value: '60 sec', label: 'Initial audit time' },
+      { value: '6 checks', label: 'AI visibility signals analyzed' },
+    ],
+    problemBody: [
+      'Most SMB sites are still optimized for traditional search only. As AI assistants become a discovery channel, visibility depends on machine-readable structure, bot access rules, and trust signals that many teams never audit.',
+      'The tooling gap is real: most GEO platforms are priced for enterprise teams, not founder-led companies. SMB operators need an answer they can run immediately without a contract, a demo call, or a monthly tool budget.',
+      'I built GEO Readiness Auditor to close that gap. Enter a domain, get a score, and see exactly where AI discoverability is breaking down before those blind spots become lost pipeline.',
+    ],
+    buildStack: [
+      { layer: 'Framework', choice: 'Next.js 15 App Router', why: 'Fast SSR/edge-friendly architecture for a public audit tool with immediate result rendering' },
+      { layer: 'Language', choice: 'TypeScript', why: 'Strong types across checks, scoring, and API payloads keeps audit logic predictable as checks evolve' },
+      { layer: 'Parser', choice: 'Cheerio', why: 'Reliable server-side HTML parsing for schema detection, heading hierarchy checks, and content signal extraction' },
+      { layer: 'Validation', choice: 'Zod', why: 'Input and payload validation at the edge prevents malformed domain submissions from breaking the pipeline' },
+      { layer: 'Email Gate', choice: 'Resend', why: 'Delivers full report capture flow and routes high-intent leads into follow-up without adding heavy CRM overhead' },
+      { layer: 'Hosting', choice: 'Vercel', why: 'Quick deploys, stable previews, and low-latency edge execution for fast audit feedback loops' },
+    ],
+    buildBody: [
+      'The core flow is intentionally simple: submit domain, fetch and analyze page structure, score each weighted check, then return a clear pass/warn/fail breakdown with prioritized fixes. The user gets immediate value before any form gate appears.',
+      'Checks are tuned for AI visibility signals that matter now: bot permissioning in robots.txt, schema coverage, heading hierarchy, FAQ/Q&A patterns, E-E-A-T trust markers, and metadata completeness. Each failed check includes an explicit remediation step, not just a red badge.',
+      'The full report handoff uses an email unlock pattern. Summary results stay free to maximize usage, while the detailed roadmap capture creates a high-intent conversion point that ties directly to GEO optimization service conversations.',
+    ],
+    impactBody: [
+      'GEO Readiness Auditor creates a direct bridge from awareness to action. A founder can diagnose AI discoverability risk in under a minute, then decide whether to execute fixes internally or engage for implementation.',
+      'From a business perspective, it is a productized proof asset: the tool demonstrates technical depth in public, qualifies leads based on real site conditions, and creates a clean pathway into GEO audit and optimization engagements.',
+    ],
+    proofStatement: 'That AI visibility can be audited, scored, and operationalized for SMBs without enterprise tooling overhead - and that useful diagnostics are the most credible form of marketing.',
+    ctaLine: 'Want the full GEO fix roadmap in your inbox and help prioritizing what to do next?',
+    toolSrc: 'https://darling-martech-geo-audit-tool.vercel.app/',
+    serviceIds: ['geo-optimization', 'technical-seo', 'web-development'],
+    industryIds: ['b2b', 'local-service', 'saas'],
+    outcomeIds: ['traffic-growth', 'lead-gen', 'conversion-lift'],
+    screenshots: [
+      {
+        src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png',
+        alt: 'GEO Readiness Auditor report preview',
+        caption: 'Run a fast AI visibility audit and get a weighted GEO score with prioritized technical fixes.',
+      },
+      {
+        src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/v1774692651/GEO_Readiness_Auditor_logo.png',
+        alt: 'GEO Readiness Auditor branded visual',
+        caption: 'Branded report surface used across the tool, lab card, and service CTA touchpoints.',
+      },
+    ],
+  },
+
   'graston-growth-engine': {
     slug: 'graston-growth-engine',
     name: 'Graston Growth Engine',

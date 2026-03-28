@@ -305,6 +305,12 @@
 
 /* ── Featured card (CMO Simulator hero) ── */
 
+.featuredGrid {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
 .featuredCard {
   display: grid;
   grid-template-columns: 1fr;
@@ -312,7 +318,6 @@
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid var(--color-border-accent);
-  margin-bottom: 3rem;
   background: var(--color-surface);
 }
 

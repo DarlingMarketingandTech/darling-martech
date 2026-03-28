@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import type { Metadata } from 'next'
 import { generateServiceStaticParams, getServicePageBySlug } from '@/data/services'
 import { SERVICE_TAGS, INDUSTRY_TAGS } from '@/data/taxonomy'
@@ -29,7 +29,7 @@ export async function generateMetadata({
       description: service.summary,
     },
     alternates: {
-      canonical: `/services/${service.id}`,
+      canonical: service.routePath ?? `/services/${service.id}`,
     },
   }
 }
@@ -42,6 +42,9 @@ export default async function ServiceSlugPage({
   const { slug } = await params
   const service = getServicePageBySlug(slug)
   if (!service) notFound()
+  if (service.routePath && service.routePath !== `/services/${service.id}`) {
+    redirect(service.routePath)
+  }
 
   return <ServiceDetailPage service={service} />
 }

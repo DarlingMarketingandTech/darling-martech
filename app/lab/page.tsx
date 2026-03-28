@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { CodeIcon, MegaphoneIcon, PlanetIcon, RocketIcon } from '@phosphor-icons/react'
 import { GalleryHoverCard } from '@/components/ui/gallery-hover-card'
 import { containerVariants, itemVariants, fadeVariants, viewport } from '@/lib/motion'
@@ -33,6 +33,7 @@ type Tool = {
 const tools: Tool[] = [
   // Marketing
   { name: 'Graston Growth Engine', category: 'Marketing', status: 'Production', description: 'Full-stack provider directory and lead-gen OS — map-integrated spatial search, AI assistant console, Premier analytics suite, and automated support ticketing for a national healthcare brand.', stack: ['Next.js', 'Supabase', 'Google Maps API', 'TypeScript'], detailHref: '/lab/graston-growth-engine', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/graston-growth-engine_-_for_providers.png' },
+  { name: 'GEO Readiness Auditor', category: 'Marketing', status: 'Production', description: 'SMB-focused AI visibility audit that scores GEO readiness (0-100), flags top-priority issues, and unlocks a full fix roadmap by email.', stack: ['Next.js', 'TypeScript', 'Cheerio', 'Resend'], detailHref: '/lab/geo-readiness-auditor', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1200,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png' },
   { name: 'Investment ROI Planner', category: 'Marketing', status: 'Production', description: 'Self-serve financial planning tool that helps practitioners calculate ROI on Graston certification before talking to sales.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/lab/investment-roi-planner', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Graston_Technique_ROI_Calculator_-_main.png' },
   // Developer
   { name: 'Barbershop Command Center', category: 'Developer', status: 'Production', description: 'Full-stack business OS for barbershop owners — unified scheduling dashboard, revenue projection, barber-specific availability, and a high-conversion client booking engine.', stack: ['Next.js', 'React', 'Supabase'], detailHref: '/lab/barbershop-command-center', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Barbershop_Command_Center.jpg' },
@@ -119,7 +120,6 @@ function ToolCard({
 }) {
   const hasDetail = Boolean(tool.detailHref)
   const hasUrl = Boolean(tool.url)
-  const isInteractive = hasDetail || hasUrl
 
   let footerText: string
   if (hasDetail) {
@@ -157,7 +157,49 @@ function ToolCard({
   )
 }
 
-function LabFeaturedCard() {
+type FeaturedLab = {
+  name: string
+  description: string
+  href: string
+  ctaLabel: string
+  stack: string[]
+  screenshot?: {
+    src: string
+    alt: string
+  }
+  stats?: { value: string; label: string }[]
+}
+
+const featuredLabs: FeaturedLab[] = [
+  {
+    name: 'CMO Simulator',
+    description:
+      'Walk through CMO-level decision-making — budget allocation, channel strategy, KPI selection, and execution priority. Same framework I use with clients. Takes about 10 minutes.',
+    href: '/lab/cmo-simulator',
+    ctaLabel: 'Launch CMO Simulator',
+    stack: ['Next.js', 'React', 'Vercel', 'Marketing Strategy'],
+    screenshot: {
+      src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_900,f_auto,q_auto/CMO_Simulator.jpg',
+      alt: 'CMO Simulator interface preview',
+    },
+  },
+  {
+    name: 'GEO Readiness Auditor',
+    description:
+      'Is your site visible to AI? Run a fast 0-100 GEO audit, see top issues instantly, then unlock the full prioritized fix report by email.',
+    href: '/lab/geo-readiness-auditor',
+    ctaLabel: 'Run GEO Audit',
+    stack: ['Next.js', 'TypeScript', 'Cheerio', 'Resend'],
+    screenshot: {
+      src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1200,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png',
+      alt: 'GEO Readiness Auditor interface preview',
+    },
+  },
+]
+
+function LabFeaturedCard({ lab }: { readonly lab: FeaturedLab }) {
+  const statsLength = lab.stats?.length ?? 0
+
   return (
     <div className={styles.featuredCard}>
       <div className={styles.featuredLeft}>
@@ -171,20 +213,16 @@ function LabFeaturedCard() {
             />
             Production · Featured
           </div>
-          <h2 className={styles.featuredTitle}>CMO Simulator</h2>
-          <p className={styles.featuredDesc}>
-            Walk through CMO-level decision-making — budget allocation, channel strategy,
-            KPI selection, and execution priority. Same framework I use with clients.
-            Takes about 10 minutes.
-          </p>
+          <h2 className={styles.featuredTitle}>{lab.name}</h2>
+          <p className={styles.featuredDesc}>{lab.description}</p>
           <div className={styles.featuredStack}>
-            {['Next.js', 'React', 'Vercel', 'Marketing Strategy'].map((tag) => (
+            {lab.stack.map((tag) => (
               <span key={tag} className={styles.toolCoverTag}>{tag}</span>
             ))}
           </div>
         </div>
-        <Link href="/lab/cmo-simulator" className={styles.featuredCta}>
-          Launch CMO Simulator →
+        <Link href={lab.href} className={styles.featuredCta}>
+          {lab.ctaLabel} →
         </Link>
       </div>
 
@@ -192,16 +230,37 @@ function LabFeaturedCard() {
         <div className={styles.featuredRightGrid} aria-hidden="true" />
         <div className={styles.featuredRightGlow} aria-hidden="true" />
         <div className={styles.featuredRightContent}>
-          <div className={styles.featuredScreenshot}>
-            <Image
-              src="https://res.cloudinary.com/djhqowk67/image/upload/w_900,f_auto,q_auto/CMO_Simulator.jpg"
-              alt="CMO Simulator interface preview"
-              width={900}
-              height={476}
-              className={styles.featuredScreenshotImg}
-              unoptimized
-            />
-          </div>
+          {lab.screenshot ? (
+            <div className={styles.featuredScreenshot}>
+              <Image
+                src={lab.screenshot.src}
+                alt={lab.screenshot.alt}
+                width={900}
+                height={476}
+                className={styles.featuredScreenshotImg}
+                unoptimized
+              />
+            </div>
+          ) : (
+            <>
+              <div className={styles.featuredIconBox}>
+                <PlanetIcon weight="light" size={34} color="var(--color-accent)" />
+              </div>
+              {lab.stats && (
+                <div className={styles.featuredStats}>
+                  {lab.stats.map((stat, index) => (
+                    <Fragment key={stat.label}>
+                      <div className={styles.featuredStat}>
+                        <div className={styles.featuredStatValue}>{stat.value}</div>
+                        <div className={styles.featuredStatLabel}>{stat.label}</div>
+                      </div>
+                      {index < statsLength - 1 && <div className={styles.featuredStatDivider} />}
+                    </Fragment>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -255,8 +314,12 @@ export default function LabPage() {
           </motion.div>
         </section>
 
-        {/* Featured tool — CMO Simulator */}
-        <LabFeaturedCard />
+        {/* Featured labs */}
+        <section className={styles.featuredGrid} aria-label="Featured labs">
+          {featuredLabs.map((lab) => (
+            <LabFeaturedCard key={lab.name} lab={lab} />
+          ))}
+        </section>
 
         {/* Tools grid */}
         <motion.div

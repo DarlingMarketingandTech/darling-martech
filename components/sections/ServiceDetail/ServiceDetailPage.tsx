@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useMemo, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
@@ -33,6 +34,9 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
   const primaryCtaLabel = service.primaryCtaLabel ?? 'Request a MarTech Audit'
   const secondaryCtaLabel = service.secondaryCtaLabel ?? 'See the work'
   const secondaryCtaHref = service.secondaryCtaHref ?? '/work'
+  const showGeoAuditCta =
+    service.serviceIds.includes('geo-optimization') || service.serviceIds.includes('technical-seo')
+
   const relatedWork = useMemo(
     () =>
       (service.proofWorkSlugs ?? [])
@@ -133,6 +137,47 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
           ))}
         </div>
       </section>
+
+      {showGeoAuditCta ? (
+        <section className={styles.section}>
+          <FadeUp>
+            <div className={styles.geoAuditCard}>
+              <div className={styles.geoAuditMedia}>
+                <Image
+                  src="https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png"
+                  alt="GEO Readiness Auditor preview"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 42vw"
+                  className={styles.geoAuditImage}
+                  unoptimized
+                />
+              </div>
+              <div className={styles.geoAuditContent}>
+                <p className={styles.geoAuditEyebrow}>Proof tool</p>
+                <h3 className={styles.geoAuditTitle}>Run the free GEO audit first.</h3>
+                <p className={styles.geoAuditBody}>
+                  Get your 0-100 AI visibility score in under a minute, see the highest-impact fixes,
+                  and use that report to scope what needs to be implemented next.
+                </p>
+                <div className={styles.geoAuditActions}>
+                  <a
+                    href="https://darling-martech-geo-audit-tool.vercel.app/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className={styles.geoAuditPrimary}
+                  >
+                    Run the free audit
+                    <ArrowUpRight weight="regular" size={15} />
+                  </a>
+                  <Link href="/lab/geo-readiness-auditor" className={styles.geoAuditSecondary}>
+                    See how the auditor was built
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </FadeUp>
+        </section>
+      ) : null}
 
       {relatedWork.length ? (
         <section className={styles.section}>

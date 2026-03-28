@@ -14,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }))
 
   const serviceUrls = allServicePages.map((service) => ({
-    url: `${baseUrl}/services/${service.id}`,
+    url: `${baseUrl}${service.routePath ?? `/services/${service.id}`}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: service.kind === 'standalone' ? 0.85 : 0.7,

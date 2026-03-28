@@ -107,6 +107,38 @@
   color: var(--color-text);
 }
 
+.selectorRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.selectorButton {
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-muted);
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.4s cubic-bezier(0.32, 0.72, 0, 1), color 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.selectorButton:hover {
+  color: var(--color-text);
+  border-color: rgba(245, 240, 232, 0.2);
+}
+
+.selectorButtonActive {
+  color: var(--color-text);
+  border-color: rgba(255, 77, 0, 0.35);
+  background: rgba(255, 77, 0, 0.08);
+}
+
 /* ── Visual card ── */
 
 .card {
@@ -116,6 +148,22 @@
   border-radius: 16px;
   overflow: hidden;
   aspect-ratio: 4 / 3;
+}
+
+.cardImageWrap {
+  position: absolute;
+  inset: 0;
+}
+
+.cardImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.cardImageScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.25) 0%, rgba(10, 10, 10, 0.8) 100%);
 }
 
 .cardGrid {
@@ -176,39 +224,27 @@
   position: absolute;
   inset: 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 4rem 1.25rem 0;
   z-index: 1;
-}
-
-.iconBox {
-  width: 72px;
-  height: 72px;
-  border: 1px solid var(--color-border-accent);
-  border-radius: 16px;
-  background: rgba(255, 77, 0, 0.06);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .cardLabel {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   letter-spacing: -0.02em;
   color: var(--color-text);
-  text-align: center;
+  text-align: right;
 }
 
 .cardSublabel {
   font-family: var(--font-body);
   font-size: 0.75rem;
   color: var(--color-muted);
-  text-align: center;
-  margin-top: -0.5rem;
+  text-align: right;
+  margin-top: 0.25rem;
 }
 
 .cardStats {
