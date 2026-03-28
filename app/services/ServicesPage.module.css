@@ -783,6 +783,59 @@
   margin-top: 4rem;
 }
 
+.auditSpotlight {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1.3rem;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 77, 0, 0.18);
+  background:
+    linear-gradient(135deg, rgba(255, 77, 0, 0.1), rgba(255, 77, 0, 0.02)),
+    rgba(16, 16, 16, 0.96);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 18px 44px rgba(0, 0, 0, 0.16);
+}
+
+.auditTitle {
+  margin: 0.55rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: var(--color-text);
+}
+
+.auditMeta {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.auditStat {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.95rem 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(245, 240, 232, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.auditStatValue {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-accent);
+}
+
+.auditStatLabel {
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: rgba(245, 240, 232, 0.72);
+}
+
 .specializedGrid,
 .engagementGrid {
   display: grid;
@@ -798,6 +851,11 @@
 @media (min-width: 900px) {
   .specializedGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .auditSpotlight {
+    grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.85fr) auto;
+    align-items: end;
   }
 }
 

@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Darling MarTech — Enhanced Services, Labs & Build Plan v2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --black: #0A0A0A;
+    --orange: #FF4D00;
+    --cream: #F5F0E8;
+    --neutral: #888888;
+    --white: #ffffff;
+    --surface: #111111;
+    --border: #222222;
+    --green: #33ff88;
+    --red: #ff3333;
+    --blue: #4d9fff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .doc-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 64px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .doc-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--orange);
+  }
+  .doc-label { font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+  .doc-title { font-size: 36px; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--white); margin-bottom: 12px; }
+  .doc-subtitle { font-size: 16px; color: var(--neutral); font-weight: 400; }
+  .doc-meta { margin-top: 24px; display: flex; gap: 32px; flex-wrap: wrap; }
+  .meta-item { font-size: 12px; color: var(--neutral); letter-spacing: 0.05em; }
+  .meta-item span { color: var(--white); font-weight: 500; }
+
+  .toc {
+    background: #060606;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--orange);
+    padding: 28px 32px;
+    margin: 40px 64px;
+    border-radius: 4px;
+  }
+  .toc-title { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+  .toc a { display: block; color: #888; font-size: 13px; text-decoration: none; padding: 5px 0; border-bottom: 1px solid #1a1a1a; }
+  .toc a:hover { color: var(--white); }
+  .toc a.parent { color: var(--white); font-weight: 600; margin-top: 8px; }
+  .toc a.child { padding-left: 20px; color: #666; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 64px 40px; }
+
+  .section { margin-bottom: 72px; }
+  .section-number { font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+  .section-title { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--white); margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+
+  .summary-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--orange); padding: 28px 32px; border-radius: 4px; margin-bottom: 32px; }
+  .summary-box p { color: #cccccc; margin-bottom: 12px; }
+  .summary-box p:last-child { margin-bottom: 0; }
+
+  .alert-box { background: rgba(255,77,0,0.07); border: 1px solid rgba(255,77,0,0.3); border-left: 3px solid var(--orange); padding: 20px 24px; border-radius: 4px; margin: 20px 0; }
+  .alert-box p { color: #cccccc; font-size: 14px; margin: 0; }
+  .alert-box strong { color: var(--orange); }
+
+  .data-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 13px; }
+  .data-table th { background: #1a1a1a; color: var(--orange); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-size: 11px; padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 12px 16px; border-bottom: 1px solid #1a1a1a; color: #cccccc; vertical-align: top; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td strong { color: var(--white); font-weight: 500; }
+  .data-table tr:hover td { background: #0f0f0f; }
+
+  h3 { font-size: 15px; font-weight: 600; color: var(--white); margin: 28px 0 12px; letter-spacing: -0.01em; }
+  h4 { font-size: 13px; font-weight: 600; color: var(--neutral); text-transform: uppercase; letter-spacing: 0.1em; margin: 20px 0 8px; }
+  p { color: #aaaaaa; margin-bottom: 14px; line-height: 1.75; }
+  p strong { color: var(--white); font-weight: 600; }
+  p em { color: var(--cream); font-style: italic; }
+
+  ul.styled, ol.styled { list-style: none; padding: 0; margin: 12px 0 20px; }
+  ul.styled li, ol.styled li { color: #aaaaaa; padding: 8px 0 8px 20px; border-bottom: 1px solid #111111; position: relative; font-size: 14px; line-height: 1.6; }
+  ul.styled li::before { content: '—'; position: absolute; left: 0; color: var(--orange); font-weight: 700; }
+  ol.styled { counter-reset: item; }
+  ol.styled li { counter-increment: item; }
+  ol.styled li::before { content: counter(item) '.'; position: absolute; left: 0; color: var(--orange); font-weight: 700; font-size: 12px; }
+  ul.styled li:last-child, ol.styled li:last-child { border-bottom: none; }
+  ul.styled li strong, ol.styled li strong { color: var(--white); font-weight: 600; }
+
+  .stats-row { display: flex; gap: 20px; margin: 20px 0; flex-wrap: wrap; }
+  .stat-chip { background: #0f0f0f; border: 1px solid var(--border); padding: 14px 20px; border-radius: 4px; text-align: center; flex: 1; min-width: 110px; }
+  .stat-chip .stat-val { font-size: 22px; font-weight: 700; color: var(--orange); letter-spacing: -0.02em; display: block; margin-bottom: 4px; }
+  .stat-chip .stat-label { font-size: 11px; color: var(--neutral); line-height: 1.3; }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 56px 0; }
+
+  /* LAB PROJECT CARDS */
+  .lab-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .lab-card-header {
+    background: #0d0d0d;
+    border-bottom: 1px solid var(--border);
+    padding: 24px 28px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .lab-card-title { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 4px; letter-spacing: -0.02em; }
+  .lab-card-slug { font-family: 'Courier New', monospace; font-size: 12px; color: var(--orange); margin-bottom: 6px; }
+  .lab-card-tagline { font-size: 14px; color: var(--cream); font-style: italic; }
+  .lab-badges { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-start; }
+  .badge {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 2px; white-space: nowrap;
+  }
+  .badge-priority-high { background: rgba(255,77,0,0.15); color: var(--orange); border: 1px solid rgba(255,77,0,0.35); }
+  .badge-priority-mid { background: rgba(77,159,255,0.12); color: var(--blue); border: 1px solid rgba(77,159,255,0.3); }
+  .badge-new { background: rgba(51,255,136,0.1); color: var(--green); border: 1px solid rgba(51,255,136,0.25); }
+  .badge-service { background: rgba(136,136,136,0.1); color: var(--neutral); border: 1px solid rgba(136,136,136,0.2); }
+
+  .lab-card-body { padding: 28px; }
+
+  .lab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+  .lab-field { margin-bottom: 16px; }
+  .lab-field-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--neutral); margin-bottom: 6px; }
+  .lab-field-value { font-size: 13px; color: #cccccc; line-height: 1.6; }
+  .lab-field-value strong { color: var(--white); }
+
+  /* CODE BLOCKS */
+  .code-section { margin-top: 24px; }
+  .code-section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .code-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  pre {
+    background: #060606;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #cccccc;
+    margin-bottom: 16px;
+  }
+  pre .comment { color: #555; }
+  pre .keyword { color: var(--orange); }
+  pre .string { color: var(--green); }
+  pre .type { color: var(--blue); }
+
+  .file-tree {
+    background: #060606;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 24px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.9;
+    margin-bottom: 16px;
+    overflow-x: auto;
+  }
+  .file-tree .dir { color: var(--blue); font-weight: 600; }
+  .file-tree .file { color: #cccccc; }
+  .file-tree .comment { color: #555; }
+
+  /* SERVICES ADDITIONS */
+  .service-addition {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .service-addition .sa-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 8px; }
+  .service-addition .sa-title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .service-addition .sa-desc { font-size: 13px; color: #aaaaaa; line-height: 1.6; }
+
+  /* COMPETITOR INTEL */
+  .intel-card {
+    background: #0a0a0a;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin-bottom: 12px;
+  }
+  .intel-card .ic-name { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .intel-card .ic-pos { font-size: 12px; color: var(--neutral); margin-bottom: 8px; }
+  .intel-card .ic-gap { font-size: 12px; color: var(--green); }
+  .intel-card .ic-gap::before { content: '→ Gap: '; color: var(--neutral); }
+
+  /* SOCIAL PILLS */
+  .social-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .social-pill { font-size: 11px; color: var(--neutral); background: #0f0f0f; border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; line-height: 1.4; }
+
+  /* PHASE BLOCKS */
+  .phase-block { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 22px 26px; margin-bottom: 16px; }
+  .phase-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; }
+
+  /* TECH STACK PILLS */
+  .tech-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+  .tech-pill { font-size: 11px; font-weight: 600; color: var(--blue); background: rgba(77,159,255,0.08); border: 1px solid rgba(77,159,255,0.2); border-radius: 3px; padding: 3px 10px; }
+
+  .doc-footer { background: var(--surface); border-top: 1px solid var(--border); padding: 32px 64px; font-size: 12px; color: var(--neutral); }
+
+  @media (max-width: 700px) {
+    .doc-header { padding: 32px 24px; }
+    .toc { margin: 24px; }
+    .container { padding: 40px 20px; }
+    .lab-grid { grid-template-columns: 1fr; }
+    .stats-row { flex-direction: column; }
+    .doc-footer { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="doc-label">Enhanced Strategic Plan v2 · darlingmartech.com</div>
+  <div class="doc-title">Services Expansion, Labs &amp; Build Portfolio Plan</div>
+  <div class="doc-subtitle">Deep research synthesis + market gap analysis + GitHub project specs with starter code</div>
+  <div class="doc-meta">
+    <div class="meta-item">Updated: <span>March 28, 2026</span></div>
+    <div class="meta-item">Sources: <span>Research Report v2 + Competitive Analysis + Market Gap Study</span></div>
+    <div class="meta-item">New additions: <span>3 new service tiers · 8 lab projects · Starter code for each</span></div>
+  </div>
+</div>
+
+<div class="toc">
+  <div class="toc-title">Table of Contents</div>
+  <a href="#research-findings" class="parent">Part 1 — What the New Research Reveals</a>
+  <a href="#competitor-intel" class="parent">Part 2 — Competitor Intelligence</a>
+  <a href="#services-additions" class="parent">Part 3 — New Services to Add (From Research)</a>
+  <a href="#three-tiers" class="child">3.1 Three New Page Tiers: Services / Solutions / Industries</a>
+  <a href="#service-new-list" class="child">3.2 Net-New Child Services to Build</a>
+  <a href="#lab-projects" class="parent">Part 4 — Lab Projects to Build (GitHub + Vercel)</a>
+  <a href="#lab-geo" class="child">Lab 01: GEO Readiness Auditor</a>
+  <a href="#lab-attribution" class="child">Lab 02: SMB Attribution Engine</a>
+  <a href="#lab-stack-auditor" class="child">Lab 03: MarTech Stack Auditor</a>
+  <a href="#lab-lead-scoring" class="child">Lab 04: No-Code Lead Scorer</a>
+  <a href="#lab-agentic" class="child">Lab 05: Agentic Marketing Monitor</a>
+  <a href="#lab-cmo-roadmap" class="child">Lab 06: CMO Roadmap Generator</a>
+  <a href="#lab-fortress-scanner" class="child">Lab 07: Fortress Security Scanner</a>
+  <a href="#lab-roi-dashboard" class="child">Lab 08: Marketing ROI Dashboard</a>
+  <a href="#site-fixes" class="parent">Part 5 — Immediate Site Fixes (From Research)</a>
+  <a href="#build-order" class="parent">Part 6 — Master Build Order</a>
+</div>
+
+<div class="container">
+
+  <!-- PART 1 -->
+  <div class="section" id="research-findings">
+    <div class="section-number">Part 1</div>
+    <div class="section-title">What the New Research Reveals (That the First Plan Missed)</div>
+
+    <div class="summary-box">
+      <p>The second research report adds critical commercial and technical clarity. Where the first plan was about <strong>what to build</strong>, this report tells us <strong>how to architect it</strong> so it actually drives leads. The biggest insight: your existing Work + Lab + Services datasets are already world-class raw material. The gap is the connective tissue — internal linking, shared taxonomy, and conversion architecture between them.</p>
+      <p>Three new strategic directions emerge from this research: (1) A three-tier URL architecture (Services → Solutions → Industries) that the first plan didn't include, (2) a shared tagging taxonomy that makes Work and Lab auto-prove Services, and (3) eight specific lab projects to build as independent GitHub repos that showcase the exact services that have no case studies yet.</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-chip"><span class="stat-val">3</span><span class="stat-label">New URL tiers to build</span></div>
+      <div class="stat-chip"><span class="stat-val">8</span><span class="stat-label">New lab builds</span></div>
+      <div class="stat-chip"><span class="stat-val">0</span><span class="stat-label">Indy competitors with agentic positioning</span></div>
+      <div class="stat-chip"><span class="stat-val">47</span><span class="stat-label">Avg martech tools per SMB (stack consolidation opportunity)</span></div>
+      <div class="stat-chip"><span class="stat-val">$4.5B</span><span class="stat-label">AI-driven SEO market by 2026</span></div>
+    </div>
+
+    <h3>1.1 The Three Structural Gaps the Research Names</h3>
+    <table class="data-table">
+      <thead><tr><th>Gap</th><th>What the Research Says</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Anchor URLs</strong></td><td>/services#strategy doesn't create landing pages for distinct search intents — one indexable page instead of many</td><td>Build /services/[slug] + /solutions/[problem] + /industries/[vertical]</td></tr>
+        <tr><td><strong>No taxonomy</strong></td><td>Work categorized by industry, not by service performed — weakens "this work proves this service" conversion logic</td><td>Add serviceIds, industryIds, outcomeIds to all Work + Lab data items</td></tr>
+        <tr><td><strong>Contact form</strong></td><td>Single "message me" box is low-conversion — high-intent buyers want to know timeline, budget, type of help, next steps</td><td>Guided intake: What do you need? → Service category → Urgency → Budget → CTA</td></tr>
+        <tr><td><strong>Trust leaks</strong></td><td>Testimonial with {buzz_word} placeholder + typos in public-facing dataset — immediately kills E-E-A-T signals</td><td>Fix testimonials dataset before any other launch</td></tr>
+        <tr><td><strong>Env-driven URLs</strong></td><td>Canonical base URL hardcoded as darlingmartech.com — risky on Vercel previews</td><td>Make base URL environment-driven across layout, sitemap, robots</td></tr>
+      </tbody>
+    </table>
+    <h3>1.2 The New Three-Tier URL Architecture</h3>
+    <p>The first plan only covered <strong>/services/[parent]/[child]</strong>. The new research identifies two additional tiers that capture different buyer intents — the people who search by problem and those who search by industry:</p>
+    <table class="data-table">
+      <thead><tr><th>Tier</th><th>Route Pattern</th><th>Intent Served</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Service detail</strong></td><td>/services/[slug]</td><td>"What can this person do for me?"</td><td>/services/crm-automation</td></tr>
+        <tr><td><strong>Solution pages</strong></td><td>/solutions/[problem]</td><td>"I have this problem — who fixes it?"</td><td>/solutions/leads-not-converting</td></tr>
+        <tr><td><strong>Industry pages</strong></td><td>/industries/[vertical]</td><td>"Do they understand my world?"</td><td>/industries/healthcare</td></tr>
+      </tbody>
+    </table>
+
+    <h3>1.3 The Shared Taxonomy Model (Build This First)</h3>
+    <p>One shared tag system referenced by Services, Work, and Lab — this is what makes the site self-reinforcing. Every Work case study auto-populates the relevant Service page with proof. Every Lab tool auto-appears on the Service page it demonstrates.</p>
+    <pre>
+// data/taxonomy.ts — Shared tag system across all site data
+
+export const SERVICE_TAGS = {
+  'crm-automation': 'CRM &amp; Automation',
+  'technical-seo': 'Technical SEO',
+  'geo-optimization': 'GEO Optimization',
+  'conversion-design': 'Conversion Design',
+  'brand-strategy': 'Brand Strategy',
+  'data-analytics': 'Data &amp; Analytics',
+  'agentic-systems': 'Agentic Systems',
+  'martech-audit': 'MarTech Audit',
+  'the-fortress': 'The Fortress (Security)',
+  'the-conductor': 'The Conductor (Data)',
+} as const
+
+export const INDUSTRY_TAGS = {
+  'healthcare': 'Healthcare',
+  'legal': 'Legal',
+  'ecommerce': 'E-Commerce',
+  'saas': 'SaaS',
+  'hospitality': 'Hospitality',
+  'nonprofit': 'Nonprofit',
+} as const
+
+export const OUTCOME_TAGS = {
+  'lead-gen': 'Lead Generation',
+  'conversion-lift': 'Conversion Lift',
+  'time-saved': 'Time Saved',
+  'revenue-attribution': 'Revenue Attribution',
+  'retention': 'Retention',
+} as const
+
+export type ServiceTag = keyof typeof SERVICE_TAGS
+export type IndustryTag = keyof typeof INDUSTRY_TAGS
+export type OutcomeTag = keyof typeof OUTCOME_TAGS
+
+// Add to WorkItem type:
+interface WorkItem {
+  slug: string
+  title: string
+  // ... existing fields ...
+  serviceIds: ServiceTag[]  // NEW
+  industryIds: IndustryTag[]  // NEW
+  outcomeIds: OutcomeTag[]  // NEW
+}
+
+// Add to LabItem type:
+interface LabItem {
+  slug: string
+  title: string
+  // ... existing fields ...
+  serviceIds: ServiceTag[]  // NEW
+  demoUrl?: string  // link to live GitHub/Vercel project
+  repoUrl?: string  // GitHub repo URL
+}
+</pre>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PART 2 -->
+  <div class="section" id="competitor-intel">
+    <div class="section-number">Part 2</div>
+    <div class="section-title">Competitor Intelligence — What's Out There &amp; Where the Gaps Are</div>
+
+    <p>Live research across fractional CMO, MarTech consultant, GEO specialist, and Indianapolis-local competitor landscape. This is what you're positioning against.</p>
+
+    <h3>2.1 National Fractional CMO Market</h3>
+    <div class="intel-card">
+      <div class="ic-name">O8 Agency — "Fractional Marketing Team"</div>
+      <div class="ic-pos">Headline: "Fix fragmented marketing with a holistic, scalable team" · Team model, not solo</div>
+      <div class="ic-gap">They sell the team model as premium, but no individual accountability. A solo operator who ships is more compelling to founders who've been burned by agencies.</div>
+    </div>
+    <div class="intel-card">
+      <div class="ic-name">Digital Authority Partners — Industry-specific fractional CMO</div>
+      <div class="ic-pos">Focus: Healthcare, SaaS, Legal verticals. Strong vertical positioning but no technical execution layer (CRM, automation, infrastructure).</div>
+      <div class="ic-gap">They advise on strategy but hand off implementation to third parties. You own audit + build + optimize as a single engagement — that's the unbundled gap they leave open.</div>
+    </div>
+    <div class="intel-card">
+      <div class="ic-name">Directive Consulting, CSP Agency, First Page Sage — GEO specialists</div>
+      <div class="ic-pos">Enterprise-focused, $10K+/month retainers. Strong technical GEO methodology but zero martech integration — they don't touch your CRM or automation stack.</div>
+      <div class="ic-gap">SMBs can't afford these agencies, and even if they could, they'd need a second partner to connect GEO results to their lead systems. You can be both.</div>
+    </div>
+
+    <h3>2.2 Indianapolis Local Market (Key Finding: Wide Open)</h3>
+    <div class="intel-card">
+      <div class="ic-name">Thrive Internet Marketing Agency (Indianapolis)</div>
+      <div class="ic-pos">5.0 Clutch rating, "strategy-first approach." Full-service agency. Largest local competitor.</div>
+      <div class="ic-gap">Agency structure — no individual authority figure. No agentic systems, no GEO, no MarTech audit positioning. They sell campaigns, not infrastructure.</div>
+    </div>
+    <div class="intel-card">
+      <div class="ic-name">Stitch — Only MarTech-specific player found locally</div>
+      <div class="ic-pos">Braze-focused customer engagement. Very narrow niche (one platform). Indianapolis-based.</div>
+      <div class="ic-gap">One-platform focus limits them severely. No strategic layer, no GEO, no agentic work. You cover the full stack they can't.</div>
+    </div>
+
+    <div class="alert-box">
+      <p><strong>Zero Indianapolis consultants position themselves as "agentic marketing systems" or "GEO specialists."</strong> This is the most important competitive finding. The first consultant in Indy to own these two categories — in clear, plain-language terms on a well-built site — wins the organic search traffic for years.</p>
+    </div>
+
+    <h3>2.3 Positioning Gaps That Darling MarTech Can Own Immediately</h3>
+    <table class="data-table">
+      <thead><tr><th>Positioning</th><th>Competition Level</th><th>Revenue Opportunity</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Agentic Marketing Systems Consultant</strong></td><td>Near-zero nationally; zero locally</td><td>High — emerging category with no incumbent</td></tr>
+        <tr><td><strong>GEO Optimization for SMBs</strong></td><td>Dominated by enterprise agencies; no SMB-focused player</td><td>High — $4.5B market, underserved SMB segment</td></tr>
+        <tr><td><strong>MarTech Audit → Implementation (bundled)</strong></td><td>Audit-only firms exist; implementation separate</td><td>Very high — closes the biggest gap in the market</td></tr>
+        <tr><td><strong>Indianapolis Fractional MarTech Leader</strong></td><td>No one positioning with technical depth locally</td><td>Medium — local brand + national reach</td></tr>
+        <tr><td><strong>Composable Stack Architect</strong></td><td>Low — most CMOs don't think in composable architecture</td><td>Medium-high — 47-tool average stack is a crisis</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PART 3 -->
+  <div class="section" id="services-additions">
+    <div class="section-number">Part 3</div>
+    <div class="section-title">New Services to Add (From Research Synthesis)</div>
+
+    <div id="three-tiers">
+      <h3>3.1 The Three New URL Tiers to Build</h3>
+      <p>These are net-new architecture layers on top of the existing /services/[parent]/[child] plan. Build these in Phase 3 after the core service pages are live:</p>
+
+      <div class="phase-block">
+        <div class="phase-label">Solutions Pages — /solutions/[problem-slug]</div>
+        <p style="color:#aaa;font-size:13px;margin-bottom:12px;">Pain-language entry points. People search their symptoms, not your service names.</p>
+        <ul class="styled">
+          <li><strong>/solutions/leads-not-converting</strong> — Maps to: CRO + Automation CRM + MarTech Audit</li>
+          <li><strong>/solutions/crm-is-a-mess</strong> — Maps to: CRM Implementation + MarTech Stack Audit</li>
+          <li><strong>/solutions/marketing-attribution-broken</strong> — Maps to: Data Analytics + The Conductor</li>
+          <li><strong>/solutions/website-not-ranking</strong> — Maps to: Technical SEO + GEO Optimization</li>
+          <li><strong>/solutions/no-time-to-market</strong> — Maps to: Agentic Marketing Systems + Automation CRM</li>
+          <li><strong>/solutions/agency-burned-us</strong> — Maps to: MarTech Audit + Fractional CMO (entry page)</li>
+        </ul>
+      </div>
+
+      <div class="phase-block">
+        <div class="phase-label">Industry Pages — /industries/[vertical]</div>
+        <p style="color:#aaa;font-size:13px;margin-bottom:12px;">Vertical proof pages. Show you understand their world before they have to ask.</p>
+        <ul class="styled">
+          <li><strong>/industries/healthcare</strong> — Graston Technique proof (212% leads, 48hrs/wk saved). HIPAA-aware stack positioning.</li>
+          <li><strong>/industries/legal</strong> — Lead intake systems, intake speed, referral tracking</li>
+          <li><strong>/industries/ecommerce</strong> — Behr Pet (+28% cart), Hoosier Boy (4.1× bookings). Cart recovery, lifecycle automation.</li>
+          <li><strong>/industries/saas</strong> — RevOps, lifecycle email, churn prevention, attribution</li>
+          <li><strong>/industries/hospitality</strong> — Booking optimization, review systems, local SEO</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="service-new-list">
+      <h3>3.2 Net-New Child Services to Add (From Research)</h3>
+      <p>These services were identified in the new research report as high-value additions not covered in the first plan:</p>
+
+      <div class="service-addition">
+        <div class="sa-label">New Service — Under /services/systems-infrastructure</div>
+        <div class="sa-title">MarTech Stack Rationalization</div>
+        <div class="sa-desc">Average SMB runs 47-50 martech tools. Audit firms identify problems but don't fix them. You audit, consolidate, and rebuild in a single engagement. Proof language: "I've seen stacks where 40% of tools are redundant, overlapping, or actively breaking attribution." Entry: $2K audit → $10K rationalization build.</div>
+      </div>
+
+      <div class="service-addition">
+        <div class="sa-label">New Service — Under /services/automation-crm</div>
+        <div class="sa-title">Lead Intake &amp; Speed-to-Lead Systems</div>
+        <div class="sa-desc">Forms, routing, notification logic, CRM handoff — the 5-minute-response-window is the difference between 40% and 70% close rates. This is a standalone service: intake form architecture + CRM routing + instant notification + lead scoring on entry. Proof: Graston lead-to-demo conversion +38%.</div>
+      </div>
+
+      <div class="service-addition">
+        <div class="sa-label">New Service — Under /services/data-analytics</div>
+        <div class="sa-title">GA4 &amp; Server-Side Tracking Implementation</div>
+        <div class="sa-desc">68.6% of orgs have deployed AI tools but lack the data infrastructure to use them. GA4 event taxonomy, server-side tagging, conversion event validation — the foundation every other service depends on. Without this, your analytics are a guess. Proof: "I've audited stacks where 40% of conversion events were misfiring."</div>
+      </div>
+
+      <div class="service-addition">
+        <div class="sa-label">New Service — Under /services/website-ux</div>
+        <div class="sa-title">Conversion Rate Optimization (CRO) Testing</div>
+        <div class="sa-desc">Fastest "prove value" engagement after a redesign. A/B testing, heat mapping, copy variation testing, form optimization. Proof: +40% checkout conversions (Behr Pet). Entry offer: "CRO Sprint" — 30-day focused testing engagement with guaranteed finding or refund.</div>
+      </div>
+
+      <div class="service-addition">
+        <div class="sa-label">New Service — Under /services/growth-strategy (NEW PARENT)</div>
+        <div class="sa-title">Fractional CMO / Fractional MarTech Lead</div>
+        <div class="sa-desc">The retainer tier — ongoing strategic + technical leadership. Not just strategy decks: you're in the CRM, building automations, reviewing attribution, shipping landing pages. Differentiation from the market: fractional CMOs usually don't get technical. You do both. Proof: Graston (48hrs/week saved, +212% leads) — that's fractional-level embedded work.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PART 4 — LAB PROJECTS -->
+  <div class="section" id="lab-projects">
+    <div class="section-number">Part 4</div>
+    <div class="section-title">Lab Projects to Build — GitHub Repos + Vercel Deployments</div>
+
+    <div class="summary-box">
+      <p>These 8 projects are purpose-built to fill the proof gap: services that have no case studies yet, categories where you're positioning against established players, and tools that serve as live demonstrations of your most differentiated capabilities. Each becomes a standalone GitHub repo + Vercel deployment, linked from your Lab section and the relevant service page.</p>
+      <p>Every spec below includes: the "why it exists," the tech stack, a full file structure, and starter code to get you running immediately.</p>
+    </div>
+
+
+    <!-- LAB 01 -->
+    <div class="lab-card" id="lab-geo">
+      <div class="lab-card-header">
+        <div>
+          <div class="lab-card-slug">github: darling-martech/geo-auditor · vercel: geo.darlingmartech.com</div>
+          <div class="lab-card-title">Lab 01 — GEO Readiness Auditor</div>
+          <div class="lab-card-tagline">"Is your site visible to AI? Find out in 60 seconds."</div>
+        </div>
+        <div class="lab-badges">
+          <span class="badge badge-priority-high">Priority 1</span>
+          <span class="badge badge-new">New Category</span>
+          <span class="badge badge-service">GEO Optimization</span>
+        </div>
+      </div>
+      <div class="lab-card-body">
+        <div class="lab-grid">
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Why Build This</div>
+              <div class="lab-field-value">No SMB-focused GEO audit tool exists. Existing tools (Otterly.AI, Geoptie) cost $100-$580/mo — priced for enterprise. A free tool that shows SMB founders exactly where their site fails AI visibility is a lead magnet with zero competition. <strong>Every result leads directly to /services/website-ux/geo-optimization.</strong></div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">What It Does</div>
+              <div class="lab-field-value">User enters their domain. Tool checks: (1) Schema markup presence + validity, (2) robots.txt AI bot permissions (GPTBot, ClaudeBot, PerplexityBot), (3) Content structure for machine readability (H1/H2/H3 hierarchy, FAQ blocks, definition patterns), (4) E-E-A-T signals (author pages, about pages, citations), (5) Page speed (Core Web Vitals). Returns a 0-100 GEO Readiness Score with prioritized fixes.</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">Lead Capture</div>
+              <div class="lab-field-value">Show score summary free. Email gate to unlock full report + prioritized fix roadmap. "Want us to fix this?" CTA directly to /services/website-ux/geo-optimization.</div>
+            </div>
+          </div>
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Services This Proves</div>
+              <div class="lab-field-value">GEO Optimization · Technical SEO · Systems &amp; Infrastructure</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">Tech Stack</div>
+              <div class="tech-pills">
+                <span class="tech-pill">Next.js 15</span>
+                <span class="tech-pill">TypeScript</span>
+                <span class="tech-pill">Cheerio (HTML parsing)</span>
+                <span class="tech-pill">Zod (validation)</span>
+                <span class="tech-pill">Resend (email gate)</span>
+                <span class="tech-pill">Vercel Edge Functions</span>
+              </div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">Monetization Path</div>
+              <div class="lab-field-value">Free tool → Email capture → GEO audit service ($2,500) → GEO optimization retainer ($1,500/mo)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="code-section-title">File Structure</div>
+          <div class="file-tree">
+geo-auditor/
+├── app/
+│   ├── page.tsx           # Landing: hero + domain input form
+│   ├── api/
+│   │   ├── audit/route.ts   # Main audit endpoint — fetches + analyzes URL
+│   │   └── capture/route.ts # Email gate — sends full report via Resend
+│   ├── results/
+│   │   └── page.tsx           # Score display + partial results
+│   └── layout.tsx
+├── lib/
+│   ├── auditor.ts           # Core audit logic — all checks live here
+│   ├── schema-checker.ts    # Schema.org validation
+│   ├── robots-checker.ts    # robots.txt AI bot permission parsing
+│   ├── content-checker.ts   # Heading hierarchy + FAQ detection
+│   └── scoring.ts           # Weighted score calculation
+├── components/
+│   ├── AuditForm.tsx
+│   ├── ScoreGauge.tsx       # Animated 0-100 gauge
+│   ├── CheckItem.tsx        # Pass/fail/warn item with explanation
+│   └── EmailGate.tsx
+└── package.json
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="code-section-title">Starter Code — lib/auditor.ts</div>
+          <pre>
+import * as cheerio from 'cheerio'
+
+export interface AuditResult {
+  url: string
+  score: number
+  checks: CheckResult[]
+  summary: string
+}
+
+export interface CheckResult {
+  id: string
+  label: string
+  status: 'pass' | 'warn' | 'fail'
+  weight: number
+  message: string
+  fix?: string
+}
+
+export async function runAudit(url: string): Promise&lt;AuditResult&gt; {
+  const checks: CheckResult[] = []
+
+  // 1. Fetch the page
+  const html = await fetch(url).then(r =&gt; r.text())
+  const $ = cheerio.load(html)
+
+  // 2. Check robots.txt for AI bot permissions
+  const robotsResult = await checkRobots(url)
+  checks.push(robotsResult)
+
+  // 3. Check for Schema.org structured data
+  const schemas = $('script[type="application/ld+json"]')
+  checks.push({
+    id: 'schema-markup',
+    label: 'Schema Markup',
+    status: schemas.length &gt; 0 ? 'pass' : 'fail',
+    weight: 20,
+    message: schemas.length &gt; 0
+      ? `Found ${schemas.length} schema blocks`
+      : 'No JSON-LD schema found',
+    fix: schemas.length === 0
+      ? 'Add at minimum: LocalBusiness, Service, and FAQ schema'
+      : undefined,
+  })
+
+  // 4. Check heading hierarchy (H1 → H2 → H3)
+  const h1Count = $('h1').length
+  checks.push({
+    id: 'heading-hierarchy',
+    label: 'Heading Hierarchy',
+    status: h1Count === 1 ? 'pass' : h1Count === 0 ? 'fail' : 'warn',
+    weight: 15,
+    message: h1Count === 1
+      ? 'Single H1 found — good structure'
+      : `Found ${h1Count} H1 tags — AI models prefer single H1`,
+    fix: h1Count !== 1 ? 'Use exactly one H1 per page as the primary topic signal' : undefined,
+  })
+
+  // 5. Check for FAQ content patterns
+  const faqPatterns = $('[class*="faq"], [id*="faq"], details, summary').length
+  checks.push({
+    id: 'faq-content',
+    label: 'FAQ / Q&amp;A Content',
+    status: faqPatterns &gt; 0 ? 'pass' : 'warn',
+    weight: 15,
+    message: faqPatterns &gt; 0
+      ? 'FAQ content detected — AI models love Q&amp;A format'
+      : 'No FAQ content detected',
+    fix: 'Add 3-5 Q&amp;A pairs per service page + FAQ schema markup',
+  })
+
+  // Calculate weighted score
+  const score = calculateScore(checks)
+
+  return { url, score, checks, summary: buildSummary(score) }
+}
+
+function calculateScore(checks: CheckResult[]): number {
+  const totalWeight = checks.reduce((sum, c) =&gt; sum + c.weight, 0)
+  const earned = checks.reduce((sum, c) =&gt; {
+    if (c.status === 'pass') return sum + c.weight
+    if (c.status === 'warn') return sum + (c.weight * 0.5)
+    return sum
+  }, 0)
+  return Math.round((earned / totalWeight) * 100)
+}
+          </pre>
+        </div>
+
+        <div class="lab-field" style="margin-top:16px;">
+          <div class="lab-field-label">Lab → Site Connection</div>
+          <div class="lab-field-value">Lab page on darlingmartech.com/lab/geo-auditor links to live tool at geo.darlingmartech.com. Service page /services/website-ux/geo-optimization shows the tool as live proof. "I built this tool to demonstrate exactly how I audit client sites before starting GEO work."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAB 02 -->
+    <div class="lab-card" id="lab-attribution">
+      <div class="lab-card-header">
+        <div>
+          <div class="lab-card-slug">github: darling-martech/smb-attribution · vercel: attribution.darlingmartech.com</div>
+          <div class="lab-card-title">Lab 02 — SMB Attribution Engine</div>
+          <div class="lab-card-tagline">"Which of your marketing channels actually drives revenue? Find out."</div>
+        </div>
+        <div class="lab-badges">
+          <span class="badge badge-priority-high">Priority 1</span>
+          <span class="badge badge-new">No Competition</span>
+          <span class="badge badge-service">Data &amp; Analytics</span>
+        </div>
+      </div>
+      <div class="lab-card-body">
+        <div class="lab-grid">
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Why Build This</div>
+              <div class="lab-field-value">No open source multi-touch attribution tool exists for SMBs. Paid options (Measured, Impact) are enterprise-priced. This is the #1 question every founder asks — "which marketing is actually working?" — and nobody has built a simple, transparent answer for sub-$10M businesses. <strong>This directly proves The Conductor and Data &amp; Analytics services.</strong></div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">What It Does</div>
+              <div class="lab-field-value">Connects to GA4 (via OAuth) + ad platforms (Google Ads, Meta — via manual CSV upload for v1). Applies 3 attribution models (last-click, first-click, linear). Shows side-by-side comparison: "If you use last-click, Google gets 80% credit. If you use linear, email gets 30%." Outputs: which channels to increase spend, which to cut.</div>
+            </div>
+          </div>
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Services This Proves</div>
+              <div class="lab-field-value">The Conductor · Data &amp; Analytics · Attribution Modeling · Reporting Infrastructure</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">Tech Stack</div>
+              <div class="tech-pills">
+                <span class="tech-pill">Next.js 15</span>
+                <span class="tech-pill">TypeScript</span>
+                <span class="tech-pill">Recharts (visualization)</span>
+                <span class="tech-pill">Google Analytics Data API</span>
+                <span class="tech-pill">Papaparse (CSV import)</span>
+                <span class="tech-pill">Vercel Postgres (session storage)</span>
+              </div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">Monetization Path</div>
+              <div class="lab-field-value">Free analysis → Attribution setup service ($3,500) → Full Conductor engagement ($8,000+) → Reporting retainer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="code-section-title">Starter Code — lib/attribution-models.ts</div>
+          <pre>
+export interface Touchpoint {
+  channel: string       // 'google-ads' | 'email' | 'organic' | 'direct' | 'social'
+  timestamp: Date
+  sessionId: string
+  converted: boolean
+  revenue?: number
+}
+
+export interface AttributionResult {
+  model: string
+  channelCredits: Record&lt;string, number&gt;  // channel → revenue credit %
+  insights: string[]
+}
+
+// Last-touch: 100% credit to final touchpoint before conversion
+export function lastTouch(touchpoints: Touchpoint[]): AttributionResult {
+  const credits: Record&lt;string, number&gt; = {}
+  const conversions = touchpoints.filter(t =&gt; t.converted)
+  conversions.forEach(t =&gt; {
+    credits[t.channel] = (credits[t.channel] || 0) + (t.revenue || 1)
+  })
+  return { model: 'Last Touch', channelCredits: normalize(credits), insights: [] }
+}
+
+// Linear: equal credit split across all touchpoints in journey
+export function linear(journeys: Touchpoint[][]): AttributionResult {
+  const credits: Record&lt;string, number&gt; = {}
+  journeys.filter(j =&gt; j.some(t =&gt; t.converted)).forEach(journey =&gt; {
+    const revenue = journey.find(t =&gt; t.converted)?.revenue || 1
+    const share = revenue / journey.length
+    journey.forEach(t =&gt; {
+      credits[t.channel] = (credits[t.channel] || 0) + share
+    })
+  })
+  return { model: 'Linear', channelCredits: normalize(credits), insights: [] }
+}
+
+// Time-decay: recent touchpoints get more credit (half-life: 7 days)
+export function timeDecay(journeys: Touchpoint[][]): AttributionResult {
+  const credits: Record&lt;string, number&gt; = {}
+  journeys.filter(j =&gt; j.some(t =&gt; t.converted)).forEach(journey =&gt; {
+    const conversion = journey.find(t =&gt; t.converted)!
+    const revenue = conversion.revenue || 1
+    let totalDecay = 0
+    const decays = journey.map(t =&gt; {
+      const daysDiff = (conversion.timestamp.getTime() - t.timestamp.getTime()) / (86400000)
+      return Math.pow(0.5, daysDiff / 7)  // 7-day half life
+    })
+    totalDecay = decays.reduce((a, b) =&gt; a + b, 0)
+    journey.forEach((t, i) =&gt; {
+      const share = (decays[i] / totalDecay) * revenue
+      credits[t.channel] = (credits[t.channel] || 0) + share
+    })
+  })
+  return { model: 'Time Decay', channelCredits: normalize(credits), insights: [] }
+}
+
+function normalize(credits: Record&lt;string, number&gt;): Record&lt;string, number&gt; {
+  const total = Object.values(credits).reduce((a, b) =&gt; a + b, 0)
+  return Object.fromEntries(
+    Object.entries(credits).map(([k, v]) =&gt; [k, Math.round((v / total) * 100) / 100])
+  )
+}
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAB 03 -->
+    <div class="lab-card" id="lab-stack-auditor">
+      <div class="lab-card-header">
+        <div>
+          <div class="lab-card-slug">github: darling-martech/stack-auditor · vercel: stackaudit.darlingmartech.com</div>
+          <div class="lab-card-title">Lab 03 — MarTech Stack Auditor</div>
+          <div class="lab-card-tagline">"Paste your tools. See what's redundant, what's missing, what's costing you."</div>
+        </div>
+        <div class="lab-badges">
+          <span class="badge badge-priority-high">Priority 2</span>
+          <span class="badge badge-service">MarTech Audit</span>
+          <span class="badge badge-service">Systems &amp; Infrastructure</span>
+        </div>
+      </div>
+      <div class="lab-card-body">
+        <div class="lab-grid">
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Why Build This</div>
+              <div class="lab-field-value">Audit-only firms (Cella, BlastX) charge $5K-$25K for what this tool approximates in 3 minutes. Average org runs 47 tools — 40% redundant. A free stack auditor that shows founders exactly what to cut is the perfect entry point for The MarTech Audit service ($2K-$5K) and the rationalization build ($10K+).</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">What It Does</div>
+              <div class="lab-field-value">User inputs their current tools (checkbox UI with 200+ common martech tools organized by category). Tool identifies: (1) functional overlaps (e.g., "You have both HubSpot and Mailchimp — pick one"), (2) missing critical layers (no attribution tool, no heatmapping), (3) integration gaps, (4) estimated monthly cost waste. Outputs: "Your Stack Score" + recommendations report.</div>
+            </div>
+          </div>
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Services This Proves</div>
+              <div class="lab-field-value">MarTech Audit · MarTech Stack Rationalization · Systems &amp; Infrastructure · The Fortress (security layer audit)</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">Tech Stack</div>
+              <div class="tech-pills">
+                <span class="tech-pill">Next.js 15</span>
+                <span class="tech-pill">TypeScript</span>
+                <span class="tech-pill">Framer Motion</span>
+                <span class="tech-pill">Zod</span>
+                <span class="tech-pill">Resend (report delivery)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="code-section-title">Starter Code — data/martech-tools.ts (partial)</div>
+          <pre>
+export interface MarTechTool {
+  id: string
+  name: string
+  category: ToolCategory
+  subcategory: string
+  avgMonthlyCost?: number
+  alternatives?: string[]   // other tool IDs that do similar things
+  nativeIntegrations?: string[]
+  requiredFor?: string[]    // which use cases this is essential for
+}
+
+export type ToolCategory =
+  | 'crm'
+  | 'email-marketing'
+  | 'analytics'
+  | 'advertising'
+  | 'seo'
+  | 'social'
+  | 'automation'
+  | 'cms'
+  | 'ecommerce'
+  | 'customer-support'
+  | 'video'
+  | 'design'
+  | 'infrastructure'
+
+export const MARTECH_TOOLS: MarTechTool[] = [
+  { id: 'hubspot', name: 'HubSpot', category: 'crm', subcategory: 'CRM / Marketing Hub', avgMonthlyCost: 800, alternatives: ['salesforce', 'pipedrive', 'activecampaign'] },
+  { id: 'mailchimp', name: 'Mailchimp', category: 'email-marketing', subcategory: 'Email Automation', avgMonthlyCost: 150, alternatives: ['hubspot', 'klaviyo', 'activecampaign'] },
+  { id: 'klaviyo', name: 'Klaviyo', category: 'email-marketing', subcategory: 'Email / SMS', avgMonthlyCost: 200, alternatives: ['mailchimp', 'hubspot'] },
+  { id: 'ga4', name: 'Google Analytics 4', category: 'analytics', subcategory: 'Web Analytics', avgMonthlyCost: 0 },
+  { id: 'hotjar', name: 'Hotjar', category: 'analytics', subcategory: 'Heatmapping / Session Recording', avgMonthlyCost: 80, alternatives: ['microsoft-clarity'] },
+  { id: 'microsoft-clarity', name: 'Microsoft Clarity', category: 'analytics', subcategory: 'Heatmapping', avgMonthlyCost: 0, alternatives: ['hotjar'] },
+  // ... 190+ more tools
+]
+
+// Overlap detection logic
+export function detectOverlaps(selectedIds: string[]): OverlapWarning[] {
+  const selected = MARTECH_TOOLS.filter(t =&gt; selectedIds.includes(t.id))
+  const warnings: OverlapWarning[] = []
+  selected.forEach(tool =&gt; {
+    const overlapping = tool.alternatives?.filter(alt =&gt; selectedIds.includes(alt)) || []
+    overlapping.forEach(altId =&gt; {
+      const alt = MARTECH_TOOLS.find(t =&gt; t.id === altId)
+      if (alt) warnings.push({
+        tools: [tool.name, alt.name],
+        message: `${tool.name} and ${alt.name} both handle ${tool.subcategory}`,
+        recommendation: `Pick one. You're likely paying for both unnecessarily.`,
+        monthlySavings: Math.min(tool.avgMonthlyCost || 0, alt.avgMonthlyCost || 0),
+      })
+    })
+  })
+  return warnings
+}
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAB 04 -->
+    <div class="lab-card" id="lab-lead-scoring">
+      <div class="lab-card-header">
+        <div>
+          <div class="lab-card-slug">github: darling-martech/lead-scorer · vercel: leads.darlingmartech.com</div>
+          <div class="lab-card-title">Lab 04 — No-Code Lead Scorer</div>
+          <div class="lab-card-tagline">"Tell me what a good lead looks like. I'll score every lead you have."</div>
+        </div>
+        <div class="lab-badges">
+          <span class="badge badge-priority-mid">Priority 2</span>
+          <span class="badge badge-service">Automation &amp; CRM</span>
+          <span class="badge badge-service">Lead Gen Workflows</span>
+        </div>
+      </div>
+      <div class="lab-card-body">
+        <div class="lab-grid">
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Why Build This</div>
+              <div class="lab-field-value">No turnkey lead scoring tool exists for non-data-science teams. HubSpot's built-in scoring is rigid; custom ML models require engineers. This fills the gap: a no-code lead scorer that uses rules-based + simple behavioral weighting. Proves /services/automation-crm/lead-gen-workflows and /services/automation-crm/crm-implementation.</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">What It Does</div>
+              <div class="lab-field-value">User uploads a CSV of leads with behavioral columns (pages visited, emails opened, form fields). Walks through a 3-question setup: "What industry are your best clients in?" / "What actions precede a close?" / "What's the avg deal size?" Outputs: scored lead list + scoring model explanation + "copy this into your CRM" instructions.</div>
+            </div>
+          </div>
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Services This Proves</div>
+              <div class="lab-field-value">Lead Gen Workflows · CRM Implementation · Automation &amp; CRM · Speed-to-Lead Systems</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">Tech Stack</div>
+              <div class="tech-pills">
+                <span class="tech-pill">Next.js 15</span>
+                <span class="tech-pill">TypeScript</span>
+                <span class="tech-pill">Papaparse</span>
+                <span class="tech-pill">Zod</span>
+                <span class="tech-pill">Recharts</span>
+                <span class="tech-pill">Vercel Blob (CSV storage)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="code-section-title">Starter Code — lib/lead-scorer.ts</div>
+          <pre>
+export interface ScoringRule {
+  field: string
+  operator: 'equals' | 'contains' | 'greater_than' | 'less_than'
+  value: string | number
+  points: number
+  label: string
+}
+
+export interface ScoringModel {
+  rules: ScoringRule[]
+  maxScore: number
+  tiers: { label: string; min: number; color: string }[]
+}
+
+// Default model — override with user's answers
+export const DEFAULT_MODEL: ScoringModel = {
+  rules: [
+    { field: 'job_title', operator: 'contains', value: 'CMO', points: 20, label: 'Decision maker title' },
+    { field: 'job_title', operator: 'contains', value: 'Marketing Director', points: 15, label: 'Senior marketing role' },
+    { field: 'pages_visited', operator: 'greater_than', value: 3, points: 15, label: 'High site engagement' },
+    { field: 'email_opens', operator: 'greater_than', value: 2, points: 10, label: 'Email engagement' },
+    { field: 'pricing_page_visit', operator: 'equals', value: 'true', points: 25, label: 'Pricing intent signal' },
+    { field: 'company_size', operator: 'greater_than', value: 10, points: 10, label: 'Company size fit' },
+  ],
+  maxScore: 100,
+  tiers: [
+    { label: 'Hot', min: 70, color: '#FF4D00' },
+    { label: 'Warm', min: 40, color: '#ffaa00' },
+    { label: 'Cold', min: 0, color: '#888888' },
+  ],
+}
+
+export function scoreLeads(
+  leads: Record&lt;string, string | number&gt;[],
+  model: ScoringModel
+): ScoredLead[] {
+  return leads.map(lead =&gt; {
+    let score = 0
+    const matchedRules: string[] = []
+    model.rules.forEach(rule =&gt; {
+      const val = lead[rule.field]
+      if (typeof val === 'undefined') return
+      let matched = false
+      if (rule.operator === 'equals') matched = String(val) === String(rule.value)
+      if (rule.operator === 'contains') matched = String(val).toLowerCase().includes(String(rule.value).toLowerCase())
+      if (rule.operator === 'greater_than') matched = Number(val) &gt; Number(rule.value)
+      if (rule.operator === 'less_than') matched = Number(val) &lt; Number(rule.value)
+      if (matched) { score += rule.points; matchedRules.push(rule.label) }
+    })
+    const tier = model.tiers.find(t =&gt; score &gt;= t.min) || model.tiers[model.tiers.length - 1]
+    return { ...lead, _score: Math.min(score, model.maxScore), _tier: tier.label, _matchedRules: matchedRules }
+  }).sort((a, b) =&gt; b._score - a._score)
+}
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAB 05 -->
+    <div class="lab-card" id="lab-agentic">
+      <div class="lab-card-header">
+        <div>
+          <div class="lab-card-slug">github: darling-martech/agentic-monitor · vercel: agent.darlingmartech.com</div>
+          <div class="lab-card-title">Lab 05 — Agentic Marketing Monitor</div>
+          <div class="lab-card-tagline">"An AI agent that watches your campaigns and tells you what to do next."</div>
+        </div>
+        <div class="lab-badges">
+          <span class="badge badge-priority-high">Priority 1</span>
+          <span class="badge badge-new">First-Mover</span>
+          <span class="badge badge-service">Agentic Marketing Systems</span>
+        </div>
+      </div>
+      <div class="lab-card-body">
+        <div class="lab-grid">
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Why Build This</div>
+              <div class="lab-field-value"><strong>Zero fractional CMO consultants nationally position around agentic marketing systems.</strong> This tool IS the proof point — a live, working agentic marketing workflow that monitors campaign data and generates specific optimization recommendations. The tool itself is the case study. No comparable tool exists for SMBs.</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">What It Does (v1)</div>
+              <div class="lab-field-value">User connects Google Ads (read-only OAuth) or pastes a CSV export. Claude AI analyzes: underperforming ad groups, keywords below Quality Score threshold, budget imbalances, and CTR anomalies. Outputs a weekly "Agent Report" with: (1) what changed, (2) why it matters, (3) exactly what to do next. Delivered via email digest or Slack webhook.</div>
+            </div>
+          </div>
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Services This Proves</div>
+              <div class="lab-field-value">Agentic Marketing Systems · CRM Automation · Lead Gen Workflows · Data &amp; Analytics</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">Tech Stack</div>
+              <div class="tech-pills">
+                <span class="tech-pill">Next.js 15</span>
+                <span class="tech-pill">TypeScript</span>
+                <span class="tech-pill">Anthropic SDK (Claude)</span>
+                <span class="tech-pill">Google Ads API</span>
+                <span class="tech-pill">Vercel Cron Jobs</span>
+                <span class="tech-pill">Resend (digest delivery)</span>
+                <span class="tech-pill">Vercel KV (state)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="code-section-title">Starter Code — lib/agent.ts</div>
+          <pre>
+import Anthropic from '@anthropic-ai/sdk'
+
+const anthropic = new Anthropic()
+
+export interface CampaignSnapshot {
+  date: string
+  campaigns: {
+    name: string
+    spend: number
+    clicks: number
+    conversions: number
+    ctr: number
+    qualityScore?: number
+  }[]
+}
+
+export async function generateAgentReport(
+  current: CampaignSnapshot,
+  previous: CampaignSnapshot
+): Promise&lt;string&gt; {
+  const prompt = `You are a senior PPC analyst reviewing campaign performance for a small business.
+
+Current week data:
+${JSON.stringify(current.campaigns, null, 2)}
+
+Previous week data:
+${JSON.stringify(previous.campaigns, null, 2)}
+
+Analyze the data and provide:
+1. THE MOST IMPORTANT FINDING (one sentence, specific numbers)
+2. TWO CAMPAIGNS TO INVESTIGATE (why + what to do)
+3. ONE BUDGET RECOMMENDATION (specific dollar amount or % shift)
+4. THIS WEEK'S PRIORITY ACTION (single task, takes under 30 min)
+
+Be direct. Use specific numbers. Write like a trusted advisor, not a consultant.
+No hedging. No "it depends." Give the recommendation.`
+
+  const message = await anthropic.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 1024,
+    messages: [{ role: 'user', content: prompt }],
+  })
+
+  return message.content[0].type === 'text' ? message.content[0].text : ''
+}
+
+// Vercel Cron — runs every Monday 8am
+// app/api/cron/weekly-report/route.ts
+export async function GET() {
+  const users = await getActiveUsers()  // from Vercel KV
+  for (const user of users) {
+    const [current, previous] = await Promise.all([
+      getCampaignData(user.id, 'this-week'),
+      getCampaignData(user.id, 'last-week'),
+    ])
+    const report = await generateAgentReport(current, previous)
+    await sendDigestEmail(user.email, report)
+  }
+  return Response.json({ ok: true })
+}
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAB 06 -->
+    <div class="lab-card" id="lab-cmo-roadmap">
+      <div class="lab-card-header">
+        <div>
+          <div class="lab-card-slug">github: darling-martech/cmo-roadmap · vercel: roadmap.darlingmartech.com</div>
+          <div class="lab-card-title">Lab 06 — CMO Roadmap Generator</div>
+          <div class="lab-card-tagline">"Answer 7 questions. Get a 90-day marketing roadmap built for your business."</div>
+        </div>
+        <div class="lab-badges">
+          <span class="badge badge-priority-mid">Priority 2</span>
+          <span class="badge badge-service">Growth Strategy</span>
+          <span class="badge badge-service">MarTech Audit</span>
+        </div>
+      </div>
+      <div class="lab-card-body">
+        <div class="lab-grid">
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Why Build This</div>
+              <div class="lab-field-value">Evolution of the existing CMO Simulator. Where the Simulator is educational, this is prescriptive — it outputs an actual 90-day roadmap the user can act on. The research report specifically called out that the current simulator doesn't have a clear "book a call" next step. This version ends with: "This roadmap took me 3 minutes to generate. Want me to build it with you? That takes 90 days."</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">What It Does</div>
+              <div class="lab-field-value">7-question intake (revenue, team size, current channels, biggest challenge, current stack, goal, timeline). Claude generates a personalized 90-day phased roadmap: Phase 1 (Days 1-30: Foundation), Phase 2 (Days 31-60: Systems), Phase 3 (Days 61-90: Optimization). Downloadable PDF + email capture + booking CTA.</div>
+            </div>
+          </div>
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Services This Proves</div>
+              <div class="lab-field-value">Fractional CMO · Growth Strategy · MarTech Audit · Brand Strategy (if applicable per answer)</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">Tech Stack</div>
+              <div class="tech-pills">
+                <span class="tech-pill">Next.js 15</span>
+                <span class="tech-pill">TypeScript</span>
+                <span class="tech-pill">Anthropic SDK</span>
+                <span class="tech-pill">Framer Motion</span>
+                <span class="tech-pill">jsPDF (PDF export)</span>
+                <span class="tech-pill">Resend</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAB 07 -->
+    <div class="lab-card" id="lab-fortress-scanner">
+      <div class="lab-card-header">
+        <div>
+          <div class="lab-card-slug">github: darling-martech/fortress-scanner · vercel: fortress.darlingmartech.com</div>
+          <div class="lab-card-title">Lab 07 — Fortress Security Scanner</div>
+          <div class="lab-card-tagline">"How exposed is your site? A 60-second security check for non-technical founders."</div>
+        </div>
+        <div class="lab-badges">
+          <span class="badge badge-priority-mid">Priority 3</span>
+          <span class="badge badge-service">The Fortress</span>
+          <span class="badge badge-service">Systems &amp; Infrastructure</span>
+        </div>
+      </div>
+      <div class="lab-card-body">
+        <div class="lab-grid">
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Why Build This</div>
+              <div class="lab-field-value">The Fortress is a named proprietary framework — but it has no visual proof on the site. This tool demonstrates exactly what The Fortress checks and fixes, in terms non-technical founders can understand. The scan runs in seconds, returns a severity-rated report, and ends with: "A Fortress Assessment takes 2 weeks and starts at $2,000."</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">What It Does</div>
+              <div class="lab-field-value">User enters domain. Tool checks: HTTPS enforcement, security headers (HSTS, X-Frame-Options, CSP), DNS/DNSSEC configuration, redirect chains (naked domain → www or vice versa), known vulnerability signatures in response headers (server version disclosure), and Cloudflare detection. Returns color-coded severity report: Critical / Warning / Pass.</div>
+            </div>
+          </div>
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Services This Proves</div>
+              <div class="lab-field-value">The Fortress · Systems &amp; Infrastructure · Performance Optimization · MarTech Stack Audit</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">Tech Stack</div>
+              <div class="tech-pills">
+                <span class="tech-pill">Next.js 15</span>
+                <span class="tech-pill">TypeScript</span>
+                <span class="tech-pill">Vercel Edge Functions</span>
+                <span class="tech-pill">DNS lookup (Node dns)</span>
+                <span class="tech-pill">fetch (header inspection)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-section">
+          <div class="code-section-title">Starter Code — lib/fortress-scanner.ts</div>
+          <pre>
+export interface SecurityCheck {
+  id: string
+  label: string
+  severity: 'critical' | 'warning' | 'pass'
+  message: string
+  fix?: string
+}
+
+export async function runFortressScan(domain: string): Promise&lt;SecurityCheck[]&gt; {
+  const url = `https://${domain}`
+  const checks: SecurityCheck[] = []
+
+  try {
+    const res = await fetch(url, { method: 'HEAD', redirect: 'manual' })
+    const headers = res.headers
+
+    // HTTPS enforcement
+    checks.push({
+      id: 'https',
+      label: 'HTTPS Enforcement',
+      severity: url.startsWith('https') ? 'pass' : 'critical',
+      message: url.startsWith('https') ? 'HTTPS active' : 'Site not served over HTTPS',
+      fix: 'Enable HTTPS via Cloudflare SSL settings',
+    })
+
+    // HSTS header
+    const hsts = headers.get('strict-transport-security')
+    checks.push({
+      id: 'hsts',
+      label: 'HTTP Strict Transport Security',
+      severity: hsts ? 'pass' : 'warning',
+      message: hsts ? `HSTS enabled: ${hsts}` : 'HSTS header missing',
+      fix: 'Add Strict-Transport-Security header with max-age=31536000',
+    })
+
+    // X-Frame-Options
+    const xfo = headers.get('x-frame-options')
+    checks.push({
+      id: 'x-frame-options',
+      label: 'Clickjacking Protection',
+      severity: xfo ? 'pass' : 'warning',
+      message: xfo ? `X-Frame-Options: ${xfo}` : 'Clickjacking protection missing',
+      fix: 'Add X-Frame-Options: SAMEORIGIN header',
+    })
+
+    // Server version disclosure
+    const server = headers.get('server')
+    const discloses = server &amp;&amp; !server.toLowerCase().includes('cloudflare')
+    checks.push({
+      id: 'server-disclosure',
+      label: 'Server Version Disclosure',
+      severity: discloses ? 'warning' : 'pass',
+      message: discloses ? `Server header exposes: ${server}` : 'Server version not exposed',
+      fix: 'Route traffic through Cloudflare to mask server identity',
+    })
+
+    // CSP header
+    const csp = headers.get('content-security-policy')
+    checks.push({
+      id: 'csp',
+      label: 'Content Security Policy',
+      severity: csp ? 'pass' : 'critical',
+      message: csp ? 'CSP header present' : 'No Content Security Policy found',
+      fix: 'Implement CSP to prevent XSS attacks — start with report-only mode',
+    })
+
+  } catch (e) {
+    checks.push({ id: 'connection', label: 'Site Reachability', severity: 'critical', message: 'Could not connect to site' })
+  }
+
+  return checks
+}
+          </pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAB 08 -->
+    <div class="lab-card" id="lab-roi-dashboard">
+      <div class="lab-card-header">
+        <div>
+          <div class="lab-card-slug">github: darling-martech/roi-dashboard · vercel: roi.darlingmartech.com</div>
+          <div class="lab-card-title">Lab 08 — Marketing ROI Dashboard</div>
+          <div class="lab-card-tagline">"Which campaigns are profitable right now? See it in one view."</div>
+        </div>
+        <div class="lab-badges">
+          <span class="badge badge-priority-mid">Priority 3</span>
+          <span class="badge badge-service">Data &amp; Analytics</span>
+          <span class="badge badge-service">The Conductor</span>
+        </div>
+      </div>
+      <div class="lab-card-body">
+        <div class="lab-grid">
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Why Build This</div>
+              <div class="lab-field-value">No integrated real-time ROI dashboard exists for SMBs. siMMMulator requires R; most tools are enterprise. This is a visual demonstration of "Decision-Grade Data" — the standard every Darling MarTech engagement delivers. The tool proves the Data &amp; Analytics parent page and The Conductor child page with a live working example.</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">What It Does</div>
+              <div class="lab-field-value">CSV import (ad spend by channel + revenue by source). Automatically calculates ROAS, CPA, and ROI per channel. Side-by-side comparison table + bar chart. "If you shifted $500 from [lowest ROI channel] to [highest ROI channel], you'd gain [estimate]." Outputs shareable dashboard URL (no login required for v1).</div>
+            </div>
+          </div>
+          <div>
+            <div class="lab-field">
+              <div class="lab-field-label">Services This Proves</div>
+              <div class="lab-field-value">Data &amp; Analytics · The Conductor · Attribution Modeling · Reporting Infrastructure · Fractional CMO (decision-making layer)</div>
+            </div>
+            <div class="lab-field">
+              <div class="lab-field-label">Tech Stack</div>
+              <div class="tech-pills">
+                <span class="tech-pill">Next.js 15</span>
+                <span class="tech-pill">TypeScript</span>
+                <span class="tech-pill">Recharts</span>
+                <span class="tech-pill">Papaparse</span>
+                <span class="tech-pill">Vercel Blob</span>
+                <span class="tech-pill">nanoid (shareable URLs)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end lab-projects section -->
+
+  <hr class="divider">
+
+  <!-- PART 5 — SITE FIXES -->
+  <div class="section" id="site-fixes">
+    <div class="section-number">Part 5</div>
+    <div class="section-title">Immediate Site Fixes (Do These Before Launching New Pages)</div>
+
+    <p>The research report identified several trust-breaking issues that should be fixed before any new service pages go live. These take hours, not weeks.</p>
+
+    <table class="data-table">
+      <thead><tr><th>Issue</th><th>Impact</th><th>Fix</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Testimonial {buzz_word} placeholder</strong></td><td>Immediately kills trust — visible on homepage. Google E-E-A-T flags this.</td><td>Fix testimonials dataset — remove placeholder or replace with real client quote</td><td style="color:var(--orange)">Do Today</td></tr>
+        <tr><td><strong>Testimonial typos</strong></td><td>Reduces credibility of proof section</td><td>Proofread all testimonial text in dataset, fix without changing meaning</td><td style="color:var(--orange)">Do Today</td></tr>
+        <tr><td><strong>Generic "Let's talk" CTA</strong></td><td>Low conversion — gives buyer no signal on what happens next</td><td>Change to "Request a MarTech Audit" or "Book a Systems Map Call" — specific, actionable</td><td style="color:var(--orange)">This Week</td></tr>
+        <tr><td><strong>Hardcoded canonical URL</strong></td><td>Risky on Vercel previews — could index preview URLs with wrong canonicals</td><td>Make NEXT_PUBLIC_BASE_URL env-driven in layout.tsx, sitemap.ts, robots.ts</td><td style="color:var(--blue)">Sprint 1</td></tr>
+        <tr><td><strong>Lab URLs with spaces</strong></td><td>Forces percent-encoding — Google recommends clean slugs</td><td>Rename any static HTML tools with hyphens; ensure all lab routes use kebab-case</td><td style="color:var(--blue)">Sprint 1</td></tr>
+        <tr><td><strong>Sitemap missing lab + service routes</strong></td><td>New pages won't be discovered without sitemap entries</td><td>Extend sitemap to include /lab/[slug] and future /services/[parent]/[child]</td><td style="color:var(--blue)">Sprint 1</td></tr>
+        <tr><td><strong>Contact form: single text box</strong></td><td>Low-conversion for high-intent buyers. No service interest tagging. No CRM capture.</td><td>Upgrade to multi-step intake: service category → urgency → budget → message → booking option</td><td style="color:var(--blue)">Sprint 2</td></tr>
+        <tr><td><strong>Work filtered by industry, not service</strong></td><td>Breaks "this work proves this service" conversion logic</td><td>Add serviceIds to workIndex + add "Filter by service" mode to /work grid</td><td style="color:var(--blue)">Sprint 2</td></tr>
+      </tbody>
+    </table>
+
+    <div class="code-section">
+      <div class="code-section-title">Starter Code — Environment-Driven Base URL</div>
+      <pre>
+// lib/config.ts — single source of truth for site URL
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+
+// .env.production
+// NEXT_PUBLIC_SITE_URL=https://darlingmartech.com
+
+// .env.preview (Vercel sets VERCEL_URL automatically)
+// No override needed — falls back to https://{deployment}.vercel.app
+
+// Usage in app/layout.tsx:
+import { SITE_URL } from '@/lib/config'
+export const metadata = {
+  metadataBase: new URL(SITE_URL),
+  // ... rest of metadata
+}
+
+// Usage in app/sitemap.ts:
+export default function sitemap() {
+  return [
+    { url: `${SITE_URL}/`, lastModified: new Date() },
+    { url: `${SITE_URL}/services`, lastModified: new Date() },
+    // ... dynamically generated service + lab routes
+  ]
+}
+      </pre>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PART 6 — BUILD ORDER -->
+  <div class="section" id="build-order">
+    <div class="section-number">Part 6</div>
+    <div class="section-title">Master Build Order — Synthesized From Both Research Reports</div>
+
+    <div class="phase-block">
+      <div class="phase-label">Week 1 — Trust &amp; Credibility Fixes (Do Before Anything)</div>
+      <ol class="styled">
+        <li>Fix testimonial {buzz_word} placeholder + proofread testimonials dataset</li>
+        <li>Update homepage primary CTA from "Let's talk" → "Request a MarTech Audit"</li>
+        <li>Make NEXT_PUBLIC_SITE_URL environment-driven across layout, sitemap, robots</li>
+        <li>Fix any lab URLs with spaces → kebab-case slugs</li>
+      </ol>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-label">Sprint 1 — Core Service Landing Pages (Highest Revenue Impact)</div>
+      <ol class="styled">
+        <li>Build /services/[slug] routing with generateStaticParams + generateMetadata (mirror /work/[slug] pattern)</li>
+        <li>Build shared taxonomy (data/taxonomy.ts) — ServiceTag, IndustryTag, OutcomeTag</li>
+        <li>/services/martech-audit — productized, priced, ready to convert today</li>
+        <li>/services/automation-crm — 400 workflow proof point; strongest case study connection</li>
+        <li>/services/automation-crm/agentic-marketing-systems — zero national competition</li>
+        <li>/services/systems-infrastructure/the-fortress — named framework + measurable proof</li>
+        <li>Add serviceIds to top 5 Work items in workIndex</li>
+      </ol>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-label">Sprint 2 — Lab Builds (Proof Without Case Studies)</div>
+      <ol class="styled">
+        <li><strong>Lab 01:</strong> GEO Readiness Auditor — geo.darlingmartech.com (2 weeks, Priority 1)</li>
+        <li><strong>Lab 05:</strong> Agentic Marketing Monitor — agent.darlingmartech.com (3 weeks, Priority 1)</li>
+        <li><strong>Lab 02:</strong> SMB Attribution Engine — attribution.darlingmartech.com (2 weeks)</li>
+        <li><strong>Lab 03:</strong> MarTech Stack Auditor — stackaudit.darlingmartech.com (1 week)</li>
+        <li>Upgrade Contact form to multi-step guided intake with service-of-interest tagging</li>
+      </ol>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-label">Sprint 3 — GEO + Technical SEO + Remaining Service Pages</div>
+      <ol class="styled">
+        <li>/services/website-ux parent page + /services/website-ux/geo-optimization child</li>
+        <li>/services/website-ux/technical-seo child page</li>
+        <li>/services/brand-strategy parent page + /services/brand-strategy/positioning-workshop</li>
+        <li>/services/data-analytics/the-conductor child page</li>
+        <li>Add FAQ schema to all service pages (3 Q&amp;A minimum per page)</li>
+        <li>Extend sitemap to include all new /services/[slug] + /lab/[slug] routes</li>
+      </ol>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-label">Sprint 4 — Solutions + Industry Pages + Full Taxonomy</div>
+      <ol class="styled">
+        <li>Build /solutions/[problem] routing + 4 priority solution pages</li>
+        <li>Build /industries/healthcare (Graston proof) + /industries/ecommerce (Behr, Hoosier Boy)</li>
+        <li>Complete serviceIds tags across all Work + Lab data items</li>
+        <li>Update Work grid: add "Filter by service" mode + "Related services" on detail pages</li>
+        <li><strong>Lab 04:</strong> Lead Scorer, <strong>Lab 06:</strong> CMO Roadmap Generator, <strong>Lab 07:</strong> Fortress Scanner, <strong>Lab 08:</strong> ROI Dashboard</li>
+      </ol>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-label">Sprint 5 — Conversion Infrastructure + CRM</div>
+      <ol class="styled">
+        <li>CRM integration on contact form (HubSpot or Airtable) — tag leads by service interest</li>
+        <li>Add "Who this is for / not for" sections to all parent service pages</li>
+        <li>Persona-specific landing pages (one per client type from research)</li>
+        <li>/studio reframe — either "Design &amp; UI Archive" with service links, or move to footer</li>
+        <li>Analytics: GA4 event taxonomy for key user actions (audit started, form submitted, lab tool used)</li>
+      </ol>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-chip"><span class="stat-val">~10</span><span class="stat-label">Weeks to full architecture</span></div>
+      <div class="stat-chip"><span class="stat-val">24</span><span class="stat-label">Service URLs total</span></div>
+      <div class="stat-chip"><span class="stat-val">8</span><span class="stat-label">New lab builds</span></div>
+      <div class="stat-chip"><span class="stat-val">6</span><span class="stat-label">Solution pages</span></div>
+      <div class="stat-chip"><span class="stat-val">5</span><span class="stat-label">Industry pages</span></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="doc-footer">
+  Produced March 28, 2026 · Synthesis of Deep Research Report v2 + Competitive Analysis (Fractional CMO, GEO, MarTech Audit markets) + Market Gap Research (8 categories) · Enhanced services architecture + 8 GitHub-ready lab project specs for darlingmartech.com
+</div>
+
+</body>
+</html>

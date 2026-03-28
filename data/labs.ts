@@ -1,3 +1,5 @@
+import type { IndustryTag, OutcomeTag, ServiceTag } from './taxonomy'
+
 export interface LabDetailProps {
   slug: string
   name: string
@@ -13,6 +15,9 @@ export interface LabDetailProps {
   ctaLine: string
   toolSrc: string
   screenshots: { src: string; alt: string; caption: string }[]
+  serviceIds?: ServiceTag[]
+  industryIds?: IndustryTag[]
+  outcomeIds?: OutcomeTag[]
 }
 
 export const LAB_DETAIL_DATA: Record<string, LabDetailProps> = {
@@ -51,6 +56,9 @@ export const LAB_DETAIL_DATA: Record<string, LabDetailProps> = {
     proofStatement: 'That the best sales tool is a demonstration of how you think — and that a free interactive framework can qualify clients better than any discovery call script.',
     ctaLine: 'Ready to think through your marketing strategy with someone who\'s done this for 15 years?',
     toolSrc: '',
+    serviceIds: ['fractional-cmo', 'brand-strategy'],
+    industryIds: ['b2b', 'saas'],
+    outcomeIds: ['lead-gen', 'brand-awareness'],
     screenshots: [
       {
         src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/CMO_Sim-_Q1.png',
@@ -101,6 +109,9 @@ export const LAB_DETAIL_DATA: Record<string, LabDetailProps> = {
     proofStatement: 'That a directory is a product, not a database export — and that the right architecture turns a static asset into a scalable revenue and retention engine.',
     ctaLine: 'Building a two-sided platform or need to turn your brand\'s directory into a growth asset? Let\'s talk.',
     toolSrc: 'https://graston-growth-engine.vercel.app/',
+    serviceIds: ['crm-automation', 'agentic-systems', 'analytics-reporting'],
+    industryIds: ['healthcare', 'saas'],
+    outcomeIds: ['lead-gen', 'time-saved', 'revenue-attribution'],
     screenshots: [
       {
         src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/graston-growth-engine_-_for_providers.png',

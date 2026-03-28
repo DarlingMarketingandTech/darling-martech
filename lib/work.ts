@@ -1,6 +1,8 @@
 // Types and helpers for the /work case study section
 // Separate from lib/case-studies.ts (legacy home page data)
 
+import type { IndustryTag, OutcomeTag, ServiceTag } from '@/data/taxonomy'
+
 export type WorkCategory =
   | 'Automation & Systems'
   | 'Healthcare'
@@ -44,6 +46,9 @@ export type WorkCard = {
   dashboardTier?: WorkDashboardTier
   parentProjectSlug?: string
   relatedProjectSlugs?: string[]
+  serviceIds?: ServiceTag[]
+  industryIds?: IndustryTag[]
+  outcomeIds?: OutcomeTag[]
 }
 
 export type Deliverable = {

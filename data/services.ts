@@ -1,3 +1,6 @@
+import type { IndustryTag, OutcomeTag, ServiceTag } from './taxonomy'
+
+export type ServicePageKind = 'parent' | 'standalone'
 export type ServiceLayer = 'strategy' | 'build' | 'growth'
 
 export type ServiceOverviewItem = {
@@ -14,19 +17,45 @@ export type ServiceProof = {
   result: string
   signalLabel: string
   metric: string
-  sceneTarget: string
+  sceneTarget?: string
 }
 
-export type ServiceDetail = {
+export type ServiceStat = {
+  value: string
+  label: string
+}
+
+type BaseServicePage = {
   id: string
+  kind: ServicePageKind
   layer: ServiceLayer
-  sceneTarget: string
   eyebrow: string
   title: string
   summary: string
   deliverables: string[]
   proof: ServiceProof[]
+  serviceIds: ServiceTag[]
+  industryIds?: IndustryTag[]
+  outcomeIds?: OutcomeTag[]
+  tagline?: string
+  proofStats?: ServiceStat[]
+  proofWorkSlugs?: string[]
+  primaryCtaLabel?: string
+  secondaryCtaLabel?: string
+  secondaryCtaHref?: string
 }
+
+export type ParentServiceDetail = BaseServicePage & {
+  kind: 'parent'
+  sceneTarget: string
+}
+
+export type StandaloneServicePage = BaseServicePage & {
+  kind: 'standalone'
+  sceneTarget?: string
+}
+
+export type ServicePageEntry = ParentServiceDetail | StandaloneServicePage
 
 export type SpecializedService = {
   title: string
@@ -101,13 +130,17 @@ export const serviceOverview: ServiceOverviewItem[] = [
   },
 ]
 
-export const serviceDetails: ServiceDetail[] = [
+export const serviceDetails: ParentServiceDetail[] = [
   {
     id: 'strategy',
+    kind: 'parent',
     layer: 'strategy',
     sceneTarget: 'strategy-core',
     eyebrow: 'Strategy',
     title: 'Fractional Marketing Leadership & Growth Strategy',
+    serviceIds: ['fractional-cmo', 'brand-strategy'],
+    industryIds: ['healthcare', 'legal', 'saas', 'ecommerce', 'hospitality', 'nonprofit'],
+    tagline: 'Senior-level thinking before more random execution.',
     summary:
       'For businesses that need senior-level thinking before they need more random execution. I step in to clarify positioning, priorities, budgets, channels, and the roadmap.',
     deliverables: [
@@ -146,10 +179,14 @@ export const serviceDetails: ServiceDetail[] = [
   },
   {
     id: 'brand-web',
+    kind: 'parent',
     layer: 'build',
     sceneTarget: 'build-brand-web',
     eyebrow: 'Brand & Experience',
     title: 'Brand Identity, Websites & Conversion Design',
+    serviceIds: ['brand-identity', 'web-development', 'conversion-design'],
+    industryIds: ['legal', 'hospitality', 'local-service', 'ecommerce', 'healthcare'],
+    tagline: 'The front-end layer people see — built to earn trust and move them to act.',
     summary:
       'I build the front-end layer people actually see: visual identity, messaging, site structure, conversion paths, and the trust signals that make the right clients act.',
     deliverables: [
@@ -188,10 +225,14 @@ export const serviceDetails: ServiceDetail[] = [
   },
   {
     id: 'systems',
+    kind: 'parent',
     layer: 'build',
     sceneTarget: 'build-systems',
     eyebrow: 'Systems',
     title: 'CRM Architecture, Automation, Integrations & AI Tools',
+    serviceIds: ['crm-automation', 'lead-gen-workflows', 'email-marketing', 'agentic-systems'],
+    industryIds: ['healthcare', 'saas', 'ecommerce', 'b2b'],
+    tagline: 'The operational layer most firms never get right.',
     summary:
       'This is the operational layer most firms never get right. I wire together the CRM, automations, APIs, dashboards, and internal tools that keep marketing and sales moving without manual chaos.',
     deliverables: [
@@ -230,10 +271,14 @@ export const serviceDetails: ServiceDetail[] = [
   },
   {
     id: 'growth',
+    kind: 'parent',
     layer: 'growth',
     sceneTarget: 'growth-core',
     eyebrow: 'Demand Generation',
     title: 'SEO, Content Systems, Paid Acquisition & Analytics',
+    serviceIds: ['seo-content', 'local-seo', 'technical-seo', 'paid-acquisition', 'analytics-reporting'],
+    industryIds: ['local-service', 'healthcare', 'legal', 'hospitality', 'ecommerce'],
+    tagline: 'Get found, get understood, get chosen.',
     summary:
       'I help businesses get found, get understood, and get chosen. That means search visibility, useful content, paid demand when needed, and clean measurement behind all of it.',
     deliverables: [
@@ -272,10 +317,14 @@ export const serviceDetails: ServiceDetail[] = [
   },
   {
     id: 'commerce',
+    kind: 'parent',
     layer: 'build',
     sceneTarget: 'build-commerce',
     eyebrow: 'Revenue Systems',
     title: 'E-Commerce, Checkout Flows & Revenue Operations',
+    serviceIds: ['ecommerce', 'conversion-design', 'crm-automation'],
+    industryIds: ['ecommerce', 'hospitality', 'local-service'],
+    tagline: 'The path from interest to purchase — built to convert.',
     summary:
       'When revenue depends on checkout, upsells, payment plans, or product education, the sales system has to do more than look good. I build the path from interest to purchase.',
     deliverables: [
@@ -314,10 +363,14 @@ export const serviceDetails: ServiceDetail[] = [
   },
   {
     id: 'specialized',
+    kind: 'parent',
     layer: 'build',
     sceneTarget: 'build-specialized',
     eyebrow: 'Specialized Builds',
     title: 'Industry-Specific Systems & Specialty Engagements',
+    serviceIds: ['web-development', 'crm-automation', 'brand-identity', 'analytics-reporting'],
+    industryIds: ['healthcare', 'legal', 'nonprofit', 'local-service', 'saas'],
+    tagline: 'Built around the operational realities of your world.',
     summary:
       'A lot of the work is not generic. I regularly build around the operational realities of healthcare, legal, membership platforms, local service businesses, and founder-led brands.',
     deliverables: [
@@ -355,6 +408,63 @@ export const serviceDetails: ServiceDetail[] = [
     ],
   },
 ]
+
+export const standaloneServicePages: StandaloneServicePage[] = [
+  {
+    id: 'martech-audit',
+    kind: 'standalone',
+    layer: 'build',
+    eyebrow: 'Audit Offer',
+    title: 'MarTech Audit',
+    tagline: 'Find what is redundant, broken, or slowing growth before another dollar gets wasted.',
+    summary:
+      'The MarTech Audit is a productized audit-and-fix engagement for businesses whose CRM, automation, attribution, forms, reporting, or tool stack has become expensive, overlapping, or unreliable. I do not stop at a slide deck. I identify the problems, show you what to keep, what to cut, and what to rebuild, then map the next implementation move.',
+    deliverables: [
+      'Full stack inventory across CRM, automation, analytics, forms, and reporting tools',
+      'Redundancy and overlap analysis to identify wasted spend and conflicting systems',
+      'Attribution, lifecycle, and handoff review to expose breakpoints in lead flow',
+      'Priority-ranked remediation roadmap with what to cut, consolidate, and rebuild first',
+      'Executive summary you can act on immediately or use to scope the implementation phase',
+    ],
+    proof: [
+      {
+        label: 'Graston Technique',
+        href: '/work/graston-technique',
+        result: 'A fragmented education and membership stack became a unified system that generated 212% more qualified leads and removed most manual work.',
+        signalLabel: 'Stack rebuild',
+        metric: '+212% qualified leads',
+      },
+      {
+        label: 'The Fortress',
+        href: '/work/the-fortress',
+        result: 'Infrastructure hardening eliminated direct-origin exposure and blocked more than 85k threats per month.',
+        signalLabel: 'Risk reduction',
+        metric: '85k+ threats blocked',
+      },
+      {
+        label: 'The Compass',
+        href: '/work/the-compass',
+        result: 'Analytics and monitoring design surfaced issues before they became outages or blind spots for the team.',
+        signalLabel: 'Visibility',
+        metric: '94% issues auto-resolved',
+      },
+    ],
+    proofStats: [
+      { value: '40%+', label: 'of tools often found to be redundant or overlapping in messy stacks' },
+      { value: '2-4 weeks', label: 'to complete the audit, findings, and implementation roadmap' },
+      { value: '$2K-$5K', label: 'typical audit engagement depending on stack complexity' },
+    ],
+    proofWorkSlugs: ['graston-technique', 'the-fortress', 'the-compass', 'the-launchpad'],
+    serviceIds: ['martech-audit', 'crm-automation', 'analytics-reporting'],
+    industryIds: ['healthcare', 'saas', 'b2b', 'ecommerce'],
+    outcomeIds: ['cost-reduction', 'revenue-attribution', 'time-saved'],
+    primaryCtaLabel: 'Request a MarTech Audit',
+    secondaryCtaLabel: 'See audit proof',
+    secondaryCtaHref: '/work',
+  },
+]
+
+export const allServicePages: ServicePageEntry[] = [...serviceDetails, ...standaloneServicePages]
 
 export const specializedServices: SpecializedService[] = [
   {
@@ -417,6 +527,7 @@ export const engagementModels: EngagementModel[] = [
 
 export const contactServiceOptions = [
   { value: '', label: 'What do you need help with?' },
+  { value: 'MarTech Audit', label: 'MarTech Audit' },
   { value: 'Fractional Marketing Leadership & Strategy', label: 'Fractional Marketing Leadership & Strategy' },
   { value: 'Brand Identity, Website & Conversion Design', label: 'Brand Identity, Website & Conversion Design' },
   { value: 'CRM, Automation, Integrations & AI Tools', label: 'CRM, Automation, Integrations & AI Tools' },
@@ -425,3 +536,11 @@ export const contactServiceOptions = [
   { value: 'Specialized or Industry-Specific Engagement', label: 'Specialized or Industry-Specific Engagement' },
   { value: "Not sure yet — let's talk", label: "Not sure yet — let's talk" },
 ]
+
+export function getServicePageBySlug(slug: string) {
+  return allServicePages.find((service) => service.id === slug)
+}
+
+export function generateServiceStaticParams() {
+  return allServicePages.map((service) => ({ slug: service.id }))
+}

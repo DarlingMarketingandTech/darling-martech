@@ -7,10 +7,11 @@ import { ArrowRight, Cpu, Gauge, Pulse, Stack, Cube } from '@phosphor-icons/reac
 import { ServicesAmbient } from '@/components/3d/ServicesAmbient'
 import {
   engagementModels,
+  type ParentServiceDetail,
   serviceDetails,
   serviceLayerMeta,
   specializedServices,
-  type ServiceDetail,
+  standaloneServicePages,
   type ServiceLayer,
 } from '@/data/services'
 import { containerVariants, itemVariants, viewport } from '@/lib/motion'
@@ -78,7 +79,7 @@ function ServiceModule({
   onProofTargetChange,
   onProofTargetClear,
 }: {
-  service: ServiceDetail
+  service: ParentServiceDetail
   active: boolean
   registerSectionRef: (id: string, node: HTMLElement | null) => void
   onProofTargetChange: (target: string) => void
@@ -90,7 +91,7 @@ function ServiceModule({
 
   const handleProofActivate = (index: number) => {
     setActiveProofIndex(index)
-    onProofTargetChange(service.proof[index].sceneTarget)
+    onProofTargetChange(service.proof[index].sceneTarget ?? service.sceneTarget)
   }
 
   const resetProofState = () => {
@@ -154,9 +155,9 @@ function ServiceModule({
             <Link
               href={featuredProof.href}
               className={styles.featuredProof}
-              onMouseEnter={() => onProofTargetChange(featuredProof.sceneTarget)}
+              onMouseEnter={() => onProofTargetChange(featuredProof.sceneTarget ?? service.sceneTarget)}
               onMouseLeave={onProofTargetClear}
-              onFocus={() => onProofTargetChange(featuredProof.sceneTarget)}
+              onFocus={() => onProofTargetChange(featuredProof.sceneTarget ?? service.sceneTarget)}
               onBlur={onProofTargetClear}
             >
               <div className={styles.featuredProofGrid} aria-hidden="true" />
@@ -279,6 +280,7 @@ export function ServicesExperience() {
     serviceDetails.find((service) => service.id === activeServiceId) ?? serviceDetails[0]
   const activeLayer = activeService.layer
   const activeTarget = hoveredTarget ?? activeService.sceneTarget
+  const auditOffer = standaloneServicePages.find((service) => service.id === 'martech-audit')
 
   return (
     <main className={styles.main}>
@@ -384,6 +386,32 @@ export function ServicesExperience() {
             <p className={styles.sectionEyebrow}>Core Services</p>
             <h2 className={styles.sectionHeadline}>What I can build, lead, and improve.</h2>
           </section>
+
+          {auditOffer ? (
+            <section className={styles.auditSpotlight}>
+              <div>
+                <p className={styles.panelLabel}>Productized offer</p>
+                <h2 className={styles.auditTitle}>{auditOffer.title}</h2>
+                <p className={styles.panelText}>{auditOffer.summary}</p>
+              </div>
+              <div className={styles.auditMeta}>
+                {auditOffer.proofStats?.slice(0, 2).map((stat) => (
+                  <div key={stat.label} className={styles.auditStat}>
+                    <span className={styles.auditStatValue}>{stat.value}</span>
+                    <span className={styles.auditStatLabel}>{stat.label}</span>
+                  </div>
+                ))}
+              </div>
+              <div className={styles.heroActions}>
+                <Link href={`/services/${auditOffer.id}`} className={styles.primaryCta}>
+                  Explore the audit
+                </Link>
+                <Link href="/contact" className={styles.secondaryCta}>
+                  Request a MarTech Audit
+                </Link>
+              </div>
+            </section>
+          ) : null}
 
           <div className={styles.serviceStack}>
             {serviceDetails.map((service) => (

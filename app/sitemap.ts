@@ -1,4 +1,6 @@
 import type { MetadataRoute } from 'next'
+import { allServicePages } from '@/data/services'
+import { LAB_DETAIL_DATA } from '@/data/labs'
 import { getAllWork } from '@/data/work/work-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -9,6 +11,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
+  }))
+
+  const serviceUrls = allServicePages.map((service) => ({
+    url: `${baseUrl}/services/${service.id}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: service.kind === 'standalone' ? 0.85 : 0.7,
+  }))
+
+  const labUrls = Object.keys(LAB_DETAIL_DATA).map((slug) => ({
+    url: `${baseUrl}/lab/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.65,
   }))
 
   return [
@@ -36,6 +52,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    ...serviceUrls,
     ...caseStudyUrls,
     {
       url: `${baseUrl}/lab`,
@@ -43,6 +60,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.6,
     },
+    ...labUrls,
     {
       url: `${baseUrl}/studio`,
       lastModified: new Date(),

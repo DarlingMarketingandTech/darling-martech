@@ -17,6 +17,9 @@ export const workIndex: WorkCard[] = [
     visualMode: 'mesh',
     theme: { layout: 'editorial', metricStyle: 'ticker', mediaStyle: 'landscape', density: 'kinetic' },
     relatedProjectSlugs: ['the-launchpad', 'the-closer', 'the-compass', 'the-fortress'],
+    serviceIds: ['crm-automation', 'agentic-systems', 'analytics-reporting', 'martech-audit'],
+    industryIds: ['healthcare', 'saas'],
+    outcomeIds: ['lead-gen', 'time-saved', 'conversion-lift'],
   },
   {
     slug: 'the-launchpad',
@@ -30,6 +33,9 @@ export const workIndex: WorkCard[] = [
     parentProjectSlug: 'graston-technique',
     visualMode: 'signal',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'stack', density: 'balanced' },
+    serviceIds: ['crm-automation', 'lead-gen-workflows', 'martech-audit'],
+    industryIds: ['healthcare', 'saas'],
+    outcomeIds: ['time-saved', 'conversion-lift'],
   },
   {
     slug: 'the-closer',
@@ -43,6 +49,9 @@ export const workIndex: WorkCard[] = [
     parentProjectSlug: 'graston-technique',
     visualMode: 'beacon',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'portrait', density: 'kinetic' },
+    serviceIds: ['ecommerce', 'crm-automation', 'conversion-design'],
+    industryIds: ['saas', 'ecommerce'],
+    outcomeIds: ['conversion-lift', 'cost-reduction'],
   },
   {
     slug: 'the-compass',
@@ -56,6 +65,9 @@ export const workIndex: WorkCard[] = [
     parentProjectSlug: 'graston-technique',
     visualMode: 'orbit',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'portrait', density: 'balanced' },
+    serviceIds: ['analytics-reporting', 'data-analytics', 'martech-audit'],
+    industryIds: ['healthcare', 'saas'],
+    outcomeIds: ['revenue-attribution', 'cost-reduction'],
   },
   {
     slug: 'the-fortress',
@@ -69,6 +81,9 @@ export const workIndex: WorkCard[] = [
     parentProjectSlug: 'graston-technique',
     visualMode: 'mesh',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'portrait', density: 'kinetic' },
+    serviceIds: ['martech-audit', 'the-fortress', 'web-development'],
+    industryIds: ['healthcare', 'saas'],
+    outcomeIds: ['cost-reduction', 'time-saved'],
   },
   // ── Healthcare ─────────────────────────────────────────────────────────────
   {
@@ -84,6 +99,9 @@ export const workIndex: WorkCard[] = [
     visualMode: 'signal',
     theme: { layout: 'editorial', metricStyle: 'ticker', mediaStyle: 'landscape', density: 'balanced' },
     relatedProjectSlugs: ['primarycare-indy', 'urgentcare-indy'],
+    serviceIds: ['fractional-cmo', 'brand-strategy', 'paid-acquisition'],
+    industryIds: ['healthcare'],
+    outcomeIds: ['lead-gen', 'booking-growth'],
   },
   {
     slug: 'primarycare-indy',
@@ -99,6 +117,9 @@ export const workIndex: WorkCard[] = [
     parentProjectSlug: 'pike-medical-consultants',
     visualMode: 'orbit',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'portrait', density: 'calm' },
+    serviceIds: ['local-seo', 'seo-content', 'analytics-reporting'],
+    industryIds: ['healthcare', 'local-service'],
+    outcomeIds: ['traffic-growth', 'booking-growth', 'revenue-attribution'],
   },
   {
     slug: 'urgentcare-indy',
@@ -113,6 +134,9 @@ export const workIndex: WorkCard[] = [
     parentProjectSlug: 'pike-medical-consultants',
     visualMode: 'signal',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'portrait', density: 'balanced' },
+    serviceIds: ['local-seo', 'paid-acquisition', 'brand-identity'],
+    industryIds: ['healthcare', 'local-service'],
+    outcomeIds: ['booking-growth', 'traffic-growth'],
   },
   // ── Legal & Professional ───────────────────────────────────────────────────
   {
@@ -126,6 +150,9 @@ export const workIndex: WorkCard[] = [
     heroPublicId: 'dss',
     visualMode: 'beacon',
     theme: { layout: 'editorial', metricStyle: 'ticker', mediaStyle: 'landscape', density: 'calm' },
+    serviceIds: ['fractional-cmo', 'brand-strategy', 'web-development'],
+    industryIds: ['legal', 'b2b'],
+    outcomeIds: ['lead-gen', 'brand-awareness'],
   },
   {
     slug: 'tuohy-bailey-moore',
@@ -153,6 +180,9 @@ export const workIndex: WorkCard[] = [
     dashboardTier: 'flagship',
     visualMode: 'signal',
     theme: { layout: 'editorial', metricStyle: 'ticker', mediaStyle: 'landscape', density: 'kinetic' },
+    serviceIds: ['brand-identity', 'web-development', 'conversion-design'],
+    industryIds: ['hospitality', 'local-service'],
+    outcomeIds: ['conversion-lift', 'booking-growth'],
   },
   {
     slug: 'hoosier-boy-barbershop',
@@ -169,6 +199,9 @@ export const workIndex: WorkCard[] = [
     dashboardTier: 'flagship',
     visualMode: 'signal',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'stack', density: 'kinetic' },
+    serviceIds: ['brand-identity', 'web-development', 'local-seo'],
+    industryIds: ['local-service'],
+    outcomeIds: ['booking-growth', 'traffic-growth', 'brand-awareness'],
   },
   {
     slug: 'russell-painting',

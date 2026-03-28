@@ -29,7 +29,7 @@ export function ContactCTA() {
             className="inline-block"
           >
             <Link href="/contact" className={styles.ctaButton}>
-              Let&apos;s talk →
+              Request a MarTech Audit →
             </Link>
           </motion.div>
         </motion.div>

@@ -11,7 +11,7 @@ export const testimonials: Testimonial[] = [
   {
     id: 'jesse-wey',
     author: 'Jesse Wey',
-    role: 'Web Development | IT | Marketing | People | {buzz_word}',
+    role: 'Web Development | IT | Marketing | People',
     dateLabel: 'October 14, 2025',
     relationship: 'Worked with Jacob on the same team',
     quote:

@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Darling MarTech — Services Architecture Plan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --black: #0A0A0A;
+    --orange: #FF4D00;
+    --cream: #F5F0E8;
+    --neutral: #888888;
+    --white: #ffffff;
+    --surface: #111111;
+    --border: #222222;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* HEADER */
+  .doc-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 64px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .doc-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--orange);
+  }
+  .doc-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 16px;
+  }
+  .doc-title {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .doc-subtitle {
+    font-size: 16px;
+    color: var(--neutral);
+    font-weight: 400;
+  }
+  .doc-meta {
+    margin-top: 24px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    font-size: 12px;
+    color: var(--neutral);
+    letter-spacing: 0.05em;
+  }
+  .meta-item span {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 64px 40px;
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 64px;
+  }
+  .section-number {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* SUMMARY BOX */
+  .summary-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--orange);
+    padding: 28px 32px;
+    border-radius: 4px;
+    margin-bottom: 32px;
+  }
+  .summary-box p {
+    color: #cccccc;
+    margin-bottom: 12px;
+  }
+  .summary-box p:last-child { margin-bottom: 0; }
+
+  /* TABLES */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 13px;
+  }
+  .data-table th {
+    background: #1a1a1a;
+    color: var(--orange);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 11px;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #1a1a1a;
+    color: #cccccc;
+    vertical-align: top;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+  .data-table tr:hover td { background: #0f0f0f; }
+
+  /* SUBSECTION HEADINGS */
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin: 28px 0 12px;
+    letter-spacing: -0.01em;
+  }
+  h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--neutral);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 20px 0 8px;
+  }
+
+  /* BODY TEXT */
+  p {
+    color: #aaaaaa;
+    margin-bottom: 14px;
+    line-height: 1.75;
+  }
+  p strong { color: var(--white); font-weight: 600; }
+  p em { color: var(--cream); font-style: italic; }
+
+  /* NAMED FRAMEWORK PILLS */
+  .framework-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .framework-pill {
+    background: #0f0f0f;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--orange);
+    padding: 14px 18px;
+    border-radius: 4px;
+  }
+  .framework-pill .name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .framework-pill .desc {
+    font-size: 12px;
+    color: var(--neutral);
+    line-height: 1.5;
+  }
+
+  /* SITEMAP */
+  .sitemap {
+    background: #060606;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 32px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 2;
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+  .sitemap .root { color: var(--orange); font-weight: 700; }
+  .sitemap .parent { color: var(--white); font-weight: 600; }
+  .sitemap .child { color: #888888; }
+  .sitemap .tag {
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--orange);
+    vertical-align: middle;
+    margin-left: 8px;
+    padding: 2px 6px;
+    border: 1px solid var(--orange);
+    border-radius: 2px;
+  }
+  .sitemap-total {
+    margin-top: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--orange);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* PAGE BRIEFS */
+  .page-brief {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .brief-header {
+    background: #0f0f0f;
+    border-bottom: 1px solid var(--border);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .brief-url {
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: var(--orange);
+    font-weight: 600;
+  }
+  .brief-type {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 2px;
+    background: rgba(255, 77, 0, 0.15);
+    color: var(--orange);
+    border: 1px solid rgba(255, 77, 0, 0.3);
+    white-space: nowrap;
+  }
+  .brief-type.child-type {
+    background: rgba(136, 136, 136, 0.1);
+    color: var(--neutral);
+    border-color: rgba(136, 136, 136, 0.2);
+  }
+  .brief-body {
+    padding: 24px;
+  }
+  .brief-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .brief-h1 {
+    font-size: 14px;
+    color: var(--cream);
+    font-style: italic;
+    margin-bottom: 16px;
+    padding-left: 12px;
+    border-left: 2px solid var(--orange);
+  }
+  .brief-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .brief-field {
+    margin-bottom: 14px;
+  }
+  .brief-field-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--neutral);
+    margin-bottom: 6px;
+  }
+  .brief-field-value {
+    font-size: 13px;
+    color: #cccccc;
+    line-height: 1.6;
+  }
+  .brief-field-value strong { color: var(--white); }
+
+  /* STATS ROW */
+  .stats-row {
+    display: flex;
+    gap: 24px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  .stat-chip {
+    background: #0f0f0f;
+    border: 1px solid var(--border);
+    padding: 12px 18px;
+    border-radius: 4px;
+    text-align: center;
+    flex: 1;
+    min-width: 120px;
+  }
+  .stat-chip .stat-val {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: -0.02em;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .stat-chip .stat-label {
+    font-size: 11px;
+    color: var(--neutral);
+    line-height: 1.3;
+  }
+
+  /* LISTS */
+  ul.styled, ol.styled {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 20px;
+  }
+  ul.styled li, ol.styled li {
+    color: #aaaaaa;
+    padding: 8px 0 8px 20px;
+    border-bottom: 1px solid #111111;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  ul.styled li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--orange);
+    font-weight: 700;
+  }
+  ol.styled { counter-reset: item; }
+  ol.styled li { counter-increment: item; }
+  ol.styled li::before {
+    content: counter(item) '.';
+    position: absolute;
+    left: 0;
+    color: var(--orange);
+    font-weight: 700;
+    font-size: 12px;
+  }
+  ul.styled li:last-child, ol.styled li:last-child { border-bottom: none; }
+  ul.styled li strong, ol.styled li strong { color: var(--white); font-weight: 600; }
+
+  /* PHASE BLOCKS */
+  .phase-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .phase-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+  .phase-block ol.styled li { font-size: 13px; }
+
+  /* PRODUCTIZED OFFER CARDS */
+  .offer-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--orange);
+    border-radius: 4px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .offer-card .offer-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .offer-card .offer-url {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--neutral);
+    margin-bottom: 4px;  }
+  .offer-card .offer-price {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--orange);
+    margin-bottom: 16px;
+    padding: 4px 10px;
+    background: rgba(255, 77, 0, 0.1);
+    border: 1px solid rgba(255, 77, 0, 0.2);
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .offer-card p { font-size: 14px; }
+
+  /* RULE CARDS */
+  .rule-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 20px 0;
+  }
+  .rule-card {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px;
+  }
+  .rule-card.avoid { border-left: 3px solid #ff3333; }
+  .rule-card.include { border-left: 3px solid #33ff88; }
+  .rule-card .rule-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .rule-card.avoid .rule-title { color: #ff3333; }
+  .rule-card.include .rule-title { color: #33ff88; }
+  .rule-card ul.styled li::before {
+    color: inherit;
+  }
+  .rule-card.avoid ul.styled li::before { color: #ff3333; }
+  .rule-card.include ul.styled li::before { color: #33ff88; }
+
+  /* SOCIAL PILLS */
+  .social-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .social-pill {
+    font-size: 11px;
+    color: var(--neutral);
+    background: #0f0f0f;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    line-height: 1.4;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  /* FOOTER */
+  .doc-footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 32px 64px;
+    font-size: 12px;
+    color: var(--neutral);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .doc-header { padding: 32px 24px; }
+    .container { padding: 40px 20px; }
+    .framework-grid { grid-template-columns: 1fr; }
+    .brief-grid { grid-template-columns: 1fr; }
+    .rule-block { grid-template-columns: 1fr; }
+    .stats-row { flex-direction: column; }
+    .doc-footer { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="doc-header">
+  <div class="doc-label">Strategic Planning Document · darlingmartech.com</div>
+  <div class="doc-title">Services Architecture Plan</div>
+  <div class="doc-subtitle">Research Analysis + Website Build Recommendations</div>
+  <div class="doc-meta">
+    <div class="meta-item">Prepared: <span>March 27, 2026</span></div>
+    <div class="meta-item">Based on: <span>Operational Architecture &amp; Strategic Positioning Research</span></div>
+    <div class="meta-item">Site Phase: <span>Phase 2 Live → Phase 3 Services Expansion</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="section">
+    <div class="section-number">Overview</div>
+    <div class="section-title">Executive Summary</div>
+    <div class="summary-box">
+      <p>The research document is essentially a strategic operating manual for where Darling MarTech sits in the market and what it needs to build. It introduces five core service pillars, four distinct client personas, three productized offers, and several named internal frameworks — The Fortress, The Conductor, GEO, agentic workflows — that currently have no direct representation on the website.</p>
+      <p>The biggest gap between where the site is today (6 generic service categories) and where this research points is <strong>specificity</strong>. The research gives us the language, the proof, and the positioning to build interior service pages that are genuinely ownable and conversion-ready.</p>
+      <p>This document translates the research into a concrete parent/child services architecture, with page-level briefs for every proposed URL, built specifically for use as landing pages and targeted social media entry points.</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-chip"><span class="stat-val">5</span><span class="stat-label">Parent Service Pages</span></div>
+      <div class="stat-chip"><span class="stat-val">16</span><span class="stat-label">Child Service Pages</span></div>
+      <div class="stat-chip"><span class="stat-val">3</span><span class="stat-label">Productized Offer Pages</span></div>
+      <div class="stat-chip"><span class="stat-val">8</span><span class="stat-label">Named Frameworks to Own</span></div>
+      <div class="stat-chip"><span class="stat-val">4</span><span class="stat-label">Client Personas Mapped</span></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PART 1: RESEARCH REVEALS -->
+  <div class="section">
+    <div class="section-number">Part 1</div>
+    <div class="section-title">What the Research Reveals (That the Site Doesn't Yet Show)</div>
+
+    <h3>1.1 The Core Positioning the Site Must Lead With</h3>
+    <p>The research defines the archetype clearly: <strong>"Fractional Growth and Digital Systems Partner."</strong> This is not a designer, not an agency, not a freelancer. The positioning lives at the intersection of marketing strategy and technical architecture — a hybrid that most mid-market SMBs cannot find.</p>
+    <p>Every service page needs to be filtered through this lens. The key phrase to embed site-wide: <em>"Marketing, websites &amp; automation systems that actually work together."</em></p>
+
+    <h3>1.2 The Five Strategic Pillars</h3>
+    <p>The research explicitly maps five pillars that should become the five parent service categories:</p>
+    <table class="data-table">
+      <thead><tr><th>Pillar</th><th>Research Focus</th><th>Site URL</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Brand Strategy</strong></td><td>Identity, messaging, market credibility</td><td>/services/brand-strategy</td></tr>
+        <tr><td><strong>Website &amp; UX</strong></td><td>Performance, schema, conversion</td><td>/services/website-ux</td></tr>
+        <tr><td><strong>Systems &amp; Infrastructure</strong></td><td>Security, caching, integrations</td><td>/services/systems-infrastructure</td></tr>
+        <tr><td><strong>Automation &amp; CRM</strong></td><td>Lead flow, lifecycle messaging</td><td>/services/automation-crm</td></tr>
+        <tr><td><strong>Data &amp; Analytics</strong></td><td>Attribution, dashboarding</td><td>/services/data-analytics</td></tr>
+      </tbody>
+    </table>
+
+    <h3>1.3 Named Frameworks — These Are Brand Assets</h3>
+    <p>The research introduces proprietary named concepts that make the site uncopyable. These need to appear on service pages, process sections, and case study callouts.</p>
+    <div class="framework-grid">
+      <div class="framework-pill"><div class="name">"The Fortress"</div><div class="desc">Multi-layer Cloudflare/WAF/DNSSEC security architecture</div></div>
+      <div class="framework-pill"><div class="name">"The Conductor"</div><div class="desc">Unified data pipeline across disparate marketing/ops platforms</div></div>
+      <div class="framework-pill"><div class="name">"The Growth Foundation"</div><div class="desc">Fixed-price brand + web + CRM setup package</div></div>
+      <div class="framework-pill"><div class="name">"The MarTech Audit"</div><div class="desc">Standardized diagnostic process ($2K–$5K)</div></div>
+      <div class="framework-pill"><div class="name">"The Automation Engine"</div><div class="desc">Pre-built CRM and lead gen workflow sets</div></div>
+      <div class="framework-pill"><div class="name">"The Launchpad"</div><div class="desc">Static directory-to-revenue-engine transformation</div></div>
+      <div class="framework-pill"><div class="name">GEO</div><div class="desc">Generative Engine Optimization — AI-first search</div></div>
+      <div class="framework-pill"><div class="name">"Decision-Grade Data"</div><div class="desc">The analytics standard the firm delivers to</div></div>
+    </div>
+
+    <h3>1.4 Four Client Personas — Each Needs a Conversion Path</h3>
+    <table class="data-table">
+      <thead><tr><th>Persona</th><th>Revenue Range</th><th>Core Pain</th><th>Entry Offer</th></tr></thead>
+      <tbody>
+        <tr><td><strong>The Burned Founder</strong></td><td>$2M–$15M</td><td>Paid for activity, not outcomes</td><td>MarTech Audit &amp; Roadmap ($2K–$5K)</td></tr>
+        <tr><td><strong>The Scaling Operator</strong></td><td>$5M–$30M</td><td>Word-of-mouth ceiling, no systems</td><td>Infrastructure Build-Out ($10K–$30K)</td></tr>
+        <tr><td><strong>The Tech-Confused CMO</strong></td><td>$10M–$50M</td><td>Strategic vision, zero technical execution</td><td>MarTech Audit → Technical Retainer</td></tr>
+        <tr><td><strong>The Ambitious Newcomer</strong></td><td>$500K–$3M</td><td>Manual marketing, needs a base</td><td>Brand + Web Foundation ($5K–$15K)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>1.5 Pricing Architecture the Site Can Reference</h3>
+    <ul class="styled">
+      <li><strong>Strategic Audit &amp; Roadmap:</strong> $2,000–$5,000</li>
+      <li><strong>Brand + Web Foundation Package:</strong> $5,000–$15,000</li>
+      <li><strong>Infrastructure Build-Out:</strong> $10,000–$30,000</li>
+      <li><strong>Technical Retainer (Fractional CMO/Technologist):</strong> Ongoing</li>
+    </ul>
+
+    <h3>1.6 GEO as a Service AND a Site Strategy</h3>
+    <p>GEO (Generative Engine Optimization) is simultaneously a service to offer clients and the writing strategy for every page on the site. 15–20% of searches now return AI-generated answers. Every service sub-page should be built with GEO principles baked in from day one — making darlingmartech.com a live demonstration of the service being sold.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PART 2: SITEMAP -->
+  <div class="section">
+    <div class="section-number">Part 2</div>
+    <div class="section-title">The Proposed Services Architecture</div>
+
+    <div class="sitemap">
+      <div><span class="root">/services</span></div>
+      <div>├── <span class="parent">/services/brand-strategy</span> <span class="tag">PARENT</span></div>
+      <div>│   ├── <span class="child">/services/brand-strategy/brand-audit</span></div>
+      <div>│   ├── <span class="child">/services/brand-strategy/messaging-architecture</span></div>
+      <div>│   ├── <span class="child">/services/brand-strategy/visual-identity</span></div>
+      <div>│   └── <span class="child">/services/brand-strategy/positioning-workshop</span></div>
+      <div>│</div>
+      <div>├── <span class="parent">/services/website-ux</span> <span class="tag">PARENT</span></div>
+      <div>│   ├── <span class="child">/services/website-ux/web-design-development</span></div>
+      <div>│   ├── <span class="child">/services/website-ux/conversion-rate-optimization</span></div>
+      <div>│   ├── <span class="child">/services/website-ux/technical-seo</span></div>
+      <div>│   └── <span class="child">/services/website-ux/geo-optimization</span></div>
+      <div>│</div>
+      <div>├── <span class="parent">/services/systems-infrastructure</span> <span class="tag">PARENT</span></div>
+      <div>│   ├── <span class="child">/services/systems-infrastructure/the-fortress</span></div>
+      <div>│   ├── <span class="child">/services/systems-infrastructure/martech-stack-audit</span></div>
+      <div>│   ├── <span class="child">/services/systems-infrastructure/platform-migration</span></div>
+      <div>│   └── <span class="child">/services/systems-infrastructure/performance-optimization</span></div>
+      <div>│</div>
+      <div>├── <span class="parent">/services/automation-crm</span> <span class="tag">PARENT</span></div>
+      <div>│   ├── <span class="child">/services/automation-crm/crm-implementation</span></div>
+      <div>│   ├── <span class="child">/services/automation-crm/lead-gen-workflows</span></div>
+      <div>│   ├── <span class="child">/services/automation-crm/lifecycle-email-automation</span></div>
+      <div>│   └── <span class="child">/services/automation-crm/agentic-marketing-systems</span></div>
+      <div>│</div>
+      <div>└── <span class="parent">/services/data-analytics</span> <span class="tag">PARENT</span></div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="child">/services/data-analytics/attribution-modeling</span></div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="child">/services/data-analytics/analytics-dashboard-buildout</span></div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;├── <span class="child">/services/data-analytics/the-conductor</span></div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;└── <span class="child">/services/data-analytics/reporting-infrastructure</span></div>
+      <div class="sitemap-total" style="margin-top:20px;">5 parent pages + 16 child pages = 21 service URLs (+ 3 productized offer pages)</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PART 3: PARENT PAGE BRIEFS -->
+  <div class="section">
+    <div class="section-number">Part 3</div>
+    <div class="section-title">Page Briefs — Parent Service Pages</div>
+    <p>Each parent page functions as a pillar landing page. It defines the problem, targets a specific persona, lists child services, and leads with one proof point.</p>
+
+    <!-- PARENT 1 -->
+    <div class="page-brief">
+      <div class="brief-header">
+        <div class="brief-url">/services/brand-strategy</div>
+        <div class="brief-type">Parent Page</div>
+      </div>
+      <div class="brief-body">
+        <div class="brief-title">Brand Strategy — Build the Foundation Before You Build the Funnel</div>
+        <div class="brief-h1">"Before you can market, you need to mean something."</div>
+        <div class="brief-grid">
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Target Personas</div>
+              <div class="brief-field-value">The Burned Founder · The Ambitious Newcomer</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Pricing Signal</div>
+              <div class="brief-field-value">Starting at $2,500 · Full strategy from $5,000</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Primary CTA</div>
+              <div class="brief-field-value">"Start with a Brand Audit →"</div>
+            </div>
+          </div>
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Child Services</div>
+              <div class="brief-field-value">Brand Audit · Messaging Architecture · Visual Identity · Positioning Workshop</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Key Proof Points</div>
+              <div class="brief-field-value">15+ years across healthcare, legal, finance, SaaS, e-commerce · Every Graston property started with brand language overhaul before technical work</div>
+            </div>
+          </div>
+        </div>
+        <div class="brief-field">
+          <div class="brief-field-label">Social Media Entry Points</div>
+          <div class="social-pills">
+            <span class="social-pill">"Is your brand confusing buyers?"</span>
+            <span class="social-pill">"Why most SMBs are marketing before they're ready"</span>
+            <span class="social-pill">"The brand audit that changes everything"</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARENT 2 -->
+    <div class="page-brief">
+      <div class="brief-header">
+        <div class="brief-url">/services/website-ux</div>
+        <div class="brief-type">Parent Page</div>
+      </div>
+      <div class="brief-body">
+        <div class="brief-title">Website &amp; UX — Your Site Should Generate Leads, Not Just Exist</div>
+        <div class="brief-h1">"A website that can't convert isn't a website. It's a liability."</div>
+        <div class="brief-grid">
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Target Personas</div>
+              <div class="brief-field-value">The Burned Founder · The Scaling Operator</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Pricing Signal</div>
+              <div class="brief-field-value">Projects from $5,000 · Full site builds from $15,000</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Primary CTA</div>
+              <div class="brief-field-value">"Get a Website Performance Audit →"</div>
+            </div>
+          </div>
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Child Services</div>
+              <div class="brief-field-value">Web Design &amp; Dev · Conversion Rate Optimization · Technical SEO · GEO Optimization</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Key Proof Points</div>
+              <div class="brief-field-value">+40% checkout conversions · +30% page load speed · 86% cache hit ratio (The Fortress)</div>
+            </div>
+          </div>
+        </div>
+        <div class="brief-field">
+          <div class="brief-field-label">Social Media Entry Points</div>
+          <div class="social-pills">
+            <span class="social-pill">"Your website is losing leads you don't know about"</span>
+            <span class="social-pill">"What GEO is and why your site needs it now"</span>
+            <span class="social-pill">"The difference between a website and a growth engine"</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARENT 3 -->
+    <div class="page-brief">
+      <div class="brief-header">
+        <div class="brief-url">/services/systems-infrastructure</div>
+        <div class="brief-type">Parent Page</div>
+      </div>
+      <div class="brief-body">
+        <div class="brief-title">Systems &amp; Infrastructure — The Tech Stack Underneath Everything</div>
+        <div class="brief-h1">"Your marketing is only as good as the infrastructure it runs on."</div>
+        <div class="brief-grid">
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Target Personas</div>
+              <div class="brief-field-value">The Scaling Operator · The Tech-Confused CMO</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Pricing Signal</div>
+              <div class="brief-field-value">Audits from $2,000 · Implementation from $10,000</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Primary CTA</div>
+              <div class="brief-field-value">"Audit My Tech Stack →"</div>
+            </div>
+          </div>
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Child Services</div>
+              <div class="brief-field-value">The Fortress · MarTech Stack Audit · Platform Migration · Performance Optimization</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Key Proof Points</div>
+              <div class="brief-field-value">-40% CPU load via server-side cron · -70% support tickets · "The Fortress" architecture deployed on live healthcare platform</div>
+            </div>
+          </div>
+        </div>
+        <div class="brief-field">
+          <div class="brief-field-label">Social Media Entry Points</div>
+          <div class="social-pills">
+            <span class="social-pill">"Why your WordPress site is costing you more than you think"</span>
+            <span class="social-pill">"The infrastructure audit that paid for itself in 30 days"</span>
+            <span class="social-pill">"How we reduced server load by 40%"</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARENT 4 -->
+    <div class="page-brief">
+      <div class="brief-header">
+        <div class="brief-url">/services/automation-crm</div>
+        <div class="brief-type">Parent Page</div>
+      </div>
+      <div class="brief-body">
+        <div class="brief-title">Automation &amp; CRM — Build the Lead Machine That Runs Without You</div>
+        <div class="brief-h1">"Stop managing leads manually. Build a system that does it for you."</div>
+        <div class="brief-grid">
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Target Personas</div>
+              <div class="brief-field-value">The Scaling Operator · The Tech-Confused CMO</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Pricing Signal</div>
+              <div class="brief-field-value">CRM setup from $5,000 · Full automation from $15,000</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Primary CTA</div>
+              <div class="brief-field-value">"Map My Lead System →"</div>
+            </div>
+          </div>
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Child Services</div>
+              <div class="brief-field-value">CRM Implementation · Lead Gen Workflows · Lifecycle Email Automation · Agentic Marketing Systems</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Key Proof Points</div>
+              <div class="brief-field-value"><strong>400+ CRM workflows</strong> deployed · +40% average conversion lift · Multi-agent AI for autonomous demand generation</div>
+            </div>
+          </div>
+        </div>
+        <div class="brief-field">
+          <div class="brief-field-label">Social Media Entry Points</div>
+          <div class="social-pills">
+            <span class="social-pill">"400 automation workflows and what we learned"</span>
+            <span class="social-pill">"What agentic marketing actually looks like in 2026"</span>
+            <span class="social-pill">"The CRM setup that doubled lead response speed"</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARENT 5 -->
+    <div class="page-brief">
+      <div class="brief-header">
+        <div class="brief-url">/services/data-analytics</div>
+        <div class="brief-type">Parent Page</div>
+      </div>
+      <div class="brief-body">
+        <div class="brief-title">Data &amp; Analytics — Stop Guessing. Start Knowing.</div>
+        <div class="brief-h1">"If you can't measure it, you can't improve it. And right now, you probably can't measure it."</div>
+        <div class="brief-grid">
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Target Personas</div>              <div class="brief-field-value">The Tech-Confused CMO · The Burned Founder</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Pricing Signal</div>
+              <div class="brief-field-value">Audits from $2,500 · Full infrastructure from $8,000</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Primary CTA</div>
+              <div class="brief-field-value">"Audit My Analytics Setup →"</div>
+            </div>
+          </div>
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Child Services</div>
+              <div class="brief-field-value">Attribution Modeling · Analytics Dashboard Build-Out · The Conductor · Reporting Infrastructure</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Key Proof Points</div>
+              <div class="brief-field-value">Full-funnel UTM attribution: ad click to revenue · "The Conductor" unifying marketing + education + finance · "Decision-grade analytics" as firm standard</div>
+            </div>
+          </div>
+        </div>
+        <div class="brief-field">
+          <div class="brief-field-label">Social Media Entry Points</div>
+          <div class="social-pills">
+            <span class="social-pill">"Why most SMBs are measuring the wrong things"</span>
+            <span class="social-pill">"What 'decision-grade data' means and why your business needs it"</span>
+            <span class="social-pill">"The attribution setup that showed us where revenue actually came from"</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PART 4: CHILD PAGE BRIEFS -->
+  <div class="section">
+    <div class="section-number">Part 4</div>
+    <div class="section-title">Page Briefs — Priority Child Service Pages</div>
+    <p>Each child page is a focused, single-service landing page built for one specific intent — designed to rank for long-tail searches, be shared as targeted social content, and convert a specific buyer with a specific problem.</p>
+
+    <!-- GEO -->
+    <div class="page-brief">
+      <div class="brief-header">
+        <div class="brief-url">/services/website-ux/geo-optimization</div>
+        <div class="brief-type child-type">Child Page</div>
+      </div>
+      <div class="brief-body">
+        <div class="brief-title">GEO Optimization — Get Cited by AI. Not Just Ranked.</div>
+        <div class="brief-h1">"Google rankings are table stakes. AI citations are the new competitive edge."</div>
+        <div class="brief-grid">
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Core Message</div>
+              <div class="brief-field-value">15–20% of searches now produce AI-generated answers. GEO makes your content citation-worthy by ChatGPT, Perplexity, and Google AI Overviews — not just ranked.</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">What's Included</div>
+              <div class="brief-field-value">E-E-A-T audit · Schema markup (FAQ, Service, LocalBusiness) · AI crawler access review · Content restructuring for machine readability</div>
+            </div>
+          </div>
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Proof Points (Princeton Research)</div>
+              <div class="brief-field-value">Citing sources: <strong>+40% AI visibility</strong> · Adding stats: <strong>+37%</strong> · Technical terms: <strong>+28%</strong></div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">FAQ (Schema-Ready)</div>
+              <div class="brief-field-value">What is GEO vs. SEO? · Does my site get penalized if AI bots can't crawl it? · How long before I see GEO results?</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">CTA</div>
+              <div class="brief-field-value">"Get a GEO Readiness Audit →"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE FORTRESS -->
+    <div class="page-brief">
+      <div class="brief-header">
+        <div class="brief-url">/services/systems-infrastructure/the-fortress</div>
+        <div class="brief-type child-type">Child Page</div>
+      </div>
+      <div class="brief-body">
+        <div class="brief-title">The Fortress — Enterprise Security for Growing Businesses</div>
+        <div class="brief-h1">"A breach doesn't ask if you're ready. Build the Fortress first."</div>
+        <div class="brief-grid">
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Core Message</div>
+              <div class="brief-field-value">Darling MarTech's multi-layer security architecture — Cloudflare WAF, DNSSEC, SSL/TLS, edge optimization. Turns security from a cost center into a competitive advantage.</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">What's Included</div>
+              <div class="brief-field-value">Cloudflare WAF config · DNSSEC implementation · SSL/TLS hardening · Edge caching setup · DDoS mitigation · Security monitoring setup</div>
+            </div>
+          </div>
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Proof Points</div>
+              <div class="brief-field-value"><strong>86% cache hit ratio</strong> on healthcare training platform · <strong>-40% server load</strong> · WAF rules blocking threats without latency penalties</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">FAQ (Schema-Ready)</div>
+              <div class="brief-field-value">Do I need enterprise security if I'm not Fortune 500? · What does Cloudflare WAF protect against? · How long does The Fortress setup take?</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">CTA</div>
+              <div class="brief-field-value">"Start The Fortress Assessment →"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AGENTIC MARKETING -->
+    <div class="page-brief">
+      <div class="brief-header">
+        <div class="brief-url">/services/automation-crm/agentic-marketing-systems</div>
+        <div class="brief-type child-type">Child Page</div>
+      </div>
+      <div class="brief-body">
+        <div class="brief-title">Agentic Marketing Systems — Let AI Run Your Demand Generation</div>
+        <div class="brief-h1">"Your competitors are still doing it manually. You don't have to."</div>
+        <div class="brief-grid">
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Core Message</div>
+              <div class="brief-field-value">Multi-agent AI workflows (CrewAI, LangGraph) that autonomously research leads, score them, personalize outreach, update the CRM, and report on pipeline — without manual intervention.</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">What's Included</div>
+              <div class="brief-field-value">Multi-agent workflow design · CrewAI/LangGraph implementation · CRM integration · Lead scoring model · Automated reporting loop · Human-in-the-loop approval gates</div>
+            </div>
+          </div>
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Proof Points</div>
+              <div class="brief-field-value">Research → Scoring → Personalization agent stack · Autonomous content repurposing at scale · Speed-to-lead compression with immediate playbook routing</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">FAQ (Schema-Ready)</div>
+              <div class="brief-field-value">What's the difference between automation and agentic AI? · Which AI models do you use? · How do I know the agent is doing the right thing?</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">CTA</div>
+              <div class="brief-field-value">"Explore Agentic Marketing for My Business →"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE CONDUCTOR -->
+    <div class="page-brief">
+      <div class="brief-header">
+        <div class="brief-url">/services/data-analytics/the-conductor</div>
+        <div class="brief-type child-type">Child Page</div>
+      </div>
+      <div class="brief-body">
+        <div class="brief-title">The Conductor — One Source of Truth for All Your Business Data</div>
+        <div class="brief-h1">"Your data is scattered. Your decisions are suffering for it."</div>
+        <div class="brief-grid">
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Core Message</div>
+              <div class="brief-field-value">Darling MarTech's data unification framework — pulls marketing, CRM, LMS, and finance data into a single synchronized pipeline using WP Fusion, FluentCRM, Webhooks, and custom APIs.</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">What's Included</div>
+              <div class="brief-field-value">Data source audit · Pipeline architecture design · Integration build · Unified dashboard setup · Data quality monitoring</div>
+            </div>
+          </div>
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Proof Points</div>
+              <div class="brief-field-value">Unified marketing + education + finance at Graston Technique · Significant manual hours saved weekly · Full-funnel UTM attribution ad click to revenue</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">CTA</div>
+              <div class="brief-field-value">"Map My Data Pipeline →"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POSITIONING WORKSHOP -->
+    <div class="page-brief">
+      <div class="brief-header">
+        <div class="brief-url">/services/brand-strategy/positioning-workshop</div>
+        <div class="brief-type child-type">Child Page</div>
+      </div>
+      <div class="brief-body">
+        <div class="brief-title">Positioning Workshop — Define Where You Win Before You Spend a Dollar</div>
+        <div class="brief-h1">"Positioning is the strategy. Everything else is execution."</div>
+        <div class="brief-grid">
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Deliverable</div>
+              <div class="brief-field-value">A Positioning Document — the decision-making reference for your entire team. Answers: Who are you for? What do you do better than anyone? Why should they believe you?</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Pricing Signal</div>
+              <div class="brief-field-value">$2,500–$4,000 · Completed in 2–3 weeks</div>
+            </div>
+          </div>
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">What's Included</div>
+              <div class="brief-field-value">Competitive landscape review · ICP definition · Value prop development · Differentiation mapping · Positioning statement · Messaging pillars (3–5)</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">CTA</div>
+              <div class="brief-field-value">"Book a Positioning Workshop →"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TECHNICAL SEO -->
+    <div class="page-brief">
+      <div class="brief-header">
+        <div class="brief-url">/services/website-ux/technical-seo</div>
+        <div class="brief-type child-type">Child Page</div>
+      </div>
+      <div class="brief-body">
+        <div class="brief-title">Technical SEO — Fix What Google Can't Ignore</div>
+        <div class="brief-h1">"Great content doesn't rank on a broken foundation."</div>
+        <div class="brief-grid">
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">Core Message</div>
+              <div class="brief-field-value">Technical SEO is the infrastructure layer underneath content strategy. Crawl errors, missing schema, slow load times — no amount of content overcomes these. Diagnose and resolve first.</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">Proof Points</div>
+              <div class="brief-field-value"><strong>+30% page load speed</strong> (Graston) · Schema: LocalBusiness, FAQ, Service · Core Web Vitals as direct ranking signal</div>
+            </div>
+          </div>
+          <div>
+            <div class="brief-field">
+              <div class="brief-field-label">What's Included</div>
+              <div class="brief-field-value">Full technical audit · Crawl error resolution · Schema markup implementation · Core Web Vitals optimization · Sitemap + robots.txt · Internal link architecture</div>
+            </div>
+            <div class="brief-field">
+              <div class="brief-field-label">CTA</div>
+              <div class="brief-field-value">"Get a Free Technical SEO Scan →"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PART 5: PRODUCTIZED OFFERS -->
+  <div class="section">
+    <div class="section-number">Part 5</div>
+    <div class="section-title">Productized Offers — Dedicated Entry Pages</div>
+    <p>These three offers are the highest-converting entry points because they remove ambiguity around scope and price. Each gets its own dedicated page.</p>
+
+    <div class="offer-card">
+      <div class="offer-name">The MarTech Audit</div>
+      <div class="offer-url">/services/martech-audit</div>
+      <div class="offer-price">$2,000–$5,000 · Fixed Price · 2-Week Turnaround</div>
+      <p>The standardized diagnostic. Built for the Burned Founder and Tech-Confused CMO. Full review of all current marketing technology: what's working, what's creating friction, where money is being wasted, and a prioritized roadmap for what to fix first.</p>
+      <ul class="styled" style="margin-top:12px;">
+        <li><strong>Deliverable:</strong> Full tech stack inventory, tool cost analysis, integration gap map, 30-page audit report, 90-min readout, prioritized roadmap</li>
+        <li><strong>Who it's for:</strong> Any business that has paid for marketing or technology and isn't sure what's working</li>
+        <li><strong>Why it converts:</strong> Fixed price, clear deliverable, low commitment — perfect first engagement</li>
+      </ul>
+    </div>
+
+    <div class="offer-card">
+      <div class="offer-name">The Growth Foundation</div>
+      <div class="offer-url">/services/growth-foundation</div>
+      <div class="offer-price">$5,000–$15,000 · Fixed Price · All-In-One Package</div>
+      <p>The starter build for The Ambitious Newcomer. Brand positioning, website design + development, and CRM setup — delivered as a complete, ready-to-scale package. No over-engineering, no fluff.</p>
+      <ul class="styled" style="margin-top:12px;">
+        <li><strong>Deliverable:</strong> Brand messaging + visual identity, custom website (5–8 pages), CRM setup + initial workflow, GA4 + basic attribution, 30-day post-launch support</li>
+        <li><strong>Who it's for:</strong> Founders at $500K–$3M revenue who are managing marketing manually and need a professional base</li>
+      </ul>
+    </div>
+
+    <div class="offer-card">
+      <div class="offer-name">The Automation Engine</div>
+      <div class="offer-url">/services/automation-engine</div>
+      <div class="offer-price">Starting at $10,000 · Custom Scope · Industry-Specific</div>
+      <p>Pre-built, battle-tested CRM and lead gen workflows tailored for specific industries — healthcare, legal, SaaS, e-commerce. Built on proven frameworks from 400+ deployed workflows.</p>
+      <ul class="styled" style="margin-top:12px;">
+        <li><strong>Deliverable:</strong> Workflow architecture session, pre-built templates for your industry, CRM configuration, email sequences (5–10 flows), attribution tagging, 60-day optimization</li>
+        <li><strong>Who it's for:</strong> Scaling Operators who have grown past manual outreach and need a systematic demand gen machine</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PART 6: DEV IMPLEMENTATION -->
+  <div class="section">
+    <div class="section-number">Part 6</div>
+    <div class="section-title">Implementation Recommendations for the Dev Build</div>
+
+    <h3>6.1 Architecture Decisions</h3>
+    <ul class="styled">
+      <li><strong>Extend current routing:</strong> Keep /services/[slug] and add /services/[parent]/[child] nested routing</li>
+      <li><strong>Each child page needs its own data entry</strong> in data/services.ts — add: parentSlug, hero headline, problem statement, deliverables array, FAQ array, pricing signal, CTA text, relatedServices array</li>
+      <li><strong>Schema is non-negotiable:</strong> Every service page gets Service schema; child pages also get FAQ schema</li>
+      <li><strong>Add relatedServices field</strong> to each child for cross-linking adjacent services (critical for internal link architecture and GEO)</li>
+    </ul>
+
+    <h3>6.2 Child Page Template Section Order</h3>
+    <ol class="styled">
+      <li><strong>Hero</strong> — H1 + single pain-point statement + primary CTA button</li>
+      <li><strong>Problem Block</strong> — 2–3 sentences defining the problem this service solves</li>
+      <li><strong>What's Included</strong> — Bulleted list of deliverables (scannable, not a wall of text)</li>
+      <li><strong>Proof Point</strong> — One specific stat or outcome from Graston or another client</li>
+      <li><strong>Process</strong> — 3–4 step abbreviated process (reassures buyers)</li>
+      <li><strong>FAQ</strong> — 3 questions, 100–200 word answers each, schema-ready</li>
+      <li><strong>Pricing Signal</strong> — "Investment starts at..." language</li>
+      <li><strong>CTA Block</strong> — Primary CTA + secondary "see related work" link to /work</li>
+    </ol>
+
+    <h3>6.3 GEO-First Writing Standards for Every Page</h3>
+    <ul class="styled">
+      <li>Clear H1/H2/H3 hierarchy with keyword-intentional headings on every page</li>
+      <li>Keep all paragraphs to 2–3 sentences maximum</li>
+      <li>At least one original statistic or benchmarked result per page</li>
+      <li>Link to at least one authoritative external source per page</li>
+      <li>Never block AI crawlers — audit Cloudflare firewall rules</li>
+      <li>Minimum 3 Q&amp;A pairs in FAQ schema per child page</li>
+    </ul>
+
+    <h3>6.4 Social Media Entry Point Strategy</h3>
+    <p>Each child page is a standalone landing page. Treat every URL as a social media destination:</p>
+    <table class="data-table">
+      <thead><tr><th>Format</th><th>Angle</th><th>Goal</th></tr></thead>
+      <tbody>
+        <tr><td><strong>LinkedIn Article</strong></td><td>The problem this service solves, written as first-person insight</td><td>Drive to parent page</td></tr>
+        <tr><td><strong>LinkedIn Carousel</strong></td><td>"5 signs you need [service name]"</td><td>Drive to child page</td></tr>
+        <tr><td><strong>X Thread</strong></td><td>The most counterintuitive thing about this service category</td><td>Drive to child page</td></tr>
+        <tr><td><strong>Email</strong></td><td>Case study teaser ending with "we built a dedicated page explaining exactly how we do this"</td><td>Drive to child page</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PART 7: BUILD ORDER -->
+  <div class="section">
+    <div class="section-number">Part 7</div>
+    <div class="section-title">Prioritized Build Order</div>
+
+    <div class="phase-block">
+      <div class="phase-label">Phase 1 — Highest Leverage, Most Proof (Build Now)</div>
+      <ol class="styled">
+        <li><strong>/services/martech-audit</strong> — Productized, priced, ready to sell immediately</li>
+        <li><strong>/services/automation-crm</strong> — Parent page; 400 workflow proof point is exceptional</li>
+        <li><strong>/services/automation-crm/agentic-marketing-systems</strong> — Highly differentiated, near-zero competition</li>
+        <li><strong>/services/systems-infrastructure/the-fortress</strong> — Named framework, strong measurable metrics</li>
+        <li><strong>/services/data-analytics/the-conductor</strong> — Named framework, compelling unified data story</li>
+      </ol>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-label">Phase 2 — Foundational, High Search Intent</div>
+      <ol class="styled">
+        <li><strong>/services/website-ux</strong> — Parent page</li>
+        <li><strong>/services/website-ux/technical-seo</strong> — High search volume, proven proof points</li>
+        <li><strong>/services/website-ux/geo-optimization</strong> — Emerging category, positions as forward-thinking</li>
+        <li><strong>/services/brand-strategy</strong> — Parent page</li>
+        <li><strong>/services/brand-strategy/positioning-workshop</strong> — Clear deliverable, easy to scope and price</li>
+      </ol>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-label">Phase 3 — Complete the Architecture</div>
+      <ol class="styled">
+        <li>Remaining child pages across all five pillars</li>
+        <li>/services/growth-foundation and /services/automation-engine productized offer pages</li>
+        <li>Persona-specific landing pages (one per client type)</li>
+      </ol>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PART 8: CONTENT RULES -->
+  <div class="section">
+    <div class="section-number">Part 8</div>
+    <div class="section-title">Content Differentiation Rules</div>
+    <p>The research explicitly warns that AI commoditization threatens generic services. Every page must be filtered through these rules.</p>
+
+    <div class="rule-block">
+      <div class="rule-card avoid">
+        <div class="rule-title">Every Page Must Avoid</div>
+        <ul class="styled">
+          <li>Generic benefit lists ("we'll grow your business")</li>
+          <li>Overclaiming without proof ("the best in the industry")</li>
+          <li>Jargon without definition ("synergistic approaches")</li>
+          <li>Talking to "all businesses" without specifying who</li>
+        </ul>
+      </div>
+      <div class="rule-card include">
+        <div class="rule-title">Every Page Must Include</div>
+        <ul class="styled">
+          <li>A named framework or proprietary approach</li>
+          <li>At least one specific metric from real client work</li>
+          <li>Jacob's stated POV on how this service is usually done wrong</li>
+          <li>The specific type of business this page is built for</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  Produced March 27, 2026 · Deep analysis of "Operational Architecture and Strategic Positioning for Darling Marketing and Technology" cross-referenced against Phase 2 site state · Strategic blueprint for the services section expansion at darlingmartech.com
+</div>
+
+</body>
+</html>
