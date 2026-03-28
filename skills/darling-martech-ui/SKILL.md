@@ -385,3 +385,108 @@ Before outputting any component, verify:
 - [ ] Phosphor Icons used — not Lucide
 - [ ] The Electric Orange accent feels earned, not scattered
 - [ ] The overall impression: "a human with taste built this for a specific person"
+
+
+---
+
+## 8. Phase 2 Component Map (Already Built — Reference Before Rebuilding)
+
+These components exist and are live. Check here before creating new ones.
+
+### 3D Components (`components/3d/`)
+All use `dynamic(..., { ssr: false })`. All accept mouse position via ref.
+- `HeroBackground.tsx` — Homepage Three.js hero scene
+- `LabTelemetryScene.tsx` + `LabTelemetryScene.module.css` — Lab page 3D
+- `ServicesAmbient.tsx` — Services page ambient 3D (sceneTarget prop system)
+- `WorkAmbient.tsx` + `WorkAmbient.module.css` — Work page ambient 3D
+- `FloatingCard.tsx` — 3D tilt card effect
+- `scene-types.ts` — Shared TypeScript types for all 3D scenes
+- `system/` — Reusable 3D system utilities
+
+### Interactive (`components/interactive/`)
+- `CursorSpotlight.tsx` + `.module.css` — Radial gradient spotlight following cursor
+- `MagneticButton.tsx` + `.module.css` — Magnetic pull on hover, max 8px displacement
+
+### Motion (`components/motion/`)
+- `KineticHeadline.tsx` + `.module.css` — Animated Cabinet Grotesk headline
+- `ClientTicker.tsx` + `.module.css` — Horizontal scrolling client logo marquee
+- `StatCounter.tsx` + `.module.css` — Animated number counter (15+, 400+, etc.)
+- `index.ts` — Re-exports all motion components
+
+### Lab-specific (`components/lab/`)
+- `LabDetailPage.tsx` + `.module.css` — Full lab tool detail layout (hero, problem, build stack, screenshots, CTA)
+- `LabModal.tsx` + `.module.css` — Tool viewer modal (for tools that embed in-page)
+- `CmoAccessModal.tsx` + `.module.css` — Email gate for CMO Simulator
+
+### Work-specific (`components/sections/WorkDetail/` and `WorkIndex/`)
+- `WorkDetail/` — Case study detail page layout components
+- `WorkIndex/` — Work index grid components
+- `CaseStudies.tsx` — Homepage case study teaser grid
+- `CaseStudyContent.tsx` — Detail page content rendering
+- `CaseStudyImages.tsx` — Detail page image gallery
+
+### About-specific (`components/sections/CareerTimeline/`)
+- Full interactive career timeline component
+
+### Utility UI (`components/ui/`)
+- `background-paths.tsx` — Animated SVG wire paths (21st.dev, brand-adapted)
+- `button-colorful.tsx` — Orange directional fill button (21st.dev, brand-adapted)
+- `grid-card.tsx` — Dark surface + animated grid hover card (21st.dev, brand-adapted)
+- `underline-animation.tsx` — Framer Motion underline variants (21st.dev, brand-adapted)
+- `gallery-hover-card.tsx` + `.module.css` — Studio gallery hover reveal
+- `masonry-grid.tsx` + `.module.css` — Pinterest-style masonry layout
+- `ScrollProgress.tsx` — Reading progress bar
+- `CookieConsent.tsx` — GDPR cookie consent banner
+- `BackToTop.tsx` — Scroll to top button
+- `navigation-menu.tsx` — Radix UI nav menu (shadcn base)
+
+### Providers (`components/providers/`)
+- `LenisProvider.tsx` — Wraps full app, enables smooth inertia scroll
+- `Analytics.tsx` — Analytics event tracking provider
+
+---
+
+## 9. Known 3D Scene Target IDs
+
+The `ServicesAmbient` component uses `sceneTarget` props. Valid values:
+```
+strategy-core, strategy-pike, strategy-rbe, strategy-primary-colours
+build-brand-web, build-317bbq, build-hoosier-boy, build-tbm
+build-systems, build-graston, build-launchpad, build-lab
+growth-core, growth-primarycare, growth-urgentcare, growth-russell
+build-commerce, build-closer, build-behr, build-317bbq-orders
+build-specialized, build-urgentcare-flow, build-black-letter, build-primary-colours-exhibit
+```
+
+When adding new service proof points, use existing targets or add a new one
+to `ServicesAmbient.tsx` before referencing it in `data/services.ts`.
+
+---
+
+## 10. Page-Specific Component Notes
+
+### `/work` — Work Index
+- Uses `workIndex` from `data/work/work-index.ts` (20 entries)
+- `dashboardTier: 'flagship'` entries get hero treatment (4 current flagships)
+- `dashboardTier: 'system'` entries render as child projects under their parent
+- `visualMode` drives the 3D ambient scene variant for each card
+- `theme.layout` drives card layout: 'editorial' (full-width) vs 'split' (half)
+
+### `/lab` — Lab Index
+- Pulls from `data/labs.ts` (9 entries in LAB_DETAIL_DATA)
+- CMO Simulator (`/lab/cmo-simulator`) has special gating via `CmoAccessModal`
+- Local HTML tools (4 of them) link to `/public/labs/[slug]/` via `toolSrc`
+- External tools link directly to their Vercel URLs
+
+### `/services` — Services Page
+- `ServicesAmbient` 3D scene responds to `sceneTarget` — changes on scroll/click
+- `serviceDetails` drives the 6 full service sections
+- `serviceOverview` drives the 4 summary cards at top
+- `engagementModels` drives the 3 engagement type callouts
+- `specializedServices` drives the specialty chips at bottom
+
+### `/studio` — Studio Gallery
+- Cloudinary-powered masonry gallery
+- API route at `/api/studio/` fetches from Cloudinary
+- Three gallery sections: Photography, Design, Proof
+- Uses `StudioGallery.tsx` with `gallery-hover-card.tsx` for hover effects

@@ -6,11 +6,11 @@ Read this file in full before doing any work. Every decision about design,
 copy, architecture, and tone should reference this document.
 
 > **Skill files:** Extended design, redesign-audit, and copy instructions
-> live in `C:\Users\hoosi\ClaudeOS\taste-skill-main\`. Load these skills
-> before building or upgrading any page:
-> - `darling-martech-ui/SKILL.md` — Design system, component library, motion
-> - `darling-martech-redesign/SKILL.md` — Audit protocol for upgrading AI-looking code
-> - `darling-martech-copy/SKILL.md` — Voice, CTAs, error messages, microcopy
+> live in `skills/` (co-located in this repo) AND in the Claude OS:
+> `C:\Users\hoosi\ClaudeOS\taste-skill-main\`
+> - `skills/darling-martech-ui/SKILL.md` — Design system, component library, motion
+> - `skills/darling-martech-redesign/SKILL.md` — Audit protocol for upgrading AI-looking code
+> - `skills/darling-martech-copy/SKILL.md` — Voice, CTAs, error messages, microcopy
 
 ---
 
@@ -23,11 +23,10 @@ converts visitors into clients.
 - **Brand:** Darling MarTech
 - **Owner:** Jacob Darling
 - **Entity:** Marketing and Technology LLC
-- **Domain:** darlingmartech.com (not yet live — use Cloudflare preview URL)
-- **Location:** Indianapolis, IN
+- **Domain:** darlingmartech.com
 - **Email:** jacob@jacobdarling.com
 - **Portfolio reference:** bearcavemarketing.com
-- **Portfolio v2:** bearcave-marketing-v2.vercel.app
+- **Vercel preview:** darling-martech.vercel.app
 
 ---
 
@@ -38,17 +37,22 @@ converts visitors into clients.
 | Framework | Next.js 16+ App Router | RSC default. `"use client"` only for interactive/animated/3D components |
 | Styling | **CSS Modules + CSS custom properties only** | Zero Tailwind colors/typography. Tailwind removed entirely for visual styling |
 | 2D Animation | **Framer Motion 11** | All UI motion. Spring physics only — presets in `lib/motion.ts` |
-| 3D / WebGL | **@react-three/fiber v8 + @react-three/drei v9 + Three.js** | Hero background, floating geometry, GPU-accelerated 3D |
-| Scroll animation | **GSAP + ScrollTrigger** | Timeline-based scroll sequences via `hooks/useScrollAnimation.ts` |
-| Smooth scroll | **Lenis** | Inertia scrolling, wraps full app in `LenisProvider` |
+| 3D / WebGL | **@react-three/fiber v9 + @react-three/drei v10 + Three.js 0.183** | Hero background, floating geometry, GPU-accelerated 3D |
+| Scroll animation | **GSAP 3.14** | Timeline-based scroll sequences via `hooks/useScrollAnimation.ts` |
+| Smooth scroll | **Lenis 1.3** | Inertia scrolling, wraps full app in `LenisProvider` |
 | Interactivity | Custom hooks + motion components | Magnetic buttons, cursor spotlight, 3D card tilt |
 | Components | shadcn/ui (customized) | Always adapted to brand — never default shadcn appearance |
 | Icons | **@phosphor-icons/react** | `weight="light"` or `"regular"`. No Lucide. No Feather. No Heroicons. |
 | Fonts | next/font localFont — Cabinet Grotesk, Inter | Instrument Serif via next/font Google |
 | Contact form | React Hook Form + Zod + Resend API | |
-| Images | next/image (always — never `<img>`) | |
+| Images | next/image (always — never `<img>`) | unoptimized: true (Cloudflare Pages) |
 | Hosting | Cloudflare Pages (GitHub auto-deploy) | |
 | Media | Cloudinary Next.js SDK | Cloud: `djhqowk67` |
+| Physics | @dimforge/rapier3d-compat | Available in node_modules |
+| Geolocation | @mediapipe/tasks-vision | Available in node_modules |
+| Analytics | Custom via `components/providers/Analytics.tsx` | |
+| Cookie consent | `components/ui/CookieConsent.tsx` | |
+| SEO | `app/robots.ts` + `app/sitemap.ts` + `components/JsonLd.tsx` | |
 
 ### Styling rule — CSS Modules ONLY for visual properties
 Tailwind is **removed** from all visual styling. Every color, typography,
@@ -59,6 +63,10 @@ surface, animation, and visual property uses CSS Modules + CSS custom properties
 ❌ Never use:              bg-*  text-*  border-*  shadow-*  rounded-*
                            font-*  tracking-*  transition-*  animate-*
 ```
+
+> **Gotcha:** `tailwind.config.ts` remains for shadcn token infrastructure. Rule:
+> no Tailwind for visual styling (colors, typography, shadows). Layout utilities
+> and shadcn plumbing are still Tailwind-backed.
 
 ### 3D components rule
 
@@ -328,237 +336,243 @@ Optimization, Full-Stack Web Development (WordPress, JavaScript, React,
 Next.js), Cloudflare Workers, API Development, System Integration,
 Serverless Development, WordPress, Figma, Adobe Creative Suite
 
-### Notable Work / Case Studies
-1. **Primary Care Indy** — Healthcare · 210% ROI · Unified brand system
-   across 3+ locations. Merged PMC identity into Primary Care Indy.
-   Digital-first patient intake strategy. Google/Healthgrades/Zocdoc sync.
-2. **Hoosier Boy Barbershop** — Local Retail · 4.1× booking lift · 100%
-   local brand recall · Zero paid media at launch. Full brand identity,
-   Americana iconography, environmental design.
-3. **Behr Pet Essentials** — E-Commerce · +28% avg cart value · -40%
-   support tickets · 3× info-to-purchase conversion. Infographic-first
-   content architecture, direct-response campaign system.
-4. **Urgent Care Indy** — Healthcare · +35% booking increase. Digital
-   integration and patient growth strategy.
-5. **Primary Colours** — Nonprofit · $46k+ revenue generated. Event
-   marketing, sponsorship, arts nonprofit strategy.
-6. **Russell Painting** — Local Service · 4.9★ star sentiment. Local SEO,
-   lead generation, heritage brand strategy.
-7. **Clean Aesthetic** — Medical Aesthetics · 4-week brand launch.
-   Concierge luxury brand identity and launch strategy.
-
-### Testimonials (use verbatim — full quotes)
-- "Jacob has a great balance of strategic thinking and hands-on
-  execution... I'd recommend him to anyone looking for a marketing
-  professional who's both forward-thinking and results-oriented."
-  — Jesse Wey, 2025
-- "Jacob is the kind of marketer who makes an immediate impact...
-  figuring out how to put new technologies to work in practical ways."
-  — Andrew Bastnagel, 2025
-- "Exuberance and moxie are unparalleled... ability to implement
-  strategies that produce a positive ROI." — Kevin Martin See
-- "Energy and ingenuity are extremely valuable assets... expanded
-  our vision." — Ben Worrell
-
-Testimonial order for impact: Jesse Wey → Andrew Bastnagel →
-Kevin Martin See → Ben Worrell.
-
 ---
 
-## Site Architecture
+## Current Site Architecture (Phase 2 — Live)
 
-### Phase 1 — Launch Now
-- `/` — Home (one-page with all core sections)
-- `/about` — Full about page
-- `/contact` — Contact form page
+### Pages live on darling-martech.vercel.app
+- `/` — Home (all core sections, 3D hero, stats, services, case studies, testimonials, CTA)
+- `/about` — Full about page with career timeline
+- `/contact` — Contact form page (React Hook Form + Zod + Resend)
+- `/work` — Case studies index (masonry/staggered grid — Live)
+- `/work/[slug]` — Individual case study pages (data-driven from `data/work/`)
+- `/lab` — Lab tools index (9 detail pages — Live)
+- `/lab/[slug]` — Lab detail pages (data-driven from `data/labs.ts`)
+- `/lab/cmo-simulator` — Special: gated access via `CmoAccessModal`
+- `/services` — Services page with 6 service categories (Live)
+- `/services/[slug]` — Individual service detail pages (Live)
+- `/studio` — Cloudinary masonry gallery (Live)
+- `/studio/[slug]` — Studio gallery items
+- `/api/contact` — Contact form API route
+- `/api/cmo-simulator-access` — CMO Simulator gate API
+- `/api/studio` — Studio Cloudinary API
 
-### Phase 2 — Post Launch
-- `/services/marketing-strategy` — Service detail page
-- `/services/web-development` — Service detail page
-- `/services/tech-implementation` — Service detail page
-- `/services/seo-digital-marketing` — Service detail page
-- `/work` — Case studies index
-- `/work/[slug]` — Individual case study pages
-- `/pricing` — Pricing page
-
-### Phase 3 — Future
+### Phase 3 — Planned
+- `/pricing` — Pricing page (content session needed)
 - `/blog` — Thought leadership (MDX-powered)
 - `/blog/[slug]` — Individual posts
 
 ---
 
-## Full Page Copy
+## Data Layer — Source of Truth
 
-### HOME — Hero Section
-**Headline:**
-15 years of marketing strategy and systems architecture — in one person,
-working directly with you.
+**All content lives in `/data/` as typed TypeScript files. Never hardcode content in components.**
 
-**Subheadline:**
-Jacob Darling builds the marketing infrastructure that makes small
-businesses and startups grow — strategy, technology, automation, and
-execution. No agencies. No hand-offs. Just results you can measure.
+### `/data/labs.ts` — 9 lab entries in `LAB_DETAIL_DATA`
+| Slug | Name | Category | Live URL |
+|---|---|---|---|
+| `cmo-simulator` | CMO Simulator | Marketing | (gated — email access) |
+| `graston-growth-engine` | Graston Growth Engine | Marketing | graston-growth-engine.vercel.app |
+| `pro-dj-studio` | PRO DJ Studio | Technologist | pro-dj-mixer.vercel.app |
+| `strum-ai` | Strum AI | Technologist | jacobs-music-plum.vercel.app |
+| `barbershop-command-center` | Barbershop Command Center | Developer | hoosier-boy-barbersh.vercel.app |
+| `clinical-compass` | Clinical Compass | Developer | `/labs/clinical-compass/` (local HTML) |
+| `smart-sales-pricing` | Smart Sales & Pricing Tool | Developer | `/labs/smart-sales-pricing/` (local HTML) |
+| `investment-roi-planner` | Investment ROI Planner | Marketing | `/labs/investment-roi-planner/` (local HTML) |
+| `license-requirements` | License Requirements Navigator | Developer | `/labs/license-requirements/` (local HTML) |
 
-**CTA Button:** Let's build something that works.
+### `/data/services.ts` — 6 service categories in `serviceDetails`
+| ID | Title | Layer |
+|---|---|---|
+| `strategy` | Fractional Marketing Leadership & Growth Strategy | strategy |
+| `brand-web` | Brand Identity, Websites & Conversion Design | build |
+| `systems` | CRM Architecture, Automation, Integrations & AI Tools | build |
+| `growth` | SEO, Content Systems, Paid Acquisition & Analytics | growth |
+| `commerce` | E-Commerce, Checkout Flows & Revenue Operations | build |
+| `specialized` | Industry-Specific Systems & Specialty Engagements | build |
 
-**Stats Bar:**
-- 15+ Years Experience
-- 400+ Automations Built
-- 30,000+ Users Served
-- 40% Avg Conversion Lift
+Also exports: `serviceOverview` (4 summary cards), `specializedServices` (8 items),
+`engagementModels` (3: audit/project/embedded), `contactServiceOptions`, `serviceLayerMeta`
 
-### HOME — Services Section
-**Section label:** What I Do
-**Headline:** Four disciplines. One person. Zero hand-offs.
+### `/data/work/work-index.ts` — Case study card grid (20 entries)
 
-1. **Marketing Strategy & Consulting**
-   Brand positioning, go-to-market planning, and campaign strategy built
-   around your specific goals — not a templated playbook.
+**Flagship featured (dashboardTier: 'flagship'):**
+- `graston-technique` — Automation & Systems (+212% qualified leads, 95% overhead reduction, 48hrs/wk saved)
+- `pike-medical-consultants` — Healthcare (45% patient growth, multi-division CMO)
+- `317-bbq` — Hospitality (120% time on site, 40% conversion lift, 2x catering)
+- `hoosier-boy-barbershop` — Hospitality (90% more bookings, 200% social, #1 local search)
 
-2. **Web & App Development**
-   Fast, modern websites and web apps built with Next.js — designed to
-   look sharp, perform well, and turn visitors into clients.
+**System tier (dashboardTier: 'system') — child projects:**
+- `the-launchpad`, `the-closer`, `the-compass`, `the-fortress` (all under graston-technique)
+- `primarycare-indy`, `urgentcare-indy` (under pike-medical-consultants)
 
-3. **Tech Implementation**
-   The right tools, configured the right way. CRM, automation, analytics,
-   and integrations handled by someone who understands both the tech and
-   the marketing strategy behind it.
+**All case study slugs (canonical):**
+`graston-technique`, `the-launchpad`, `the-closer`, `the-compass`, `the-fortress`,
+`pike-medical-consultants`, `primarycare-indy`, `urgentcare-indy`,
+`riley-bennett-egloff`, `tuohy-bailey-moore`,
+`317-bbq`, `hoosier-boy-barbershop`, `russell-painting`,
+`behr-pet-essentials`, `circle-city-kicks`,
+`black-letter`, `clean-aesthetic`, `perpetual-movement-fitness`,
+`primary-colours`
 
-4. **SEO & Digital Marketing**
-   Search strategy, content systems, and digital campaigns built to
-   compound over time — bringing qualified leads to you consistently.
+### `/data/work/work-data.ts` — Full case study content
+Full case study objects with: hero, overview, results, services, timeline, media, etc.
 
-### HOME — About Teaser
-**Headline:** Both sides. One person.
-**Copy:** Most consultants know marketing or technology. I've spent 15
-years doing both — leading marketing teams, architecting CRM systems,
-building automation workflows, and shipping code. When you hire me,
-you get me directly. No account managers. No hand-offs. Just clear
-thinking and clean execution.
-**CTA:** Read my story →
-
-### HOME — Case Studies Teaser
-**Headline:** Work that proves the point.
-**Subheadline:** Across healthcare, legal, finance, retail, nonprofits,
-and local business — here's what strategy and execution look like when
-the same person does both.
-**Featured:** Primary Care Indy, Hoosier Boy Barbershop, Behr Pet
-Essentials, Urgent Care Indy, Primary Colours
-
-### HOME — Testimonials
-Use the 4 verbatim testimonials listed above.
-
-### HOME — Contact CTA Section
-**Headline:** Ready to build something that works?
-**Copy:** I work directly with a small number of clients at a time.
-Every engagement gets my full attention.
-**CTA:** Let's talk →
+### `/data/testimonials.ts` — Testimonial data
+Verbatim quotes. Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worrell
 
 ---
 
-### ABOUT PAGE
+## Case Studies — Content Status
 
-**Eyebrow:** About Jacob Darling
-**Headline:** Strategy and systems — built by someone who's done both
-for 15 years.
+| Slug | Client | Status |
+|---|---|---|
+| `graston-technique` | Graston Technique® | ✅ Content built |
+| `the-launchpad` | The Launchpad | ✅ System sub-project |
+| `the-closer` | The Closer | ✅ System sub-project |
+| `the-compass` | The Compass | ✅ System sub-project |
+| `the-fortress` | The Fortress | ✅ System sub-project |
+| `pike-medical-consultants` | Pike Medical Consultants | ✅ Parent page built |
+| `primarycare-indy` | PrimaryCare Indy | ✅ Built |
+| `urgentcare-indy` | UrgentCare Indy | ✅ Built |
+| `riley-bennett-egloff` | Riley Bennett Egloff LLP | Content session needed |
+| `tuohy-bailey-moore` | Tuohy Bailey & Moore LLP | ✅ Built |
+| `317-bbq` | 317 BBQ | ✅ Built |
+| `hoosier-boy-barbershop` | Hoosier Boy Barbershop | ✅ Built |
+| `russell-painting` | Russell Painting Co. | ✅ Built |
+| `behr-pet-essentials` | Behr Pet Essentials | ✅ Built |
+| `circle-city-kicks` | Circle City Kicks | ✅ Built |
+| `black-letter` | Black Letter | ✅ Built |
+| `clean-aesthetic` | Clean Aesthetic | Content session needed |
+| `perpetual-movement-fitness` | Perpetual Movement Fitness | ✅ Built |
+| `primary-colours` | Primary Colours | ✅ Built |
+| `direct-care-indy` | Direct Care Indy | 🚧 In progress — do not publish |
 
-**Bio:**
-I'm Jacob Darling — a marketing strategist, systems architect, and
-technologist based in Indianapolis. Over the past 15 years I've built
-marketing infrastructure for healthcare systems, law firms, financial
-advisors, e-commerce brands, nonprofits, and startups. I've led marketing
-from the inside as a director and built campaigns from the outside as a
-consultant. I know both sides.
-
-What makes me different isn't just the range — it's the depth. I don't
-hand your strategy to a developer and hope for the best. I build the
-strategy and the system that executes it. CRM architecture, marketing
-automation, web development, analytics pipelines, AI integrations — I
-do the work myself, and I measure everything.
-
-I started Darling MarTech because small businesses deserve the kind of
-senior-level thinking and hands-on execution that used to be reserved
-for brands with agency retainers. When you work with me, you get me —
-directly, personally, and accountably.
-
-**Credentials block:**
-- B.S. Business Management — Indiana University, 2008
-- Gold Key Photography Award — Scholastic Art & Writing Awards, 2008
-- 15+ years across healthcare, legal, finance, e-commerce, nonprofit
-- Indianapolis, IN
-
----
-
-### CONTACT PAGE
-
-**Headline:** Ready to build something that works?
-**Subheadline:** Whether you need a full marketing system, a new website,
-or a strategic second opinion — let's talk. I work with a small number
-of clients at a time so every engagement gets my full attention.
-
-**Form fields:**
-- Name (text)
-- Company (text)
-- Email (email)
-- What do you need help with? (select):
-  - Marketing Strategy & Consulting
-  - Web & App Development
-  - Tech Implementation
-  - SEO & Digital Marketing
-  - Not sure yet — let's talk
-- Message (textarea)
-- Submit: "Send it →"
-
-**After submit:** "Got it — I'll be in touch within 1 business day."
+**Pike Medical note:** Urgent Care Indy, Primary Care Indy, and Direct Care Indy
+are all under the Pike Medical Consultants umbrella. Jacob serves as fractional
+CMO across all three. Scope: website design/dev, Mailchimp, Google Ads, graphic
+design, GA4, Google Search Console, Google My Business.
 
 ---
 
-## Technical Requirements
-- Use `next/font` localFont for Cabinet Grotesk, `next/font/google` for Inter
-- shadcn/ui base components customized to brand palette — never default
-- Framer Motion spring-physics for all animation (see presets above)
-- Contact form: React Hook Form + Zod + Resend API
-- All images via `next/image` with descriptive alt text (never `<img>`)
-- Full mobile responsiveness — mobile-first approach
-- Dark mode is the default and only mode — no toggle, ever
-- Target Lighthouse score: 95+ all metrics
-- Cloudflare Pages deployment via GitHub auto-deploy
-- `robots.txt` and `sitemap.xml` generated automatically
-- Open Graph meta tags on every page
-- Structured data (JSON-LD) for local business
-- Semantic HTML: `<nav>`, `<main>`, `<article>`, `<section>`, `<aside>`
-- No `z-[9999]` — z-index is systematic and documented
-- No commented-out dead code
-- `metadata` export in every `page.tsx`
+## Lab Tools — Detailed Reference
+
+### Access-gated lab: CMO Simulator
+- Route: `/lab/cmo-simulator`
+- Access gate: `CmoAccessModal` component — requires name + email via Resend
+- Session bypass: `sessionStorage` key for returning visitors
+- API: `/api/cmo-simulator-access`
+- Deployed: gated locally — no external URL needed
+
+### Local HTML lab tools (in `/public/labs/`)
+These are self-contained vanilla HTML/CSS/JS files:
+- `/public/labs/clinical-compass/` — Graston Clinical Compass Tool.html
+- `/public/labs/investment-roi-planner/` — Investment ROI Planner Tool.html
+- `/public/labs/smart-sales-pricing/` — Graston Smart Sales and Pricing Tool.html
+- `/public/labs/license-requirements/` — Practitioner License Requirements Tool.html
+
+### Lab card visual modes (per entry in `data/labs.ts`)
+Each lab entry includes `screenshots[]` with Cloudinary URLs for the detail page.
 
 ---
 
-## Folder Structure
-```
-/app
-  /page.tsx              — Home
-  /about/page.tsx        — About
-  /contact/page.tsx      — Contact
-  /work/page.tsx         — Case studies index (Phase 2)
-  /work/[slug]/page.tsx  — Case study detail (Phase 2)
-  /services/[slug]/page.tsx — Service pages (Phase 2)
-  /pricing/page.tsx      — Pricing (Phase 2)
-/components
-  /ui                    — shadcn base components (brand-customized)
-  /sections              — Page sections (Hero, Services, About, etc.)
-  /layout                — Nav, Footer
-  /motion                — "use client" Framer Motion wrapper components
-/lib
-  /motion.ts             — Spring presets + shared animation variants
-/styles
-  /globals.css           — CSS custom properties + resets
-  /[Component].module.css — Per-component CSS Modules
-/public
-  /fonts/cabinet-grotesk/  — .woff2 files (download from fontshare.com)
-  /images
-    /logo                — SVG logo files
-    jacob-bio-photo-splash.jpg
-```
+## Services — Architecture Detail
+
+The services page (`/services`) has three layers of data:
+
+1. **`serviceLayerMeta`** — Three strategy layers: Strategy / Build / Growth
+2. **`serviceOverview`** — 4 summary cards for the overview section
+3. **`serviceDetails`** — 6 full service categories with deliverables + proof cases
+4. **`specializedServices`** — 8 specialty service items (Local SEO, Healthcare, Law, etc.)
+5. **`engagementModels`** — 3 engagement types: Audit/Advisory, Project Build, Embedded/Fractional
+6. **`contactServiceOptions`** — 7 options for the contact form select
+
+**3D scene targets** in `serviceDetails` (`sceneTarget` field):
+`strategy-core`, `build-brand-web`, `build-systems`, `growth-core`, `build-commerce`, `build-specialized`
+These tie to the `ServicesAmbient` 3D scene component.
+
+---
+
+## Component Architecture — Key Components
+
+### 3D Components (`components/3d/`)
+- `HeroBackground.tsx` — Three.js hero scene (lazy-loaded, SSR disabled)
+- `LabTelemetryScene.tsx` — Lab page 3D scene
+- `ServicesAmbient.tsx` — Services page ambient 3D
+- `WorkAmbient.tsx` — Work page ambient 3D
+- `FloatingCard.tsx` — 3D card tilt effect
+- `system/` — System/reusable 3D utilities
+- `scene-types.ts` — Shared scene type definitions
+
+### Interactive Components (`components/interactive/`)
+- `CursorSpotlight.tsx` — Cursor-following spotlight effect
+- `MagneticButton.tsx` — Magnetic hover effect on CTAs
+
+### Motion Components (`components/motion/`)
+- `KineticHeadline.tsx` — Animated headline component
+- `ClientTicker.tsx` — Client logo ticker/marquee
+- `StatCounter.tsx` — Animated number counter
+- `index.ts` — Re-exports
+
+### Layout Components (`components/layout/`)
+- `Nav.tsx` + `Nav.module.css` — Floating pill nav
+- `Footer.tsx` + `Footer.module.css`
+
+### Section Components (`components/sections/`)
+- `Hero.tsx` — Homepage hero
+- `Services.tsx` — Services overview section
+- `CaseStudies.tsx` — Case studies grid
+- `CaseStudyContent.tsx` / `CaseStudyImages.tsx` — Work detail sections
+- `AboutTeaser.tsx` — About teaser on homepage
+- `Testimonials.tsx` — Testimonials section
+- `ContactCTA.tsx` — Contact CTA section
+- `ContactForm.tsx` — Contact form (React Hook Form + Zod)
+- `FeaturedTool.tsx` / `FeaturedToolInner.tsx` — Lab featured tool
+- `StudioGallery.tsx` — Cloudinary gallery
+- `CareerTimeline/` — About page career timeline
+- `WorkDetail/` — Work detail page components
+- `WorkIndex/` — Work index page components
+
+### Lab Components (`components/lab/`)
+- `LabDetailPage.tsx` — Lab tool detail layout
+- `LabModal.tsx` — Lab tool modal viewer
+- `CmoAccessModal.tsx` — CMO Simulator access gate
+
+### UI Components (`components/ui/`)
+- `background-paths.tsx` — 21st.dev background paths (adapted)
+- `button-colorful.tsx` — 21st.dev button colorful (adapted)
+- `grid-card.tsx` — 21st.dev grid card (adapted)
+- `underline-animation.tsx` — 21st.dev underline animation (adapted)
+- `gallery-hover-card.tsx` — Studio gallery hover card
+- `masonry-grid.tsx` — Masonry layout grid
+- `ScrollProgress.tsx` — Scroll progress indicator
+- `CookieConsent.tsx` — Cookie consent banner
+- `BackToTop.tsx` — Back to top button
+
+### Provider Components (`components/providers/`)
+- `LenisProvider.tsx` — Smooth scroll provider
+- `Analytics.tsx` — Analytics tracking
+
+### Custom Hooks (`hooks/`)
+- `useCursorFollow.ts` — Cursor position tracking
+- `useFinePointer.ts` — Fine pointer detection
+- `useMagneticEffect.ts` — Magnetic button effect
+- `useReducedMotion.ts` — Reduced motion preference
+- `useScrollAnimation.ts` — GSAP scroll animation
+- `useScrollDirection.ts` — Scroll direction detection
+- `useTypingEffect.ts` — Typing animation
+
+---
+
+## Canonical Slug Rules
+
+Several case study slugs were renamed. These are the canonical slugs:
+- `riley-bennett-egloff` (not rbe-law)
+- `primarycare-indy` (not primary-care-indy)
+- `urgentcare-indy` (not urgent-care-indy)
+- `317-bbq` (not three-seventeen-bbq)
+
+Redirects live in `next.config.js`.
 
 ---
 
@@ -573,124 +587,203 @@ of clients at a time so every engagement gets my full attention.
   `/studio/graphic-design/`
   `/studio/proof/`
 
+### Cloudinary image reference pattern
+```ts
+// Use public ID, not full URL, in data files
+logoPublicId: 'graston_technique_logo'
+heroPublicId: 'PMC-Dr.-Pike-Xray'
+cardPublicId: 'primary-care-indy-website'
+
+// Cloudinary URL pattern for screenshots in labs.ts:
+src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/[public-id].png'
+```
+
 ### Fonts
-- Cabinet Grotesk: download from fontshare.com/fonts/cabinet-grotesk
-- Place woff2 files in `/public/fonts/cabinet-grotesk/`
-- Load via `next/font` `localFont` in `app/layout.tsx`
+- Cabinet Grotesk: already in `/public/fonts/cabinet-grotesk/` (woff2 files)
+- Loaded via `next/font` `localFont` in `app/layout.tsx`
 
 ### Environment Variables
-- `RESEND_API_KEY` — contact form email delivery
+- `RESEND_API_KEY` — contact form email delivery (pending in .env.local)
 - `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=djhqowk67`
 
 ---
 
-## Phase 2 Pages (build after launch)
+## Notable Work / Case Studies — Key Metrics
 
-### /work — Case Studies Index
-Layout: Masonry or staggered grid — not uniform card rows.
-Each card:
-- Client name (Cabinet Grotesk, display weight)
-- Industry label (small, muted, uppercase, tabular)
-- Key result stat (#FF4D00 accent color)
-- Orange left-border reveal on hover via CSS `scaleY` from 0 to 1
-- Framer Motion staggered entrance for the grid
-
-### /work/[slug] — Individual Case Studies
-
-**IMPORTANT:** Each case study needs a dedicated content session
-before building. Several represent ongoing fractional CMO engagements,
-not just one-off projects. Do not use placeholder content.
-
-Confirmed case studies (slugs + status):
-
-| Slug | Client | Status |
-|---|---|---|
-| urgent-care-indy | Urgent Care Indy | Content session needed |
-| direct-care-indy | Direct Care Indy | In progress — do not publish yet |
-| primary-care-indy | Primary Care Indy | Content session needed |
-| hoosier-boy-barbershop | Hoosier Boy Barbershop | Content ready in brief |
-| behr-pet-essentials | Behr Pet Essentials | Content ready in brief |
-| primary-colours | Primary Colours | Content ready in brief |
-| rbe-law | Riley Bennett Egloff LLP | Content session needed |
-| russell-painting | Russell Painting Co. | Content ready in brief |
-| clean-aesthetic | Clean Aesthetic | Content session needed |
-
-**Pike Medical note:** Urgent Care Indy, Primary Care Indy, and Direct
-Care Indy are all under the Pike Medical Consultants umbrella. Jacob
-serves as fractional CMO across all three — scope includes:
-- Full website design and development
-- Email marketing (Mailchimp)
-- Google Ads campaign management
-- Graphic design (patient handouts, signage, print)
-- Google Analytics monitoring and reporting
-- Google Search Console management
-- Google My Business management
-- Direct Care Indy is a new launch currently in progress
-
-Build a Pike Medical parent case study plus individual clinic pages.
-
-### /lab — Tools & Experiments
-
-Three categories matching v2 site:
-- Marketing (Growth Engine, ROI Calculator, Brand Builder,
-  Marketing Simulator, Email Simulator, Social Simulator)
-- Developer (Clinical Compass, License Hub, GT9 Pricing Tool,
-  SEO Scanner, Lead Score Lab)
-- Technologist (Site Optimization & Security, Campaign Performance
-  Analyzer, Competitor Intelligence Platform, Link Architect,
-  Edge Image Negotiator, GA4 Analytics Bridge, CRM-Aware AI Hook,
-  Zero-FOUC Theme Engine, Global Telemetry Monitor)
-
-Lab card design: tool cards as "machine" objects — not app tiles.
-Short, direct descriptions (what it does, not what it "empowers you to do").
-Tech stack tags shown. Status badge (Production / Beta / Experimental).
-
-Each card links to a live deployed app — no `href="#"`.
-
-Deployed lab apps to link:
-- CMO Simulator: cmo-simulator-3il5.vercel.app
-- Piko Artist Website: piko-artist-website-v3-three.vercel.app
-- Strum AI: jacobs-music-plum.vercel.app (polish before linking)
-- Graston Growth Engine: graston-growth-enginegg-zkj2.vercel.app
-  (not ready — skip until rebuilt)
-- All v2 lab tools: bearcave-marketing-v2.vercel.app/lab/[slug]
-
-### /studio — Visual Gallery
-
-Cloudinary-powered artifact gallery. Three sections:
-- Photography — pulls from Cloudinary /studio/photography/
-- Design — pulls from Cloudinary /studio/graphic-design/
-- Proof — pulls from Cloudinary /studio/proof/
-
-Layout: Masonry or horizontal scroll — not uniform grid.
-Lightbox on click. Lazy load all images via next/image + Cloudinary loader.
-Blur placeholder on all images.
-
-### /services/[slug] — Individual Service Pages
-
-| Slug | Title |
-|---|---|
-| marketing-strategy | Marketing Strategy & Consulting |
-| web-development | Web & App Development |
-| tech-implementation | Tech Implementation |
-| seo-digital-marketing | SEO & Digital Marketing |
-
-Each page: hero, detailed description, process steps,
-relevant case studies, CTA.
-
-### /pricing — Pricing Page
-Content session needed — Jacob to define service tiers and pricing
-before building this page.
+| Client | Industry | Key Metric | Notes |
+|---|---|---|---|
+| Graston Technique | SaaS/Healthcare Training | +212% qualified leads, 95% overhead reduction, 48hrs/wk saved | Flagship — automation platform |
+| Pike Medical Consultants | Healthcare | 45% patient growth over 3 years | Fractional CMO, 5 divisions |
+| PrimaryCare Indy | Healthcare | 75% more bookings, 300% organic traffic, 210% ROI | Under Pike Medical umbrella |
+| UrgentCare Indy | Healthcare | +35% patient bookings, top-3 local rankings, 60% visits via online check-in | Under Pike Medical umbrella |
+| Riley Bennett Egloff | Legal | 7+ year engagement, 29-attorney firm | Embedded marketing |
+| Tuohy Bailey & Moore | Legal | 45% bounce reduction, 60% more form submissions | Brand + web rebuild |
+| 317 BBQ | Hospitality | 120% time on site, 40% order conversion, 2x catering | Photography-led storytelling |
+| Hoosier Boy Barbershop | Local Retail | 90% more bookings, 200% social, #1 local search | Brand identity + booking |
+| Russell Painting | Local Service | 4.9★ Google, heritage narrative as #1 conversion driver | SEO + trust architecture |
+| Behr Pet Essentials | E-Commerce | +28% avg cart, -40% support tickets, 3x conversion | Content-first strategy |
+| Circle City Kicks | Local Retail | Full brand system, local identity mark | Streetwear branding |
+| Black Letter | Legal Advisory | Full identity system, premium positioning from day one | Brand identity |
+| Clean Aesthetic | Medical Aesthetics | 0 to full brand in one engagement, concierge pricing launch | Brand identity |
+| Primary Colours | Non-Profit | $46k+ revenue, 10,000+ audience, 200+ artists | Event + sponsorship |
 
 ---
 
-## WordPress Sites Built (reference in case studies)
-- rbelaw.com — Riley Bennett Egloff LLP (law firm)
-- grastontechnique.com — Graston Technique LLC
-- hoosierboybarbershop.com — Hoosier Boy Barbershop
-- 317bbq.com — 317 BBQ
-- russellpaintingcompany.com — Russell Painting Co.
-- blazingstartherapy.com — Blazing Star Therapy
+## Testimonials (use verbatim — full quotes)
+- "Jacob has a great balance of strategic thinking and hands-on
+  execution... I'd recommend him to anyone looking for a marketing
+  professional who's both forward-thinking and results-oriented."
+  — Jesse Wey, 2025
+- "Jacob is the kind of marketer who makes an immediate impact...
+  figuring out how to put new technologies to work in practical ways."
+  — Andrew Bastnagel, 2025
+- "Exuberance and moxie are unparalleled... ability to implement
+  strategies that produce a positive ROI." — Kevin Martin See
+- "Energy and ingenuity are extremely valuable assets... expanded
+  our vision." — Ben Worrell
+
+Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worrell
+
+---
+
+## Technical Requirements
+- Use `next/font` localFont for Cabinet Grotesk, `next/font/google` for Inter
+- shadcn/ui base components customized to brand palette — never default
+- Framer Motion spring-physics for all animation (see presets above)
+- Contact form: React Hook Form + Zod + Resend API
+- All images via `next/image` with descriptive alt text (never `<img>`)
+- **`next/image` is `unoptimized: true`** — Cloudflare Pages doesn't support
+  Next.js image optimization. Don't add transformation params expecting server-side resizing.
+- Full mobile responsiveness — mobile-first approach
+- Dark mode is the default and only mode — no toggle, ever
+- Target Lighthouse score: 95+ all metrics
+- Cloudflare Pages deployment via GitHub auto-deploy
+- `robots.ts` and `sitemap.ts` auto-generated
+- Open Graph meta tags on every page
+- Structured data (JSON-LD) via `components/JsonLd.tsx`
+- Semantic HTML: `<nav>`, `<main>`, `<article>`, `<section>`, `<aside>`
+- No `z-[9999]` — z-index is systematic and documented
+- No commented-out dead code
+- `metadata` export in every `page.tsx`
+- `lucide-react` still in package.json but not imported — use `@phosphor-icons/react` only
+
+---
+
+## Folder Structure
+```
+/app
+  /page.tsx              — Home
+  /about/page.tsx        — About
+  /contact/page.tsx      — Contact
+  /work/page.tsx         — Case studies index ✅
+  /work/[slug]/page.tsx  — Case study detail ✅
+  /lab/page.tsx          — Lab tools index ✅
+  /lab/[slug]/page.tsx   — Lab tool detail ✅
+  /lab/cmo-simulator/    — CMO Simulator (gated) ✅
+  /services/page.tsx     — Services index ✅
+  /services/[slug]/page.tsx — Service pages ✅
+  /studio/page.tsx       — Studio gallery ✅
+  /api/contact/          — Contact form API ✅
+  /api/cmo-simulator-access/ — CMO gate API ✅
+  /api/studio/           — Studio API ✅
+  /robots.ts             — SEO ✅
+  /sitemap.ts            — SEO ✅
+/components
+  /ui                    — shadcn base components (brand-customized) + 21st.dev
+  /sections              — Page sections (Hero, Services, About, etc.)
+  /layout                — Nav, Footer
+  /motion                — "use client" Framer Motion wrapper components
+  /3d                    — Three.js / R3F scenes (SSR-disabled)
+  /interactive           — CursorSpotlight, MagneticButton
+  /lab                   — Lab-specific components
+  /providers             — LenisProvider, Analytics
+/data
+  /labs.ts               — 9 lab entries (LAB_DETAIL_DATA)
+  /services.ts           — All service page content
+  /testimonials.ts       — Testimonial data
+  /work/work-index.ts    — 20 work card grid entries
+  /work/work-data.ts     — Full case study content
+/hooks
+  useCursorFollow, useFinePointer, useMagneticEffect,
+  useReducedMotion, useScrollAnimation, useScrollDirection, useTypingEffect
+/lib
+  /motion.ts             — Spring presets + shared animation variants
+  /animations/           — Animation utilities
+  /case-studies.ts       — Case study helpers
+  /cloudinary.ts         — Cloudinary utilities
+  /utils.ts              — General utilities
+  /work.ts               — Work data helpers
+/styles
+  /globals.css           — CSS custom properties + resets
+  /[Component].module.css — Per-component CSS Modules
+/public
+  /fonts/cabinet-grotesk/  — .woff2 files ✅
+  /labs/                   — Local HTML tool files
+    clinical-compass/
+    investment-roi-planner/
+    smart-sales-pricing/
+    license-requirements/
+/skills                  — Claude Code skill files (co-located in repo)
+  /darling-martech-ui/SKILL.md
+  /darling-martech-redesign/SKILL.md
+  /darling-martech-copy/SKILL.md
+/case-studies            — Raw case study research markdown
+  behr-pet-case-study.md
+  russell-painting/russell-painting-case-study.md
+/docs/superpowers/       — Implementation specs and plans
+  /plans/
+  /specs/
+```
+
+---
+
+## Build Status
+
+### Phase 1 — Complete ✅
+- [x] Project scaffold
+- [x] Brand tokens + CSS custom properties in globals.css
+- [x] Nav + Footer
+- [x] Home page (all sections, 3D hero, stats, services, case studies, testimonials, CTA)
+- [x] About page + career timeline
+- [x] Contact page + API route
+- [x] SEO files (robots.ts, sitemap.ts) + structured data (JsonLd.tsx)
+- [x] Cabinet Grotesk fonts — `/public/fonts/cabinet-grotesk/`
+- [x] `lib/motion.ts` spring presets
+- [x] Phosphor icons (`@phosphor-icons/react`)
+- [x] 3D components: HeroBackground, LabTelemetryScene, ServicesAmbient, WorkAmbient, FloatingCard
+- [x] Interactive: CursorSpotlight, MagneticButton
+- [x] Motion: KineticHeadline, ClientTicker, StatCounter
+- [x] LenisProvider smooth scroll
+- [x] Analytics provider + CookieConsent
+- [ ] Resend API key (pending — add to .env.local)
+- [ ] Remaining Tailwind visual classes → CSS Modules migration
+
+### Phase 2 — Complete ✅
+- [x] `/work` index page — masonry/staggered grid with 20 case studies
+- [x] `/work/[slug]` dynamic route — data in `data/work/work-data.ts`
+- [x] `/lab` page with tool cards + 9 detail pages
+- [x] `/lab/[slug]` dynamic route — data in `data/labs.ts`
+- [x] `/lab/cmo-simulator` — gated CMO tool with email access modal
+- [x] `/services` page with 6 service categories, 3D ambient scene
+- [x] `/services/[slug]` — 4+ service detail pages
+- [x] `/studio` page — Cloudinary masonry gallery
+- [x] WorkAmbient + ServicesAmbient 3D scenes
+- [x] 21st.dev components adapted: background-paths, button-colorful, grid-card, underline-animation
+- [ ] 21st.dev AnimatedNavFramer (floating pill nav — remaining)
+- [ ] Resend API integration (pending env key)
+
+### Phase 3 — Planned
+- [ ] `/pricing` page (after content session)
+- [ ] Remaining case studies: riley-bennett-egloff, clean-aesthetic (content sessions needed)
+- [ ] Blog infrastructure (MDX)
+
+---
+
+## Content Sessions Still Needed
+1. Riley Bennett Egloff — full scope (7+ year engagement detail)
+2. Clean Aesthetic — full scope
+3. Pricing — define service tiers before building page
+4. Services — expand each service page with process steps if needed
 
 ---
 
@@ -702,7 +795,8 @@ npm run build  # Production build
 npm run lint   # ESLint
 ```
 
-**Build gotcha:** If `npm run build` fails with "generate is not a function", a conflicting shell env var is set from another Next.js project:
+**Build gotcha:** If `npm run build` fails with "generate is not a function",
+a conflicting shell env var is set from another Next.js project:
 
 ```bash
 __NEXT_PRIVATE_STANDALONE_CONFIG="" npm run build
@@ -710,72 +804,15 @@ __NEXT_PRIVATE_STANDALONE_CONFIG="" npm run build
 
 ---
 
-## Gotchas
+## Gotchas & Known Issues
 
-- **Tailwind is NOT fully removed** — `tailwind.config.ts` remains for shadcn token infrastructure. Rule: no Tailwind for visual styling (colors, typography, shadows). Layout utilities and shadcn plumbing are still Tailwind-backed.
-- **`next/image` is `unoptimized: true`** — Cloudflare Pages doesn't support Next.js image optimization. Don't add transformation params expecting server-side resizing.
-- **Slug renames** — Several case study slugs were renamed; redirects live in `next.config.js`. Canonical slugs: `riley-bennett-egloff`, `primarycare-indy`, `urgentcare-indy` (not the old hyphenated forms in this brief).
-- **`lucide-react` in package.json** — Still listed as a dependency but not imported anywhere. Don't add new imports from it; use `@phosphor-icons/react` only.
-- **Lab content lives in `data/labs.ts`** — All 9 lab detail pages are data-driven from `LAB_DETAIL_DATA`. No `.md` files needed or used for labs.
-
----
-
-## Data Directory
-
-`/data/` holds all typed TS content files — use these instead of hardcoding content in components:
-
-- `labs.ts` — 9 lab entries (`LAB_DETAIL_DATA`)
-- `services.ts` — service page content
-- `testimonials.ts` — testimonial data
-- `work/work-index.ts` — work card grid data
-- `work/work-data.ts` — full case study content
-
-Implementation specs for each feature sprint: `/docs/superpowers/plans/` and `/docs/superpowers/specs/`
-
----
-
-## Build Order for Claude Code
-
-### Phase 1 — Complete
-
-- [x] Project scaffold
-- [x] Brand tokens + CSS custom properties in globals.css
-- [x] Nav + Footer
-- [x] Home page (all sections)
-- [x] About page
-- [x] Contact page + API route
-- [x] SEO files + structured data
-- [x] Cabinet Grotesk fonts — `/public/fonts/cabinet-grotesk/`
-- [x] `lib/motion.ts` spring presets
-- [x] Phosphor icons (`@phosphor-icons/react`) — lucide-react still in package.json but unused
-- [ ] Resend API key (pending — add to .env.local)
-- [ ] Migrate remaining Tailwind visual classes → CSS Modules
-
-### Phase 2 — In Progress
-
-- [x] `/work` index page — masonry/staggered grid
-- [x] `/work/[slug]` dynamic route — data in `data/work/`
-- [x] `/lab` page with tool cards + 9 detail pages
-- [x] `/lab/[slug]` dynamic route — data in `data/labs.ts`
-- [x] `/studio` page — Cloudinary masonry gallery
-- [x] `/services/[slug]` — 4 service detail pages
-- [ ] Install + adapt 21st.dev AnimatedNavFramer component
-- [ ] Install + adapt 21st.dev Background Paths for hero section
-- [ ] Install + adapt 21st.dev Grid Card for services section
-
-### Phase 3
-
-- [ ] `/pricing` page (after content session)
-- [ ] Remaining case studies (after content sessions)
-- [ ] Blog infrastructure (MDX)
-
----
-
-## Next Content Sessions Needed
-
-1. Pike Medical / Urgent Care Indy — full fractional CMO scope
-2. Primary Care Indy — full scope
-3. RBE Law — full scope
-4. Clean Aesthetic — full scope
-5. Pricing — define service tiers
-6. Services — expand each service page with process steps
+- **Tailwind NOT fully removed** — `tailwind.config.ts` remains for shadcn token infrastructure. Visual styling must use CSS Modules.
+- **`next/image` is `unoptimized: true`** — Cloudflare Pages doesn't support Next.js image optimization.
+- **Slug renames** — Canonical slugs: `riley-bennett-egloff`, `primarycare-indy`, `urgentcare-indy`. Redirects in `next.config.js`.
+- **`lucide-react` in package.json** — Still listed but unused. Use `@phosphor-icons/react` only.
+- **Lab content in `data/labs.ts`** — All 9 lab detail pages are data-driven from `LAB_DETAIL_DATA`.
+- **CMO Simulator access** — Gated via `CmoAccessModal` + `/api/cmo-simulator-access`. SessionStorage bypass for returning visitors.
+- **WorkAmbient + ServicesAmbient** — Both use `dynamic(..., { ssr: false })`. If adding new 3D scenes, follow same pattern.
+- **`case-studies/` directory** — Contains raw markdown research files, NOT used by the app. App reads from `data/work/work-data.ts`.
+- **`.worktrees/cmo-simulator-feature/`** — Abandoned worktree in repo. Ignore it.
+- **`outputs/marketing-strategy-service.md`** — Research artifact. Not used by app.
