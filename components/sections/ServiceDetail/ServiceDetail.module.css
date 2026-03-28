@@ -8,6 +8,9 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 40px 0;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
 }
 
 .backLink {
@@ -24,6 +27,28 @@
 
 .backLink:hover {
   color: var(--color-text);
+}
+
+.parentLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 77, 0, 0.55);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  padding: 0.28rem 0.6rem;
+  border: 1px solid rgba(255, 77, 0, 0.18);
+  border-radius: 999px;
+}
+
+.parentLink:hover {
+  color: var(--color-accent);
+  border-color: rgba(255, 77, 0, 0.36);
 }
 
 /* ── Hero ── */
@@ -72,6 +97,34 @@
   color: var(--color-muted);
   max-width: 62ch;
   margin-bottom: 40px;
+}
+
+/* ── Pricing signal ── */
+.pricingSignal {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 10px 18px;
+  margin-bottom: 40px;
+}
+
+.pricingSignalLabel {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.pricingSignalValue {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 .heroCta {
@@ -281,6 +334,65 @@
   font-size: 0.9rem;
   line-height: 1.6;
   color: var(--color-muted);
+}
+
+/* ── Related services ── */
+.relatedServicesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.relatedServiceCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 24px;
+  text-decoration: none;
+  transition: border-color 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.relatedServiceCard:hover {
+  border-color: var(--color-border-accent);
+}
+
+.relatedServiceEyebrow {
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.relatedServiceTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  flex: 1;
+}
+
+.relatedServiceCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  transition: color 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.relatedServiceCard:hover .relatedServiceCta {
+  color: var(--color-text);
 }
 
 /* ── GEO audit CTA ── */

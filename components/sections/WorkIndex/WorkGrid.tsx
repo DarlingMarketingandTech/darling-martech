@@ -8,6 +8,7 @@ import { ArrowRight, Pulse } from '@phosphor-icons/react'
 import { gsap } from 'gsap'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
 import type { CaseStudy, WorkCategory, WorkDashboardTier } from '@/lib/work'
+import { SERVICE_TAGS, type ServiceTag } from '@/data/taxonomy'
 import styles from './WorkIndex.module.css'
 import { WorkDashboardCard } from './WorkDashboardCard'
 
@@ -275,29 +276,78 @@ function FilterBar({
   )
 }
 
+function ServiceFilterBar({
+  activeServiceFilter,
+  setActiveServiceFilter,
+  serviceTags,
+}: {
+  activeServiceFilter: ServiceTag | null
+  setActiveServiceFilter: (tag: ServiceTag | null) => void
+  serviceTags: ServiceTag[]
+}) {
+  if (serviceTags.length === 0) return null
+
+  return (
+    <div className={styles.serviceFilterBar} role="group" aria-label="Filter by service">
+      <span className={styles.serviceFilterLabel}>By service</span>
+      <div className={styles.serviceFilterPills}>
+        {serviceTags.map((tag) => (
+          <button
+            key={tag}
+            type="button"
+            onClick={() => setActiveServiceFilter(activeServiceFilter === tag ? null : tag)}
+            className={`${styles.serviceFilterPill} ${activeServiceFilter === tag ? styles.serviceFilterPillActive : ''}`}
+            aria-pressed={activeServiceFilter === tag}
+          >
+            {SERVICE_TAGS[tag]}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function ResultsHeader({
   activeStudy,
   visibleCount,
   activeFilter,
   setActiveFilter,
+  activeServiceFilter,
+  setActiveServiceFilter,
   categories,
+  serviceTags,
 }: {
   activeStudy: CaseStudy
   visibleCount: number
   activeFilter: 'All Work' | WorkCategory
   setActiveFilter: (filter: 'All Work' | WorkCategory) => void
+  activeServiceFilter: ServiceTag | null
+  setActiveServiceFilter: (tag: ServiceTag | null) => void
   categories: Array<'All Work' | WorkCategory>
+  serviceTags: ServiceTag[]
 }) {
   return (
     <section className={styles.resultsHeader}>
       <MetricStream activeStudy={activeStudy} visibleCount={visibleCount} activeFilter={activeFilter} />
       <FilterBar activeFilter={activeFilter} setActiveFilter={setActiveFilter} categories={categories} />
+      <ServiceFilterBar
+        activeServiceFilter={activeServiceFilter}
+        setActiveServiceFilter={setActiveServiceFilter}
+        serviceTags={serviceTags}
+      />
     </section>
   )
 }
 
-export function WorkIndexExperience({ studies }: { studies: CaseStudy[] }) {
+export function WorkIndexExperience({
+  studies,
+  initialServiceFilter = null,
+}: {
+  studies: CaseStudy[]
+  initialServiceFilter?: ServiceTag | null
+}) {
   const [activeFilter, setActiveFilter] = useState<'All Work' | WorkCategory>('All Work')
+  const [activeServiceFilter, setActiveServiceFilter] = useState<ServiceTag | null>(initialServiceFilter)
   const [activeSlug, setActiveSlug] = useState<string | null>(null)
 
   const orderedStudies = useMemo(() => sortStudies(studies), [studies])
@@ -306,10 +356,28 @@ export function WorkIndexExperience({ studies }: { studies: CaseStudy[] }) {
     [studies]
   )
 
-  const visibleStudies = useMemo(() => {
+  const categoryFiltered = useMemo(() => {
     if (activeFilter === 'All Work') return orderedStudies
     return orderedStudies.filter((study) => study.category === activeFilter)
   }, [activeFilter, orderedStudies])
+
+  // Derive service tags from the category-filtered set, sorted by frequency
+  const serviceTags = useMemo(() => {
+    const counts = new Map<ServiceTag, number>()
+    for (const study of categoryFiltered) {
+      for (const tag of study.serviceIds ?? []) {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1)
+      }
+    }
+    return [...counts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([tag]) => tag)
+  }, [categoryFiltered])
+
+  const visibleStudies = useMemo(() => {
+    if (!activeServiceFilter) return categoryFiltered
+    return categoryFiltered.filter((study) => study.serviceIds?.includes(activeServiceFilter))
+  }, [activeServiceFilter, categoryFiltered])
 
   const defaultStudy = useMemo(
     () => getDefaultStudy(visibleStudies) ?? getDefaultStudy(orderedStudies),
@@ -321,6 +389,13 @@ export function WorkIndexExperience({ studies }: { studies: CaseStudy[] }) {
     [activeSlug, defaultStudy, visibleStudies]
   )
 
+  // Clear service filter when category changes
+  const handleCategoryFilter = (filter: 'All Work' | WorkCategory) => {
+    setActiveFilter(filter)
+    setActiveServiceFilter(null)
+    setActiveSlug(null)
+  }
+
   if (!activeStudy) return null
 
   return (
@@ -331,8 +406,11 @@ export function WorkIndexExperience({ studies }: { studies: CaseStudy[] }) {
         activeStudy={activeStudy}
         visibleCount={visibleStudies.length}
         activeFilter={activeFilter}
-        setActiveFilter={setActiveFilter}
+        setActiveFilter={handleCategoryFilter}
+        activeServiceFilter={activeServiceFilter}
+        setActiveServiceFilter={setActiveServiceFilter}
         categories={categories}
+        serviceTags={serviceTags}
       />
 
       <motion.section layout className={styles.dashboardGrid}>

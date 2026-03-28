@@ -10,7 +10,7 @@ import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { containerVariants, itemVariants, springEntrance, viewport } from '@/lib/motion'
 import { SERVICE_TAGS, INDUSTRY_TAGS } from '@/data/taxonomy'
 import { workIndex } from '@/data/work/work-index'
-import type { ServicePageEntry } from '@/data/services'
+import { allServicePages, serviceDetails, type ServicePageEntry, type ProofTool } from '@/data/services'
 import styles from './ServiceDetail.module.css'
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -34,8 +34,14 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
   const primaryCtaLabel = service.primaryCtaLabel ?? 'Request a MarTech Audit'
   const secondaryCtaLabel = service.secondaryCtaLabel ?? 'See the work'
   const secondaryCtaHref = service.secondaryCtaHref ?? '/work'
-  const showGeoAuditCta =
-    service.serviceIds.includes('geo-optimization') || service.serviceIds.includes('technical-seo')
+  const proofTools = service.proofTools ?? []
+
+  // Build a filtered work link when the secondary CTA points to /work
+  const workHref = useMemo(() => {
+    if (secondaryCtaHref !== '/work') return secondaryCtaHref
+    const primaryTag = service.serviceIds[0]
+    return primaryTag ? `/work?service=${primaryTag}` : '/work'
+  }, [secondaryCtaHref, service.serviceIds])
 
   const relatedWork = useMemo(
     () =>
@@ -45,6 +51,22 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
     [service.proofWorkSlugs]
   )
 
+  const relatedServices = useMemo(
+    () =>
+      (service.relatedServiceSlugs ?? [])
+        .map((slug) => allServicePages.find((s) => s.id === slug))
+        .filter((s): s is NonNullable<typeof s> => Boolean(s)),
+    [service.relatedServiceSlugs]
+  )
+
+  const parentService = useMemo(
+    () =>
+      service.kind === 'standalone'
+        ? serviceDetails.find((p) => p.childServiceSlugs?.includes(service.id)) ?? null
+        : null,
+    [service.id, service.kind]
+  )
+
   return (
     <main className={styles.page}>
       <div className={styles.backNav}>
@@ -52,6 +74,12 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
           <ArrowLeft weight="regular" size={14} />
           All services
         </Link>
+        {parentService && (
+          <Link href={`/services/${parentService.id}`} className={styles.parentLink}>
+            Part of {parentService.eyebrow}
+            <ArrowUpRight weight="regular" size={12} />
+          </Link>
+        )}
       </div>
 
       <section className={styles.hero}>
@@ -78,6 +106,15 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
           </MagneticButton>
         </FadeUp>
       </section>
+
+      {service.pricingSignal && (
+        <FadeUp delay={0.25}>
+          <div className={styles.pricingSignal}>
+            <span className={styles.pricingSignalLabel}>Typical investment</span>
+            <span className={styles.pricingSignalValue}>{service.pricingSignal}</span>
+          </div>
+        </FadeUp>
+      )}
 
       {service.proofStats?.length ? (
         <section className={styles.section}>
@@ -138,44 +175,54 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
         </div>
       </section>
 
-      {showGeoAuditCta ? (
+      {proofTools.length > 0 ? (
         <section className={styles.section}>
-          <FadeUp>
-            <div className={styles.geoAuditCard}>
-              <div className={styles.geoAuditMedia}>
-                <Image
-                  src="https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png"
-                  alt="GEO Readiness Auditor preview"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 42vw"
-                  className={styles.geoAuditImage}
-                  unoptimized
-                />
-              </div>
-              <div className={styles.geoAuditContent}>
-                <p className={styles.geoAuditEyebrow}>Proof tool</p>
-                <h3 className={styles.geoAuditTitle}>Run the free GEO audit first.</h3>
-                <p className={styles.geoAuditBody}>
-                  Get your 0-100 AI visibility score in under a minute, see the highest-impact fixes,
-                  and use that report to scope what needs to be implemented next.
-                </p>
-                <div className={styles.geoAuditActions}>
-                  <a
-                    href="https://darling-martech-geo-audit-tool.vercel.app/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className={styles.geoAuditPrimary}
-                  >
-                    Run the free audit
-                    <ArrowUpRight weight="regular" size={15} />
-                  </a>
-                  <Link href="/lab/geo-readiness-auditor" className={styles.geoAuditSecondary}>
-                    See how the auditor was built
-                  </Link>
+          {proofTools.map((tool: ProofTool) => (
+            <FadeUp key={tool.labSlug}>
+              <div className={styles.geoAuditCard}>
+                {tool.imagePublicId && (
+                  <div className={styles.geoAuditMedia}>
+                    <Image
+                      src={`https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/${tool.imagePublicId}.png`}
+                      alt={tool.imageAlt ?? `${tool.title} preview`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 42vw"
+                      className={styles.geoAuditImage}
+                      unoptimized
+                    />
+                  </div>
+                )}
+                <div className={styles.geoAuditContent}>
+                  <p className={styles.geoAuditEyebrow}>{tool.eyebrow}</p>
+                  <h3 className={styles.geoAuditTitle}>{tool.title}</h3>
+                  <p className={styles.geoAuditBody}>{tool.body}</p>
+                  <div className={styles.geoAuditActions}>
+                    {tool.externalCtaHref.startsWith('/') ? (
+                      <Link href={tool.externalCtaHref} className={styles.geoAuditPrimary}>
+                        {tool.externalCtaLabel}
+                        <ArrowRight weight="regular" size={15} />
+                      </Link>
+                    ) : (
+                      <a
+                        href={tool.externalCtaHref}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={styles.geoAuditPrimary}
+                      >
+                        {tool.externalCtaLabel}
+                        <ArrowUpRight weight="regular" size={15} />
+                      </a>
+                    )}
+                    {tool.internalCtaLabel && (
+                      <Link href={`/lab/${tool.labSlug}`} className={styles.geoAuditSecondary}>
+                        {tool.internalCtaLabel}
+                      </Link>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </FadeUp>
+            </FadeUp>
+          ))}
         </section>
       ) : null}
 
@@ -191,6 +238,28 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
                   <span className={styles.relatedClient}>{item.client}</span>
                   <h3 className={styles.relatedHeadline}>{item.headline}</h3>
                   <p className={styles.relatedMetrics}>{item.metrics.join(' · ')}</p>
+                </Link>
+              </FadeUp>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {relatedServices.length ? (
+        <section className={styles.section}>
+          <FadeUp>
+            <h2 className={styles.sectionLabel}>Related services</h2>
+          </FadeUp>
+          <div className={styles.relatedServicesGrid}>
+            {relatedServices.map((s, index) => (
+              <FadeUp key={s.id} delay={index * 0.05}>
+                <Link href={`/services/${s.id}`} className={styles.relatedServiceCard}>
+                  <span className={styles.relatedServiceEyebrow}>{s.eyebrow}</span>
+                  <h3 className={styles.relatedServiceTitle}>{s.title}</h3>
+                  <span className={styles.relatedServiceCta}>
+                    Explore
+                    <ArrowUpRight weight="regular" size={13} />
+                  </span>
                 </Link>
               </FadeUp>
             ))}
@@ -226,7 +295,7 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
                 <ArrowRight weight="regular" size={16} />
               </Link>
             </MagneticButton>
-            <Link href={secondaryCtaHref} className={styles.ctaSecondary}>
+            <Link href={workHref} className={styles.ctaSecondary}>
               {secondaryCtaLabel}
             </Link>
           </div>

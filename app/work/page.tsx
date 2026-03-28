@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getAllWork } from '@/data/work/work-data'
 import { WorkIndexExperience, WorkBottomCTA } from '@/components/sections/WorkIndex/WorkGrid'
+import type { ServiceTag } from '@/data/taxonomy'
 import styles from './Work.module.css'
 
 export const metadata: Metadata = {
@@ -14,13 +15,19 @@ export const metadata: Metadata = {
   },
 }
 
-export default function WorkPage() {
+export default async function WorkPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ service?: string }>
+}) {
   const studies = getAllWork()
+  const { service } = await searchParams
+  const initialServiceFilter = (service as ServiceTag) ?? null
 
   return (
     <main className={styles.main}>
       <div className={styles.inner}>
-        <WorkIndexExperience studies={studies} />
+        <WorkIndexExperience studies={studies} initialServiceFilter={initialServiceFilter} />
         <WorkBottomCTA />
       </div>
     </main>

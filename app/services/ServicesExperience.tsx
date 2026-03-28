@@ -8,6 +8,7 @@ import { ServicesAmbient } from '@/components/3d/ServicesAmbient'
 import {
   engagementModels,
   type ParentServiceDetail,
+  type StandaloneServicePage,
   serviceDetails,
   serviceLayerMeta,
   specializedServices,
@@ -75,12 +76,14 @@ function ArchitectureRail({
 function ServiceModule({
   service,
   active,
+  childOffers,
   registerSectionRef,
   onProofTargetChange,
   onProofTargetClear,
 }: {
   service: ParentServiceDetail
   active: boolean
+  childOffers: StandaloneServicePage[]
   registerSectionRef: (id: string, node: HTMLElement | null) => void
   onProofTargetChange: (target: string) => void
   onProofTargetClear: () => void
@@ -179,6 +182,11 @@ function ServiceModule({
               </span>
             </Link>
 
+            <Link href={`/services/${service.id}`} className={styles.serviceDeepLink}>
+              Explore {service.eyebrow} services
+              <ArrowRight size={14} weight="light" />
+            </Link>
+
             <div
               ref={proofControlRef}
               className={styles.proofControls}
@@ -208,6 +216,30 @@ function ServiceModule({
             </div>
           </motion.div>
         </div>
+
+        {childOffers.length > 0 && (
+          <motion.div variants={itemVariants} className={styles.childOffersStrip}>
+            <p className={styles.childOffersLabel}>Productized offers</p>
+            <div className={styles.childOffersList}>
+              {childOffers.map((offer) => (
+                <Link key={offer.id} href={`/services/${offer.id}`} className={styles.childOfferCard}>
+                  <div className={styles.childOfferTop}>
+                    <span className={styles.childOfferEyebrow}>{offer.eyebrow}</span>
+                    {offer.pricingSignal && (
+                      <span className={styles.childOfferPricing}>{offer.pricingSignal}</span>
+                    )}
+                  </div>
+                  <p className={styles.childOfferTitle}>{offer.title}</p>
+                  <p className={styles.childOfferSummary}>{offer.tagline}</p>
+                  <span className={styles.childOfferCta}>
+                    See full offer details
+                    <ArrowRight size={13} weight="light" />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </div>
     </motion.article>
   )
@@ -414,18 +446,25 @@ export function ServicesExperience() {
           ) : null}
 
           <div className={styles.serviceStack}>
-            {serviceDetails.map((service) => (
+            {serviceDetails.map((service) => {
+              const childOffers = (service.childServiceSlugs ?? [])
+                .map((slug) => standaloneServicePages.find((p) => p.id === slug))
+                .filter((p): p is StandaloneServicePage => Boolean(p))
+
+              return (
               <ServiceModule
                 key={service.id}
                 service={service}
                 active={service.id === activeService.id}
+                childOffers={childOffers}
                 registerSectionRef={(id, node) => {
                   sectionRefs.current[id] = node
                 }}
                 onProofTargetChange={setHoveredTarget}
                 onProofTargetClear={() => setHoveredTarget(null)}
               />
-            ))}
+              )
+            })}
           </div>
 
           <section className={styles.coverageSection}>

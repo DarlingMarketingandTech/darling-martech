@@ -482,6 +482,58 @@
   transform: translateY(-1px);
 }
 
+.serviceFilterBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+.serviceFilterLabel {
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.34);
+  white-space: nowrap;
+  padding-right: 0.25rem;
+}
+
+.serviceFilterPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.serviceFilterPill {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  padding: 0.42rem 0.72rem;
+  border: 1px solid rgba(245, 240, 232, 0.07);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(245, 240, 232, 0.46);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.serviceFilterPill:hover,
+.serviceFilterPillActive {
+  border-color: rgba(255, 77, 0, 0.28);
+  color: var(--color-accent);
+  background: rgba(255, 77, 0, 0.06);
+}
+
 .dashboardGrid {
   display: grid;
   gap: 1.25rem;

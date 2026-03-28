@@ -25,6 +25,23 @@ export type ServiceStat = {
   label: string
 }
 
+export type ProofTool = {
+  /** Lab slug — used to build /lab/[slug] link */
+  labSlug: string
+  eyebrow: string
+  title: string
+  body: string
+  /** Label for the external CTA button */
+  externalCtaLabel: string
+  externalCtaHref: string
+  /** Label for the internal "see how it was built" link */
+  internalCtaLabel?: string
+  /** Cloudinary image public ID for the tool preview */
+  imagePublicId?: string
+  /** Alt text for the preview image */
+  imageAlt?: string
+}
+
 type BaseServicePage = {
   id: string
   routePath?: string
@@ -44,11 +61,19 @@ type BaseServicePage = {
   primaryCtaLabel?: string
   secondaryCtaLabel?: string
   secondaryCtaHref?: string
+  /** Short pricing signal shown on detail page — e.g. "$2K–$5K · 2–4 week engagement" */
+  pricingSignal?: string
+  /** IDs of related service pages to cross-link at the bottom of the detail page */
+  relatedServiceSlugs?: string[]
+  /** Lab tools that demonstrate this service's capabilities — rendered as proof artifact cards */
+  proofTools?: ProofTool[]
 }
 
 export type ParentServiceDetail = BaseServicePage & {
   kind: 'parent'
   sceneTarget: string
+  /** IDs of standalone service pages to surface as productized offers inside this module */
+  childServiceSlugs?: string[]
 }
 
 export type StandaloneServicePage = BaseServicePage & {
@@ -177,6 +202,21 @@ export const serviceDetails: ParentServiceDetail[] = [
         sceneTarget: 'strategy-primary-colours',
       },
     ],
+    pricingSignal: '$3.5K–$12K/month · Audit-first, retainer, or embedded',
+    relatedServiceSlugs: ['martech-audit', 'systems', 'growth'],
+    proofTools: [
+      {
+        labSlug: 'cmo-simulator',
+        eyebrow: 'Interactive framework',
+        title: 'Try the CMO Simulator.',
+        body: 'A 10-minute guided decision framework that walks through budget allocation, channel strategy, KPI selection, and execution priority — the same logic used with clients.',
+        externalCtaLabel: 'Run the simulator',
+        externalCtaHref: '/lab/cmo-simulator',
+        internalCtaLabel: 'See how it was built',
+        imagePublicId: 'CMO_Sim-_Q1',
+        imageAlt: 'CMO Simulator — interactive strategy walkthrough',
+      },
+    ],
   },
   {
     id: 'brand-web',
@@ -223,6 +263,8 @@ export const serviceDetails: ParentServiceDetail[] = [
         sceneTarget: 'build-tbm',
       },
     ],
+    pricingSignal: '$4K–$20K · Project-based depending on scope',
+    relatedServiceSlugs: ['strategy', 'growth', 'commerce'],
   },
   {
     id: 'systems',
@@ -267,6 +309,22 @@ export const serviceDetails: ParentServiceDetail[] = [
         signalLabel: 'Custom tooling',
         metric: 'Production-ready internal tools',
         sceneTarget: 'build-lab',
+      },
+    ],
+    pricingSignal: '$4K–$30K+ · Scoped by stack size and integration depth',
+    relatedServiceSlugs: ['martech-audit', 'strategy', 'commerce'],
+    childServiceSlugs: ['martech-audit'],
+    proofTools: [
+      {
+        labSlug: 'graston-growth-engine',
+        eyebrow: 'Live build',
+        title: 'See the Graston Growth Engine in action.',
+        body: 'A two-sided provider directory with real-time spatial search, AI-powered support automation, and a per-provider analytics dashboard — built as a production system, not a demo.',
+        externalCtaLabel: 'Explore the live build',
+        externalCtaHref: 'https://graston-growth-engine.vercel.app/',
+        internalCtaLabel: 'See the full build breakdown',
+        imagePublicId: 'graston-growth-engine_-_admin_command_center',
+        imageAlt: 'Graston Growth Engine — admin command center',
       },
     ],
   },
@@ -315,6 +373,9 @@ export const serviceDetails: ParentServiceDetail[] = [
         sceneTarget: 'growth-russell',
       },
     ],
+    pricingSignal: '$2K–$8K/month · Project or retainer depending on scope',
+    relatedServiceSlugs: ['geo-optimization', 'brand-web', 'martech-audit'],
+    childServiceSlugs: ['geo-optimization'],
   },
   {
     id: 'commerce',
@@ -361,6 +422,8 @@ export const serviceDetails: ParentServiceDetail[] = [
         sceneTarget: 'build-317bbq-orders',
       },
     ],
+    pricingSignal: '$4K–$18K · Project-based, scoped by platform complexity',
+    relatedServiceSlugs: ['brand-web', 'systems', 'martech-audit'],
   },
   {
     id: 'specialized',
@@ -407,6 +470,8 @@ export const serviceDetails: ParentServiceDetail[] = [
         sceneTarget: 'build-primary-colours-exhibit',
       },
     ],
+    pricingSignal: '$4K–$25K · Scoped per industry and engagement depth',
+    relatedServiceSlugs: ['strategy', 'brand-web', 'systems'],
   },
 ]
 
@@ -462,6 +527,8 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     primaryCtaLabel: 'Request a MarTech Audit',
     secondaryCtaLabel: 'See audit proof',
     secondaryCtaHref: '/work',
+    pricingSignal: '$2K–$5K · 2–4 week engagement, deliverable-backed',
+    relatedServiceSlugs: ['systems', 'strategy', 'growth'],
   },
   {
     id: 'geo-optimization',
@@ -516,6 +583,21 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     primaryCtaLabel: 'Run the free GEO audit',
     secondaryCtaLabel: 'See GEO build details',
     secondaryCtaHref: '/lab/geo-readiness-auditor',
+    pricingSignal: '$1.5K–$4K · One-time implementation, optional retainer',
+    relatedServiceSlugs: ['growth', 'martech-audit', 'brand-web'],
+    proofTools: [
+      {
+        labSlug: 'geo-readiness-auditor',
+        eyebrow: 'Proof tool',
+        title: 'Run the free GEO audit first.',
+        body: 'Get your 0-100 AI visibility score in under a minute, see the highest-impact fixes, and use that report to scope what needs to be implemented next.',
+        externalCtaLabel: 'Run the free audit',
+        externalCtaHref: 'https://darling-martech-geo-audit-tool.vercel.app/',
+        internalCtaLabel: 'See how the auditor was built',
+        imagePublicId: 'v1774692217/GEO_Readiness_Auditor',
+        imageAlt: 'GEO Readiness Auditor preview',
+      },
+    ],
   },
 ]
 
