@@ -1,0 +1,541 @@
+/* ── Layout shell ── */
+.main {
+  padding: 7rem 1.5rem 6rem;
+}
+
+@media (min-width: 768px) {
+  .main {
+    padding: 8.5rem 2.5rem 7rem;
+  }
+}
+
+/* ── Shared containers ── */
+.hero,
+.sectionContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Shared typography ── */
+.eyebrow,
+.sectionEyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 1rem;
+  display: block;
+}
+
+.headline,
+.sectionHeadline,
+.ctaHeadline {
+  font-family: var(--font-display);
+  color: var(--color-text);
+  letter-spacing: -0.04em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.headline {
+  font-size: clamp(2.8rem, 6vw, 5.4rem);
+  line-height: 0.93;
+  max-width: 14ch;
+}
+
+.sectionHeadline {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  line-height: 1.03;
+  max-width: 28ch;
+}
+
+.ctaHeadline {
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+  line-height: 1.06;
+  max-width: 30ch;
+}
+
+.lead {
+  font-family: var(--font-body);
+  color: rgba(245, 240, 232, 0.72);
+  line-height: 1.72;
+  font-size: 1.04rem;
+  max-width: 58ch;
+  margin: 1.4rem 0 0;
+}
+
+/* ── CTA buttons ── */
+.primaryCta,
+.secondaryCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: center;
+  min-height: 2.9rem;
+  padding: 0.8rem 1.35rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.primaryCta {
+  background: var(--color-accent);
+  color: var(--color-base);
+}
+
+.secondaryCta {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(245, 240, 232, 0.1);
+  color: var(--color-text);
+}
+
+.primaryCta:hover,
+.secondaryCta:hover {
+  transform: translateY(-1px);
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto auto -1.2rem;
+  width: min(20rem, 52vw);
+  height: min(20rem, 40vw);
+  background:
+    radial-gradient(circle at 24% 24%, rgba(255, 77, 0, 0.18), transparent 62%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 100%);
+  filter: blur(24px);
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  padding: 1rem 0 2rem;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 1.8rem;
+}
+
+/* ── Section spacing ── */
+.stepsSection,
+.pathsSection,
+.buyerSection,
+.expectSection,
+.ctaSection {
+  margin-top: 5rem;
+}
+
+/* ── Steps grid ── */
+.stepsGrid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 760px) {
+  .stepsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1040px) {
+  .stepsGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.stepCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.4rem;
+  border-radius: 20px;
+  border: 1px solid rgba(245, 240, 232, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 77, 0, 0.05), transparent 22%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)),
+    rgba(16, 16, 16, 0.96);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 14px 36px rgba(0, 0, 0, 0.12);
+}
+
+.stepTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.stepNumber {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(245, 240, 232, 0.3);
+}
+
+.stepIconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 77, 0, 0.22);
+  background: rgba(255, 77, 0, 0.08);
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.stepLabel {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.stepDescription {
+  font-family: var(--font-body);
+  color: rgba(245, 240, 232, 0.65);
+  font-size: 0.88rem;
+  line-height: 1.68;
+  margin: 0;
+}
+
+/* ── Engagement paths ── */
+.pathsGrid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 760px) {
+  .pathsGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.pathCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.4rem 1.5rem;
+  border-radius: 20px;
+  border: 1px solid rgba(245, 240, 232, 0.08);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)),
+    rgba(16, 16, 16, 0.96);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 14px 36px rgba(0, 0, 0, 0.12);
+}
+
+.pathTitle {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.pathSummary {
+  font-family: var(--font-body);
+  color: rgba(245, 240, 232, 0.65);
+  font-size: 0.88rem;
+  line-height: 1.68;
+  margin: 0;
+}
+
+.pathBestFor {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: rgba(245, 240, 232, 0.45);
+  margin: 0;
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+.pathBestForLabel {
+  font-weight: 700;
+  color: rgba(245, 240, 232, 0.55);
+}
+
+/* ── Buyer paths ── */
+.buyerGrid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 760px) {
+  .buyerGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.buyerCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.4rem 1.5rem;
+  border-radius: 20px;
+  border: 1px solid rgba(245, 240, 232, 0.08);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)),
+    rgba(16, 16, 16, 0.96);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 14px 36px rgba(0, 0, 0, 0.12);
+  transition: border-color 0.25s ease;
+}
+
+.buyerCard:hover {
+  border-color: rgba(255, 77, 0, 0.2);
+}
+
+.buyerType {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.buyerDescription {
+  font-family: var(--font-body);
+  color: rgba(245, 240, 232, 0.65);
+  font-size: 0.9rem;
+  line-height: 1.68;
+  margin: 0;
+}
+
+.buyerRecommended {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+.buyerRecommendedLabel {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.4);
+}
+
+.buyerRecommendedValue {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: -0.01em;
+}
+
+.buyerCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(245, 240, 232, 0.45);
+  text-decoration: none;
+  transition: color 0.22s ease;
+}
+
+.buyerCta:hover {
+  color: var(--color-accent);
+}
+
+/* ── What to expect ── */
+.expectBlock {
+  display: grid;
+  gap: 2.5rem;
+}
+
+@media (min-width: 900px) {
+  .expectBlock {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    align-items: start;
+    gap: 4rem;
+  }
+}
+
+.expectCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.expectLead {
+  font-family: var(--font-body);
+  color: rgba(245, 240, 232, 0.65);
+  font-size: 0.92rem;
+  line-height: 1.72;
+  margin: 0.8rem 0 0;
+  max-width: 44ch;
+}
+
+.expectList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.expectItem {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+.expectItem:first-child {
+  padding-top: 0;
+}
+
+.expectItem:last-child {
+  border-bottom: none;
+}
+
+.expectNumber {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  min-width: 2rem;
+}
+
+.expectHeading {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.expectBody {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.66;
+  color: rgba(245, 240, 232, 0.6);
+  margin: 0;
+}
+
+/* ── Final CTA ── */
+.ctaBlock {
+  display: grid;
+  gap: 1.8rem;
+  align-items: center;
+  padding: 2rem 2.2rem;
+  border-radius: 28px;
+  border: 1px solid rgba(245, 240, 232, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 77, 0, 0.06), transparent 28%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)),
+    rgba(16, 16, 16, 0.96);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 22px 52px rgba(0, 0, 0, 0.18);
+}
+
+@media (min-width: 900px) {
+  .ctaBlock {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2.5rem;
+  }
+}
+
+.ctaCopy {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.ctaLead {
+  font-family: var(--font-body);
+  color: rgba(245, 240, 232, 0.6);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 52ch;
+}
+
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 767px) {
+  .main {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .headline {
+    max-width: 14ch;
+  }
+
+  .stepCard,
+  .pathCard,
+  .buyerCard,
+  .ctaBlock {
+    border-radius: 16px;
+  }
+
+  .stepsSection,
+  .pathsSection,
+  .buyerSection,
+  .expectSection,
+  .ctaSection {
+    margin-top: 3.5rem;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .primaryCta,
+  .secondaryCta,
+  .buyerCta {
+    transition: none;
+  }
+}
