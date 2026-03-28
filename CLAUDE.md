@@ -65,9 +65,8 @@ Conflict rule:
 ### Consolidated IA / Page Strategy Snapshot
 - Live core pages: `/`, `/services`, `/services/[slug]`, `/work`,
   `/work/[slug]`, `/lab`, `/lab/[slug]`, `/lab/cmo-simulator`, `/about`,
-  `/contact`, `/studio`.
+  `/contact`, `/studio`, `/process`.
 - Planned priority pages/routes:
-  - `/process` (Live)
   - child-service money pages under current service parents
   - `/industries/[slug]` after child service pages
   - `/pricing` later
@@ -1022,7 +1021,7 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
   /lab                   — Lab-specific components
   /providers             — LenisProvider, Analytics
 /data
-  /labs.ts               — 9 lab entries (LAB_DETAIL_DATA)
+  /labs.ts               — 10 lab entries (LAB_DETAIL_DATA)
   /services.ts           — All service page content
   /testimonials.ts       — Testimonial data
   /work/work-index.ts    — 20 work card grid entries
@@ -1093,7 +1092,7 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
 ### Phase 2 — Complete ✅
 - [x] `/work` index page — masonry/staggered grid with 20 case studies
 - [x] `/work/[slug]` dynamic route — data in `data/work/work-data.ts`
-- [x] `/lab` page with tool cards + 9 detail pages
+- [x] `/lab` page with tool cards + 10 detail pages
 - [x] `/lab/[slug]` dynamic route — data in `data/labs.ts`
 - [x] `/lab/cmo-simulator` — gated CMO tool with email access modal
 - [x] `/services` page with 6 service categories, 3D ambient scene
