@@ -593,7 +593,7 @@ logoPublicId: 'graston_technique_logo'
 heroPublicId: 'PMC-Dr.-Pike-Xray'
 cardPublicId: 'primary-care-indy-website'
 
-// Cloudinary URL pattern for screenshots in labs.ts:
+// Cloudinary URL pattern for screenshots in data/labs.ts:
 src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1400,f_auto,q_auto/[public-id].png'
 ```
 
@@ -707,13 +707,13 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
   useReducedMotion, useScrollAnimation, useScrollDirection, useTypingEffect
 /lib
   /motion.ts             — Spring presets + shared animation variants
-  /animations/           — Animation utilities
   /case-studies.ts       — Case study helpers
   /cloudinary.ts         — Cloudinary utilities
   /utils.ts              — General utilities
   /work.ts               — Work data helpers
-/styles
+/app
   /globals.css           — CSS custom properties + resets
+/components + /app
   /[Component].module.css — Per-component CSS Modules
 /public
   /fonts/cabinet-grotesk/  — .woff2 files ✅
@@ -809,5 +809,5 @@ __NEXT_PRIVATE_STANDALONE_CONFIG="" npm run build
 - **CMO Simulator access** — Gated via `CmoAccessModal` + `/api/cmo-simulator-access`. SessionStorage bypass for returning visitors.
 - **WorkAmbient + ServicesAmbient** — Both use `dynamic(..., { ssr: false })`. If adding new 3D scenes, follow same pattern.
 - **`case-studies/` directory** — Contains raw markdown research files, NOT used by the app. App reads from `data/work/work-data.ts`.
-- **`.worktrees/cmo-simulator-feature/`** — Abandoned worktree in repo. Ignore it.
-- **`outputs/marketing-strategy-service.md`** — Research artifact. Not used by app.
+- **`.worktrees/`** — Keep this directory out of the repo root unless an active local worktree is intentionally being used.
+- **`docs/archive/outputs/marketing-strategy-service.md`** — Archived research artifact. Not used by app.

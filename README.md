@@ -106,6 +106,13 @@ data/
   services.ts
   testimonials.ts
   work/
+docs/
+  context/
+    project/
+    repo/
+    strategy/
+  superpowers/
+  archive/
 lib/
   analytics.ts
   cloudinary.ts
@@ -149,7 +156,7 @@ Notes:
 - Reusable lab detail content lives in `data/labs.ts`
 - Testimonials live in `data/testimonials.ts`
 - Studio image inventory is pulled from Cloudinary folder searches
-- Brand and site guidance also exists in `CLAUDE.md` and project docs under `docs/superpowers/`
+- Brand and site guidance exists in `CLAUDE.md`, `docs/context/`, and implementation docs under `docs/superpowers/`
 
 ## Implementation Notes
 
