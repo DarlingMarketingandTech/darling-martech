@@ -1,132 +1,493 @@
-/* ─────────────────────────────────────────────
-   Testimonials Section
-   ───────────────────────────────────────────── */
-
 .section {
-  padding: 7rem 1.5rem;
+  position: relative;
+  padding: clamp(5rem, 9vw, 7.5rem) 1.5rem;
   border-top: 1px solid var(--color-border);
-  background: var(--color-base);
+  overflow: clip;
 }
 
-@media (min-width: 768px) {
-  .section {
-    padding: 7rem 2.5rem;
-  }
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--color-accent) 18%, transparent), transparent 34%),
+    radial-gradient(circle at 86% 26%, rgba(245, 240, 232, 0.06), transparent 24%);
+  pointer-events: none;
 }
 
 .container {
+  position: relative;
+  z-index: 1;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-/* ── Label ─────────────────────────────────── */
+.header {
+  display: grid;
+  gap: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.headerCopy {
+  max-width: 42rem;
+}
 
 .label {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
+  margin: 0 0 1rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--color-accent);
-  margin: 0 0 3.5rem;
 }
 
-/* ── 2-column quote grid ────────────────────── */
+.heading {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+  color: var(--color-text);
+  text-wrap: balance;
+}
 
-.grid {
+.intro {
+  margin: 0;
+  max-width: 58ch;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--color-muted);
+}
+
+.metrics {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
 }
 
-@media (min-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-/* ── Quote Block ────────────────────────────── */
-
-.quoteBlock {
-  position: relative;
-  padding: 2.5rem 2rem 2.5rem 2.5rem;
+.metricCard {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.4rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-border) 86%, transparent);
+  border-radius: 1.15rem;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 8%, transparent), transparent 68%),
+    color-mix(in srgb, var(--color-surface) 92%, transparent);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.16);
 }
 
-@media (min-width: 768px) {
-  .quoteBlock {
-    padding: 3.5rem 3rem 3.5rem 3.5rem;
-  }
-}
-
-/* Horizontal separator between stacked quotes (left column) */
-.quoteBlock + .quoteBlock {
-  border-top: 1px solid var(--color-border);
-}
-
-/* Vertical divider between the two columns */
-@media (min-width: 768px) {
-  .quoteBlock:nth-child(odd) {
-    border-right: 1px solid var(--color-border);
-  }
-
-  /* Between rows in each column, add horizontal divider */
-  .quoteBlock:nth-child(3),
-  .quoteBlock:nth-child(4) {
-    border-top: 1px solid var(--color-border);
-  }
-
-  /* Remove the generic + rule on desktop — handled above */
-  .quoteBlock + .quoteBlock {
-    border-top: none;
-  }
-}
-
-/* Mobile: all stacked with dividers */
-@media (max-width: 767px) {
-  .quoteBlock:nth-child(odd) {
-    border-right: none;
-  }
-
-  .quoteBlock + .quoteBlock {
-    border-top: 1px solid var(--color-border);
-  }
-}
-
-/* ── Decorative opening mark ────────────────── */
-
-.openMark {
+.metricValue {
   font-family: var(--font-display);
-  font-size: 5rem;
-  line-height: 0.6;
-  color: var(--color-accent);
-  opacity: 0.25;
-  user-select: none;
-  pointer-events: none;
-  font-weight: 900;
-  display: block;
-  margin-bottom: -0.5rem;
+  font-size: clamp(1.4rem, 2.2vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--color-text);
 }
 
-/* ── Quote text ─────────────────────────────── */
+.metricLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-muted) 84%, white 16%);
+}
 
-.quoteText {
-  font-family: var(--font-accent);
-  font-style: italic;
-  font-size: 1.125rem;
-  line-height: 1.7;
+.experienceShell {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.spotlight {
+  position: relative;
+  min-width: 0;
+  border: 1px solid color-mix(in srgb, var(--color-border) 92%, transparent);
+  border-radius: 2rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 28%),
+    color-mix(in srgb, var(--color-surface) 94%, transparent);
+  box-shadow: 0 34px 100px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.spotlightBackdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent 88%);
+  opacity: 0.25;
+}
+
+.glow {
+  position: absolute;
+  right: -5%;
+  top: -8%;
+  width: min(28rem, 50vw);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-accent) 34%, transparent), transparent 72%);
+  filter: blur(14px);
+  opacity: 0.78;
+}
+
+.beam {
+  position: absolute;
+  inset: auto auto -12% -4%;
+  width: 62%;
+  height: 42%;
+  background: radial-gradient(circle, rgba(255, 77, 0, 0.22), transparent 72%);
+  filter: blur(30px);
+  opacity: 0.62;
+}
+
+.spotlightInner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.2rem;
+}
+
+.eyebrowRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.eyebrowTag,
+.eyebrowMeta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.42rem 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
+  border-radius: 999px;
+  background: rgba(10, 10, 10, 0.42);
+  backdrop-filter: blur(14px);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eyebrowTag {
+  color: var(--color-accent);
+}
+
+.eyebrowMeta {
   color: var(--color-text);
+}
+
+.quoteFrame {
+  position: relative;
+  display: grid;
+  gap: 1.5rem;
+  min-height: 100%;
+  transform-style: preserve-3d;
+}
+
+.quoteMark {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 12vw, 8rem);
+  line-height: 0.7;
+  font-weight: 900;
+  color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  user-select: none;
+}
+
+.quote {
+  display: grid;
+  gap: 1rem;
   margin: 0;
 }
 
-/* ── Attribution ────────────────────────────── */
+.quote p {
+  margin: 0;
+  max-width: none;
+  font-family: var(--font-accent);
+  font-size: clamp(1.18rem, 2.3vw, 1.72rem);
+  line-height: 1.55;
+  color: var(--color-text);
+}
 
-.attribution {
-  font-family: var(--font-body);
-  font-size: 0.8125rem;
+.personCard {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-border) 92%, transparent);
+  border-radius: 1.4rem;
+  background: rgba(12, 12, 12, 0.52);
+  backdrop-filter: blur(18px);
+}
+
+.personIdentity {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.author {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+
+.role {
+  margin: 0;
+  max-width: none;
+  font-size: 0.92rem;
+  line-height: 1.55;
   color: var(--color-muted);
-  font-style: normal;
-  display: block;
+}
+
+.personMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.metaPill,
+.metaDate {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.metaPill {
+  border: 1px solid color-mix(in srgb, var(--color-accent) 34%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 11%, transparent);
+  color: var(--color-text);
+}
+
+.metaDate {
+  border: 1px solid color-mix(in srgb, var(--color-border) 92%, transparent);
+  background: rgba(255, 255, 255, 0.03);
+  color: color-mix(in srgb, var(--color-muted) 84%, white 16%);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.controlButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid color-mix(in srgb, var(--color-border) 90%, transparent);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.controlButton:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--color-accent) 56%, transparent);
+  color: var(--color-accent);
+}
+
+.controlIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.progressCluster {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.progressDot {
+  flex: 1;
+  height: 2px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-border) 92%, transparent);
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.progressDotActive {
+  background: linear-gradient(90deg, var(--color-accent), color-mix(in srgb, var(--color-accent) 45%, white 55%));
+  transform: scaleY(1.6);
+}
+
+.rail {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.railCard {
+  position: relative;
+  display: grid;
+  gap: 0.7rem;
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-border) 86%, transparent);
+  border-radius: 1.3rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 80%),
+    color-mix(in srgb, var(--color-surface) 92%, transparent);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 180ms ease, transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.railCard:hover,
+.railCard:focus-visible,
+.railCardActive {
+  border-color: color-mix(in srgb, var(--color-accent) 44%, transparent);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+}
+
+.railCardActive {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 8%, transparent), transparent 64%),
+    color-mix(in srgb, var(--color-surface-raised) 96%, transparent);
+}
+
+.railHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.railAuthor {
+  margin: 0 0 0.22rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+
+.railRole {
+  margin: 0;
+  max-width: none;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+}
+
+.railYear {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--color-accent);
+}
+
+.railRelationship {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-muted) 82%, white 18%);
+}
+
+.railPreview {
+  margin: 0;
+  max-width: none;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--color-text);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .spotlightInner {
+    padding: 1.6rem;
+  }
+
+  .personCard {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+  }
+}
+
+@media (min-width: 1100px) {
+  .section {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .header {
+    grid-template-columns: minmax(0, 1.05fr) minmax(21rem, 28rem);
+    align-items: end;
+    margin-bottom: 2.5rem;
+  }
+
+  .experienceShell {
+    grid-template-columns: minmax(0, 1.2fr) minmax(22rem, 0.8fr);
+    align-items: start;
+  }
+
+  .spotlight {
+    min-height: 100%;
+  }
+
+  .spotlightInner {
+    min-height: 100%;
+    padding: 1.9rem;
+  }
+
+  .quoteFrame {
+    min-height: 100%;
+  }
+
+  .quote {
+    min-height: 23rem;
+  }
+
+  .rail {
+    max-height: 52rem;
+    overflow: auto;
+    padding-right: 0.25rem;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-accent) 40%, transparent) transparent;
+  }
 }

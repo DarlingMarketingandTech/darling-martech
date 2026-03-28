@@ -17,7 +17,13 @@
       "Bash(node -e \"require\\(''tailwindcss''\\)\")",
       "Bash(node -e \"const tw = require\\(''tailwindcss''\\); console.log\\(typeof tw\\)\")",
       "Bash(node -e \"const t = require\\(''''./tailwind.config.ts''''\\)\")",
-      "Read(//c/sessions/**)"
+      "Read(//c/sessions/**)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "mcp__plugin_vercel_vercel__list_teams",
+      "mcp__plugin_vercel_vercel__list_projects",
+      "mcp__plugin_vercel_vercel__list_deployments",
+      "mcp__plugin_vercel_vercel__get_deployment"
     ]
   },
   "enabledPlugins": {
