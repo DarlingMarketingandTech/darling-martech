@@ -75,6 +75,10 @@ Conflict rule:
   an artifact and a reason to call.
 - `/work` role: proof of capability — client builds with measurable outcomes.
   A prospect evaluates these; they do not use them. Curated, not exhaustive.
+  Work index layout: flagship studies first, supporting grid, connected-system strips
+  under parents, then a restrained studio strip (horizontal track). Studio carousel
+  does not auto-advance; horizontal scroll is confined to the track (no document
+  `scrollIntoView`) so smooth scroll (Lenis) is not hijacked.
 - Phase 3D classification decisions (2026-03-28):
   - Core tools (permanent, primary): CMO Simulator, GEO Readiness Auditor,
     CMO Roadmap Generator. These are the only entries on `/tools`.

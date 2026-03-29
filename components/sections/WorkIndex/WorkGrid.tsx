@@ -59,10 +59,10 @@ function WorkHeroEntry() {
         animate={{ opacity: 1, y: 0 }}
         transition={HERO_TRANSITION}
       >
-        <p className={styles.heroEyebrow}>Selected Work</p>
-        <h1 className={styles.heroHeadline}>Proof, not promises.</h1>
+        <p className={styles.heroEyebrow}>Selected work</p>
+        <h1 className={styles.heroHeadline}>Proof beats promises.</h1>
         <p className={styles.heroSubhead}>
-          Strategy, systems, and execution for businesses that needed more than a vendor.
+          Real builds and outcomes — when you needed strategy, systems, and execution, not a vendor ticket.
         </p>
       </motion.div>
     </section>
@@ -243,7 +243,7 @@ export function WorkIndexExperience({
             <>
               {flagshipStudies.length > 0 && (
                 <div className={styles.sectionDivider}>
-                  <span className={styles.sectionDividerLabel}>More work</span>
+                  <span className={styles.sectionDividerLabel}>Supporting work</span>
                 </div>
               )}
               <div className={styles.supportingGrid}>

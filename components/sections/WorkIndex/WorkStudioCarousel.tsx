@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CldImage } from 'next-cloudinary'
 import { ArrowLeft, ArrowRight, X } from '@phosphor-icons/react'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
 import styles from './WorkIndex.module.css'
 
 // ── Curated studio assets ─────────────────────────────────────────────────────
@@ -37,28 +38,38 @@ const STUDIO_ITEMS: StudioItem[] = [
 
 const CATEGORIES: StudioCategory[] = ['Photography', 'Graphic Design']
 
+function scrollThumbCenteredInTrack(
+  track: HTMLDivElement,
+  thumb: HTMLDivElement,
+  behavior: ScrollBehavior
+) {
+  const trackRect = track.getBoundingClientRect()
+  const thumbRect = thumb.getBoundingClientRect()
+  const thumbLeftInTrack = thumbRect.left - trackRect.left + track.scrollLeft
+  const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth)
+  const targetLeft = thumbLeftInTrack - (track.clientWidth - thumbRect.width) / 2
+  const left = Math.max(0, Math.min(targetLeft, maxScroll))
+  track.scrollTo({ left, behavior })
+}
+
 export function WorkStudioCarousel() {
   const [active, setActive] = useState<StudioCategory>('Photography')
   const [activeIndex, setActiveIndex] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
   const [lightboxItem, setLightboxItem] = useState<StudioItem | null>(null)
+  const trackRef = useRef<HTMLDivElement | null>(null)
   const itemRefs = useRef<Array<HTMLDivElement | null>>([])
+  const reduceMotion = useReducedMotion()
 
   const visible = STUDIO_ITEMS.filter((item) => item.category === active)
 
+  // Keep the active thumb in view inside the horizontal track only — never
+  // scrollIntoView on the document (avoids Lenis / viewport jump).
   useEffect(() => {
-    if (!visible.length) return
-    const node = itemRefs.current[activeIndex]
-    node?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
-  }, [activeIndex, visible])
-
-  useEffect(() => {
-    if (isPaused || !visible.length) return
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % visible.length)
-    }, 4500)
-    return () => window.clearInterval(timer)
-  }, [isPaused, visible.length])
+    const track = trackRef.current
+    const thumb = itemRefs.current[activeIndex]
+    if (!track || !thumb) return
+    scrollThumbCenteredInTrack(track, thumb, reduceMotion ? 'instant' : 'smooth')
+  }, [activeIndex, active, reduceMotion])
 
   useEffect(() => {
     if (!lightboxItem) return
@@ -81,8 +92,8 @@ export function WorkStudioCarousel() {
     <section className={styles.studioSection} aria-label="Studio work — creative proof">
       <div className={styles.studioHeader}>
         <div className={styles.studioMeta}>
-          <p className={styles.studioEyebrow}>Creative Work</p>
-          <h2 className={styles.studioHeadline}>Studio</h2>
+          <p className={styles.studioEyebrow}>Creative proof</p>
+          <h2 className={styles.studioHeadline}>From the studio</h2>
         </div>
 
         <div className={styles.studioControls}>
@@ -126,15 +137,12 @@ export function WorkStudioCarousel() {
       <AnimatePresence mode="wait">
         <motion.div
           key={active}
+          ref={trackRef}
           className={styles.studioTrack}
           initial={{ opacity: 0, x: 12 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -12 }}
           transition={{ duration: 0.22 }}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
         >
           {visible.map((item, index) => (
             <div
