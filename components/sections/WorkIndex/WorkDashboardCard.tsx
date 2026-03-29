@@ -75,17 +75,7 @@ function WorkDashboardMedia({ study, tier }: { study: CaseStudy; tier: WorkDashb
   )
 }
 
-export function WorkDashboardCard({
-  study,
-  active,
-  onActivate,
-  onDeactivate,
-}: {
-  study: CaseStudy
-  active: boolean
-  onActivate: (slug: string) => void
-  onDeactivate: () => void
-}) {
+export function WorkDashboardCard({ study }: { readonly study: CaseStudy }) {
   const tier = study.dashboardTier ?? 'standard'
   const metrics = study.metrics.slice(0, tier === 'flagship' ? 3 : 2)
   const mediaPublicId = study.cardPublicId ?? study.heroPublicId ?? study.logoPublicId
@@ -102,21 +92,16 @@ export function WorkDashboardCard({
         scale: { duration: 0.22 },
         layout: CARD_TRANSITION,
       }}
-      whileHover={{ y: -6 }}
+      whileHover={{ y: -4 }}
       className={cn(
         styles.dashboardCardShell,
         getTierClassName(tier),
         hasArtworkMedia && styles.dashboardCardArtworkShell,
-        active && styles.dashboardCardShellActive
       )}
     >
       <Link
         href={`/work/${study.slug}`}
         className={styles.dashboardCard}
-        onMouseEnter={() => onActivate(study.slug)}
-        onMouseLeave={onDeactivate}
-        onFocus={() => onActivate(study.slug)}
-        onBlur={onDeactivate}
       >
         <div className={styles.dashboardMediaWrap}>
           <WorkDashboardMedia study={study} tier={tier} />

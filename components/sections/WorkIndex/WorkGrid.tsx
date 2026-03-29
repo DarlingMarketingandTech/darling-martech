@@ -1,27 +1,27 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { CldImage } from 'next-cloudinary'
-import { ArrowRight, Pulse } from '@phosphor-icons/react'
-import { gsap } from 'gsap'
+import { ArrowRight } from '@phosphor-icons/react'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
-import type { CaseStudy, WorkCategory, WorkDashboardTier } from '@/lib/work'
-import { SERVICE_TAGS, type ServiceTag } from '@/data/taxonomy'
+import type { CaseStudy, WorkDashboardTier } from '@/lib/work'
+import type { ServiceTag } from '@/data/taxonomy'
 import styles from './WorkIndex.module.css'
 import { WorkDashboardCard } from './WorkDashboardCard'
 
-const filterOrder: Array<'All Work' | WorkCategory> = [
-  'All Work',
-  'Automation & Systems',
-  'Healthcare',
-  'Legal & Professional',
-  'Hospitality & Local',
-  'E-Commerce',
-  'Brand Identity',
-  'Non-Profit',
-]
+// ── Sub-nav segments ──────────────────────────────────────────────────────────
+
+type WorkSegment = 'All' | 'Client Work' | 'Systems' | 'Brand'
+
+const SEGMENT_LABELS: WorkSegment[] = ['All', 'Client Work', 'Systems', 'Brand']
+
+const SEGMENT_CATEGORY_MAP: Record<WorkSegment, string[]> = {
+  'All': [],
+  'Client Work': ['Healthcare', 'Legal & Professional', 'Hospitality & Local', 'E-Commerce', 'Non-Profit'],
+  'Systems': ['Automation & Systems'],
+  'Brand': ['Brand Identity'],
+}
 
 const HERO_TRANSITION = {
   type: 'spring',
@@ -29,8 +29,14 @@ const HERO_TRANSITION = {
   damping: 24,
 }
 
-function isLogoArtwork(publicId: string) {
-  return /(?:^|[_-])(logo|Logo)(?:[_-]|$)|Full_Logo|webheader/i.test(publicId)
+const CARD_STAGGER = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.04 } },
+}
+
+const CARD_ITEM = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 180, damping: 24 } },
 }
 
 function getTierRank(tier: WorkDashboardTier | undefined) {
@@ -43,301 +49,110 @@ function sortStudies(studies: CaseStudy[]) {
   return [...studies].sort((left, right) => getTierRank(left.dashboardTier) - getTierRank(right.dashboardTier))
 }
 
-function getDefaultStudy(studies: CaseStudy[]) {
-  return studies.find((study) => study.dashboardTier === 'flagship') ?? studies[0] ?? null
-}
+// ── Hero entry ────────────────────────────────────────────────────────────────
 
-function SignalMedia({ study }: { study: CaseStudy }) {
-  const publicId = study.cardPublicId ?? study.heroPublicId ?? study.logoPublicId
-
-  if (publicId && isLogoArtwork(publicId)) {
-    return (
-      <div className={`${styles.signalMedia} ${styles.signalMediaArtwork}`}>
-        <div className={styles.signalMediaGrid} aria-hidden="true" />
-        <div className={styles.signalMediaGlow} aria-hidden="true" />
-        <CldImage
-          src={publicId}
-          alt={`${study.client} case study cover`}
-          width={720}
-          height={520}
-          crop="fit"
-          className={styles.signalMediaArtworkImage}
-          sizes="(min-width: 1080px) 26vw, 100vw"
-        />
-      </div>
-    )
-  }
-
-  if (publicId) {
-    return (
-      <div className={styles.signalMedia}>
-        <CldImage
-          src={publicId}
-          alt={`${study.client} case study cover`}
-          width={960}
-          height={720}
-          crop="fill"
-          gravity="auto"
-          className={styles.signalMediaImage}
-          sizes="(min-width: 1080px) 26vw, 100vw"
-        />
-        <div className={styles.signalMediaShade} />
-      </div>
-    )
-  }
-
+function WorkHeroEntry() {
   return (
-    <div className={`${styles.signalMedia} ${styles.signalMediaFallback}`} aria-hidden="true">
-      <div className={styles.signalMediaGrid} />
-      <div className={styles.signalMediaGlow} />
-      <div className={styles.signalMediaFallbackWordmark}>{study.client}</div>
-    </div>
-  )
-}
-
-function WorkHeroSummary({
-  studies,
-  activeStudy,
-}: {
-  studies: CaseStudy[]
-  activeStudy: CaseStudy
-}) {
-  const stats = [
-    { value: `${studies.length}`, label: 'Case studies' },
-    { value: `${new Set(studies.map((study) => study.category)).size}`, label: 'Core verticals' },
-    { value: `${studies.filter((study) => study.dashboardTier === 'flagship').length}`, label: 'Flagship builds' },
-  ]
-
-  return (
-    <section className={styles.heroWrap}>
+    <section className={styles.heroEntry}>
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={HERO_TRANSITION}
-        className={styles.heroCopy}
       >
         <p className={styles.heroEyebrow}>Selected Work</p>
         <h1 className={styles.heroHeadline}>Proof, not promises.</h1>
         <p className={styles.heroSubhead}>
-          Strategy, systems, and execution for businesses that needed more than a pretty website.
-          This index is built like a command center because the work itself behaves like infrastructure.
+          Strategy, systems, and execution for businesses that needed more than a vendor.
         </p>
-
-        <div className={styles.heroStats}>
-          {stats.map((stat) => (
-            <div key={stat.label} className={styles.heroStat}>
-              <span className={styles.heroStatValue}>{stat.value}</span>
-              <span className={styles.heroStatLabel}>{stat.label}</span>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ ...HERO_TRANSITION, delay: 0.08 }}
-        className={styles.signalPanelShell}
-      >
-        <Link href={`/work/${activeStudy.slug}`} className={styles.signalPanel}>
-          <div className={styles.signalPanelHeader}>
-            <span className={styles.signalPanelKicker}>Current signal</span>
-            <span className={styles.signalPanelCategory}>{activeStudy.category}</span>
-          </div>
-
-          <div className={styles.signalPanelMediaWrap}>
-            <SignalMedia study={activeStudy} />
-          </div>
-
-          <div className={styles.signalPanelBody}>
-            <p className={styles.signalPanelLabel}>{activeStudy.label}</p>
-            <h2 className={styles.signalPanelTitle}>{activeStudy.client}</h2>
-            <p className={styles.signalPanelSummary}>{activeStudy.headline}</p>
-          </div>
-
-          <div className={styles.signalPanelMetrics}>
-            {activeStudy.metrics.slice(0, 2).map((metric, index) => (
-              <span
-                key={metric}
-                className={`${styles.signalPanelMetric} ${index === 0 ? styles.signalPanelMetricAccent : ''}`}
-              >
-                {metric}
-              </span>
-            ))}
-          </div>
-
-          <span className={styles.signalPanelCta}>
-            Inspect case study
-            <ArrowRight weight="light" className={styles.signalPanelCtaIcon} />
-          </span>
-        </Link>
       </motion.div>
     </section>
   )
 }
 
-function MetricStream({
-  activeStudy,
-  visibleCount,
-  activeFilter,
+// ── Sub-nav ───────────────────────────────────────────────────────────────────
+
+function WorkSubNav({
+  active,
+  onChange,
+  counts,
 }: {
-  activeStudy: CaseStudy
-  visibleCount: number
-  activeFilter: 'All Work' | WorkCategory
-}) {
-  const countRef = useRef<HTMLSpanElement>(null)
-  const clientRef = useRef<HTMLParagraphElement>(null)
-  const metricRef = useRef<HTMLParagraphElement>(null)
-  const lineRef = useRef<HTMLSpanElement>(null)
-  const previousCount = useRef(visibleCount)
-
-  useEffect(() => {
-    const state = { value: previousCount.current }
-
-    gsap.to(state, {
-      value: visibleCount,
-      duration: 0.8,
-      ease: 'power3.out',
-      onUpdate: () => {
-        if (countRef.current) {
-          countRef.current.textContent = Math.round(state.value).toString().padStart(2, '0')
-        }
-      },
-    })
-
-    previousCount.current = visibleCount
-  }, [visibleCount])
-
-  useEffect(() => {
-    if (!clientRef.current || !metricRef.current || !lineRef.current) return
-
-    gsap.killTweensOf([clientRef.current, metricRef.current, lineRef.current])
-
-    gsap.set(lineRef.current, { transformOrigin: 'left center', scaleX: 0 })
-    gsap.fromTo(
-      [clientRef.current, metricRef.current],
-      { y: 14, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.44, stagger: 0.06, ease: 'power2.out' }
-    )
-    gsap.to(lineRef.current, { scaleX: 1, duration: 0.7, ease: 'power2.out' })
-  }, [activeFilter, activeStudy.slug])
-
-  return (
-    <div className={styles.metricStream}>
-      <div className={styles.metricStreamPrimary}>
-        <div className={styles.metricStreamHeading}>
-          <Pulse weight="regular" className={styles.metricStreamIcon} />
-          <span className={styles.metricStreamEyebrow}>Live signal</span>
-        </div>
-        <p ref={metricRef} className={styles.metricStreamValue}>
-          {activeStudy.metrics[0]}
-        </p>
-        <p ref={clientRef} className={styles.metricStreamContext}>
-          {activeStudy.client}
-          {' // '}
-          {activeFilter === 'All Work' ? 'All sectors' : activeFilter}
-        </p>
-        <span ref={lineRef} className={styles.metricStreamLine} aria-hidden="true" />
-      </div>
-
-      <div className={styles.metricStreamCount}>
-        <span className={styles.metricStreamCountLabel}>Visible projects</span>
-        <span ref={countRef} className={styles.metricStreamCountValue}>
-          {visibleCount.toString().padStart(2, '0')}
-        </span>
-      </div>
-    </div>
-  )
-}
-
-function FilterBar({
-  activeFilter,
-  setActiveFilter,
-  categories,
-}: {
-  activeFilter: 'All Work' | WorkCategory
-  setActiveFilter: (filter: 'All Work' | WorkCategory) => void
-  categories: Array<'All Work' | WorkCategory>
+  readonly active: WorkSegment
+  readonly onChange: (segment: WorkSegment) => void
+  readonly counts: Record<WorkSegment, number>
 }) {
   return (
-    <div className={styles.filterBar} role="tablist" aria-label="Work filters">
-      {categories.map((filter) => (
-        <button
-          key={filter}
-          type="button"
-          onClick={() => setActiveFilter(filter)}
-          className={`${styles.filterPill} ${activeFilter === filter ? styles.filterPillActive : ''}`}
-          aria-pressed={activeFilter === filter}
-        >
-          {filter}
-        </button>
-      ))}
-    </div>
-  )
-}
-
-function ServiceFilterBar({
-  activeServiceFilter,
-  setActiveServiceFilter,
-  serviceTags,
-}: {
-  activeServiceFilter: ServiceTag | null
-  setActiveServiceFilter: (tag: ServiceTag | null) => void
-  serviceTags: ServiceTag[]
-}) {
-  if (serviceTags.length === 0) return null
-
-  return (
-    <div className={styles.serviceFilterBar} role="group" aria-label="Filter by service">
-      <span className={styles.serviceFilterLabel}>By service</span>
-      <div className={styles.serviceFilterPills}>
-        {serviceTags.map((tag) => (
+    <nav className={styles.subNav} aria-label="Filter work by type">
+      <div className={styles.subNavTrack} role="tablist">
+        {SEGMENT_LABELS.map((seg) => (
           <button
-            key={tag}
+            key={seg}
             type="button"
-            onClick={() => setActiveServiceFilter(activeServiceFilter === tag ? null : tag)}
-            className={`${styles.serviceFilterPill} ${activeServiceFilter === tag ? styles.serviceFilterPillActive : ''}`}
-            aria-pressed={activeServiceFilter === tag}
+            role="tab"
+            aria-selected={active === seg}
+            onClick={() => onChange(seg)}
+            className={`${styles.subNavBtn} ${active === seg ? styles.subNavBtnActive : ''}`}
           >
-            {SERVICE_TAGS[tag]}
+            {seg}
+            {counts[seg] > 0 && active !== seg && (
+              <span className={styles.subNavCount}>{counts[seg]}</span>
+            )}
           </button>
+        ))}
+      </div>
+    </nav>
+  )
+}
+
+// ── Sub-project strip ─────────────────────────────────────────────────────────
+// Compact linked row beneath a flagship parent — never in the main grid.
+
+function SubProjectStrip({ children }: { readonly children: CaseStudy[] }) {
+  if (children.length === 0) return null
+  return (
+    <div className={styles.subProjectStrip}>
+      <span className={styles.subProjectLabel}>Connected systems</span>
+      <div className={styles.subProjectList}>
+        {children.map((child) => (
+          <Link
+            key={child.slug}
+            href={`/work/${child.slug}`}
+            className={styles.subProjectItem}
+          >
+            <span className={styles.subProjectName}>{child.client}</span>
+            <ArrowRight weight="light" className={styles.subProjectArrow} />
+          </Link>
         ))}
       </div>
     </div>
   )
 }
 
-function ResultsHeader({
-  activeStudy,
-  visibleCount,
-  activeFilter,
-  setActiveFilter,
-  activeServiceFilter,
-  setActiveServiceFilter,
-  categories,
-  serviceTags,
+// ── Flagship card wrapper ─────────────────────────────────────────────────────
+// Renders the flagship card + its sub-project strip as a unit.
+
+function FlagshipUnit({
+  study,
+  allStudies,
 }: {
-  activeStudy: CaseStudy
-  visibleCount: number
-  activeFilter: 'All Work' | WorkCategory
-  setActiveFilter: (filter: 'All Work' | WorkCategory) => void
-  activeServiceFilter: ServiceTag | null
-  setActiveServiceFilter: (tag: ServiceTag | null) => void
-  categories: Array<'All Work' | WorkCategory>
-  serviceTags: ServiceTag[]
+  readonly study: CaseStudy
+  readonly allStudies: CaseStudy[]
 }) {
+  const children = useMemo(
+    () => (study.relatedProjectSlugs ?? []).flatMap(
+      (slug) => allStudies.filter((s) => s.slug === slug && s.dashboardTier === 'system')
+    ),
+    [study.relatedProjectSlugs, allStudies]
+  )
+
   return (
-    <section className={styles.resultsHeader}>
-      <MetricStream activeStudy={activeStudy} visibleCount={visibleCount} activeFilter={activeFilter} />
-      <FilterBar activeFilter={activeFilter} setActiveFilter={setActiveFilter} categories={categories} />
-      <ServiceFilterBar
-        activeServiceFilter={activeServiceFilter}
-        setActiveServiceFilter={setActiveServiceFilter}
-        serviceTags={serviceTags}
-      />
-    </section>
+    <motion.div className={styles.flagshipUnit} variants={CARD_ITEM}>
+      <WorkDashboardCard study={study} />
+      <SubProjectStrip children={children} />
+    </motion.div>
   )
 }
+
+// ── Main experience ───────────────────────────────────────────────────────────
 
 export function WorkIndexExperience({
   studies,
@@ -346,89 +161,107 @@ export function WorkIndexExperience({
   studies: CaseStudy[]
   initialServiceFilter?: ServiceTag | null
 }) {
-  const [activeFilter, setActiveFilter] = useState<'All Work' | WorkCategory>('All Work')
-  const [activeServiceFilter, setActiveServiceFilter] = useState<ServiceTag | null>(initialServiceFilter)
-  const [activeSlug, setActiveSlug] = useState<string | null>(null)
+  const [activeSegment, setActiveSegment] = useState<WorkSegment>('All')
+  const activeServiceFilter = initialServiceFilter
 
   const orderedStudies = useMemo(() => sortStudies(studies), [studies])
-  const categories = useMemo(
-    () => filterOrder.filter((filter) => filter === 'All Work' || studies.some((study) => study.category === filter)),
-    [studies]
+
+  // System-tier slugs (sub-projects) — never rendered in supporting grid
+  const systemSlugs = useMemo(
+    () => new Set(orderedStudies.filter((s) => s.dashboardTier === 'system').map((s) => s.slug)),
+    [orderedStudies]
   )
 
-  const categoryFiltered = useMemo(() => {
-    if (activeFilter === 'All Work') return orderedStudies
-    return orderedStudies.filter((study) => study.category === activeFilter)
-  }, [activeFilter, orderedStudies])
-
-  // Derive service tags from the category-filtered set, sorted by frequency
-  const serviceTags = useMemo(() => {
-    const counts = new Map<ServiceTag, number>()
-    for (const study of categoryFiltered) {
-      for (const tag of study.serviceIds ?? []) {
-        counts.set(tag, (counts.get(tag) ?? 0) + 1)
+  // Count per segment (flagship + standard only; system sub-projects count under parents)
+  const segmentCounts = useMemo(() => {
+    const counts: Record<WorkSegment, number> = { 'All': 0, 'Client Work': 0, 'Systems': 0, 'Brand': 0 }
+    for (const study of orderedStudies) {
+      if (systemSlugs.has(study.slug)) continue
+      for (const [seg, cats] of Object.entries(SEGMENT_CATEGORY_MAP)) {
+        if (cats.includes(study.category)) {
+          counts[seg as WorkSegment]++
+        }
       }
     }
-    return [...counts.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .map(([tag]) => tag)
-  }, [categoryFiltered])
+    return counts
+  }, [orderedStudies, systemSlugs])
 
+  // Visible studies filtered by segment — system slugs excluded (shown via SubProjectStrip)
   const visibleStudies = useMemo(() => {
-    if (!activeServiceFilter) return categoryFiltered
-    return categoryFiltered.filter((study) => study.serviceIds?.includes(activeServiceFilter))
-  }, [activeServiceFilter, categoryFiltered])
+    let result = orderedStudies.filter((s) => !systemSlugs.has(s.slug))
 
-  const defaultStudy = useMemo(
-    () => getDefaultStudy(visibleStudies) ?? getDefaultStudy(orderedStudies),
-    [orderedStudies, visibleStudies]
+    if (activeSegment !== 'All') {
+      const cats = SEGMENT_CATEGORY_MAP[activeSegment]
+      result = result.filter((s) => cats.includes(s.category))
+    }
+
+    if (activeServiceFilter) {
+      result = result.filter((s) => s.serviceIds?.includes(activeServiceFilter))
+    }
+
+    return result
+  }, [activeSegment, activeServiceFilter, orderedStudies, systemSlugs])
+
+  const flagshipStudies = useMemo(
+    () => visibleStudies.filter((s) => s.dashboardTier === 'flagship'),
+    [visibleStudies]
   )
 
-  const activeStudy = useMemo(
-    () => visibleStudies.find((study) => study.slug === activeSlug) ?? defaultStudy,
-    [activeSlug, defaultStudy, visibleStudies]
+  const supportingStudies = useMemo(
+    () => visibleStudies.filter((s) => s.dashboardTier !== 'flagship'),
+    [visibleStudies]
   )
-
-  // Clear service filter when category changes
-  const handleCategoryFilter = (filter: 'All Work' | WorkCategory) => {
-    setActiveFilter(filter)
-    setActiveServiceFilter(null)
-    setActiveSlug(null)
-  }
-
-  if (!activeStudy) return null
 
   return (
     <>
-      <WorkHeroSummary studies={studies} activeStudy={activeStudy} />
+      <WorkHeroEntry />
 
-      <ResultsHeader
-        activeStudy={activeStudy}
-        visibleCount={visibleStudies.length}
-        activeFilter={activeFilter}
-        setActiveFilter={handleCategoryFilter}
-        activeServiceFilter={activeServiceFilter}
-        setActiveServiceFilter={setActiveServiceFilter}
-        categories={categories}
-        serviceTags={serviceTags}
+      <WorkSubNav
+        active={activeSegment}
+        onChange={setActiveSegment}
+        counts={segmentCounts}
       />
 
-      <motion.section layout className={styles.dashboardGrid}>
-        <AnimatePresence mode="popLayout">
-          {visibleStudies.map((study) => (
-            <WorkDashboardCard
-              key={study.slug}
-              study={study}
-              active={study.slug === activeStudy.slug}
-              onActivate={setActiveSlug}
-              onDeactivate={() => setActiveSlug(null)}
-            />
-          ))}
-        </AnimatePresence>
-      </motion.section>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeSegment + (activeServiceFilter ?? '')}
+          initial="hidden"
+          animate="visible"
+          variants={CARD_STAGGER}
+        >
+          {/* ── Flagship proof ── */}
+          {flagshipStudies.length > 0 && (
+            <div className={styles.flagshipSection}>
+              {flagshipStudies.map((study) => (
+                <FlagshipUnit key={study.slug} study={study} allStudies={orderedStudies} />
+              ))}
+            </div>
+          )}
+
+          {/* ── Supporting proof ── */}
+          {supportingStudies.length > 0 && (
+            <>
+              {flagshipStudies.length > 0 && (
+                <div className={styles.sectionDivider}>
+                  <span className={styles.sectionDividerLabel}>More work</span>
+                </div>
+              )}
+              <div className={styles.supportingGrid}>
+                {supportingStudies.map((study) => (
+                  <motion.div key={study.slug} variants={CARD_ITEM}>
+                    <WorkDashboardCard study={study} />
+                  </motion.div>
+                ))}
+              </div>
+            </>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </>
   )
 }
+
+// ── Bottom CTA ────────────────────────────────────────────────────────────────
 
 export function WorkBottomCTA() {
   return (

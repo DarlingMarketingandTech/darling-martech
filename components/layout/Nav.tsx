@@ -10,10 +10,8 @@ import styles from './Nav.module.css'
 const navLinks = [
   { href: '/work', label: 'Work' },
   { href: '/services', label: 'Services' },
-  { href: '/process', label: 'Process' },
+  { href: '/lab', label: 'Tools' },
   { href: '/about', label: 'About' },
-  { href: '/lab', label: 'Lab' },
-  { href: '/studio', label: 'Studio' },
 ]
 
 // Desktop nav link with orange underline on hover

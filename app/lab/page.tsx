@@ -8,7 +8,7 @@ import { Fragment, useCallback, useRef, useState } from 'react'
 import { CodeIcon, MegaphoneIcon, PlanetIcon, RocketIcon } from '@phosphor-icons/react'
 import LabModal from '@/components/lab/LabModal'
 import { GalleryHoverCard } from '@/components/ui/gallery-hover-card'
-import { containerVariants, itemVariants, fadeVariants, viewport } from '@/lib/motion'
+import { containerVariants, itemVariants, fadeVariants } from '@/lib/motion'
 import { useFinePointer } from '@/hooks/useFinePointer'
 import styles from './Lab.module.css'
 
@@ -53,9 +53,6 @@ const tools: Tool[] = [
   // Technologist
   { name: 'PRO DJ Studio', category: 'Technologist', status: 'Production', description: 'Professional-grade mixing environment built for the browser — dual-deck architecture, real-time AI STEM separation, and a 3D-accelerated interface at near-hardware latency.', stack: ['Next.js', 'Web Audio API', 'Zustand'], detailHref: '/lab/pro-dj-studio', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/PRO_DJ_STUDIO_-_home.png' },
   { name: 'Strum AI', category: 'Technologist', status: 'Production', description: 'AI-driven guitar transcription engine — converts audio ideas into chord charts, tabs, and interactive notation with a Notion-like song management system.', stack: ['React', 'Vite', 'AI Audio'], detailHref: '/lab/strum-ai', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/STRUM_AI_I_Pro_Guitar_Transcription.png' },
-  { name: 'Site Optimization & Security', category: 'Technologist', status: 'Production', description: 'Cloudflare Workers-based site optimization pipeline with security headers and edge caching.', stack: ['Cloudflare Workers', 'TypeScript', 'Edge Runtime'], url: 'https://bearcave-marketing-v2.vercel.app/lab/site-optimization', coverImage: 'https://images.pexels.com/photos/6466141/pexels-photo-6466141.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' },
-  { name: 'GA4 Analytics Bridge', category: 'Technologist', status: 'Production', description: 'GA4 to custom dashboard bridge with event schema normalization and automated reporting.', stack: ['Node.js', 'GA4 API', 'Google Sheets API'], url: 'https://bearcave-marketing-v2.vercel.app/lab/ga4-bridge', coverImage: 'https://images.pexels.com/photos/97080/pexels-photo-97080.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' },
-  { name: 'Zero-FOUC Theme Engine', category: 'Technologist', status: 'Production', description: 'Flash-of-unstyled-content elimination system for theme switching in Next.js apps.', stack: ['Next.js', 'TypeScript', 'CSS Variables'], url: 'https://bearcave-marketing-v2.vercel.app/lab/zero-fouc', coverImage: 'https://images.pexels.com/photos/36571389/pexels-photo-36571389.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' },
 ]
 
 const categories = ['All', 'Marketing', 'Developer', 'Technologist'] as const
@@ -347,11 +344,11 @@ export default function LabPage() {
           <motion.div className={styles.headerWrap} variants={containerVariants} initial="hidden" animate="visible">
             <motion.p variants={fadeVariants} className={styles.eyebrow}>Lab</motion.p>
             <motion.h1 variants={itemVariants} className={styles.headline}>
-              Tools &amp; Experiments.
+              Tools.
             </motion.h1>
             <motion.p variants={itemVariants} className={styles.subheadline}>
-              Marketing tools, developer utilities, and technologist experiments — built to solve real
-              problems and shipped to production.
+              Interactive tools built to solve real problems — audits, simulators, calculators, and
+              platforms shipped to production and used by real businesses.
             </motion.p>
           </motion.div>
 
