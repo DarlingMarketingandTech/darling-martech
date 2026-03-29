@@ -64,7 +64,7 @@ Conflict rule:
 
 ### Consolidated IA / Page Strategy Snapshot
 - Live core pages: `/`, `/services`, `/services/[slug]`, `/work`,
-  `/work/[slug]`, `/lab`, `/lab/[slug]`, `/lab/cmo-simulator`, `/about`,
+  `/work/[slug]`, `/tools`, `/tools/[slug]`, `/tools/cmo-simulator`, `/about`,
   `/contact`, `/studio`, `/process`.
 - Planned priority pages/routes:
   - child-service money pages under current service parents
@@ -78,7 +78,7 @@ Conflict rule:
 - Internal linking minimums:
   - Every service page: link to `/contact` + at least 2 relevant work pages.
   - Every work page: link to the service page it proves.
-  - Every lab page: exactly 1 primary service link + 1 supporting work link.
+  - Every tools page: exactly 1 primary service link + 1 supporting work link.
 
 ### Consolidated Proof / Taxonomy Snapshot
 - Top reusable proof assets: Graston Technique, Pike Medical, PrimaryCare Indy,
@@ -92,7 +92,7 @@ Conflict rule:
   - `300% organic traffic growth`
   - `75% more bookings`
   - `40% conversion lift`
-- Proof routing rule: every `/work/[slug]` and `/lab/[slug]` should map to a
+- Proof routing rule: every `/work/[slug]` and `/tools/[slug]` should map to a
   primary parent service and explicit CTA destination.
 
 ### Consolidated Repo Hygiene Snapshot (2026-03-28)
@@ -157,7 +157,7 @@ Primary source of truth for:
 - application routes
 - page content
 - service architecture
-- work/lab structures
+- work/tools structures
 - shared UI components
 - internal linking patterns
 - local content/data sources
@@ -656,14 +656,18 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 ## Current Site Architecture (Phase 2 — Live)
 
 ### Pages live on darling-martech.vercel.app
+
 - `/` — Home (all core sections, 3D hero, stats, services, case studies, testimonials, CTA)
 - `/about` — Full about page with career timeline
 - `/contact` — Contact form page (React Hook Form + Zod + Resend)
 - `/work` — Case studies index (masonry/staggered grid — Live)
 - `/work/[slug]` — Individual case study pages (data-driven from `data/work/`)
-- `/lab` — Lab tools index (10 detail pages — Live)
-- `/lab/[slug]` — Lab detail pages (data-driven from `data/labs.ts`)
-- `/lab/cmo-simulator` — Special: gated access via `CmoAccessModal`
+- `/tools` — Tools index (10 detail pages — Live)
+- `/tools/[slug]` — Tools detail pages (data-driven from `data/labs.ts`)
+- `/tools/cmo-simulator` — Special: gated access via `CmoAccessModal`
+
+> Note: `/lab` routes are preserved with permanent redirects to `/tools/*` for backward compatibility.
+
 - `/services` — Services page with 6 service categories (Live)
 - `/services/[slug]` — Individual service detail pages (Live)
 - `/studio` — Cloudinary masonry gallery (Live)
@@ -683,7 +687,8 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 
 **All content lives in `/data/` as typed TypeScript files. Never hardcode content in components.**
 
-### `/data/labs.ts` — 10 lab entries in `LAB_DETAIL_DATA`
+### `/data/labs.ts` — 10 tool entries in `LAB_DETAIL_DATA`
+> Note: `/data/labs.ts` remains the internal data source. Public routes now use `/tools` while `/lab` redirects to `/tools`.
 | Slug | Name | Category | Live URL |
 |---|---|---|---|
 | `cmo-simulator` | CMO Simulator | Marketing | (gated — email access) |
