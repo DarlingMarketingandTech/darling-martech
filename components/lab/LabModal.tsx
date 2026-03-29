@@ -62,7 +62,7 @@ export default function LabModal({ isOpen, onClose, toolSrc, toolName, toolSlug 
                 <span className={styles.titleName}>{toolName}</span>
               </div>
               <div className={styles.titleActions}>
-                <Link href={`/lab/${toolSlug}`} className={styles.readLink}>
+                <Link href={`/tools/${toolSlug}`} className={styles.readLink}>
                   <ArrowSquareOutIcon weight="regular" size={16} />
                   Read the build
                 </Link>

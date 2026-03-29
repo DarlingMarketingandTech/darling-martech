@@ -10,7 +10,7 @@ import styles from './Nav.module.css'
 const navLinks = [
   { href: '/work', label: 'Work' },
   { href: '/services', label: 'Services' },
-  { href: '/lab', label: 'Tools' },
+  { href: '/tools', label: 'Tools' },
   { href: '/about', label: 'About' },
 ]
 

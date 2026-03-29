@@ -31,7 +31,7 @@ export default function LabDetailPage({
     <main className={styles.page}>
       {/* Back link */}
       <div className={styles.backWrap}>
-        <Link href="/lab" className={styles.backLink}>
+        <Link href="/tools" className={styles.backLink}>
           <ArrowLeft weight="regular" size={15} />
           All builds
         </Link>
@@ -197,7 +197,7 @@ export default function LabDetailPage({
           Let&apos;s talk
           <ArrowRight weight="regular" size={16} />
         </Link>
-        <Link href="/lab" className={styles.backToLab}>
+        <Link href="/tools" className={styles.backToLab}>
           ← Back to all builds
         </Link>
       </motion.section>

@@ -59,6 +59,17 @@ const nextConfig = {
         destination: '/services/growth/geo-optimization',
         permanent: true,
       },
+      // ── Lab → Tools route migration ────────────────────────────────────────
+      {
+        source: '/lab',
+        destination: '/tools',
+        permanent: true,
+      },
+      {
+        source: '/lab/:slug*',
+        destination: '/tools/:slug*',
+        permanent: true,
+      },
     ]
   },
   // NOTE: If build fails with "generate is not a function", it's because

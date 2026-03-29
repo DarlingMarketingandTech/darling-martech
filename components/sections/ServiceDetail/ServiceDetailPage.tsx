@@ -224,7 +224,7 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
                       </a>
                     )}
                     {tool.internalCtaLabel && (
-                      <Link href={`/lab/${tool.labSlug}`} className={styles.geoAuditSecondary}>
+                      <Link href={`/tools/${tool.labSlug}`} className={styles.geoAuditSecondary}>
                         {tool.internalCtaLabel}
                       </Link>
                     )}
