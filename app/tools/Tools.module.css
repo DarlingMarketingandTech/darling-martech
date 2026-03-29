@@ -131,6 +131,25 @@
   display: flex;
 }
 
+/* Lower-priority index cards — still reachable, less visual weight */
+.gridCellDeemphasize {
+  opacity: 0.78;
+}
+
+.gridCellDeemphasize:hover {
+  opacity: 0.9;
+}
+
+/* One-line context before the main tool grid (not a CTA) */
+.gridLead {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  color: var(--color-muted);
+  max-width: 52ch;
+  margin: 0 0 1.25rem;
+}
+
 /* ── Tool card visuals ── */
 
 .toolFooterMeta {

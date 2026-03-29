@@ -31,6 +31,10 @@ type Tool = {
   /** Opens `LabModal` on `/tools` instead of navigating away first. */
   launchIframe?: { src: string; slug: string }
   coverImage?: string
+  /** Omit from the masonry grid (shown in the featured hero row instead). */
+  hideFromGrid?: boolean
+  /** Softer presentation — experiments / non-core surface. */
+  deemphasize?: boolean
 }
 
 type IframeToolSession = {
@@ -40,19 +44,106 @@ type IframeToolSession = {
 }
 
 const tools: Tool[] = [
-  // Marketing
-  { name: 'Graston Growth Engine', category: 'Marketing', status: 'Production', description: 'Full-stack provider directory and lead-gen OS — map-integrated spatial search, AI assistant console, Premier analytics suite, and automated support ticketing for a national healthcare brand.', stack: ['Next.js', 'Supabase', 'Google Maps API', 'TypeScript'], detailHref: '/tools/graston-growth-engine', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/graston-growth-engine_-_for_providers.png' },
-  { name: 'GEO Readiness Auditor', category: 'Marketing', status: 'Production', description: 'SMB-focused AI visibility audit that scores GEO readiness (0-100), flags top-priority issues, and unlocks a full fix roadmap by email.', stack: ['Next.js', 'TypeScript', 'Cheerio', 'Resend'], launchIframe: { src: 'https://darling-martech-geo-audit-tool.vercel.app/', slug: 'geo-readiness-auditor' }, coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1200,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png' },
-  { name: 'CMO Roadmap Generator', category: 'Marketing', status: 'Production', description: 'Guided intake that turns your goals, budget reality, and constraints into a prioritized marketing roadmap you can run or hand to a team.', stack: ['Next.js', 'TypeScript', 'Vercel'], launchIframe: { src: 'https://cmo-roadmap-generator.vercel.app/intake', slug: 'cmo-roadmap-generator' }, coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/v1774736805/cmo-roadmap-generator-home.png' },
-  { name: 'Investment ROI Planner', category: 'Marketing', status: 'Production', description: 'Self-serve financial planning tool that helps practitioners calculate ROI on Graston certification before talking to sales.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/tools/investment-roi-planner', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Graston_Technique_ROI_Calculator_-_main.png' },
-  // Developer
-  { name: 'Barbershop Command Center', category: 'Developer', status: 'Production', description: 'Full-stack business OS for barbershop owners — unified scheduling dashboard, revenue projection, barber-specific availability, and a high-conversion client booking engine.', stack: ['Next.js', 'React', 'Supabase'], detailHref: '/tools/barbershop-command-center', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Barbershop_Command_Center.jpg' },
-  { name: 'Clinical Compass', category: 'Developer', status: 'Production', description: 'Decision-support tool helping Graston practitioners navigate clinical protocols and treatment pathways without calling the home office.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/tools/clinical-compass', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/graston_instruments_-_clinical_compass.jpg' },
-  { name: 'License Requirements Navigator', category: 'Developer', status: 'Production', description: 'State-by-state licensing lookup for healthcare practitioners — which credentials they need, which Graston certs count toward them.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/tools/license-requirements', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Practitioner_License_Requirements_I_Graston_Technique_-_search.png' },
-  { name: 'Smart Sales & Pricing Tool', category: 'Developer', status: 'Production', description: 'Real-time pricing calculator for Graston certification bundles, equipment configurations, and institutional accounts.', stack: ['HTML', 'CSS', 'JavaScript'], detailHref: '/tools/smart-sales-pricing', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Graston_Technique_Smart_Pricing_Tool_-_home.png' },
-  // Technologist
-  { name: 'PRO DJ Studio', category: 'Technologist', status: 'Production', description: 'Professional-grade mixing environment built for the browser — dual-deck architecture, real-time AI STEM separation, and a 3D-accelerated interface at near-hardware latency.', stack: ['Next.js', 'Web Audio API', 'Zustand'], detailHref: '/tools/pro-dj-studio', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/PRO_DJ_STUDIO_-_home.png' },
-  { name: 'Strum AI', category: 'Technologist', status: 'Production', description: 'AI-driven guitar transcription engine — converts audio ideas into chord charts, tabs, and interactive notation with a Notion-like song management system.', stack: ['React', 'Vite', 'AI Audio'], detailHref: '/tools/strum-ai', coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/STRUM_AI_I_Pro_Guitar_Transcription.png' },
+  // Shown in featured hero only (not duplicated in grid below)
+  {
+    name: 'GEO Readiness Auditor',
+    category: 'Marketing',
+    status: 'Production',
+    description: 'SMB-focused AI visibility audit that scores GEO readiness (0-100), flags top-priority issues, and unlocks a full fix roadmap by email.',
+    stack: ['Next.js', 'TypeScript', 'Cheerio', 'Resend'],
+    launchIframe: { src: 'https://darling-martech-geo-audit-tool.vercel.app/', slug: 'geo-readiness-auditor' },
+    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1200,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png',
+    hideFromGrid: true,
+  },
+  {
+    name: 'CMO Roadmap Generator',
+    category: 'Marketing',
+    status: 'Production',
+    description: 'Guided intake that turns your goals, budget reality, and constraints into a prioritized marketing roadmap you can run or hand to a team.',
+    stack: ['Next.js', 'TypeScript', 'Vercel'],
+    launchIframe: { src: 'https://cmo-roadmap-generator.vercel.app/intake', slug: 'cmo-roadmap-generator' },
+    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/v1774736805/cmo-roadmap-generator-home.png',
+    hideFromGrid: true,
+  },
+  // Grid: client / proof-adjacent builds first (overlap with Work called out in copy), then depth
+  {
+    name: 'Graston Growth Engine',
+    category: 'Marketing',
+    status: 'Production',
+    description:
+      'Full case study on Work — same deployment. Full-stack provider directory and lead-gen OS — map-integrated spatial search, AI assistant console, Premier analytics suite, and automated support ticketing for a national healthcare brand.',
+    stack: ['Next.js', 'Supabase', 'Google Maps API', 'TypeScript'],
+    detailHref: '/tools/graston-growth-engine',
+    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/graston-growth-engine_-_for_providers.png',
+  },
+  {
+    name: 'Investment ROI Planner',
+    category: 'Marketing',
+    status: 'Production',
+    description:
+      'Full case study on Work — same asset. Self-serve financial planning tool that helps practitioners calculate ROI on Graston certification before talking to sales.',
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    detailHref: '/tools/investment-roi-planner',
+    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Graston_Technique_ROI_Calculator_-_main.png',
+  },
+  {
+    name: 'Barbershop Command Center',
+    category: 'Developer',
+    status: 'Production',
+    description:
+      'Full case study on Work — same deployment. Full-stack business OS for barbershop owners — unified scheduling dashboard, revenue projection, barber-specific availability, and a high-conversion client booking engine.',
+    stack: ['Next.js', 'React', 'Supabase'],
+    detailHref: '/tools/barbershop-command-center',
+    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Barbershop_Command_Center.jpg',
+  },
+  {
+    name: 'Clinical Compass',
+    category: 'Developer',
+    status: 'Production',
+    description: 'Decision-support tool helping Graston practitioners navigate clinical protocols and treatment pathways without calling the home office.',
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    detailHref: '/tools/clinical-compass',
+    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/graston_instruments_-_clinical_compass.jpg',
+  },
+  {
+    name: 'License Requirements Navigator',
+    category: 'Developer',
+    status: 'Production',
+    description: 'State-by-state licensing lookup for healthcare practitioners — which credentials they need, which Graston certs count toward them.',
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    detailHref: '/tools/license-requirements',
+    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Practitioner_License_Requirements_I_Graston_Technique_-_search.png',
+  },
+  {
+    name: 'Smart Sales & Pricing Tool',
+    category: 'Developer',
+    status: 'Production',
+    description:
+      'Full case study on Work — same asset. Real-time pricing calculator for Graston certification bundles, equipment configurations, and institutional accounts.',
+    stack: ['HTML', 'CSS', 'JavaScript'],
+    detailHref: '/tools/smart-sales-pricing',
+    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Graston_Technique_Smart_Pricing_Tool_-_home.png',
+  },
+  {
+    name: 'PRO DJ Studio',
+    category: 'Technologist',
+    status: 'Production',
+    description: 'Personal experiment — professional-grade mixing in the browser. Dual-deck architecture, real-time AI STEM separation, and a 3D-accelerated interface at near-hardware latency.',
+    stack: ['Next.js', 'Web Audio API', 'Zustand'],
+    detailHref: '/tools/pro-dj-studio',
+    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/PRO_DJ_STUDIO_-_home.png',
+    deemphasize: true,
+  },
+  {
+    name: 'Strum AI',
+    category: 'Technologist',
+    status: 'Production',
+    description: 'Personal experiment — AI-driven guitar transcription: audio ideas into chord charts, tabs, and interactive notation with a Notion-like song management system.',
+    stack: ['React', 'Vite', 'AI Audio'],
+    detailHref: '/tools/strum-ai',
+    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/STRUM_AI_I_Pro_Guitar_Transcription.png',
+    deemphasize: true,
+  },
 ]
 
 const categories = ['All', 'Marketing', 'Developer', 'Technologist'] as const
@@ -190,11 +281,14 @@ type FeaturedLab = {
     alt: string
   }
   stats?: { value: string; label: string }[]
+  /** Short label in the hero pill — distinguishes visitor utilities from the grid below. */
+  pill?: string
 }
 
 const featuredLabs: FeaturedLab[] = [
   {
     name: 'CMO Simulator',
+    pill: 'Visitor utility',
     description:
       'Walk through CMO-level decision-making — budget allocation, channel strategy, KPI selection, and execution priority. Same framework I use with clients. Takes about 10 minutes.',
     href: '/tools/cmo-simulator?launch=1',
@@ -207,6 +301,7 @@ const featuredLabs: FeaturedLab[] = [
   },
   {
     name: 'GEO Readiness Auditor',
+    pill: 'Visitor utility',
     description:
       'Is your site visible to AI? Run a fast 0-100 GEO audit, see top issues instantly, then unlock the full prioritized fix report by email.',
     iframeLaunch: {
@@ -218,6 +313,22 @@ const featuredLabs: FeaturedLab[] = [
     screenshot: {
       src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1200,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png',
       alt: 'GEO Readiness Auditor interface preview',
+    },
+  },
+  {
+    name: 'CMO Roadmap Generator',
+    pill: 'Visitor utility',
+    description:
+      'Structured intake: goals, constraints, and budget reality — then a prioritized roadmap you can execute or hand to a team. Free entry, same framing I use in live engagements.',
+    iframeLaunch: {
+      src: 'https://cmo-roadmap-generator.vercel.app/intake',
+      slug: 'cmo-roadmap-generator',
+    },
+    ctaLabel: 'Build your roadmap →',
+    stack: ['Next.js', 'TypeScript', 'Vercel'],
+    screenshot: {
+      src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_900,f_auto,q_auto/v1774736805/cmo-roadmap-generator-home.png',
+      alt: 'CMO Roadmap Generator intake preview',
     },
   },
 ]
@@ -246,7 +357,7 @@ function LabFeaturedCard({
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
               aria-hidden="true"
             />
-            Production · Featured
+            {lab.pill ?? 'Production · Featured'}
           </div>
           <h2 className={styles.featuredTitle}>{lab.name}</h2>
           <p className={styles.featuredDesc}>{lab.description}</p>
@@ -327,9 +438,11 @@ export default function LabPage() {
     setIframeTool(session)
   }, [])
   const closeIframeTool = useCallback(() => setIframeTool(null), [])
+  /** Keep modal mounted briefly so close animation can read last src (ref updated only when opening). */
   const iframePayload = iframeTool ?? lastIframeToolRef.current
   const isFinePointer = useFinePointer()
-  const filtered = activeCategory === 'All' ? tools : tools.filter((t) => t.category === activeCategory)
+  const gridTools = tools.filter((t) => !t.hideFromGrid)
+  const filtered = activeCategory === 'All' ? gridTools : gridTools.filter((t) => t.category === activeCategory)
 
   return (
     <main className={styles.main}>
@@ -347,8 +460,8 @@ export default function LabPage() {
               Tools.
             </motion.h1>
             <motion.p variants={itemVariants} className={styles.subheadline}>
-              Interactive tools built to solve real problems — audits, simulators, calculators, and
-              platforms shipped to production and used by real businesses.
+              Start with the three utilities below if you want to self-serve strategy and diagnostics.
+              Everything in the grid is production work — including client platforms you can also read as case studies on Work.
             </motion.p>
           </motion.div>
 
@@ -365,15 +478,17 @@ export default function LabPage() {
               >
                 {cat}
                 <span className={styles.filterCount}>
-                  {cat === 'All' ? tools.length : tools.filter((t) => t.category === cat).length}
+                  {cat === 'All'
+                    ? gridTools.length
+                    : gridTools.filter((t) => t.category === cat).length}
                 </span>
               </motion.button>
             ))}
           </motion.div>
         </section>
 
-        {/* Featured labs */}
-        <section className={styles.featuredGrid} aria-label="Featured labs">
+        {/* Primary visitor utilities — same launch behavior as before (link or in-page panel). */}
+        <section className={styles.featuredGrid} aria-label="Visitor utilities">
           {featuredLabs.map((lab, index) => (
             <LabFeaturedCard
               key={lab.name}
@@ -384,16 +499,25 @@ export default function LabPage() {
           ))}
         </section>
 
-        {/* Tools grid */}
+        <p className={styles.gridLead}>
+          More below: client deployments and side experiments — some entries also have a full write-up on Work while routes stay shared.
+        </p>
+
+        {/* Tools grid (excludes utilities already featured above) */}
         <motion.div
           key={activeCategory}
           className={styles.grid}
           variants={containerVariants}
           initial="hidden"
           animate="visible"
+          aria-label="Additional tools and builds"
         >
           {filtered.map((tool) => (
-            <motion.div key={tool.name} variants={itemVariants} className={styles.gridCell}>
+            <motion.div
+              key={tool.name}
+              variants={itemVariants}
+              className={`${styles.gridCell}${tool.deemphasize ? ` ${styles.gridCellDeemphasize}` : ''}`}
+            >
               <ToolCard tool={tool} onHighlight={setHoveredTool} onOpenIframeTool={openIframeTool} />
             </motion.div>
           ))}

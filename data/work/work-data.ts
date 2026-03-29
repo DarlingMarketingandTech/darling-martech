@@ -323,6 +323,59 @@ const workData: CaseStudy[] = [
     ],
   },
 
+  // ── Barbershop Command Center (Hoosier Boy) ───────────────────────────────
+  {
+    ...workIndex.find((w) => w.slug === 'barbershop-command-center')!,
+    titleTag: 'Barbershop Command Center — Dual-Sided Booking OS for Hoosier Boy | Darling MarTech',
+    metaDescription:
+      'Proof build: owner Command Center plus client booking for Hoosier Boy Barbershop — NSHR gating, premium slot logic, deposits, and real-time revenue projection in one Supabase-backed product.',
+    subhead:
+      'Hoosier Boy needed more than a generic scheduler. I built a domain-specific operating system: a Command Center for the floor and a booking engine for clients, sharing one real-time data model.',
+    challenge:
+      'Most barbershops stitch together group chats, paper books, and consumer scheduling apps. Double bookings, invisible no-shows, and owners who only see revenue after the week ends.\n\nThe structural issue is that client booking and back-of-house operations are treated as separate products — so the shop gets a pretty calendar for guests and a spreadsheet for the business, with nothing trustworthy in the middle.\n\nHoosier Boy Barbershop needed both sides in one system: almost-zero friction for clients, and a live operational and financial pulse for the owner and barbers — including rules that match how the shop actually prices and protects time.',
+    approach:
+      'I treated the problem as a dual-sided product in one Next.js codebase. The client path is conversion-led: service-first navigation, staff selection (Jimmy or Nate), mobile-first slot picking — no account wall.\n\nThe business logic encodes real shop rules. Premium extended services require two consecutive atomic slots with correct pricing. NSHR installation stays behind a completed consultation with deposit logic so long vacancies do not land on the business.\n\nOn the owner side, the dashboard answers what matters today: appointments, expected revenue, completion rate, and flagged issues. Barbers update Arrived / In-Service / Completed so the floor state stays honest without side channels.',
+    deliverables: [
+      {
+        title: 'Client Booking Engine',
+        emphasis: 'feature',
+        description:
+          'Service-first flow with staff-specific booking, real-time availability per barber, and mobile-first UX — designed to protect intent before friction kills it.',
+      },
+      {
+        title: 'Command Center Dashboard',
+        emphasis: 'feature',
+        description:
+          'Owner view for the day and week: appointment load, projected revenue, completion rate, and exceptions (no-shows, cancellations) in one surface.',
+      },
+      {
+        title: 'Operational Rules Engine',
+        description:
+          'Encoded premium slot validation, NSHR consultation gating, and deposit triggers so scheduling software matches revenue protection, not generic calendar defaults.',
+      },
+      {
+        title: 'Supabase + Next.js Architecture',
+        description:
+          'Postgres-backed appointment state with auth on the admin side, deployed on Vercel with server actions for overlap validation and optimistic client updates.',
+      },
+    ],
+    process: [
+      { label: 'Discovery', description: 'Mapped shop services, barber roster, premium offerings, and financial exposure on long appointments.' },
+      { label: 'Dual-surface build', description: 'Shipped client booking and owner dashboard against one schema and shared business rules.' },
+      { label: 'Hardening', description: 'Stress-tested slot logic, deposits, and edge cases (overlaps, cancellations) before go-live.' },
+    ],
+    outcome:
+      'The shop replaced fragmented tools with one source of truth. Owners see projected revenue before the week closes; clients book their barber without generic "next available" abstraction.\n\nThe build proves that when operational logic is specific — NSHR gating, premium slots, deposits — a custom platform outperforms one-size scheduling SaaS.\n\nHoosier Boy\'s broader engagement (brand, site, discovery) already moved bookings and local rankings; this system is the operational layer that makes high-complexity services shoppable without administrative chaos.',
+    whatThisMeansForYou:
+      'If your service business is bending Square or Calendly around rules those products were never meant to represent, you are paying for workarounds forever. I build the system that matches your actual operating model. That is what I build.',
+    ctaLine: 'build scheduling software that respects your real rules',
+    problemVisualPublicId: 'Barbershop_Command_Center',
+    cloudinaryAssets: [
+      { publicId: 'Barbershop_Command_Center', label: 'Barbershop Command Center dashboard', folder: 'studio/projects/hoosierboy-barber-shop' },
+      { publicId: 'Book_Appointment_I_Hoosier_Boy_Barbershop', label: 'Hoosier Boy client booking', folder: 'studio/projects/hoosierboy-barber-shop' },
+    ],
+  },
+
   // ── Perpetual Movement Fitness ─────────────────────────────────────────────
   {
     ...workIndex.find((w) => w.slug === 'perpetual-movement-fitness')!,
@@ -837,6 +890,159 @@ const workData: CaseStudy[] = [
     whatThisMeansForYou:
       'If your membership platform, course business, or subscription product relies on manual steps between checkout and delivery, you\'re creating inconsistency at scale and paying someone to do work a system should own. That\'s a fixable problem. That\'s what I build.',
     ctaLine: 'automate the work your team shouldn\'t be doing',
+  },
+
+  // ── Graston Growth Engine ─────────────────────────────────────────────────
+  {
+    ...workIndex.find((w) => w.slug === 'graston-growth-engine')!,
+    titleTag: 'Graston Growth Engine — Provider Directory & Two-Sided Growth Platform | Darling MarTech',
+    metaDescription:
+      'Proof build for Graston Technique: Next.js directory with map-synced Supabase spatial search, provider performance analytics, Premier ROI modeling, and AI-assisted support routing — live on Vercel.',
+    subhead:
+      'The clinician directory was the main patient acquisition surface, but it behaved like a static export. I rebuilt it as a product: patients get precise local results; providers see why Premier membership pays for itself.',
+    challenge:
+      'For Graston Technique, the provider directory is the primary patient acquisition touchpoint — but it was built like a static list, not a growth asset. Patients could not filter by location with precision. Providers had no honest view of profile performance. Clinical education was buried in manual support work that self-service and automation could absorb.\n\nScale broke in two directions: the patient path was too slow and imprecise for high-intent local search, and the provider path gave clinicians no reason to stay engaged between certification renewals.\n\nThe answer was not cosmetic search UI. It was treating the directory as a two-sided marketplace — measurable ROI for providers, real-time relevance for patients.',
+    approach:
+      'I shipped a Next.js App Router front end with Supabase PostgreSQL as the system of record for profiles, tiers, training levels, and support tickets.\n\nSpatial search is the technical spine: Google Maps exposes the viewport LatLngBounds; a debounced idle listener (300ms) batches fetches so the provider list stays synced with the map without hammering the database — the same pattern premium real estate products use.\n\nThe Provider Hub makes retention rational: profile views, site click-throughs, and funnel metrics tie to Premier positioning, including projected annual revenue under stated patient volume assumptions. The AI Assistant Console layers keyword-based ticket routing, after-hours auto-replies, and VIP escalation so corporate support scales without losing quality.',
+    deliverables: [
+      {
+        title: 'Map-Synced Spatial Directory',
+        emphasis: 'feature',
+        description:
+          'Viewport-bound Supabase queries against provider LatLng data with debounced updates — patients see who is actually near them as the map moves.',
+      },
+      {
+        title: 'Provider Hub & Premier ROI Surface',
+        emphasis: 'feature',
+        description:
+          'Per-provider analytics plus Recharts dashboards that make profile performance and upgrade economics visible — including projected revenue for Premier tiers.',
+      },
+      {
+        title: 'Admin Command Center',
+        description:
+          'Operations view for support load, VIP alerts, and automation performance so the team can manage a national network without flying blind.',
+      },
+      {
+        title: 'AI Assistant Console',
+        description:
+          'Rules-driven routing for billing vs clinical vs onboarding paths, after-hours coverage, and escalation — less manual triage on repetitive tickets.',
+      },
+      {
+        title: 'Supabase Schema & Membership Logic',
+        description:
+          'Normalized model for profiles, membership tiers, and tickets so directory, analytics, and support share one source of truth.',
+      },
+    ],
+    process: [
+      { label: 'Product framing', description: 'Defined two-sided success metrics — patient relevance and provider ROI — before touching schema design.' },
+      { label: 'Spatial + data layer', description: 'Implemented Supabase spatial filtering, map integration, and debounce strategy for production-scale queries.' },
+      { label: 'Provider + ops surfaces', description: 'Built Provider Hub analytics, Premier storytelling, admin command center, and automation console in parallel.' },
+      { label: 'Launch & iteration', description: 'Rolled out on Vercel with continuous tuning on performance, SEO-critical directory pages, and support workflows.' },
+    ],
+    outcome:
+      'Patients moved from paginated lists to real-time, map-aligned discovery. Providers shifted from passive listings to an active hub with defensible reasons to maintain profiles and consider Premier investment.\n\nThe automation layer multiplied clinical team capacity — faster routing, fewer repetitive touches, clearer escalation — without adding headcount.\n\nThis build sits inside the larger Graston platform story: +212% qualified leads, 95% overhead reduction, and 48 hours per week returned across the automation program. The Growth Engine is the public proof that the directory itself became revenue infrastructure, not a brochure.',
+    whatThisMeansForYou:
+      'If your "directory" is really a database dump with a map pin on top, you are leaving patient intent and provider retention on the table. I build directories as products with measurable economics. That is what I build.',
+    ctaLine: 'turn your directory into a growth and retention engine',
+    problemVisualPublicId: 'graston-growth-engine_-_for_providers',
+    cloudinaryAssets: [
+      { publicId: 'graston-growth-engine_-_for_providers', label: 'Graston Growth Engine provider hub', folder: 'studio/projects/graston-technique' },
+      { publicId: 'graston-growth-engine_-_admin_command_center', label: 'Graston Growth Engine admin command center', folder: 'studio/projects/graston-technique' },
+      { publicId: 'graston-growth-engine_-_ai_assistant', label: 'Graston Growth Engine AI assistant console', folder: 'studio/projects/graston-technique' },
+    ],
+  },
+
+  // ── Smart Sales & Pricing Tool (Graston) ──────────────────────────────────
+  {
+    ...workIndex.find((w) => w.slug === 'smart-sales-pricing')!,
+    titleTag: 'Smart Sales & Pricing Tool — Live Quoting Engine for Graston Sales | Darling MarTech',
+    metaDescription:
+      'Proof build: self-contained pricing calculator for Graston certification bundles and equipment — +38% lead-to-demo conversion, sub-two-minute quotes, rebuilt once on real rep usage.',
+    subhead:
+      'Complex bundles and institutional tiers were stalling demos. I gave reps a browser-tab calculator that answers pricing accurately while the prospect is still on the line.',
+    challenge:
+      'Graston\'s catalog mixed certifications, equipment configurations, and institutional tiers. Reps were assembling quotes in spreadsheets — wrong numbers eroded trust, and the lag between demo questions and emailed quotes killed momentum.\n\nThe failure mode was not "bad math." It was timing. Prospects who wait two days for a quote are not the same prospects you had live on the call.\n\nThe goal was zero-latency accuracy: configure live, show the number immediately, eliminate the follow-up gap.',
+    approach:
+      'I optimized for field use first: vanilla HTML, CSS, and JavaScript — no install, no login, a tab open next to Zoom.\n\nAll bundle discounts, tier rules, and equipment options live in a single calculation module so updates stay centralized. The UX pattern is real-time recalculation — every input change immediately refreshes totals so reps and prospects watch the number move together.\n\nVersioning was deliberate. v1 shipped fast to get real call usage; after 60 days of feedback, v2 rebuilt the interface around how reps actually navigated bundles while preserving the proven engine.',
+    deliverables: [
+      {
+        title: 'Real-Time Pricing Engine',
+        emphasis: 'feature',
+        description:
+          'JavaScript configuration object encoding bundles, discounts, and institutional rules — one module to maintain, immediate outputs on every change.',
+      },
+      {
+        title: 'Sales-Call UX (v1 → v2)',
+        description:
+          'Shipped quickly, observed real demos, then redesigned flows for how reps configured quotes under pressure — without rewriting trusted math.',
+      },
+      {
+        title: 'Zero-Dependency Deployment',
+        description:
+          'Static asset pattern so reps anywhere can run quotes offline-friendly and IT-light — critical for conference floors and remote sales.',
+      },
+    ],
+    process: [
+      { label: 'v1 sprint', description: 'Locked core pricing rules and shipped a working calculator into reps\' hands within days.' },
+      { label: 'Field observation', description: 'Collected 60 days of real-call feedback on sequencing, defaults, and error prevention.' },
+      { label: 'v2 rebuild', description: 'Rebuilt interaction design around observed behavior while keeping the calculation core stable.' },
+    ],
+    outcome:
+      'Lead-to-demo conversion improved 38% when pricing could be answered live, accurately, with full configuration detail — prospects did not need to "think about it" in a follow-up void.\n\nInternal friction dropped: reps stopped hand-building spreadsheet quotes; pricing stopped answering one-off "what if" emails.\n\nProof statement from the engagement: shipping a credible v1 and iterating on usage beats designing a perfect tool in isolation — and a disciplined JS file can replace a week of spreadsheet labor.',
+    whatThisMeansForYou:
+      'If your sales team is still the bottleneck between curiosity and a number, the fix is usually not more headcount — it is a calculator with your rules baked in. I build those systems. That is what I build.',
+    ctaLine: 'give sales accurate numbers in the moment prospects still care',
+    problemVisualPublicId: 'Graston_Technique_Smart_Pricing_Tool_-_home',
+    cloudinaryAssets: [
+      { publicId: 'Graston_Technique_Smart_Pricing_Tool_-_home', label: 'Smart Sales & Pricing Tool interface', folder: 'studio/projects/graston-technique' },
+    ],
+  },
+
+  // ── Investment ROI Planner (Graston) ─────────────────────────────────────
+  {
+    ...workIndex.find((w) => w.slug === 'investment-roi-planner')!,
+    titleTag: 'Investment ROI Planner — Self-Serve Certification Economics for Graston | Darling MarTech',
+    metaDescription:
+      'Proof build: embedded ROI planner answering certification payback before sales touch — three inputs, visual payback output, cited in +212% qualified lead lift for Graston Technique.',
+    subhead:
+      'The main objection was not clinical — it was economic. I built a top-of-funnel planner so practitioners validated payback themselves before the first rep conversation.',
+    challenge:
+      'Graston certification is a serious investment. The recurring objection in pipeline was practical: will this pay off for my practice?\n\nReps were burning call time on ROI math. Prospects arrived uncertain, so discovery calls fought economics instead of timing.\n\nThe strategic move was to qualify economically before the human conversation — answer the money question when intent is highest, on the marketing site, in under two minutes.',
+    approach:
+      'I deployed a vanilla HTML/CSS/JS experience embedded with Graston\'s properties — instant load, no framework tax, easy to host alongside existing pages.\n\nThe model stays intentionally simple: sessions per week, fee per session, certification cost — enough to produce credible monthly ROI and payback framing without pretending to be an FP&A suite.\n\nResults render in a visual panel prospects can screenshot for partners. A tight inline CTA captures hand-raisers at peak conviction — right after the math works in their heads.',
+    deliverables: [
+      {
+        title: 'JavaScript Financial Model',
+        emphasis: 'feature',
+        description:
+          'Transparent ROI and payback calculations tuned to certification economics — simple inputs, defensible outputs, easy to adjust as pricing evolves.',
+      },
+      {
+        title: 'Embedded Lead Asset',
+        description:
+          'Positioned on research paths where practitioners self-educate — not a rep-only tool — so marketing qualifies before sales spends cycles.',
+      },
+      {
+        title: 'Conversion-Optimized Results + CTA',
+        description:
+          'Results panel structured for clarity and shareability; CTA placed immediately after confirmation bias lands in the prospect\'s favor.',
+      },
+    ],
+    process: [
+      { label: 'Model design', description: 'Aligned inputs with how practitioners already think about weekly caseload and reimbursement.' },
+      { label: 'Build + embed', description: 'Shipped lightweight static asset for fast load and simple governance alongside core site.' },
+      { label: 'Funnel integration', description: 'Connected planner completion to CRM capture and sales follow-up rules.' },
+    ],
+    outcome:
+      'The planner became a primary driver behind a 212% increase in qualified lead volume. Practitioners who ran the math showed up ready — calls shifted to logistics and timing instead of "is this worth it."\n\nSales reclaimed time previously spent on spreadsheet education and moved it into closing.\n\nThis is the same throughline as the broader Graston automation story: let systems qualify so humans close.',
+    whatThisMeansForYou:
+      'If your funnel leaks because prospects cannot self-validate economics, a calculator is often the highest-ROI asset you can ship. I build those proofs. That is what I build.',
+    ctaLine: 'let the math qualify leads before your calendar does',
+    problemVisualPublicId: 'Graston_Technique_ROI_Calculator_-_main',
+    cloudinaryAssets: [
+      { publicId: 'Graston_Technique_ROI_Calculator_-_main', label: 'Investment ROI Planner main view', folder: 'studio/projects/graston-technique' },
+      { publicId: 'Graston_Technique_ROI_Calculator_-_2', label: 'Investment ROI Planner detail view', folder: 'studio/projects/graston-technique' },
+    ],
   },
 
   // ── Tuohy Bailey & Moore ──────────────────────────────────────────────────
