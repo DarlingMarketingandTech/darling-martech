@@ -689,11 +689,10 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 - `/contact` — Contact form page (React Hook Form + Zod + Resend)
 - `/work` — Case studies index (masonry/staggered grid — Live)
 - `/work/[slug]` — Individual case study pages (data-driven from `data/work/`)
-- `/tools` — Tools index (10 detail pages — Live)
-- `/tools/[slug]` — Tools detail pages (data-driven from `data/labs.ts`)
+- `/tools` — Tools index (3 live utilities — CMO Simulator, GEO Readiness Auditor, CMO Roadmap Generator)
 - `/tools/cmo-simulator` — Special: gated access via `CmoAccessModal`
 
-> Note: `/lab` routes are preserved with permanent redirects to `/tools/*` for backward compatibility.
+> Note: `/lab` routes are legacy and redirect permanently to `/tools/*` for backward compatibility.
 
 - `/services` — Services page with 6 service categories (Live)
 - `/services/[slug]` — Individual service detail pages (Live)
@@ -714,8 +713,8 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 
 **All content lives in `/data/` as typed TypeScript files. Never hardcode content in components.**
 
-### `/data/labs.ts` — 10 tool entries in `LAB_DETAIL_DATA`
-> Note: `/data/labs.ts` remains the internal data source. Public routes now use `/tools` while `/lab` redirects to `/tools`.
+### `/data/labs.ts` — 10 tool entries in `LAB_DETAIL_DATA` (internal source)
+> Note: public interaction is now on `/tools` with three primary utilities; `/lab` routes redirect to `/tools`.
 | Slug | Name | Category | Live URL |
 |---|---|---|---|
 | `cmo-simulator` | CMO Simulator | Marketing | (gated — email access) |

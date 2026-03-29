@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { PlayCircle, ArrowLeft, ArrowRight } from '@phosphor-icons/react'
@@ -12,11 +12,15 @@ import styles from '@/components/lab/LabDetailPage.module.css'
 
 function AutoLaunch({ onLaunch }: { onLaunch: () => void }) {
   const searchParams = useSearchParams()
+  const autoLaunched = useRef(false)
+
   useEffect(() => {
-    if (searchParams.get('launch') === '1') {
+    if (!autoLaunched.current && searchParams.get('launch') === '1') {
       onLaunch()
+      autoLaunched.current = true
     }
   }, [searchParams, onLaunch])
+
   return null
 }
 

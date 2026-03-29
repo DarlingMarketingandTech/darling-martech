@@ -229,6 +229,51 @@ button.featuredCta {
   gap: 1.25rem;
 }
 
+.finalCta {
+  margin: 0 auto 3rem;
+  padding: 1.1rem 1.5rem;
+  border: 1px solid rgba(245, 240, 232, 0.12);
+  border-radius: 16px;
+  background: rgba(20, 20, 20, 0.85);
+  color: var(--color-muted);
+  max-width: 760px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.finalCta p {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.finalCtaBtn {
+  width: fit-content;
+  margin: 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.62rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 77, 0, 0.34);
+  color: var(--color-accent);
+  background: transparent;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.finalCtaBtn:hover,
+.finalCtaBtn:focus-visible {
+  background: rgba(255, 77, 0, 0.08);
+}
+
+
 .featuredIconBox {
   width: 80px;
   height: 80px;

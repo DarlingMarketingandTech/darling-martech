@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { Fragment, useCallback, useRef, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 import { CodeIcon, MegaphoneIcon, PlanetIcon, RocketIcon } from '@phosphor-icons/react'
 import LabModal from '@/components/lab/LabModal'
 import { GalleryHoverCard } from '@/components/ui/gallery-hover-card'
@@ -321,13 +321,12 @@ export default function LabPage() {
   const [activeCategory, setActiveCategory] = useState<typeof categories[number]>('All')
   const [hoveredTool, setHoveredTool] = useState<string | null>(null)
   const [iframeTool, setIframeTool] = useState<IframeToolSession | null>(null)
-  const lastIframeToolRef = useRef<IframeToolSession | null>(null)
+  const [iframePayload, setIframePayload] = useState<IframeToolSession | null>(null)
   const openIframeTool = useCallback((session: IframeToolSession) => {
-    lastIframeToolRef.current = session
+    setIframePayload(session)
     setIframeTool(session)
   }, [])
   const closeIframeTool = useCallback(() => setIframeTool(null), [])
-  const iframePayload = iframeTool ?? lastIframeToolRef.current
   const isFinePointer = useFinePointer()
   const filtered = activeCategory === 'All' ? tools : tools.filter((t) => t.category === activeCategory)
 

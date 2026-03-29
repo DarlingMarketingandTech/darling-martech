@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { Fragment, useCallback, useRef, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 import { PlanetIcon } from '@phosphor-icons/react'
 import LabModal from '@/components/lab/LabModal'
 import { containerVariants, itemVariants, fadeVariants } from '@/lib/motion'
@@ -186,14 +186,12 @@ function LabFeaturedCard({
 
 export default function LabPage() {
   const [iframeTool, setIframeTool] = useState<IframeToolSession | null>(null)
-  const lastIframeToolRef = useRef<IframeToolSession | null>(null)
+  const [iframePayload, setIframePayload] = useState<IframeToolSession | null>(null)
   const openIframeTool = useCallback((session: IframeToolSession) => {
-    lastIframeToolRef.current = session
+    setIframePayload(session)
     setIframeTool(session)
   }, [])
   const closeIframeTool = useCallback(() => setIframeTool(null), [])
-  /** Keep modal mounted briefly so close animation can read last src (ref updated only when opening). */
-  const iframePayload = iframeTool ?? lastIframeToolRef.current
 
   return (
     <main className={styles.main}>
@@ -206,13 +204,12 @@ export default function LabPage() {
           />
 
           <motion.div className={styles.headerWrap} variants={containerVariants} initial="hidden" animate="visible">
-            <motion.p variants={fadeVariants} className={styles.eyebrow}>Lab</motion.p>
-            <motion.h1 variants={itemVariants} className={styles.headline}>
-              Tools.
-            </motion.h1>
-            <motion.p variants={itemVariants} className={styles.subheadline}>
-              Start with the three utilities below if you want to self-serve strategy and diagnostics.
-              Everything in the grid is production work — including client platforms you can also read as case studies on Work.
+          <motion.p variants={fadeVariants} className={styles.eyebrow}>Tools</motion.p>
+          <motion.h1 variants={itemVariants} className={styles.headline}>
+            self-serve strategy that scales.
+          </motion.h1>
+          <motion.p variants={itemVariants} className={styles.subheadline}>
+            Three practical utilities to diagnose, prioritize, and lock in your next marketing move. Run the tool, capture your output, and skip directly to the right conversation.
             </motion.p>
           </motion.div>
         </section>
@@ -229,6 +226,13 @@ export default function LabPage() {
           ))}
         </section>
       </div>
+
+      <section className={styles.finalCta}>
+        <p>Want a second set of eyes on the output? I can convert your tool results into a practical, workplan-ready roadmap.</p>
+        <Link href="/contact" className={styles.finalCtaBtn}>
+          Contact me
+        </Link>
+      </section>
 
       {iframePayload && (
         <LabModal

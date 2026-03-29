@@ -147,7 +147,7 @@ function FlagshipUnit({
   return (
     <motion.div className={styles.flagshipUnit} variants={CARD_ITEM}>
       <WorkDashboardCard study={study} />
-      <SubProjectStrip children={children} />
+      <SubProjectStrip>{children}</SubProjectStrip>
     </motion.div>
   )
 }
