@@ -76,7 +76,7 @@ export function ServicesExperience() {
             direction, build to execute it, growth to sustain it.
           </motion.p>
           <motion.div variants={itemVariants} className={styles.heroActions}>
-            <Link href="/contact" className={styles.primaryCta}>
+            <Link href="/contact?intent=service" className={styles.primaryCta}>
               Start a project
             </Link>
             <Link href="/work" className={styles.secondaryCta}>
@@ -183,7 +183,7 @@ export function ServicesExperience() {
               </h2>
             </div>
             <div className={styles.ctaActions}>
-              <Link href="/contact" className={styles.primaryCta}>
+              <Link href="/contact?intent=unsure" className={styles.primaryCta}>
                 Let&apos;s talk
               </Link>
               <Link href="/work" className={styles.secondaryCta}>

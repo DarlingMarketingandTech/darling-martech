@@ -28,7 +28,7 @@ export function ContactCTA() {
             transition={springEntrance}
             className="inline-block"
           >
-            <Link href="/contact" className={styles.ctaButton}>
+            <Link href="/contact?intent=service" className={styles.ctaButton}>
               Request a MarTech Audit →
             </Link>
           </motion.div>

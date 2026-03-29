@@ -113,6 +113,49 @@ Conflict rule:
   - Every work page: link to the service page it proves.
   - Every tools page: exactly 1 primary service link + 1 supporting work link.
 
+### Contact / Intake Flow Strategy (Phase 4E-2, 2026-03-29)
+**Role of `/contact`:** Qualified consultation request screen. Not a general
+inquiry form. Its job is to convert a pre-qualified visitor into a replied-to
+conversation with enough context for Jacob to respond usefully within 24 hours.
+
+**Intake model: Two-step progressive disclosure**
+- Step 1 — Intent selector tiles (4 options, not a dropdown):
+  1. "I know what I need" — from services, has a clear ask
+  2. "I saw something in your work" — proof-driven visitor
+  3. "I just ran a tool" — has a tool artifact, wants next steps
+  4. "I'm not sure yet" — exploring, low-confidence
+- Step 2 — Minimal form, fields adapted by selected tile
+
+**Minimum fields (always):** name, email, primary challenge (free text)
+**Optional always:** company / website
+**Conditional:** service dropdown (only if tile = "I know what I need");
+  short tool-output field (only if tile = "I just ran a tool")
+**Never ask up front:** budget, timeline, project type
+
+**Query param routing:** Accept `?intent=` to pre-select a tile on arrival.
+Use these across the site:
+  - `/tools` post-tool CTA → `/contact?intent=tool`
+  - Service/audit CTAs → `/contact?intent=service`
+  - `/work` detail CTAs → `/contact?intent=work`
+  - General exploratory CTAs → `/contact?intent=unsure`
+
+**Post-submit:** Stay on-page (swap form for success state). Success state
+confirms the action and response promise, then offers one next-step link based
+on intent:
+  - service intent → `/work` ("See relevant work")
+  - work intent → `/work` ("Explore all case studies")
+  - tool intent → `/tools` ("Revisit the tools")
+  - unsure intent → `/process` ("See how I run these conversations")
+
+**Page structure:** Short positioning line → intent tiles → minimal form →
+trust micro-copy under submit ("No pitch. Just a real conversation.") →
+email escape valve at bottom. No hero, no 3D scene. Contact page closes;
+other pages sell.
+
+**Implementation scope:** ✅ Fully implemented via `ContactForm.tsx` + `app/contact/page.tsx`
++ `/api/contact/route.ts`. API supports: `intent`, `service`, `toolOutput` fields.
+No additional routes, data files, or API routes required.
+
 ### Consolidated Proof / Taxonomy Snapshot
 - Top reusable proof assets: Graston Technique, Pike Medical, PrimaryCare Indy,
   UrgentCare Indy, 317 BBQ, Hoosier Boy, Riley Bennett Egloff, Tuohy Bailey &

@@ -5,11 +5,13 @@ import { z } from 'zod'
 export const runtime = 'edge'
 
 const contactSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  company: z.string().optional(),
-  email: z.string().email('Valid email required'),
-  service: z.string().min(1, 'Please select a service'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
+  name:       z.string().min(1, 'Name is required'),
+  company:    z.string().optional(),
+  email:      z.string().email('Valid email required'),
+  intent:     z.enum(['service', 'work', 'tool', 'unsure']).optional(),
+  service:    z.string().optional(),
+  toolOutput: z.string().optional(),
+  challenge:  z.string().min(1, 'Primary challenge is required'),
 })
 
 export async function POST(request: NextRequest) {
@@ -19,19 +21,33 @@ export async function POST(request: NextRequest) {
 
     const resend = new Resend(process.env.RESEND_API_KEY)
 
+    const intentLabel: Record<string, string> = {
+      service: 'Knows what they need',
+      work:    'Came from work proof',
+      tool:    'Just ran a tool',
+      unsure:  'Not sure yet',
+    }
+
+    const subjectContext = data.service
+      ?? (data.intent ? intentLabel[data.intent] : 'General inquiry')
+
+    const companyFragment = data.company ? ` at ${data.company}` : ''
+
     await resend.emails.send({
-      from: 'Darling MarTech <noreply@darlingmartech.com>',
-      to: ['jacob@jacobdarling.com'],
+      from:    'Darling MarTech <noreply@darlingmartech.com>',
+      to:      ['jacob@jacobdarling.com'],
       replyTo: data.email,
-      subject: `New inquiry from ${data.name}${data.company ? ` at ${data.company}` : ''} — ${data.service}`,
+      subject: `New inquiry from ${data.name}${companyFragment} — ${subjectContext}`,
       text: `
 Name: ${data.name}
 Company: ${data.company || 'N/A'}
 Email: ${data.email}
-Service: ${data.service}
+Intent: ${data.intent ? intentLabel[data.intent] : 'N/A'}
+${data.service ? `Service area: ${data.service}` : ''}
+${data.toolOutput ? `Tool output / key finding: ${data.toolOutput}` : ''}
 
-Message:
-${data.message}
+Primary challenge:
+${data.challenge}
       `.trim(),
     })
 

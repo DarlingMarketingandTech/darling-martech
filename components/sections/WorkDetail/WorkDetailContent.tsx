@@ -355,7 +355,7 @@ function ContactCta({ cs }: { cs: CaseStudy }) {
               transition={springEntrance}
               style={{ display: 'inline-block' }}
             >
-              <Link href="/contact" className={styles.ctaBtn}>
+              <Link href="/contact?intent=work" className={styles.ctaBtn}>
                 Let&apos;s talk
                 <ArrowRight weight="regular" size={14} />
               </Link>

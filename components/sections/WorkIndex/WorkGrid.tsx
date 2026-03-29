@@ -316,7 +316,7 @@ export function WorkBottomCTA() {
           transition={HERO_TRANSITION}
           style={{ display: 'inline-block' }}
         >
-          <Link href="/contact" className={styles.ctaBtn}>
+          <Link href="/contact?intent=work" className={styles.ctaBtn}>
             Start one
             <ArrowRight weight="light" className={styles.ctaIcon} />
           </Link>

@@ -1,7 +1,81 @@
+.formWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ── Intent tiles ── */
+
+.intentStep {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.intentLabel {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.intentTiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.625rem;
+}
+
+@media (max-width: 480px) {
+  .intentTiles {
+    grid-template-columns: 1fr;
+  }
+}
+
+.intentTile {
+  padding: 0.875rem 1rem;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-muted);
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+  line-height: 1.4;
+}
+
+.intentTile:hover {
+  border-color: rgba(255, 77, 0, 0.4);
+  color: var(--color-text);
+}
+
+.intentTileActive {
+  border-color: var(--color-accent);
+  color: var(--color-text);
+  background: rgba(255, 77, 0, 0.06);
+}
+
+/* ── Form ── */
+
 .form {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 560px) {
+  .fieldRow {
+    grid-template-columns: 1fr;
+  }
 }
 
 .field {
@@ -18,7 +92,7 @@
 .error {
   font-family: var(--font-body);
   font-size: 0.75rem;
-  color: #f87171; /* red-400 equivalent — not a Tailwind class */
+  color: #f87171;
   margin: 0;
 }
 
@@ -53,6 +127,9 @@
 /* ── Submit ── */
 
 .submitRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   padding-top: 0.5rem;
 }
 
@@ -68,6 +145,7 @@
   color: var(--color-text);
   border: none;
   cursor: pointer;
+  align-self: flex-start;
 }
 
 .submitBtn:disabled {
@@ -79,11 +157,19 @@
   display: inline-block;
 }
 
+.submitTrust {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  opacity: 0.7;
+  margin: 0;
+}
+
 .submitError {
-  margin-top: 0.75rem;
   font-family: var(--font-body);
   font-size: 0.875rem;
   color: #f87171;
+  margin: 0;
 }
 
 .emailLink {
@@ -117,5 +203,16 @@
 .successBody {
   font-family: var(--font-body);
   color: var(--color-muted);
-  margin: 0;
+  margin: 0 0 1.5rem;
+}
+
+.successNextStep {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.successNextStep:hover {
+  text-decoration: underline;
 }

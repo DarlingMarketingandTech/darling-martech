@@ -109,7 +109,7 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
         </FadeUp>
         <FadeUp delay={0.2}>
           <MagneticButton>
-            <Link href="/contact" className={styles.heroCta}>
+            <Link href="/contact?intent=service" className={styles.heroCta}>
               {primaryCtaLabel}
               <ArrowRight weight="regular" size={16} />
             </Link>
@@ -322,7 +322,7 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
           </p>
           <div className={styles.ctaButtons}>
             <MagneticButton>
-              <Link href="/contact" className={styles.ctaPrimary}>
+              <Link href="/contact?intent=service" className={styles.ctaPrimary}>
                 {primaryCtaLabel}
                 <ArrowRight weight="regular" size={16} />
               </Link>

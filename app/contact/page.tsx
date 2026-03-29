@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { ContactForm } from '@/components/sections/ContactForm'
 import styles from './Contact.module.css'
@@ -15,11 +16,9 @@ export default function ContactPage() {
         {/* Left column */}
         <div>
           <p className={styles.eyebrow}>Let&apos;s Talk</p>
-          <h1 className={styles.headline}>Ready to build something that works?</h1>
+          <h1 className={styles.headline}>Tell me what you&apos;re dealing with.</h1>
           <p className={styles.subheadline}>
-            Whether you need a full marketing system, a new website, or a strategic second
-            opinion — let&apos;s talk. I work with a small number of clients at a time so every
-            engagement gets my full attention.
+            I work with a small number of clients at a time. Here&apos;s where it starts.
           </p>
 
           <div className={styles.contactDetails}>
@@ -37,7 +36,10 @@ export default function ContactPage() {
         </div>
 
         {/* Right column — form */}
-        <ContactForm />
+        {/* Suspense required because ContactForm uses useSearchParams */}
+        <Suspense fallback={<div className={styles.formFallback} />}>
+          <ContactForm />
+        </Suspense>
       </div>
     </main>
   )

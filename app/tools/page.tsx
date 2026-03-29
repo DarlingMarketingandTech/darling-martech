@@ -229,8 +229,8 @@ export default function LabPage() {
 
       <section className={styles.finalCta}>
         <p>Want a second set of eyes on the output? I can convert your tool results into a practical, workplan-ready roadmap.</p>
-        <Link href="/contact" className={styles.finalCtaBtn}>
-          Contact me
+        <Link href="/contact?intent=tool" className={styles.finalCtaBtn}>
+          Turn your output into a workplan →
         </Link>
       </section>
 
