@@ -75,11 +75,20 @@ function WorkDashboardMedia({ study, tier }: { study: CaseStudy; tier: WorkDashb
   )
 }
 
-export function WorkDashboardCard({ study }: { readonly study: CaseStudy }) {
+export function WorkDashboardCard({
+  study,
+  layoutRole = 'flagship',
+}: {
+  readonly study: CaseStudy
+  readonly layoutRole?: 'flagship' | 'supporting'
+}) {
   const tier = study.dashboardTier ?? 'standard'
-  const metrics = study.metrics.slice(0, tier === 'flagship' ? 3 : 2)
+  const metricLimit =
+    layoutRole === 'supporting' ? 1 : tier === 'flagship' ? 3 : 2
+  const metrics = study.metrics.slice(0, metricLimit)
   const mediaPublicId = study.cardPublicId ?? study.heroPublicId ?? study.logoPublicId
   const hasArtworkMedia = Boolean(mediaPublicId && isLogoArtwork(mediaPublicId))
+  const isSupporting = layoutRole === 'supporting'
 
   return (
     <motion.article
@@ -92,10 +101,11 @@ export function WorkDashboardCard({ study }: { readonly study: CaseStudy }) {
         scale: { duration: 0.22 },
         layout: CARD_TRANSITION,
       }}
-      whileHover={{ y: -4 }}
+      whileHover={{ y: isSupporting ? -2 : -4 }}
       className={cn(
         styles.dashboardCardShell,
         getTierClassName(tier),
+        isSupporting && styles.cardSupporting,
         hasArtworkMedia && styles.dashboardCardArtworkShell,
       )}
     >
@@ -110,9 +120,15 @@ export function WorkDashboardCard({ study }: { readonly study: CaseStudy }) {
         <div className={styles.dashboardCardBody}>
           <div className={styles.dashboardCardTop}>
             <p className={styles.dashboardEyebrow}>{study.label}</p>
-            <span className={styles.dashboardTierTag}>
-              {tier === 'flagship' ? 'Flagship build' : tier === 'system' ? 'System build' : study.category}
-            </span>
+            {!isSupporting && (
+              <span className={styles.dashboardTierTag}>
+                {tier === 'flagship'
+                  ? 'Flagship study'
+                  : tier === 'system'
+                    ? 'System build'
+                    : study.category}
+              </span>
+            )}
           </div>
 
           <div className={styles.dashboardCardCopy}>
@@ -120,23 +136,27 @@ export function WorkDashboardCard({ study }: { readonly study: CaseStudy }) {
             <p className={styles.dashboardSummary}>{study.headline}</p>
           </div>
 
-          <div className={styles.dashboardMetrics}>
-            {metrics.map((metric, index) => (
-              <span
-                key={metric}
-                className={cn(styles.dashboardMetric, index === 0 && styles.dashboardMetricAccent)}
-              >
-                {metric}
-              </span>
-            ))}
-          </div>
+          {metrics.length > 0 && (
+            <div className={styles.dashboardMetrics}>
+              {metrics.map((metric, index) => (
+                <span
+                  key={metric}
+                  className={cn(styles.dashboardMetric, index === 0 && styles.dashboardMetricAccent)}
+                >
+                  {metric}
+                </span>
+              ))}
+            </div>
+          )}
 
           <div className={styles.dashboardFooter}>
-            <span className={styles.dashboardFooterMeta}>
-              {study.parentProjectSlug ? 'Connected to parent system' : study.category}
-            </span>
+            {!isSupporting && (
+              <span className={styles.dashboardFooterMeta}>
+                {study.parentProjectSlug ? 'Connected to parent system' : study.category}
+              </span>
+            )}
             <span className={styles.dashboardCta}>
-              Open case study
+              {isSupporting ? 'View case' : 'Open case study'}
               <ArrowRight weight="light" className={styles.dashboardCtaIcon} />
             </span>
           </div>

@@ -62,7 +62,7 @@ function WorkHeroEntry() {
         <p className={styles.heroEyebrow}>Selected work</p>
         <h1 className={styles.heroHeadline}>Proof beats promises.</h1>
         <p className={styles.heroSubhead}>
-          Real builds and outcomes — when you needed strategy, systems, and execution, not a vendor ticket.
+          Outcomes you can trace — strategy, systems, and execution — without the vendor runaround.
         </p>
       </motion.div>
     </section>
@@ -110,7 +110,7 @@ function SubProjectStrip({ children }: { readonly children: CaseStudy[] }) {
   if (children.length === 0) return null
   return (
     <div className={styles.subProjectStrip}>
-      <span className={styles.subProjectLabel}>Connected systems</span>
+      <span className={styles.subProjectLabel}>Systems behind this work</span>
       <div className={styles.subProjectList}>
         {children.map((child) => (
           <Link
@@ -231,11 +231,19 @@ export function WorkIndexExperience({
         >
           {/* ── Flagship proof ── */}
           {flagshipStudies.length > 0 && (
-            <div className={styles.flagshipSection}>
-              {flagshipStudies.map((study) => (
-                <FlagshipUnit key={study.slug} study={study} allStudies={orderedStudies} />
-              ))}
-            </div>
+            <>
+              <header className={styles.flagshipIntro}>
+                <p className={styles.flagshipIntroLabel}>Flagship proof</p>
+                <p className={styles.flagshipIntroHint}>
+                  Anchor cases — full context, metrics, and what changed.
+                </p>
+              </header>
+              <div className={styles.flagshipSection}>
+                {flagshipStudies.map((study) => (
+                  <FlagshipUnit key={study.slug} study={study} allStudies={orderedStudies} />
+                ))}
+              </div>
+            </>
           )}
 
           {/* ── Supporting proof ── */}
@@ -243,13 +251,13 @@ export function WorkIndexExperience({
             <>
               {flagshipStudies.length > 0 && (
                 <div className={styles.sectionDivider}>
-                  <span className={styles.sectionDividerLabel}>Supporting work</span>
+                  <span className={styles.sectionDividerLabel}>Supporting cases</span>
                 </div>
               )}
               <div className={styles.supportingGrid}>
                 {supportingStudies.map((study) => (
                   <motion.div key={study.slug} variants={CARD_ITEM}>
-                    <WorkDashboardCard study={study} />
+                    <WorkDashboardCard study={study} layoutRole="supporting" />
                   </motion.div>
                 ))}
               </div>
@@ -272,7 +280,7 @@ export function WorkBottomCTA() {
       viewport={{ once: true, margin: '-80px' }}
       transition={HERO_TRANSITION}
     >
-      <p className={styles.ctaText}>Every system started with a conversation.</p>
+      <p className={styles.ctaText}>Every serious build started as a conversation.</p>
       <MagneticButton radius={120} maxPull={14}>
         <motion.div
           whileHover={{ scale: 1.02 }}
