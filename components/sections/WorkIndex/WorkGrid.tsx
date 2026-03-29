@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight } from '@phosphor-icons/react'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
@@ -22,6 +22,15 @@ const SEGMENT_CATEGORY_MAP: Record<WorkSegment, string[]> = {
   'Systems': ['Automation & Systems'],
   'Brand': ['Brand Identity'],
 }
+
+const WORK_TAB_IDS: Record<WorkSegment, string> = {
+  All: 'work-tab-all',
+  'Client Work': 'work-tab-client-work',
+  Systems: 'work-tab-systems',
+  Brand: 'work-tab-brand',
+}
+
+const WORK_INDEX_PANEL_ID = 'work-index-filter-panel'
 
 const HERO_TRANSITION = {
   type: 'spring',
@@ -80,16 +89,31 @@ function WorkSubNav({
   readonly onChange: (segment: WorkSegment) => void
   readonly counts: Record<WorkSegment, number>
 }) {
+  const handleTabKeyDown = (event: ReactKeyboardEvent, seg: WorkSegment) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
+    event.preventDefault()
+    const i = SEGMENT_LABELS.indexOf(seg)
+    const delta = event.key === 'ArrowRight' ? 1 : -1
+    const next = (i + delta + SEGMENT_LABELS.length) % SEGMENT_LABELS.length
+    const nextSeg = SEGMENT_LABELS[next]
+    onChange(nextSeg)
+    requestAnimationFrame(() => document.getElementById(WORK_TAB_IDS[nextSeg])?.focus())
+  }
+
   return (
     <nav className={styles.subNav} aria-label="Filter work by type">
-      <div className={styles.subNavTrack} role="tablist">
+      <div className={styles.subNavTrack} role="tablist" aria-label="Work categories">
         {SEGMENT_LABELS.map((seg) => (
           <button
             key={seg}
+            id={WORK_TAB_IDS[seg]}
             type="button"
             role="tab"
             aria-selected={active === seg}
+            aria-controls={WORK_INDEX_PANEL_ID}
+            tabIndex={active === seg ? 0 : -1}
             onClick={() => onChange(seg)}
+            onKeyDown={(e) => handleTabKeyDown(e, seg)}
             className={`${styles.subNavBtn} ${active === seg ? styles.subNavBtnActive : ''}`}
           >
             {seg}
@@ -225,6 +249,10 @@ export function WorkIndexExperience({
       <AnimatePresence mode="wait">
         <motion.div
           key={activeSegment + (activeServiceFilter ?? '')}
+          id={WORK_INDEX_PANEL_ID}
+          role="tabpanel"
+          aria-labelledby={WORK_TAB_IDS[activeSegment]}
+          tabIndex={-1}
           initial="hidden"
           animate="visible"
           variants={CARD_STAGGER}

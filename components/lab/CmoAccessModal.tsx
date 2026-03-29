@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -27,6 +27,7 @@ interface CmoAccessModalProps {
 export default function CmoAccessModal({ isOpen, onClose }: CmoAccessModalProps) {
   const [phase, setPhase] = useState<'form' | 'iframe'>('form')
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'error'>('idle')
+  const restoreFocusRef = useRef<HTMLElement | null>(null)
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -36,24 +37,35 @@ export default function CmoAccessModal({ isOpen, onClose }: CmoAccessModalProps)
   )
 
   useEffect(() => {
-    if (isOpen) {
-      document.addEventListener('keydown', handleKeyDown)
-      document.body.style.overflow = 'hidden'
+    if (!isOpen) return
 
-      // Check session bypass
-      try {
-        if (sessionStorage.getItem(SESSION_KEY)) {
-          setPhase('iframe')
-        }
-      } catch {
-        // sessionStorage unavailable — show form
+    restoreFocusRef.current = document.activeElement as HTMLElement | null
+    document.addEventListener('keydown', handleKeyDown)
+    document.body.style.overflow = 'hidden'
+
+    try {
+      if (sessionStorage.getItem(SESSION_KEY)) {
+        setPhase('iframe')
       }
+    } catch {
+      // sessionStorage unavailable — show form
     }
+
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
       document.body.style.overflow = ''
+      restoreFocusRef.current?.focus?.()
+      restoreFocusRef.current = null
     }
   }, [isOpen, handleKeyDown])
+
+  useEffect(() => {
+    if (!isOpen || phase !== 'form') return
+    const id = requestAnimationFrame(() => {
+      document.getElementById('cmo-name')?.focus()
+    })
+    return () => cancelAnimationFrame(id)
+  }, [isOpen, phase])
 
   // Reset to form state when modal closes
   useEffect(() => {
@@ -123,7 +135,7 @@ export default function CmoAccessModal({ isOpen, onClose }: CmoAccessModalProps)
                 <span className={styles.titleName}>CMO Simulator</span>
               </div>
               <button className={styles.closeBtn} onClick={onClose} aria-label="Close">
-                <XIcon weight="regular" size={18} />
+                <XIcon weight="regular" size={18} aria-hidden />
               </button>
             </div>
 

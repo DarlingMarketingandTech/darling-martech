@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import Link from 'next/link'
 import { CldImage } from 'next-cloudinary'
 import { motion } from 'framer-motion'
@@ -8,6 +8,7 @@ import { ArrowRight, CaretLeft, CaretRight } from '@phosphor-icons/react'
 import { getAllWork } from '@/data/work/work-data'
 import type { CaseStudy } from '@/lib/work'
 import { cn } from '@/lib/utils'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
 import {
   containerVariants,
   fadeVariants,
@@ -35,30 +36,31 @@ function getShowcaseStudies() {
     .filter((study): study is CaseStudy => Boolean(study))
 }
 
-function HomeWorkCard({
-  study,
-  active,
-  onActivate,
-}: {
-  study: CaseStudy
-  active: boolean
-  onActivate: () => void
-}) {
+function scrollSlideIntoRail(
+  rail: HTMLDivElement,
+  slide: HTMLElement,
+  behavior: ScrollBehavior
+) {
+  const railRect = rail.getBoundingClientRect()
+  const slideRect = slide.getBoundingClientRect()
+  const slideLeftInRail = slideRect.left - railRect.left + rail.scrollLeft
+  const padding = 8
+  const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth)
+  const left = Math.max(0, Math.min(slideLeftInRail - padding, maxScroll))
+  rail.scrollTo({ left, behavior })
+}
+
+function HomeWorkCard({ study }: { study: CaseStudy }) {
   const mediaPublicId = study.cardPublicId ?? study.heroPublicId ?? study.logoPublicId
   const metrics = study.metrics.slice(0, 2)
 
   return (
     <motion.article
-      className={cn(styles.cardShell, active && styles.cardShellActive)}
-      whileHover={{ y: -6 }}
+      className={styles.cardShell}
+      whileHover={{ y: -4 }}
       transition={springEntrance}
     >
-      <Link
-        href={`/work/${study.slug}`}
-        className={styles.card}
-        onMouseEnter={onActivate}
-        onFocus={onActivate}
-      >
+      <Link href={`/work/${study.slug}`} className={styles.card}>
         <div className={styles.cardMediaWrap}>
           {mediaPublicId && isArtwork(mediaPublicId) ? (
             <div className={cn(styles.cardMedia, styles.cardArtwork)}>
@@ -114,8 +116,8 @@ function HomeWorkCard({
           </div>
 
           <span className={styles.cardCta}>
-            Open case study
-            <ArrowRight weight="light" className={styles.cardCtaIcon} />
+            View case
+            <ArrowRight weight="light" className={styles.cardCtaIcon} aria-hidden />
           </span>
         </div>
       </Link>
@@ -127,8 +129,13 @@ export function CaseStudies() {
   const studies = useMemo(() => getShowcaseStudies(), [])
   const railRef = useRef<HTMLDivElement | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const reduceMotion = useReducedMotion()
 
-  const activeStudy = studies[activeIndex] ?? studies[0]
+  const scrollBehavior: ScrollBehavior = reduceMotion ? 'instant' : 'smooth'
+
+  /** Keeps nav state aligned if the showcase list is shorter than the stored index (data/HMR). */
+  const navIndex =
+    studies.length > 0 ? Math.min(activeIndex, Math.max(0, studies.length - 1)) : 0
 
   const scrollToIndex = (index: number) => {
     const rail = railRef.current
@@ -136,7 +143,8 @@ export function CaseStudies() {
 
     const nextIndex = Math.max(0, Math.min(index, studies.length - 1))
     const child = rail.children[nextIndex] as HTMLElement | undefined
-    child?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+    if (!child) return
+    scrollSlideIntoRail(rail, child, scrollBehavior)
     setActiveIndex(nextIndex)
   }
 
@@ -160,6 +168,25 @@ export function CaseStudies() {
     setActiveIndex((current) => (current === closestIndex ? current : closestIndex))
   }
 
+  const handleRailKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (studies.length === 0) return
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault()
+      scrollToIndex(navIndex - 1)
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault()
+      scrollToIndex(navIndex + 1)
+    } else if (event.key === 'Home') {
+      event.preventDefault()
+      scrollToIndex(0)
+    } else if (event.key === 'End') {
+      event.preventDefault()
+      scrollToIndex(studies.length - 1)
+    }
+  }
+
+  const currentStudy = studies[navIndex]
+
   return (
     <section id="work" className={styles.section}>
       <div className={styles.container}>
@@ -172,94 +199,77 @@ export function CaseStudies() {
         >
           <div className={styles.headerCopy}>
             <motion.p variants={fadeVariants} className={styles.label}>
-              Selected Work
+              Selected proof
             </motion.p>
             <motion.h2 variants={itemVariants} className={styles.heading}>
-              Work that proves the point.
+              A tight edit of the work.
             </motion.h2>
             <motion.p variants={itemVariants} className={styles.subheading}>
-              A smaller command-center view of a few case studies. Browse the highlights here, then
-              step into the full system on the work page.
+              Five case studies — same rigor as the work index, less surface area. Open any card for
+              the full story; everything else lives on{' '}
+              <Link href="/work" className={styles.subheadingLink}>
+                /work
+              </Link>
+              .
             </motion.p>
           </div>
 
           <motion.div variants={itemVariants} className={styles.headerActions}>
+            <div className={styles.railNav} role="group" aria-label="Scroll case studies">
+              <button
+                type="button"
+                className={styles.railNavBtn}
+                onClick={() => scrollToIndex(navIndex - 1)}
+                disabled={navIndex === 0}
+                aria-label="Previous case study"
+              >
+                <CaretLeft weight="regular" className={styles.railNavIcon} aria-hidden />
+              </button>
+              <button
+                type="button"
+                className={styles.railNavBtn}
+                onClick={() => scrollToIndex(navIndex + 1)}
+                disabled={navIndex === studies.length - 1}
+                aria-label="Next case study"
+              >
+                <CaretRight weight="regular" className={styles.railNavIcon} aria-hidden />
+              </button>
+            </div>
             <Link href="/work" className={styles.primaryCta}>
-              Explore all work
-              <ArrowRight weight="light" className={styles.primaryCtaIcon} />
+              Full proof on /work
+              <ArrowRight weight="light" className={styles.primaryCtaIcon} aria-hidden />
             </Link>
           </motion.div>
         </motion.div>
 
         <motion.div
-          className={styles.signalBar}
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={viewport}
-          transition={springEntrance}
-        >
-          <div className={styles.signalGroup}>
-            <span className={styles.signalLabel}>Current signal</span>
-            <div className={styles.signalPrimary}>
-              <span className={styles.signalMetric}>{activeStudy?.metrics[0] ?? 'Selected work'}</span>
-              <span className={styles.signalClient}>{activeStudy?.client ?? 'Darling MarTech'}</span>
-            </div>
-          </div>
-
-          <div className={styles.signalGroup}>
-            <span className={styles.signalLabel}>Visible projects</span>
-            <span className={styles.signalCount}>{String(studies.length).padStart(2, '0')}</span>
-          </div>
-
-          <div className={styles.controls}>
-            <button
-              type="button"
-              className={styles.controlButton}
-              onClick={() => scrollToIndex(activeIndex - 1)}
-              disabled={activeIndex === 0}
-              aria-label="Previous project"
-            >
-              <CaretLeft weight="regular" className={styles.controlIcon} />
-            </button>
-            <button
-              type="button"
-              className={styles.controlButton}
-              onClick={() => scrollToIndex(activeIndex + 1)}
-              disabled={activeIndex === studies.length - 1}
-              aria-label="Next project"
-            >
-              <CaretRight weight="regular" className={styles.controlIcon} />
-            </button>
-          </div>
-        </motion.div>
-
-        <motion.div
           className={styles.railOuter}
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={viewport}
           transition={springEntrance}
         >
-          <div className={styles.rail} ref={railRef} onScroll={handleScroll}>
-            {studies.map((study, index) => (
+          {currentStudy && (
+            <p className={styles.srOnly} aria-live="polite" aria-atomic="true">
+              Showing {currentStudy.client}, case study {navIndex + 1} of {studies.length}.
+            </p>
+          )}
+          <div
+            className={styles.rail}
+            ref={railRef}
+            onScroll={handleScroll}
+            role="region"
+            aria-label="Selected proof — horizontal case study list"
+            tabIndex={0}
+            onKeyDown={handleRailKeyDown}
+          >
+            {studies.map((study) => (
               <div key={study.slug} className={styles.railSlide}>
-                <HomeWorkCard
-                  study={study}
-                  active={index === activeIndex}
-                  onActivate={() => setActiveIndex(index)}
-                />
+                <HomeWorkCard study={study} />
               </div>
             ))}
           </div>
         </motion.div>
-
-        <div className={styles.progressTrack} aria-hidden="true">
-          <motion.div
-            className={styles.progressBar}
-            animate={{ width: `${((activeIndex + 1) / Math.max(studies.length, 1)) * 100}%` }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-          />
-        </div>
       </div>
     </section>
   )

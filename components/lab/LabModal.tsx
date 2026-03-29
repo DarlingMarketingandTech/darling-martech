@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { XIcon, ArrowSquareOutIcon } from '@phosphor-icons/react'
 import Link from 'next/link'
@@ -16,23 +16,39 @@ interface LabModalProps {
 }
 
 export default function LabModal({ isOpen, onClose, toolSrc, toolName, toolSlug }: LabModalProps) {
+  const restoreFocusRef = useRef<HTMLElement | null>(null)
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null)
+
   const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
+    (e: globalThis.KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     },
     [onClose]
   )
 
   useEffect(() => {
-    if (isOpen) {
-      document.addEventListener('keydown', handleKeyDown)
-      document.body.style.overflow = 'hidden'
-    }
+    if (!isOpen) return
+
+    restoreFocusRef.current = document.activeElement as HTMLElement | null
+    document.addEventListener('keydown', handleKeyDown)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
-      document.body.style.overflow = ''
+      document.body.style.overflow = prevOverflow
+      restoreFocusRef.current?.focus?.()
+      restoreFocusRef.current = null
     }
   }, [isOpen, handleKeyDown])
+
+  useEffect(() => {
+    if (!isOpen) return
+    const id = requestAnimationFrame(() => {
+      closeBtnRef.current?.focus()
+    })
+    return () => cancelAnimationFrame(id)
+  }, [isOpen])
 
   return (
     <AnimatePresence>
@@ -63,11 +79,17 @@ export default function LabModal({ isOpen, onClose, toolSrc, toolName, toolSlug 
               </div>
               <div className={styles.titleActions}>
                 <Link href={`/tools/${toolSlug}`} className={styles.readLink}>
-                  <ArrowSquareOutIcon weight="regular" size={16} />
+                  <ArrowSquareOutIcon weight="regular" size={16} aria-hidden />
                   Read the build
                 </Link>
-                <button className={styles.closeBtn} onClick={onClose} aria-label="Close tool">
-                  <XIcon weight="regular" size={18} />
+                <button
+                  ref={closeBtnRef}
+                  type="button"
+                  className={styles.closeBtn}
+                  onClick={onClose}
+                  aria-label="Close tool"
+                >
+                  <XIcon weight="regular" size={18} aria-hidden />
                 </button>
               </div>
             </div>

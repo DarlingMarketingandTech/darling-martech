@@ -880,7 +880,23 @@ These tie to the `ServicesAmbient` 3D scene component.
 ### Section Components (`components/sections/`)
 - `Hero.tsx` — Homepage hero
 - `Services.tsx` — Services overview section
-- `CaseStudies.tsx` — Case studies grid
+- `CaseStudies.tsx` — Homepage proof teaser: horizontal rail of a fixed showcase
+  list, minimal prev/next + link to `/work` (no signal bar or progress UI; rail
+  scroll uses the track only, aligned with the work index editorial pattern).
+  Accessibility: `aria-live` announces the active slide; the rail is a focusable
+  `region` with Arrow Left/Right and Home/End to change slides; prev/next icons
+  are `aria-hidden` (labels on buttons).
+- Work index `WorkStudioCarousel`: studio filter uses tab ids + `tabpanel` wiring,
+  arrow keys move between tabs; lightbox is `role="dialog"` with initial focus
+  on close, `Escape` and overlay click dismiss, body scroll locked while open,
+  focus returns to the thumb that opened it; close control has a visible
+  `:focus-visible` ring.
+- Work index `WorkGrid` / `WorkSubNav`: same tablist pattern as the studio strip —
+  stable tab `id`s, `aria-controls` on each tab pointing at the filtered results
+  `tabpanel`, roving `tabIndex`, Arrow Left/Right to change segment; panel uses
+  `aria-labelledby` for the active tab.
+- `CmoAccessModal`: on open, focus moves to the name field when the form phase is
+  shown; on close, focus returns to the element that had focus before open.
 - `CaseStudyContent.tsx` / `CaseStudyImages.tsx` — Work detail sections
 - `AboutTeaser.tsx` — About teaser on homepage
 - `Testimonials.tsx` — Testimonials section
@@ -894,7 +910,10 @@ These tie to the `ServicesAmbient` 3D scene component.
 
 ### Lab Components (`components/lab/`)
 - `LabDetailPage.tsx` — Lab tool detail layout
-- `LabModal.tsx` — Lab tool modal viewer
+- `LabModal.tsx` — Lab tool iframe modal: on open, focus moves to the close
+  control; on close, focus restores to the prior active element; `Escape` and
+  overlay click still close; body scroll locked while open; close button has a
+  visible `:focus-visible` ring.
 - `CmoAccessModal.tsx` — CMO Simulator access gate
 
 ### UI Components (`components/ui/`)

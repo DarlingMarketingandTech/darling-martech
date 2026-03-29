@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, type KeyboardEvent as ReactKeyboardEvent } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CldImage } from 'next-cloudinary'
-import { ArrowLeft, ArrowRight, X } from '@phosphor-icons/react'
+import { ArrowLeft, ArrowRight, XIcon } from '@phosphor-icons/react'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import styles from './WorkIndex.module.css'
 
@@ -38,6 +38,13 @@ const STUDIO_ITEMS: StudioItem[] = [
 
 const CATEGORIES: StudioCategory[] = ['Photography', 'Graphic Design']
 
+const STUDIO_TAB_IDS: Record<StudioCategory, string> = {
+  Photography: 'studio-tab-photography',
+  'Graphic Design': 'studio-tab-graphic-design',
+}
+
+const STUDIO_PANEL_ID = 'studio-carousel-panel'
+
 function scrollThumbCenteredInTrack(
   track: HTMLDivElement,
   thumb: HTMLDivElement,
@@ -58,6 +65,8 @@ export function WorkStudioCarousel() {
   const [lightboxItem, setLightboxItem] = useState<StudioItem | null>(null)
   const trackRef = useRef<HTMLDivElement | null>(null)
   const itemRefs = useRef<Array<HTMLDivElement | null>>([])
+  const lightboxCloseRef = useRef<HTMLButtonElement | null>(null)
+  const lightboxReturnFocusRef = useRef<HTMLElement | null>(null)
   const reduceMotion = useReducedMotion()
 
   const visible = STUDIO_ITEMS.filter((item) => item.category === active)
@@ -73,11 +82,23 @@ export function WorkStudioCarousel() {
 
   useEffect(() => {
     if (!lightboxItem) return
-    const onKeyDown = (event: KeyboardEvent) => {
+    const onKeyDown = (event: globalThis.KeyboardEvent) => {
       if (event.key === 'Escape') setLightboxItem(null)
     }
     document.addEventListener('keydown', onKeyDown)
-    return () => document.removeEventListener('keydown', onKeyDown)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const focusClose = () => lightboxCloseRef.current?.focus()
+    const id = requestAnimationFrame(focusClose)
+
+    return () => {
+      cancelAnimationFrame(id)
+      document.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = prevOverflow
+      lightboxReturnFocusRef.current?.focus()
+      lightboxReturnFocusRef.current = null
+    }
   }, [lightboxItem])
 
   const onPrev = () => {
@@ -86,6 +107,18 @@ export function WorkStudioCarousel() {
 
   const onNext = () => {
     setActiveIndex((current) => (current + 1) % visible.length)
+  }
+
+  const handleStudioTabKeyDown = (event: ReactKeyboardEvent, cat: StudioCategory) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
+    event.preventDefault()
+    const i = CATEGORIES.indexOf(cat)
+    const delta = event.key === 'ArrowRight' ? 1 : -1
+    const next = (i + delta + CATEGORIES.length) % CATEGORIES.length
+    const nextCat = CATEGORIES[next]
+    setActive(nextCat)
+    setActiveIndex(0)
+    requestAnimationFrame(() => document.getElementById(STUDIO_TAB_IDS[nextCat])?.focus())
   }
 
   return (
@@ -103,7 +136,7 @@ export function WorkStudioCarousel() {
             onClick={onPrev}
             aria-label="Previous studio image"
           >
-            <ArrowLeft weight="regular" size={16} />
+            <ArrowLeft weight="regular" size={16} aria-hidden />
           </button>
           <button
             type="button"
@@ -111,7 +144,7 @@ export function WorkStudioCarousel() {
             onClick={onNext}
             aria-label="Next studio image"
           >
-            <ArrowRight weight="regular" size={16} />
+            <ArrowRight weight="regular" size={16} aria-hidden />
           </button>
         </div>
 
@@ -119,13 +152,17 @@ export function WorkStudioCarousel() {
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
+              id={STUDIO_TAB_IDS[cat]}
               type="button"
               role="tab"
               aria-selected={active === cat}
+              aria-controls={STUDIO_PANEL_ID}
+              tabIndex={active === cat ? 0 : -1}
               onClick={() => {
                 setActive(cat)
                 setActiveIndex(0)
               }}
+              onKeyDown={(e) => handleStudioTabKeyDown(e, cat)}
               className={`${styles.studioToggleBtn} ${active === cat ? styles.studioToggleBtnActive : ''}`}
             >
               {cat}
@@ -137,7 +174,11 @@ export function WorkStudioCarousel() {
       <AnimatePresence mode="wait">
         <motion.div
           key={active}
+          id={STUDIO_PANEL_ID}
           ref={trackRef}
+          role="tabpanel"
+          aria-labelledby={STUDIO_TAB_IDS[active]}
+          tabIndex={-1}
           className={styles.studioTrack}
           initial={{ opacity: 0, x: 12 }}
           animate={{ opacity: 1, x: 0 }}
@@ -156,7 +197,11 @@ export function WorkStudioCarousel() {
                 type="button"
                 className={styles.studioThumbButton}
                 aria-label={`Open full image view: ${item.alt}`}
-                onClick={() => setLightboxItem(item)}
+                aria-haspopup="dialog"
+                onClick={(e) => {
+                  lightboxReturnFocusRef.current = e.currentTarget
+                  setLightboxItem(item)
+                }}
               >
                 <CldImage
                   src={item.publicId}
@@ -177,7 +222,7 @@ export function WorkStudioCarousel() {
       <div className={styles.studioFooter}>
         <Link href="/studio" className={styles.studioLink}>
           See full studio
-          <ArrowRight weight="light" className={styles.studioLinkIcon} />
+          <ArrowRight weight="light" className={styles.studioLinkIcon} aria-hidden />
         </Link>
       </div>
 
@@ -189,10 +234,14 @@ export function WorkStudioCarousel() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
+            role="presentation"
             onClick={() => setLightboxItem(null)}
           >
             <motion.div
               className={styles.lightboxContent}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Studio image preview"
               initial={{ scale: 0.96, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.96, opacity: 0 }}
@@ -200,12 +249,13 @@ export function WorkStudioCarousel() {
               onClick={(event) => event.stopPropagation()}
             >
               <button
+                ref={lightboxCloseRef}
                 type="button"
                 className={styles.lightboxClose}
                 onClick={() => setLightboxItem(null)}
                 aria-label="Close image preview"
               >
-                <X weight="bold" size={20} />
+                <XIcon weight="bold" size={20} aria-hidden />
               </button>
               <CldImage
                 src={lightboxItem.publicId}

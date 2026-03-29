@@ -83,13 +83,16 @@ export default function CmoSimulatorPage() {
           to unlock it and it opens right here in the page.
         </p>
         <motion.button
+          type="button"
           className={styles.launchBtn}
           onClick={() => setModalOpen(true)}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           transition={{ type: 'spring', stiffness: 120, damping: 20 }}
+          aria-haspopup="dialog"
+          aria-expanded={modalOpen}
         >
-          <PlayCircle weight="fill" size={20} />
+          <PlayCircle weight="fill" size={20} aria-hidden />
           Launch CMO Simulator
         </motion.button>
       </motion.section>
