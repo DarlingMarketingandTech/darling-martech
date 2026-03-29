@@ -214,7 +214,7 @@ export const serviceDetails: ParentServiceDetail[] = [
         title: 'Try the CMO Simulator.',
         body: 'A 10-minute guided decision framework that walks through budget allocation, channel strategy, KPI selection, and execution priority — the same logic used with clients.',
         externalCtaLabel: 'Run the simulator',
-        externalCtaHref: '/lab/cmo-simulator',
+        externalCtaHref: '/tools/cmo-simulator',
         internalCtaLabel: 'See how it was built',
         imagePublicId: 'CMO_Sim-_Q1',
         imageAlt: 'CMO Simulator — interactive strategy walkthrough',
@@ -568,7 +568,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     proof: [
       {
         label: 'GEO Readiness Auditor',
-        href: '/lab/geo-readiness-auditor',
+        href: '/tools',
         result: 'Live tool scores AI visibility from 0-100 and returns prioritized technical and content fixes.',
         signalLabel: 'Live diagnostic',
         metric: '0-100 GEO score',
@@ -599,7 +599,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     outcomeIds: ['traffic-growth', 'lead-gen', 'conversion-lift'],
     primaryCtaLabel: 'Run the free GEO audit',
     secondaryCtaLabel: 'See GEO build details',
-    secondaryCtaHref: '/lab/geo-readiness-auditor',
+    secondaryCtaHref: '/tools',
     pricingSignal: '$1.5K–$4K · One-time implementation, optional retainer',
     relatedServiceSlugs: ['growth', 'martech-audit', 'brand-web'],
     proofTools: [

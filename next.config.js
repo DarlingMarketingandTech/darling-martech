@@ -59,17 +59,67 @@ const nextConfig = {
         destination: '/services/growth/geo-optimization',
         permanent: true,
       },
-      // ── Lab → Tools route migration ────────────────────────────────────────
+      // ── Lab  Tools or Work route migration (targeted)
       {
         source: '/lab',
         destination: '/tools',
         permanent: true,
       },
       {
-        source: '/lab/:slug*',
-        destination: '/tools/:slug*',
+        source: '/lab/cmo-simulator',
+        destination: '/tools/cmo-simulator',
         permanent: true,
       },
+      {
+        source: '/lab/geo-readiness-auditor',
+        destination: '/tools',
+        permanent: true,
+      },
+      {
+        source: '/lab/cmo-roadmap-generator',
+        destination: '/tools',
+        permanent: true,
+      },
+      {
+        source: '/lab/pro-dj-studio',
+        destination: '/tools',
+        permanent: true,
+      },
+      {
+        source: '/lab/strum-ai',
+        destination: '/tools',
+        permanent: true,
+      },
+      {
+        source: '/lab/graston-growth-engine',
+        destination: '/work/graston-growth-engine',
+        permanent: true,
+      },
+      {
+        source: '/lab/barbershop-command-center',
+        destination: '/work/barbershop-command-center',
+        permanent: true,
+      },
+      {
+        source: '/lab/clinical-compass',
+        destination: '/work/clinical-compass',
+        permanent: true,
+      },
+      {
+        source: '/lab/smart-sales-pricing',
+        destination: '/work/smart-sales-pricing',
+        permanent: true,
+      },
+      {
+        source: '/lab/investment-roi-planner',
+        destination: '/work/investment-roi-planner',
+        permanent: true,
+      },
+      {
+        source: '/lab/license-requirements',
+        destination: '/work/license-requirements',
+        permanent: true,
+      }
     ]
   },
   // NOTE: If build fails with "generate is not a function", it's because

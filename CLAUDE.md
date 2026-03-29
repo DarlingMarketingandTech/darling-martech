@@ -692,7 +692,7 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 - `/tools` — Tools index (3 live utilities — CMO Simulator, GEO Readiness Auditor, CMO Roadmap Generator)
 - `/tools/cmo-simulator` — Special: gated access via `CmoAccessModal`
 
-> Note: `/lab` routes are legacy and redirect permanently to `/tools/*` for backward compatibility.
+> Note: `/lab` routes are legacy and now redirect with explicit migration rules (e.g. `/lab/cmo-simulator` -> `/tools/cmo-simulator`, old tool slugs redirect to `/tools` or `/work/[slug]` as appropriate).
 
 - `/services` — Services page with 6 service categories (Live)
 - `/services/[slug]` — Individual service detail pages (Live)
@@ -713,21 +713,13 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 
 **All content lives in `/data/` as typed TypeScript files. Never hardcode content in components.**
 
-### `/data/labs.ts` — 10 tool entries in `LAB_DETAIL_DATA` (internal source)
-> Note: public interaction is now on `/tools` with three primary utilities; `/lab` routes redirect to `/tools`.
+### `/data/labs.ts` — 3 tool entries in `LAB_DETAIL_DATA` (internal source)
+> Note: public interaction is now on `/tools` with three primary utilities; `/lab` routes redirect to `/tools` or `/work` as appropriate.
 | Slug | Name | Category | Live URL |
 |---|---|---|---|
 | `cmo-simulator` | CMO Simulator | Marketing | (gated — email access) |
 | `geo-readiness-auditor` | GEO Readiness Auditor | Marketing | https://darling-martech-geo-audit-tool.vercel.app/ |
 | `cmo-roadmap-generator` | CMO Roadmap Generator | Marketing | https://cmo-roadmap-generator.vercel.app/intake |
-| `graston-growth-engine` | Graston Growth Engine | Marketing | graston-growth-engine.vercel.app |
-| `pro-dj-studio` | PRO DJ Studio | Technologist | pro-dj-mixer.vercel.app |
-| `strum-ai` | Strum AI | Technologist | jacobs-music-plum.vercel.app |
-| `barbershop-command-center` | Barbershop Command Center | Developer | hoosier-boy-barbersh.vercel.app |
-| `clinical-compass` | Clinical Compass | Developer | `/labs/clinical-compass/` (local HTML) |
-| `smart-sales-pricing` | Smart Sales & Pricing Tool | Developer | `/labs/smart-sales-pricing/` (local HTML) |
-| `investment-roi-planner` | Investment ROI Planner | Marketing | `/labs/investment-roi-planner/` (local HTML) |
-| `license-requirements` | License Requirements Navigator | Developer | `/labs/license-requirements/` (local HTML) |
 
 ### `/data/services.ts` — 6 service categories in `serviceDetails`
 | ID | Title | Layer |
@@ -819,8 +811,8 @@ design, GA4, Google Search Console, Google My Business.
 - API: `/api/cmo-simulator-access`
 - Deployed: gated locally — no external URL needed
 
-### Local HTML lab tools (in `/public/labs/`)
-These are self-contained vanilla HTML/CSS/JS files:
+### Local HTML lab tools (legacy)
+These are legacy standalone files that are now surfaced through work case studies and redirects, not the current `/tools` primary utility surface:
 - `/public/labs/clinical-compass/` — Graston Clinical Compass Tool.html
 - `/public/labs/investment-roi-planner/` — Investment ROI Planner Tool.html
 - `/public/labs/smart-sales-pricing/` — Graston Smart Sales and Pricing Tool.html
@@ -1038,8 +1030,8 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
   /contact/page.tsx      — Contact
   /work/page.tsx         — Case studies index ✅
   /work/[slug]/page.tsx  — Case study detail ✅
-  /lab/page.tsx          — Lab tools index ✅
-  /lab/[slug]/page.tsx   — Lab tool detail ✅
+  /lab/page.tsx          — legacy redirect to /tools ✅
+  /lab/[slug]/page.tsx   — legacy redirect to /tools or /work/[slug] ✅
   /lab/cmo-simulator/    — CMO Simulator (gated) ✅
   /services/page.tsx     — Services index ✅
   /services/[slug]/page.tsx — Service pages ✅
@@ -1059,7 +1051,7 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
   /lab                   — Lab-specific components
   /providers             — LenisProvider, Analytics
 /data
-  /labs.ts               — 10 lab entries (LAB_DETAIL_DATA)
+  /labs.ts               — 3 lab entries (LAB_DETAIL_DATA)
   /services.ts           — All service page content
   /testimonials.ts       — Testimonial data
   /work/work-index.ts    — 20 work card grid entries
@@ -1130,8 +1122,8 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
 ### Phase 2 — Complete ✅
 - [x] `/work` index page — masonry/staggered grid with 26 case studies
 - [x] `/work/[slug]` dynamic route — data in `data/work/work-data.ts`
-- [x] `/lab` page with tool cards + 10 detail pages
-- [x] `/lab/[slug]` dynamic route — data in `data/labs.ts`
+- [x] `/lab` route now redirects to `/tools` (legacy tool catalog removed)
+- [x] `/lab/[slug]` route now redirects to `/tools` or `/work/[slug]` (legacy behavior)
 - [x] `/lab/cmo-simulator` — gated CMO tool with email access modal
 - [x] `/services` page with 6 service categories, 3D ambient scene
 - [x] `/services/[slug]` — 4+ service detail pages
@@ -1175,7 +1167,7 @@ __NEXT_PRIVATE_STANDALONE_CONFIG="" npm run build
 - **`next/image` is `unoptimized: true`** — current project setting; do not assume Next.js image optimization is enabled.
 - **Slug renames** — Canonical slugs: `riley-bennett-egloff`, `primarycare-indy`, `urgentcare-indy`. Redirects in `next.config.js`.
 - **`lucide-react` in package.json** — Still listed but unused. Use `@phosphor-icons/react` only.
-- **Lab content in `data/labs.ts`** — All 9 lab detail pages are data-driven from `LAB_DETAIL_DATA`.
+- **Lab content in `data/labs.ts`** — The three active tool entries are data-driven from `LAB_DETAIL_DATA`; legacy lab pages are now handled by redirects and work-case-study routes.
 - **CMO Simulator access** — Gated via `CmoAccessModal` + `/api/cmo-simulator-access`. SessionStorage bypass for returning visitors.
 - **WorkAmbient + ServicesAmbient** — Both use `dynamic(..., { ssr: false })`. If adding new 3D scenes, follow same pattern.
 - **`case-studies/` directory** — Contains raw markdown research files, NOT used by the app. App reads from `data/work/work-data.ts`.
