@@ -2,61 +2,95 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, Cpu, Gauge, Stack } from '@phosphor-icons/react'
 import {
-  serviceDetails,
-  serviceLayerMeta,
-  standaloneServicePages,
-  type ServiceLayer,
-} from '@/data/services'
-
-const MotionLink = motion(Link)
+  ArrowRightIcon,
+  ChartLineUpIcon,
+  CircuitryIcon,
+  PaletteIcon,
+  RocketLaunchIcon,
+} from '@phosphor-icons/react'
 import { containerVariants, itemVariants, viewport } from '@/lib/motion'
 import styles from './ServicesPage.module.css'
 
-function getLayerIcon(layer: ServiceLayer) {
-  if (layer === 'strategy') return Stack
-  if (layer === 'growth') return Gauge
-  return Cpu
-}
+// ── Cluster data ──────────────────────────────────────────────────────────────
 
-/** One service per layer — first match */
-function getLayerRepresentative(layer: ServiceLayer) {
-  return serviceDetails.find((s) => s.layer === layer)
-}
-
-const FLAGSHIP_PROOF = [
+const clusters = [
   {
-    label: 'Graston Technique',
-    href: '/work/graston-technique',
-    signalLabel: 'Automation engine',
-    metric: '95% less manual overhead',
-    result: '95% reduction in manual overhead. 48 hours saved per week.',
+    id: 'strategy',
+    Icon: ChartLineUpIcon,
+    label: 'Strategy & Leadership',
+    problem: 'No senior owner of the whole system',
+    body: 'When marketing activity exists but no one is truly steering the strategy, systems, and priorities underneath it, growth gets harder to trust. This is for businesses that need clearer direction before they need more activity.',
+    links: [
+      { label: 'Fractional CMO / Strategic Leadership', href: '/services/fractional-cmo' },
+      { label: 'Positioning & Messaging Strategy', href: '/services/positioning-messaging' },
+      { label: 'Marketing Audit & Growth Roadmap', href: '/services/marketing-audit' },
+    ],
+    proof: {
+      client: 'Graston Technique',
+      metric: '+212% qualified leads',
+      href: '/work/graston-technique',
+    },
   },
   {
-    label: '317 BBQ',
-    href: '/work/317-bbq',
-    signalLabel: 'Conversion rebuild',
-    metric: '40% conversion lift',
-    result: '40% lift in order conversions and 2× catering inquiries after the redesign.',
+    id: 'brand-web',
+    Icon: PaletteIcon,
+    label: 'Websites, UX & Brand',
+    problem: 'The site is underperforming',
+    body: 'If the website is not building trust or moving people to action, growth gets harder than it should be. This cluster focuses on clarity, conversion, structure, and digital trust — not just aesthetics.',
+    links: [
+      { label: 'Website Strategy & Rebuilds', href: '/services/website-strategy' },
+      { label: 'Conversion UX & Lead Flow', href: '/services/conversion-optimization' },
+      { label: 'Brand Identity Systems', href: '/services/brand-identity' },
+    ],
+    proof: {
+      client: 'Pike Medical Consultants',
+      metric: '45% patient growth',
+      href: '/work/pike-medical-consultants',
+    },
   },
   {
-    label: 'PrimaryCare Indy',
-    href: '/work/primarycare-indy',
-    signalLabel: 'Organic demand',
-    metric: '300% traffic growth',
-    result: '300% organic traffic growth and 75% more online bookings.',
+    id: 'systems',
+    Icon: CircuitryIcon,
+    label: 'CRM, Automation & AI',
+    problem: 'Systems, leads, and follow-up are disconnected',
+    body: 'When leads, follow-up, and reporting live in disconnected tools, growth becomes manual and unreliable. This cluster fixes the structure behind how the business actually runs.',
+    links: [
+      { label: 'CRM Architecture', href: '/services/crm-architecture' },
+      { label: 'Workflow Automation', href: '/services/workflow-automation' },
+      { label: 'Internal Tools & AI Workflows', href: '/services/internal-tools-ai-workflows' },
+    ],
+    proof: {
+      client: 'Graston Growth Engine',
+      metric: '95% less manual overhead',
+      href: '/work/graston-growth-engine',
+    },
+  },
+  {
+    id: 'growth',
+    Icon: RocketLaunchIcon,
+    label: 'Growth, SEO & Demand',
+    problem: 'Visibility and conversion are too weak',
+    body: "If the business should be more visible, converting better, or producing more qualified demand, this is where the work starts. The fix is usually structure and conversion clarity — not just more content or more spend.",
+    links: [
+      { label: 'Local SEO', href: '/services/local-seo' },
+      { label: 'Conversion Optimization', href: '/services/conversion-optimization' },
+      { label: 'GEO / AI Search Readiness', href: '/services/geo-readiness' },
+    ],
+    proof: {
+      client: 'Russell Painting',
+      metric: '4.9★ local trust conversion',
+      href: '/work/russell-painting',
+    },
   },
 ]
 
-export function ServicesExperience() {
-  const featuredOfferSlugs = ['martech-audit', 'agentic-marketing-systems', 'the-conductor'] as const
-  const featuredOffers = featuredOfferSlugs
-    .map((slug) => standaloneServicePages.find((s) => s.id === slug))
-    .filter((offer): offer is NonNullable<typeof offer> => Boolean(offer))
+// ── Component ─────────────────────────────────────────────────────────────────
 
+export function ServicesExperience() {
   return (
     <main className={styles.main}>
+
       {/* ── Hero ── */}
       <section className={styles.hero}>
         <motion.div
@@ -69,104 +103,70 @@ export function ServicesExperience() {
             Services
           </motion.p>
           <motion.h1 variants={itemVariants} className={styles.headline}>
-            Strategy. Build. Growth.
+            The work usually starts in one of four places.
           </motion.h1>
           <motion.p variants={itemVariants} className={styles.lead}>
-            I work across all three layers — or just the one you need. Strategy to set the
-            direction, build to execute it, growth to sustain it.
+            Most businesses don&apos;t need more activity. They need the right bottleneck fixed
+            first — whether that&apos;s strategy, website performance, CRM and automation, or
+            visibility and demand.
           </motion.p>
           <motion.div variants={itemVariants} className={styles.heroActions}>
             <Link href="/contact?intent=service" className={styles.primaryCta}>
-              Start a project
+              Start a conversation
             </Link>
             <Link href="/work" className={styles.secondaryCta}>
               See the work
-              <ArrowRight size={15} weight="light" />
+              <ArrowRightIcon size={15} weight="light" />
             </Link>
           </motion.div>
         </motion.div>
       </section>
 
-      {/* ── Layer selector ── */}
-      <section className={styles.layerSection}>
+      {/* ── 4 Problem Clusters ── */}
+      <section className={styles.clustersSection}>
         <div className={styles.sectionContainer}>
-          <p className={styles.sectionEyebrow}>How the work is structured</p>
-          <div className={styles.layerGrid}>
-            {serviceLayerMeta.map((layer) => {
-              const Icon = getLayerIcon(layer.id)
-              const rep = getLayerRepresentative(layer.id)
-              const href = rep ? `/services/${rep.id}` : '/services'
-
-              return (
-                <MotionLink
-                  key={layer.id}
-                  href={href}
-                  className={styles.layerCard}
-                  variants={itemVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={viewport}
-                >
-                  <div className={styles.layerCardTop}>
-                    <span className={styles.layerIconWrap}>
-                      <Icon size={17} weight="light" />
-                    </span>
-                    <span className={styles.layerLabel}>{layer.label}</span>
-                  </div>
-                  <p className={styles.layerDescription}>{layer.description}</p>
-                  <span className={styles.layerCardCta}>
-                    Explore {layer.label}
-                    <ArrowRight size={14} weight="light" />
+          <div className={styles.clustersGrid}>
+            {clusters.map((cluster, i) => (
+              <motion.div
+                key={cluster.id}
+                className={styles.clusterCard}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={viewport}
+                transition={{ duration: 0.45, delay: i * 0.07, ease: [0.32, 0.72, 0, 1] }}
+              >
+                {/* Cluster header */}
+                <div className={styles.clusterHeader}>
+                  <span className={styles.clusterIconWrap}>
+                    <cluster.Icon size={18} weight="light" />
                   </span>
-                </MotionLink>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Featured offers ── */}
-      {featuredOffers.length > 0 && (
-        <section className={styles.offersSection}>
-          <div className={styles.sectionContainer}>
-            <p className={styles.sectionEyebrow}>Productized offers</p>
-            <h2 className={styles.sectionHeadline}>Fixed-scope, deliverable-backed engagements.</h2>
-            <div className={styles.offersGrid}>
-              {featuredOffers.map((offer) => (
-                <article key={offer.id} className={styles.offerCard}>
-                  <div className={styles.offerTop}>
-                    <span className={styles.offerEyebrow}>{offer.eyebrow}</span>
-                    {offer.pricingSignal && (
-                      <span className={styles.offerPricing}>{offer.pricingSignal}</span>
-                    )}
+                  <div>
+                    <p className={styles.clusterLabel}>{cluster.label}</p>
+                    <p className={styles.clusterProblem}>{cluster.problem}</p>
                   </div>
-                  <h3 className={styles.offerTitle}>{offer.title}</h3>
-                  <p className={styles.offerTagline}>{offer.tagline}</p>
-                  <Link href={offer.routePath ?? `/services/${offer.id}`} className={styles.offerCta}>
-                    See full offer details
-                    <ArrowRight size={14} weight="light" />
-                  </Link>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+                </div>
 
-      {/* ── Proof strip ── */}
-      <section className={styles.proofSection}>
-        <div className={styles.sectionContainer}>
-          <p className={styles.sectionEyebrow}>Results</p>
-          <div className={styles.proofStrip}>
-            {FLAGSHIP_PROOF.map((proof) => (
-              <Link key={proof.href} href={proof.href} className={styles.proofItem}>
-                <span className={styles.proofMetric}>{proof.metric}</span>
-                <span className={styles.proofClient}>{proof.label}</span>
-                <span className={styles.proofResult}>{proof.result}</span>
-                <span className={styles.proofReadMore}>
-                  View case study <ArrowRight size={13} weight="light" />
-                </span>
-              </Link>
+                {/* Body */}
+                <p className={styles.clusterBody}>{cluster.body}</p>
+
+                {/* Child-service links */}
+                <ul className={styles.clusterLinks}>
+                  {cluster.links.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className={styles.clusterLink}>
+                        <ArrowRightIcon size={13} weight="regular" className={styles.clusterLinkArrow} />
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Proof anchor */}
+                <Link href={cluster.proof.href} className={styles.clusterProof}>
+                  <span className={styles.clusterProofMetric}>{cluster.proof.metric}</span>
+                  <span className={styles.clusterProofClient}>{cluster.proof.client} →</span>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -175,25 +175,36 @@ export function ServicesExperience() {
       {/* ── Final CTA ── */}
       <section className={styles.ctaSection}>
         <div className={styles.sectionContainer}>
-          <div className={styles.ctaBlock}>
+          <motion.div
+            className={styles.ctaBlock}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={viewport}
+            transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
+          >
             <div className={styles.ctaCopy}>
               <p className={styles.sectionEyebrow}>Next step</p>
               <h2 className={styles.ctaHeadline}>
-                Not sure which layer you need? That is what the first conversation is for.
+                If you can name the problem, the next step is a conversation.
               </h2>
+              <p className={styles.ctaBody}>
+                No pitch. Just a practical conversation about what is actually getting in the way.
+                I reply within 1 business day, usually faster.
+              </p>
             </div>
             <div className={styles.ctaActions}>
-              <Link href="/contact?intent=unsure" className={styles.primaryCta}>
-                Let&apos;s talk
+              <Link href="/contact?intent=service" className={styles.primaryCta}>
+                Start a conversation
               </Link>
               <Link href="/work" className={styles.secondaryCta}>
                 See the work
-                <ArrowRight size={15} weight="light" />
+                <ArrowRightIcon size={15} weight="light" />
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
+
     </main>
   )
 }

@@ -939,23 +939,45 @@ Do not overuse tool CTAs; one relevant tool CTA per page max; use tools only whe
 
 ## Services — Architecture Detail
 
-The services page (`/services`) has three layers of data:
+### `/services` runtime model (updated 2026-03-29)
+`/services` is organized around **4 buyer-problem clusters**. The old "Strategy / Build / Growth" three-layer framing is **no longer the runtime model**.
 
-1. **`serviceLayerMeta`** — Three strategy layers: Strategy / Build / Growth
-2. **`serviceOverview`** — 4 summary cards for the overview section
-3. **`serviceDetails`** — 6 full service categories with deliverables + proof cases
-4. **`specializedServices`** — 8 specialty service items (Local SEO, Healthcare, Law, etc.)
-5. **`engagementModels`** — 3 engagement types: Audit/Advisory, Project Build, Embedded/Fractional
-6. **`contactServiceOptions`** — 7 options for the contact form select
+Runtime structure of `ServicesExperience.tsx`:
+1. **Hero** — problem-led intro ("The work usually starts in one of four places.") + dual CTA
+2. **4 cluster sections** — each with icon, label, problem statement, body copy, child-service links, and one proof anchor
+3. **Final CTA** — `/contact?intent=service`
+
+The old layer-selector cards (`serviceLayerMeta`), "Productized offers" section (`standaloneServicePages`), and flat proof strip have been removed. `ServicesExperience.tsx` no longer imports `serviceLayerMeta` or `standaloneServicePages`.
+
+**4 runtime clusters:**
+- Strategy & Leadership — routes to: `fractional-cmo`, `positioning-messaging`, `marketing-audit`
+- Websites, UX & Brand — routes to: `website-strategy`, `conversion-optimization`, `brand-identity`
+- CRM, Automation & AI — routes to: `crm-architecture`, `workflow-automation`, `internal-tools-ai-workflows`
+- Growth, SEO & Demand — routes to: `local-seo`, `conversion-optimization`, `geo-readiness`
+
+**`/services` page role:** explains problem clusters, routes users to child-service pages, supports each cluster with one proof anchor. It does not sell every sub-service in depth — that is child-service pages' job.
+
+**Data exports still in `data/services.ts` (not all are used by the index page):**
+- `serviceOverview` — 4 summary cards (used by homepage `Services` component)
+- `serviceDetails` — 6 full service entries with deliverables + proof (used by `/services/[slug]`)
+- `serviceLayerMeta` — three-layer meta (not used by `/services` runtime; kept for slug page use)
+- `specializedServices` — 8 specialty service items
+- `engagementModels` — 3 engagement types
+- `contactServiceOptions` — 7 options for the contact form select
+- `standaloneServicePages` — standalone offer pages (not used by `/services` runtime)
 
 **3D scene targets** in `serviceDetails` (`sceneTarget` field):
 `strategy-core`, `build-brand-web`, `build-systems`, `growth-core`, `build-commerce`, `build-specialized`
-These tie to the `ServicesAmbient` 3D scene component.
+These tie to the `ServicesAmbient` 3D scene component on individual service detail pages.
 
-> **Service-page docs (2026-03-29):** A full service-page planning set now lives in
-> `docs/context/project/service-pages/` — including implementation tracker, slug conventions,
-> language/glossary guide, proof matrix, and individual page briefs. Future `/services` rewrites
-> and child-page builds should follow those docs rather than inventing structure ad hoc.
+**Layered writing rule** still governs all service work:
+1. Plain-English buyer language first
+2. Strategic translator language second
+3. Technical/specialist language third (lower on child pages, not at index level)
+
+> **Service-page docs:** Full planning set in `docs/context/project/service-pages/` — tracker,
+> slug conventions, proof matrix, copy decks, page template, and briefs. Consult before
+> any `/services` or child-page work.
 
 ---
 
