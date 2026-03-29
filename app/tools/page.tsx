@@ -5,11 +5,9 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { Fragment, useCallback, useRef, useState } from 'react'
-import { CodeIcon, MegaphoneIcon, PlanetIcon, RocketIcon } from '@phosphor-icons/react'
+import { PlanetIcon } from '@phosphor-icons/react'
 import LabModal from '@/components/lab/LabModal'
-import { GalleryHoverCard } from '@/components/ui/gallery-hover-card'
 import { containerVariants, itemVariants, fadeVariants } from '@/lib/motion'
-import { useFinePointer } from '@/hooks/useFinePointer'
 import styles from './Tools.module.css'
 
 const LabTelemetryScene = dynamic(
@@ -20,252 +18,10 @@ const LabTelemetryScene = dynamic(
   }
 )
 
-type Tool = {
-  name: string
-  category: 'Marketing' | 'Developer' | 'Technologist'
-  status: 'Production'
-  description: string
-  stack: string[]
-  url?: string
-  detailHref?: string
-  /** Opens `LabModal` on `/tools` instead of navigating away first. */
-  launchIframe?: { src: string; slug: string }
-  coverImage?: string
-  /** Omit from the masonry grid (shown in the featured hero row instead). */
-  hideFromGrid?: boolean
-  /** Softer presentation — experiments / non-core surface. */
-  deemphasize?: boolean
-}
-
 type IframeToolSession = {
   src: string
   slug: string
   name: string
-}
-
-const tools: Tool[] = [
-  // Shown in featured hero only (not duplicated in grid below)
-  {
-    name: 'GEO Readiness Auditor',
-    category: 'Marketing',
-    status: 'Production',
-    description: 'SMB-focused AI visibility audit that scores GEO readiness (0-100), flags top-priority issues, and unlocks a full fix roadmap by email.',
-    stack: ['Next.js', 'TypeScript', 'Cheerio', 'Resend'],
-    launchIframe: { src: 'https://darling-martech-geo-audit-tool.vercel.app/', slug: 'geo-readiness-auditor' },
-    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1200,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png',
-    hideFromGrid: true,
-  },
-  {
-    name: 'CMO Roadmap Generator',
-    category: 'Marketing',
-    status: 'Production',
-    description: 'Guided intake that turns your goals, budget reality, and constraints into a prioritized marketing roadmap you can run or hand to a team.',
-    stack: ['Next.js', 'TypeScript', 'Vercel'],
-    launchIframe: { src: 'https://cmo-roadmap-generator.vercel.app/intake', slug: 'cmo-roadmap-generator' },
-    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/v1774736805/cmo-roadmap-generator-home.png',
-    hideFromGrid: true,
-  },
-  // Grid: client / proof-adjacent builds first (overlap with Work called out in copy), then depth
-  {
-    name: 'Graston Growth Engine',
-    category: 'Marketing',
-    status: 'Production',
-    description:
-      'Full case study on Work — same deployment. Full-stack provider directory and lead-gen OS — map-integrated spatial search, AI assistant console, Premier analytics suite, and automated support ticketing for a national healthcare brand.',
-    stack: ['Next.js', 'Supabase', 'Google Maps API', 'TypeScript'],
-    detailHref: '/tools/graston-growth-engine',
-    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/graston-growth-engine_-_for_providers.png',
-  },
-  {
-    name: 'Investment ROI Planner',
-    category: 'Marketing',
-    status: 'Production',
-    description:
-      'Full case study on Work — same asset. Self-serve financial planning tool that helps practitioners calculate ROI on Graston certification before talking to sales.',
-    stack: ['HTML', 'CSS', 'JavaScript'],
-    detailHref: '/tools/investment-roi-planner',
-    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Graston_Technique_ROI_Calculator_-_main.png',
-  },
-  {
-    name: 'Barbershop Command Center',
-    category: 'Developer',
-    status: 'Production',
-    description:
-      'Full case study on Work — same deployment. Full-stack business OS for barbershop owners — unified scheduling dashboard, revenue projection, barber-specific availability, and a high-conversion client booking engine.',
-    stack: ['Next.js', 'React', 'Supabase'],
-    detailHref: '/tools/barbershop-command-center',
-    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Barbershop_Command_Center.jpg',
-  },
-  {
-    name: 'Clinical Compass',
-    category: 'Developer',
-    status: 'Production',
-    description: 'Decision-support tool helping Graston practitioners navigate clinical protocols and treatment pathways without calling the home office.',
-    stack: ['HTML', 'CSS', 'JavaScript'],
-    detailHref: '/tools/clinical-compass',
-    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/graston_instruments_-_clinical_compass.jpg',
-  },
-  {
-    name: 'License Requirements Navigator',
-    category: 'Developer',
-    status: 'Production',
-    description: 'State-by-state licensing lookup for healthcare practitioners — which credentials they need, which Graston certs count toward them.',
-    stack: ['HTML', 'CSS', 'JavaScript'],
-    detailHref: '/tools/license-requirements',
-    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Practitioner_License_Requirements_I_Graston_Technique_-_search.png',
-  },
-  {
-    name: 'Smart Sales & Pricing Tool',
-    category: 'Developer',
-    status: 'Production',
-    description:
-      'Full case study on Work — same asset. Real-time pricing calculator for Graston certification bundles, equipment configurations, and institutional accounts.',
-    stack: ['HTML', 'CSS', 'JavaScript'],
-    detailHref: '/tools/smart-sales-pricing',
-    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/Graston_Technique_Smart_Pricing_Tool_-_home.png',
-  },
-  {
-    name: 'PRO DJ Studio',
-    category: 'Technologist',
-    status: 'Production',
-    description: 'Personal experiment — professional-grade mixing in the browser. Dual-deck architecture, real-time AI STEM separation, and a 3D-accelerated interface at near-hardware latency.',
-    stack: ['Next.js', 'Web Audio API', 'Zustand'],
-    detailHref: '/tools/pro-dj-studio',
-    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/PRO_DJ_STUDIO_-_home.png',
-    deemphasize: true,
-  },
-  {
-    name: 'Strum AI',
-    category: 'Technologist',
-    status: 'Production',
-    description: 'Personal experiment — AI-driven guitar transcription: audio ideas into chord charts, tabs, and interactive notation with a Notion-like song management system.',
-    stack: ['React', 'Vite', 'AI Audio'],
-    detailHref: '/tools/strum-ai',
-    coverImage: 'https://res.cloudinary.com/djhqowk67/image/upload/w_800,f_auto,q_auto/STRUM_AI_I_Pro_Guitar_Transcription.png',
-    deemphasize: true,
-  },
-]
-
-const categories = ['All', 'Marketing', 'Developer', 'Technologist'] as const
-
-const categoryCoverClass: Record<Tool['category'], string> = {
-  Marketing: styles.toolCoverMarketing,
-  Developer: styles.toolCoverDeveloper,
-  Technologist: styles.toolCoverTechnologist,
-}
-
-const categoryIcons = {
-  Marketing: MegaphoneIcon,
-  Developer: CodeIcon,
-  Technologist: PlanetIcon,
-} satisfies Record<Tool['category'], typeof MegaphoneIcon>
-
-const statusIcons = {
-  Production: RocketIcon,
-} satisfies Record<Tool['status'], typeof RocketIcon>
-
-function ToolCardCover({ tool }: { readonly tool: Tool }) {
-  const CategoryIcon = categoryIcons[tool.category]
-  const StatusIcon = statusIcons[tool.status]
-
-  return (
-    <div className={`${styles.toolCover} ${categoryCoverClass[tool.category]}`} aria-hidden="true">
-      {tool.coverImage && (
-        <>
-          <Image
-            src={tool.coverImage}
-            alt=""
-            fill
-            sizes="(max-width: 768px) 100vw, 400px"
-            className={styles.toolCoverImage}
-            unoptimized
-          />
-          <div className={styles.toolCoverImageScrim} />
-        </>
-      )}
-      <div className={styles.toolCoverGrid} />
-      <div className={styles.toolCoverOrb} />
-      <div className={styles.toolCoverSweep} />
-
-      <div className={styles.toolCoverStatus}>
-        <StatusIcon weight="light" className={styles.toolCoverStatusIcon} />
-        <span>{tool.status}</span>
-      </div>
-
-      {!tool.coverImage && (
-        <div className={styles.toolCoverCore}>
-          <CategoryIcon weight="light" className={styles.toolCoverIcon} />
-        </div>
-      )}
-
-      <div className={styles.toolCoverStack}>
-        {tool.stack.slice(0, 2).map((item) => (
-          <span key={item} className={styles.toolCoverTag}>
-            {item}
-          </span>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function ToolCard({
-  tool,
-  onHighlight,
-  onOpenIframeTool,
-}: {
-  readonly tool: Tool
-  readonly onHighlight: (target: string | null) => void
-  readonly onOpenIframeTool: (session: IframeToolSession) => void
-}) {
-  const launch = tool.launchIframe
-  const hasDetail = Boolean(tool.detailHref)
-  const hasUrl = Boolean(tool.url)
-  const href = launch ? undefined : (tool.detailHref ?? tool.url)
-
-  let footerText: string
-  if (launch) {
-    footerText = 'Opens in a panel on this page'
-  } else if (hasDetail) {
-    footerText = 'Explore build details'
-  } else if (hasUrl) {
-    footerText = 'Open deployed tool'
-  } else {
-    footerText = 'Rebuilding — check back soon'
-  }
-
-  let ctaLabel: string | undefined
-  if (launch) {
-    ctaLabel = 'Launch tool'
-  } else if (hasDetail) {
-    ctaLabel = 'Read the build'
-  } else if (hasUrl) {
-    ctaLabel = 'Launch app'
-  }
-
-  const onActivate = launch
-    ? () => onOpenIframeTool({ src: launch.src, slug: launch.slug, name: tool.name })
-    : undefined
-
-  return (
-    <GalleryHoverCard
-      title={tool.name}
-      summary={tool.description}
-      href={href}
-      cover={<ToolCardCover tool={tool} />}
-      eyebrow={tool.category}
-      badges={[tool.status, ...tool.stack.slice(0, 2)]}
-      footer={
-        <span className={styles.toolFooterMeta}>{footerText}</span>
-      }
-      ctaLabel={ctaLabel}
-      external={!launch && !hasDetail && hasUrl}
-      onActivate={onActivate}
-      interactiveId={tool.name}
-      onHighlightChange={onHighlight}
-      variant="lab"
-    />
-  )
 }
 
 type FeaturedLab = {
@@ -429,8 +185,6 @@ function LabFeaturedCard({
 }
 
 export default function LabPage() {
-  const [activeCategory, setActiveCategory] = useState<typeof categories[number]>('All')
-  const [hoveredTool, setHoveredTool] = useState<string | null>(null)
   const [iframeTool, setIframeTool] = useState<IframeToolSession | null>(null)
   const lastIframeToolRef = useRef<IframeToolSession | null>(null)
   const openIframeTool = useCallback((session: IframeToolSession) => {
@@ -440,18 +194,15 @@ export default function LabPage() {
   const closeIframeTool = useCallback(() => setIframeTool(null), [])
   /** Keep modal mounted briefly so close animation can read last src (ref updated only when opening). */
   const iframePayload = iframeTool ?? lastIframeToolRef.current
-  const isFinePointer = useFinePointer()
-  const gridTools = tools.filter((t) => !t.hideFromGrid)
-  const filtered = activeCategory === 'All' ? gridTools : gridTools.filter((t) => t.category === activeCategory)
 
   return (
     <main className={styles.main}>
       <div className={styles.inner}>
         <section className={styles.telemetryPanel}>
           <LabTelemetryScene
-            activeCategory={activeCategory}
-            hoveredTool={hoveredTool}
-            intensity={hoveredTool ? 'active' : 'balanced'}
+            activeCategory="All"
+            hoveredTool={null}
+            intensity="balanced"
           />
 
           <motion.div className={styles.headerWrap} variants={containerVariants} initial="hidden" animate="visible">
@@ -464,30 +215,9 @@ export default function LabPage() {
               Everything in the grid is production work — including client platforms you can also read as case studies on Work.
             </motion.p>
           </motion.div>
-
-          <motion.div className={styles.filters} variants={containerVariants} initial="hidden" animate="visible">
-            {categories.map((cat) => (
-              <motion.button
-                key={cat}
-                variants={itemVariants}
-                onClick={() => setActiveCategory(cat)}
-                className={`${styles.filterBtn} ${activeCategory === cat ? styles.filterBtnActive : ''}`}
-                whileTap={{ scale: 0.98 }}
-                onMouseEnter={isFinePointer ? () => setHoveredTool(`${cat}-filter`) : undefined}
-                onMouseLeave={isFinePointer ? () => setHoveredTool(null) : undefined}
-              >
-                {cat}
-                <span className={styles.filterCount}>
-                  {cat === 'All'
-                    ? gridTools.length
-                    : gridTools.filter((t) => t.category === cat).length}
-                </span>
-              </motion.button>
-            ))}
-          </motion.div>
         </section>
 
-        {/* Primary visitor utilities — same launch behavior as before (link or in-page panel). */}
+        {/* Primary visitor utilities */}
         <section className={styles.featuredGrid} aria-label="Visitor utilities">
           {featuredLabs.map((lab, index) => (
             <LabFeaturedCard
@@ -498,30 +228,6 @@ export default function LabPage() {
             />
           ))}
         </section>
-
-        <p className={styles.gridLead}>
-          More below: client deployments and side experiments — some entries also have a full write-up on Work while routes stay shared.
-        </p>
-
-        {/* Tools grid (excludes utilities already featured above) */}
-        <motion.div
-          key={activeCategory}
-          className={styles.grid}
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          aria-label="Additional tools and builds"
-        >
-          {filtered.map((tool) => (
-            <motion.div
-              key={tool.name}
-              variants={itemVariants}
-              className={`${styles.gridCell}${tool.deemphasize ? ` ${styles.gridCellDeemphasize}` : ''}`}
-            >
-              <ToolCard tool={tool} onHighlight={setHoveredTool} onOpenIframeTool={openIframeTool} />
-            </motion.div>
-          ))}
-        </motion.div>
       </div>
 
       {iframePayload && (

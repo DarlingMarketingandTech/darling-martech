@@ -68,18 +68,31 @@ Conflict rule:
   `/contact`, `/studio`, `/process`.
 - `/lab` is legacy — permanent redirects to `/tools/*` are in place. `/lab` is
   not a public concept. Do not reference `/lab` routes in new work.
-- `/tools` role: interactive utilities a prospect uses themselves — qualification
-  engines, diagnostics, self-serve strategy artifacts. Not a portfolio of builds.
+- `/tools` role: self-serve strategy layer. Three visitor utilities — CMO Simulator,
+  GEO Readiness Auditor, CMO Roadmap Generator — that deliver immediate value and
+  qualify prospects in the process. Not a portfolio. Not a build archive. Not proof.
+  `/tools` is where a prospect runs their own strategy session and walks out with both
+  an artifact and a reason to call.
 - `/work` role: proof of capability — client builds with measurable outcomes.
   A prospect evaluates these; they do not use them. Curated, not exhaustive.
-- Phase 3B classification decisions (2026-03-28):
-  - Graston Growth Engine, Barbershop Command Center, Smart Sales & Pricing Tool,
-    Investment ROI Planner, Clinical Compass, License Requirements Navigator →
-    `/work` as system-tier entries under parent client projects (Graston / Hoosier Boy).
-    These are client builds, not visitor utilities. Graston-side migration complete as of Phase 3C slice three.
-  - CMO Simulator, GEO Readiness Auditor, CMO Roadmap Generator → stay in `/tools`.
-  - PRO DJ Studio, Strum AI → deprioritized. Keep accessible, not foregrounded.
-    Personal builds with no client connection — do not surface as primary proof.
+- Phase 3D classification decisions (2026-03-28):
+  - Core tools (permanent, primary): CMO Simulator, GEO Readiness Auditor,
+    CMO Roadmap Generator. These are the only entries on `/tools`.
+  - Removed from `/tools` index: Graston Growth Engine, Barbershop Command Center,
+    Smart Sales & Pricing Tool, Investment ROI Planner, Clinical Compass,
+    License Requirements Navigator. These are `/work` entries — client builds, not
+    visitor utilities. Orphaned `/tools/[slug]` routes for these should redirect to
+    their corresponding `/work/[slug]` pages.
+  - Removed entirely: PRO DJ Studio, Strum AI. Personal builds with no client
+    connection. Not surfaced on `/tools`. No work equivalent — these can 404 or
+    redirect to `/tools`.
+- Tool access model (Phase 3D):
+  - CMO Simulator: dedicated route `/tools/cmo-simulator` with detail page + launch modal.
+    This is the target pattern for any future tool requiring SEO or explanation.
+  - GEO Readiness Auditor + CMO Roadmap Generator: modal/iframe launch from `/tools` index.
+    No dynamic `/tools/[slug]` route. If detail pages are warranted later, add them as
+    hand-crafted static routes — not a generic dynamic route.
+  - No `app/tools/[slug]/` dynamic route. Tools are too few and too different to template.
 - Planned priority pages/routes:
   - child-service money pages under current service parents
   - `/industries/[slug]` after child service pages
