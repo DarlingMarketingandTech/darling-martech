@@ -66,6 +66,20 @@ Conflict rule:
 - Live core pages: `/`, `/services`, `/services/[slug]`, `/work`,
   `/work/[slug]`, `/tools`, `/tools/[slug]`, `/tools/cmo-simulator`, `/about`,
   `/contact`, `/studio`, `/process`.
+- `/lab` is legacy — permanent redirects to `/tools/*` are in place. `/lab` is
+  not a public concept. Do not reference `/lab` routes in new work.
+- `/tools` role: interactive utilities a prospect uses themselves — qualification
+  engines, diagnostics, self-serve strategy artifacts. Not a portfolio of builds.
+- `/work` role: proof of capability — client builds with measurable outcomes.
+  A prospect evaluates these; they do not use them. Curated, not exhaustive.
+- Phase 3B classification decisions (2026-03-28):
+  - Graston Growth Engine, Barbershop Command Center, Smart Sales & Pricing Tool,
+    Investment ROI Planner, Clinical Compass, License Requirements Navigator →
+    move to `/work` as system-tier entries under their parent client projects.
+    These are client builds, not visitor utilities. Implementation in progress.
+  - CMO Simulator, GEO Readiness Auditor, CMO Roadmap Generator → stay in `/tools`.
+  - PRO DJ Studio, Strum AI → deprioritized. Keep accessible, not foregrounded.
+    Personal builds with no client connection — do not surface as primary proof.
 - Planned priority pages/routes:
   - child-service money pages under current service parents
   - `/industries/[slug]` after child service pages
