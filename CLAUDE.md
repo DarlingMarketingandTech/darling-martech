@@ -75,8 +75,8 @@ Conflict rule:
 - Phase 3B classification decisions (2026-03-28):
   - Graston Growth Engine, Barbershop Command Center, Smart Sales & Pricing Tool,
     Investment ROI Planner, Clinical Compass, License Requirements Navigator →
-    move to `/work` as system-tier entries under their parent client projects.
-    These are client builds, not visitor utilities. Implementation in progress.
+    `/work` as system-tier entries under parent client projects (Graston / Hoosier Boy).
+    These are client builds, not visitor utilities. Graston-side migration complete as of Phase 3C slice three.
   - CMO Simulator, GEO Readiness Auditor, CMO Roadmap Generator → stay in `/tools`.
   - PRO DJ Studio, Strum AI → deprioritized. Keep accessible, not foregrounded.
     Personal builds with no client connection — do not surface as primary proof.
@@ -730,7 +730,7 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 Also exports: `serviceOverview` (4 summary cards), `specializedServices` (8 items),
 `engagementModels` (3: audit/project/embedded), `contactServiceOptions`, `serviceLayerMeta`
 
-### `/data/work/work-index.ts` — Case study card grid (20 entries)
+### `/data/work/work-index.ts` — Case study card grid (26 entries)
 
 **Flagship featured (dashboardTier: 'flagship'):**
 - `graston-technique` — Automation & Systems (+212% qualified leads, 95% overhead reduction, 48hrs/wk saved)
@@ -739,14 +739,15 @@ Also exports: `serviceOverview` (4 summary cards), `specializedServices` (8 item
 - `hoosier-boy-barbershop` — Hospitality (90% more bookings, 200% social, #1 local search)
 
 **System tier (dashboardTier: 'system') — child projects:**
-- `the-launchpad`, `the-closer`, `the-compass`, `the-fortress` (all under graston-technique)
+- Under `graston-technique`: `the-launchpad`, `the-closer`, `the-compass`, `the-fortress`, `graston-growth-engine`, `smart-sales-pricing`, `investment-roi-planner`, `clinical-compass`, `license-requirements`, plus `barbershop-command-center` under `hoosier-boy-barbershop`
 - `primarycare-indy`, `urgentcare-indy` (under pike-medical-consultants)
 
 **All case study slugs (canonical):**
 `graston-technique`, `the-launchpad`, `the-closer`, `the-compass`, `the-fortress`,
+`graston-growth-engine`, `smart-sales-pricing`, `investment-roi-planner`, `clinical-compass`, `license-requirements`,
 `pike-medical-consultants`, `primarycare-indy`, `urgentcare-indy`,
 `riley-bennett-egloff`, `tuohy-bailey-moore`,
-`317-bbq`, `hoosier-boy-barbershop`, `russell-painting`,
+`317-bbq`, `hoosier-boy-barbershop`, `barbershop-command-center`, `russell-painting`,
 `behr-pet-essentials`, `circle-city-kicks`,
 `black-letter`, `clean-aesthetic`, `perpetual-movement-fitness`,
 `primary-colours`
@@ -768,6 +769,12 @@ Verbatim quotes. Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin 
 | `the-closer` | The Closer | ✅ System sub-project |
 | `the-compass` | The Compass | ✅ System sub-project |
 | `the-fortress` | The Fortress | ✅ System sub-project |
+| `graston-growth-engine` | Graston Growth Engine | ✅ System sub-project |
+| `smart-sales-pricing` | Smart Sales & Pricing Tool | ✅ System sub-project |
+| `investment-roi-planner` | Investment ROI Planner | ✅ System sub-project |
+| `clinical-compass` | Clinical Compass | ✅ System sub-project |
+| `license-requirements` | License Requirements Navigator | ✅ System sub-project |
+| `barbershop-command-center` | Hoosier Boy Barbershop | ✅ System sub-project |
 | `pike-medical-consultants` | Pike Medical Consultants | ✅ Parent page built |
 | `primarycare-indy` | PrimaryCare Indy | ✅ Built |
 | `urgentcare-indy` | UrgentCare Indy | ✅ Built |
@@ -1109,7 +1116,7 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
 - [ ] Remaining Tailwind visual classes → CSS Modules migration
 
 ### Phase 2 — Complete ✅
-- [x] `/work` index page — masonry/staggered grid with 20 case studies
+- [x] `/work` index page — masonry/staggered grid with 26 case studies
 - [x] `/work/[slug]` dynamic route — data in `data/work/work-data.ts`
 - [x] `/lab` page with tool cards + 10 detail pages
 - [x] `/lab/[slug]` dynamic route — data in `data/labs.ts`

@@ -1045,6 +1045,102 @@ const workData: CaseStudy[] = [
     ],
   },
 
+  // ── Clinical Compass (Graston) ────────────────────────────────────────────
+  {
+    ...workIndex.find((w) => w.slug === 'clinical-compass')!,
+    titleTag: 'Clinical Compass — Point-of-Care Protocol System for Graston | Darling MarTech',
+    metaDescription:
+      'Proof build: self-contained clinical decision paths for 400+ Graston practitioners — JSON decision trees, progressive disclosure, and a sharp drop in protocol support load within 90 days.',
+    subhead:
+      'Institutional knowledge was trapped in PDFs and callbacks. I shipped a zero-dependency experience practitioners could run between patients — and gave clinical education a maintainable content layer.',
+    challenge:
+      'Graston Technique supports hundreds of certified clinicians who need the right protocol at the point of care. The guidance lived in documents, email, and tribal knowledge — so practitioners waited, and the clinical team burned nearly two days a week repeating the same answers.\n\nThat is not a communication problem. It is a scale problem. Every delayed answer is friction at the moment of treatment; every repeated call is capacity the organization cannot get back.\n\nThe bar was high: fast enough for a busy clinic, accurate enough for clinical trust, simple enough for the education team to evolve without a release train.',
+    approach:
+      'I built Clinical Compass as vanilla HTML, CSS, and JavaScript — no framework surface area, embeddable anywhere Graston already hosted practitioners, instant load, offline-friendly in practice.\n\nThe logic is a branching decision tree in JSON the UI walks one question at a time — the same progressive disclosure pattern clinicians already expect from assessment flows. Updates ship as data edits, not redeploys.\n\nDistribution matched real behavior: practitioner portal, email deep links, QR codes at live training — anywhere a question used to become a ticket.',
+    deliverables: [
+      {
+        title: 'JSON-Backed Clinical Pathways',
+        emphasis: 'feature',
+        description:
+          'Decision tree structure separating presentation from content so clinical staff can revise branches and outcomes without touching application code.',
+      },
+      {
+        title: 'Progressive Disclosure UX',
+        emphasis: 'feature',
+        description:
+          'Single-question steps to protect cognitive load at the point of care — protocol summary only when the path resolves.',
+      },
+      {
+        title: 'Embed-Anywhere Static Delivery',
+        description:
+          'Self-contained asset with no API dependency — suitable for tight security postures, fast first paint, and conference-floor usage.',
+      },
+    ],
+    process: [
+      { label: 'Workflow audit', description: 'Mapped top protocol questions driving volume into the clinical support queue.' },
+      { label: 'Tree modeling', description: 'Encoded pathways in JSON with clinical stakeholders validating branch logic.' },
+      { label: 'Ship + embed', description: 'Rolled out across practitioner touchpoints and monitored support ticket mix.' },
+    ],
+    outcome:
+      'Reached 400+ certified practitioners with immediate self-serve access. Protocol support calls fell sharply in the first 90 days — reclaiming roughly two days per week previously lost to repetition.\n\nThe deeper win was experiential: practitioners stopped associating Graston support with waiting. Answers arrived in under two minutes, which is the difference between a vendor relationship and a loyalty relationship at clinical depth.\n\nThis sits alongside the flagship Graston automation story — another proof that the right lightweight system can retire entire support categories.',
+    whatThisMeansForYou:
+      'If your experts are answering the same specialized questions on loop, the fix is rarely "hire another person." It is usually structured knowledge with a UI that respects how the work actually happens. I build that. That is what I build.',
+    ctaLine: 'retire repetitive expert answers with a system the business can own',
+    problemVisualPublicId: 'graston_instruments_-_clinical_compass',
+    cloudinaryAssets: [
+      { publicId: 'graston_instruments_-_clinical_compass', label: 'Clinical Compass pathway UI', folder: 'studio/projects/graston-technique' },
+      { publicId: 'graston_instruments_-_clinical_compass-summary', label: 'Clinical Compass protocol summary', folder: 'studio/projects/graston-technique' },
+    ],
+  },
+
+  // ── License Requirements Navigator (Graston) ─────────────────────────────
+  {
+    ...workIndex.find((w) => w.slug === 'license-requirements')!,
+    titleTag: 'License Requirements Navigator — State Licensing Intelligence for Graston | Darling MarTech',
+    metaDescription:
+      'Proof build: 50-state CE and credential lookup for Graston practitioners — two-step client-side tool, editable JSON data layer, licensing support volume effectively eliminated post-launch.',
+    subhead:
+      'Regulatory reality varies by state and credential. I turned it into structured data and a two-field lookup so practitioners stopped opening tickets for answers they could own themselves.',
+    challenge:
+      'Healthcare licensing is not one rule — it is fifty jurisdictions multiplied by credential types. Graston\'s clinical education team fielded constant, high-stakes questions: does this course count, how many CEUs, what about renewal in this state?\n\nWrong answers are not annoyances — they are renewal risk for the practitioner and liability risk for the brand.\n\nThe organization needed authoritative, state-specific answers without turning the team into a lookup desk.',
+    approach:
+      'I shipped a vanilla HTML/CSS/JS experience with a two-step pattern: state, then credential type — minimal inputs, maximal clarity.\n\nAll fifty states live in a structured JSON dataset designed for non-developer maintenance when statutes change. The runtime is entirely client-side: no API latency, works in waiting rooms and conference halls, respects conservative hosting constraints.\n\nOutputs spell out which Graston certifications apply, CEU credit, and renewal considerations in plain language — the same reassurance a support call used to provide.',
+    deliverables: [
+      {
+        title: '50-State JSON Licensing Dataset',
+        emphasis: 'feature',
+        description:
+          'Normalized records per state and credential path with an update workflow the clinical team could own when regulations shift.',
+      },
+      {
+        title: 'Two-Step Lookup UX',
+        emphasis: 'feature',
+        description:
+          'Reduced cognitive load to two decisions before surfacing a definitive compliance-oriented answer.',
+      },
+      {
+        title: 'Client-Side Runtime',
+        description:
+          'Zero network round-trips for lookups — fast, portable, and embeddable on the practitioner portal without backend coupling.',
+      },
+    ],
+    process: [
+      { label: 'Content architecture', description: 'Structured state and credential dimensions with legal-education review of critical fields.' },
+      { label: 'Build + validate', description: 'Implemented lookup engine and spot-checked high-volume state and role combinations.' },
+      { label: 'Operational handoff', description: 'Documented JSON edit path so updates did not require engineering for routine changes.' },
+    ],
+    outcome:
+      'Post-launch, licensing questions effectively dropped to zero as a support category. Practitioners received accurate answers in under a minute on their own time.\n\nClinical education reclaimed hours previously spent on repetitive lookups — hours that went back into curriculum and higher-value practitioner support.\n\nThe project also signaled credibility: a national training brand that indexed fifty regulatory regimes was visibly meeting practitioners in their real compliance world.',
+    whatThisMeansForYou:
+      'If compliance or policy questions are eating your team alive, structured data plus a disciplined UX often removes the entire queue. I build those systems. That is what I build.',
+    ctaLine: 'turn compliance FAQs into self-serve truth',
+    problemVisualPublicId: 'Practitioner_License_Requirements_I_Graston_Technique_-_search',
+    cloudinaryAssets: [
+      { publicId: 'Practitioner_License_Requirements_I_Graston_Technique_-_search', label: 'License Requirements Navigator search', folder: 'studio/projects/graston-technique' },
+      { publicId: 'Practitioner_License_Requirements_I_Graston_Technique_-_search_2', label: 'License Requirements Navigator results', folder: 'studio/projects/graston-technique' },
+    ],
+  },
+
   // ── Tuohy Bailey & Moore ──────────────────────────────────────────────────
   {
     ...workIndex.find((w) => w.slug === 'tuohy-bailey-moore')!,
