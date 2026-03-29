@@ -43,15 +43,15 @@ export function Services() {
               Services
             </motion.p>
             <motion.h2 variants={itemVariants} className={styles.headline}>
-              Strategy, systems, and execution that actually connect.
+              Where the bottlenecks usually are.
             </motion.h2>
           </div>
 
           <motion.div variants={itemVariants} className={styles.copyBlock}>
             <p className={styles.body}>
-              The short version: I help businesses clarify the offer, sharpen the brand,
-              rebuild the website, wire up the backend systems, and improve how leads,
-              bookings, sales, and reporting work together.
+              Most businesses don&apos;t need more activity. They need the right
+              layer fixed first — whether that&apos;s strategy, website performance,
+              CRM and automation, or visibility and demand.
             </p>
             <div className={styles.ctaRow}>
               <Link href="/services" className={styles.primaryCta}>

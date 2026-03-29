@@ -107,23 +107,23 @@ export function Hero() {
               {/* KineticHeadline — word-by-word 3D entrance */}
               <motion.div variants={itemVariants}>
                 <KineticHeadline
-                  accentPhrase="in one person"
+                  accentPhrase="one accountable lead"
                   className={styles.heroHeadline}
                 >
-                  {`15 years of marketing strategy and systems architecture — in one person, working directly with you.`}
+                  {`Strategy, systems, and execution — in one accountable lead.`}
                 </KineticHeadline>
               </motion.div>
 
               {/* Subheadline */}
               <motion.p variants={itemVariants} className={styles.subheadline}>
-                Jacob Darling builds the marketing infrastructure that makes small
-                businesses and startups grow — strategy, technology, automation,
-                and execution. No agencies. No hand-offs. Just results you can
-                measure.
+                When growth, websites, CRM, and reporting are disconnected,
+                everything gets harder to run and harder to trust. I fix the gaps
+                between them — strategy, technology, and execution, directly
+                with you. No agencies. No hand-offs.
               </motion.p>
 
-              {/* CTA — magnetic hover + spring scale */}
-              <motion.div variants={itemVariants}>
+              {/* CTAs — primary to work, secondary to contact */}
+              <motion.div variants={itemVariants} className={styles.ctaGroup}>
                 <MagneticButton radius={120} maxPull={16}>
                   <motion.div
                     variants={ctaVariants}
@@ -134,20 +134,23 @@ export function Hero() {
                     style={{ display: 'inline-block' }}
                   >
                     <Link
-                      href="/contact"
+                      href="/work"
                       className={styles.ctaButton}
                       onMouseEnter={() => setInteractiveTarget('hero-cta')}
                       onMouseLeave={() => setInteractiveTarget(null)}
                       onFocus={() => setInteractiveTarget('hero-cta')}
                       onBlur={() => setInteractiveTarget(null)}
                     >
-                      <span>Let&apos;s build something that works</span>
+                      <span>See the work</span>
                       <motion.span variants={arrowVariants} className={styles.ctaArrow}>
                         <ArrowRightIcon weight="regular" size={18} />
                       </motion.span>
                     </Link>
                   </motion.div>
                 </MagneticButton>
+                <Link href="/contact?intent=unsure" className={styles.ctaSecondary}>
+                  Request a consultation
+                </Link>
               </motion.div>
             </motion.div>
 

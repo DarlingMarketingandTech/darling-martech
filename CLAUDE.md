@@ -14,8 +14,12 @@ Canonical tools/skills routing reference: `docs/tools-and-skills-map.md`.
 > - `skills/darling-martech-copy/SKILL.md` — Voice, CTAs, error messages, microcopy
 > - `skills/darling-martech-data/SKILL.md` — Data model patterns for services/work/labs/testimonials
 > - `skills/darling-martech-labs/SKILL.md` — Lab lifecycle, integration, and linking rules
-> - `skills/darling-martech-services/SKILL.md` — Service architecture and commercial page build guidance
 > - `skills/darling-martech-seo/SKILL.md` — SEO, metadata, schema, and search-oriented content guidance
+> - `skills/darling-martech-services/SKILL.md` — Service page architecture, build order, layered writing rule, proof assignment (replaces old Enhanced Plan v2 three-tier skill)
+> - `skills/darling-martech-homepage/SKILL.md` — Homepage section roles, hero rules, CTA routing, drift prevention
+> - `skills/darling-martech-proof/SKILL.md` — Proof assignment, canonical metrics, slug list, proof block structure
+>
+> See `skills/README.md` for the full skill index and when to use each.
 
 ---
 
@@ -117,7 +121,11 @@ Conflict rule:
 - Homepage/services alignment rule:
   - Hero carries the core positioning load (problem + promise + model).
   - Services section frames problem clusters and routes to child pages — not a repeat of the hero.
-  - Do not recreate the removed About teaser in another homepage section.
+  - `<AboutTeaser />` is removed from the homepage (`app/page.tsx`). Do not recreate it or its
+    job in any other homepage section. The hero now carries the full positioning load.
+  - Homepage flow (implemented): Hero → Services → FeaturedTool → CaseStudies → Testimonials → ContactCTA.
+  - Hero primary CTA routes to `/work`. Secondary CTA routes to `/contact?intent=unsure`.
+  - Services section headline and card summaries are problem-led (updated 2026-03-29).
   - Consult `docs/context/project/service-pages/homepage-hero-and-services-alignment.md` before
     changing the hero or services section.
 
@@ -997,7 +1005,7 @@ These tie to the `ServicesAmbient` 3D scene component.
 - `CmoAccessModal`: on open, focus moves to the name field when the form phase is
   shown; on close, focus returns to the element that had focus before open.
 - `CaseStudyContent.tsx` / `CaseStudyImages.tsx` — Work detail sections
-- `AboutTeaser.tsx` — About teaser on homepage
+- `AboutTeaser.tsx` — About teaser component (not rendered on homepage as of 2026-03-29; available for `/about` or other future use)
 - `Testimonials.tsx` — Testimonials section
 - `ContactCTA.tsx` — Contact CTA section
 - `ContactForm.tsx` — Contact form (React Hook Form + Zod)

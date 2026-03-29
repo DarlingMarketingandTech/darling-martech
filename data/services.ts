@@ -126,7 +126,7 @@ export const serviceOverview: ServiceOverviewItem[] = [
     id: 'strategy',
     title: 'Strategy & Leadership',
     summary:
-      'Positioning, audits, launch planning, campaign direction, and embedded senior marketing leadership when you need clarity before execution.',
+      'When no one is truly steering the whole system, priorities drift and results get harder to trust. This is where senior direction, clear sequencing, and accountable execution come in.',
     bullets: ['Fractional marketing lead', 'Positioning and GTM', 'Channel planning'],
     href: '/services#strategy',
   },
@@ -134,7 +134,7 @@ export const serviceOverview: ServiceOverviewItem[] = [
     id: 'brand-web',
     title: 'Brand, Websites & UX',
     summary:
-      'Brand identity systems, conversion-focused websites, and digital experiences built to earn trust and move people to action.',
+      'When the site looks acceptable but underperforms — trust is weak, pages are unclear, conversion is low — a rebuild or restructure fixes the structure, not just the visuals.',
     bullets: ['Brand identity', 'Website redesigns', 'Booking and quote flows'],
     href: '/services#brand-web',
   },
@@ -142,7 +142,7 @@ export const serviceOverview: ServiceOverviewItem[] = [
     id: 'systems',
     title: 'CRM, Automation & AI',
     summary:
-      'Backend systems that make marketing easier to run: CRM architecture, workflow automation, integrations, dashboards, and internal AI tools.',
+      'When leads, follow-up, and reporting live in disconnected tools, growth becomes manual and unreliable. This work fixes the structure behind how the business actually runs.',
     bullets: ['CRM architecture', 'Workflow automation', 'AI and internal tools'],
     href: '/services#systems',
   },
@@ -150,7 +150,7 @@ export const serviceOverview: ServiceOverviewItem[] = [
     id: 'growth',
     title: 'SEO, Content & Demand',
     summary:
-      'Local SEO, content systems, paid acquisition, and conversion cleanup designed to turn visibility into booked calls, patients, orders, or leads.',
+      'When visibility is weaker than it should be or traffic isn\'t turning into action, the fix is usually structure and conversion clarity — not just more content or more spend.',
     bullets: ['Local SEO', 'Content systems', 'Paid and organic growth'],
     href: '/services#growth',
   },

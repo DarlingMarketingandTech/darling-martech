@@ -139,6 +139,28 @@
   line-height: 1;
 }
 
+/* ─── CTA group — primary + secondary side by side ───────────────────── */
+.ctaGroup {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.ctaSecondary {
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--color-muted);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.25s ease;
+}
+
+.ctaSecondary:hover {
+  color: var(--color-text);
+}
+
 /* ─── Stats bar ───────────────────────────────────────────────────────── */
 .statsBar {
   display: grid;
