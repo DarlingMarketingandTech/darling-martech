@@ -103,15 +103,23 @@ Conflict rule:
   - child-service money pages under current service parents
   - `/industries/[slug]` after child service pages
   - `/pricing` later
-- Immediate service-page execution priority:
-  1. `/services/martech-audit`
-  2. `/services/systems/agentic-marketing-systems`
-  3. `/services/systems/the-fortress`
-  4. `/services/growth/the-conductor`
+- Immediate service-page execution priority (updated 2026-03-29 — see `docs/context/project/service-pages/`):
+  1. Fractional CMO / Strategic Leadership → `fractional-cmo`
+  2. Website Strategy & Rebuilds → `website-strategy`
+  3. CRM Architecture → `crm-architecture`
+  4. Local SEO → `local-seo`
+  5. Conversion Optimization → `conversion-optimization`
+- Sub-service routes: plain-English slugs under `/services/[slug]`. See `service-route-and-slug-conventions.md`.
 - Internal linking minimums:
   - Every service page: link to `/contact` + at least 2 relevant work pages.
   - Every work page: link to the service page it proves.
   - Every tools page: exactly 1 primary service link + 1 supporting work link.
+- Homepage/services alignment rule:
+  - Hero carries the core positioning load (problem + promise + model).
+  - Services section frames problem clusters and routes to child pages — not a repeat of the hero.
+  - Do not recreate the removed About teaser in another homepage section.
+  - Consult `docs/context/project/service-pages/homepage-hero-and-services-alignment.md` before
+    changing the hero or services section.
 
 ### Contact / Intake Flow Strategy (Phase 4E-2, 2026-03-29)
 **Role of `/contact`:** Qualified consultation request screen. Not a general
@@ -155,6 +163,44 @@ other pages sell.
 **Implementation scope:** ✅ Fully implemented via `ContactForm.tsx` + `app/contact/page.tsx`
 + `/api/contact/route.ts`. API supports: `intent`, `service`, `toolOutput` fields.
 No additional routes, data files, or API routes required.
+
+### Service Page System (2026-03-29)
+
+> Canonical planning and implementation docs now live in `docs/context/project/service-pages/`.
+> Consult that folder before any `/services` or child-service page work.
+
+#### Page-role logic
+- **Homepage** — orient the right buyer fast; hero carries the core positioning load
+- **Services index** — explain problem clusters and route users to the right child page
+- **Sub-service pages** — explain one service clearly enough to convert the right buyer
+- **Work pages** — prove capability
+- **Tools** — immediate value / self-diagnosis
+- **Contact** — qualified conversation request
+
+#### Layered writing rule
+Service pages must move through content in this order:
+1. Plain-English buyer language (what is broken, what this fixes, why it matters)
+2. Strategic translator language (how strategy, systems, execution, and growth connect)
+3. Technical / specialist language (architecture, automation, CRM, SEO, tooling specifics)
+
+Do not reverse this order. Do not ask visitors to choose a knowledge level. Translate complexity instead.
+
+#### CTA rule
+- Default child-service CTA: `/contact?intent=service`
+- Supporting CTA: one relevant `/work` proof page
+- Tool link: only when naturally relevant to the service — not forced
+
+#### Proof assignment rule
+Use `service-proof-matrix.md` first when assigning proof to a service page:
+- One dominant proof item per service page
+- Supporting proof only when it adds range or mechanism clarity
+- Do not attach weak or visually similar but strategically irrelevant proof
+
+#### Build sequence
+1. Top-priority child-service pages (Fractional CMO, Website Strategy, CRM Architecture, Local SEO, Conversion Optimization)
+2. Services index reframe
+3. Homepage/services alignment work
+4. Secondary / specialty child pages
 
 ### Consolidated Proof / Taxonomy Snapshot
 - Top reusable proof assets: Graston Technique, Pike Medical, PrimaryCare Indy,
@@ -268,6 +314,11 @@ Use these docs before inferring architecture from partial code reads:
 - `docs/context/strategy/2026-03-19-competitor-analysis.md`
 - `docs/context/strategy/2026-03-19-value-proposition.md`
 - `docs/context/repo/2026-03-27-claude-os-audit-report.md`
+- `docs/context/project/service-pages/README.md`
+- `docs/context/project/service-pages/service-page-template.md`
+- `docs/context/project/service-pages/service-proof-matrix.md`
+- `docs/context/project/service-pages/ai-builder-operating-rules.md`
+- `docs/context/project/service-pages/*` — full service-page system (consult before any `/services` work)
 
 ### Connector Policy
 External connectors are secondary. Use only when necessary for the task.
@@ -893,6 +944,11 @@ The services page (`/services`) has three layers of data:
 `strategy-core`, `build-brand-web`, `build-systems`, `growth-core`, `build-commerce`, `build-specialized`
 These tie to the `ServicesAmbient` 3D scene component.
 
+> **Service-page docs (2026-03-29):** A full service-page planning set now lives in
+> `docs/context/project/service-pages/` — including implementation tracker, slug conventions,
+> language/glossary guide, proof matrix, and individual page briefs. Future `/services` rewrites
+> and child-page builds should follow those docs rather than inventing structure ad hoc.
+
 ---
 
 ## Component Architecture — Key Components
@@ -1156,6 +1212,7 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
   /specs/
 /docs/context/           — Consolidated strategy, architecture, messaging, repo maps
   /project/
+    /service-pages/      — Service-page system docs (template, proof matrix, briefs, tracker)
   /strategy/
   /repo/
 /docs/archive/           — Archived plans and research artifacts
