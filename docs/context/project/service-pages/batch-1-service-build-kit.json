@@ -1,0 +1,325 @@
+{
+  "version": 1,
+  "purpose": "Compact seed data for Batch 1 child-service page builds. Use this to reduce repeated planning/context reads when implementing service pages.",
+  "canonicalBatch1Order": [
+    "fractional-cmo",
+    "website-strategy",
+    "crm-architecture",
+    "local-seo",
+    "conversion-optimization"
+  ],
+  "globalRules": {
+    "layeredWriting": [
+      "plain-English buyer problem",
+      "strategic translator layer",
+      "technical/specialist layer"
+    ],
+    "primaryCta": "/contact?intent=service",
+    "proofSystem": "Canonical proof lives on /work. Service pages frame proof contextually but do not rename the canonical case study.",
+    "antiPatterns": [
+      "generic agency capability copy",
+      "jargon-first intros",
+      "multiple equal-weight proof items",
+      "stacking too many contact CTAs",
+      "rewriting unrelated service entries during a single-page pass"
+    ]
+  },
+  "pages": {
+    "fractional-cmo": {
+      "status": "implemented",
+      "nextFocus": "Use as the reference pattern for the remaining Batch 1 pages.",
+      "primaryProof": {
+        "slug": "graston-technique",
+        "metric": "+212% qualified leads",
+        "why": "Best strategy + systems leadership proof."
+      },
+      "supportingProof": [
+        {
+          "slug": "pike-medical-consultants",
+          "metric": "45% patient growth",
+          "why": "Long-term strategic stewardship and growth leadership."
+        }
+      ],
+      "siblingLinks": [
+        "website-strategy",
+        "crm-architecture"
+      ],
+      "toolSupport": "/tools/cmo-simulator"
+    },
+    "website-strategy": {
+      "status": "seed-ready",
+      "pageIntent": "For businesses whose website is underperforming on trust, clarity, and conversion, and who need a strategic rebuild rather than surface-level design changes.",
+      "summaryDirection": [
+        "Open with the buyer problem: the site looks acceptable but underperforms.",
+        "Explain that the issue is usually structure, trust, message hierarchy, and conversion flow, not just visuals.",
+        "Bridge into the strategic model: page architecture, content hierarchy, trust signals, and conversion paths all need to work together.",
+        "Avoid making it sound like a generic web design service."
+      ],
+      "signsYouNeedIt": [
+        "Your site looks fine, but it is not producing enough qualified inquiries.",
+        "Visitors do not understand what you do quickly enough.",
+        "Trust is weaker than it should be once people land on the site.",
+        "The homepage and service pages feel generic or interchangeable.",
+        "You are unsure whether the site needs a rebuild or just a refresh.",
+        "The site is not supporting search, conversion, and credibility together.",
+        "You know the business has matured, but the site still reflects an older version of it."
+      ],
+      "deliverables": [
+        "Website strategy and page hierarchy — define what pages are needed, in what order, and what each page must do.",
+        "Homepage and service-page message architecture — make the offer clearer and easier to trust.",
+        "Conversion-path planning — reduce friction in inquiry, booking, quote, or purchase flows.",
+        "Trust-signal design direction — structure proof, credibility, and authority where they matter most.",
+        "Content and UX priorities — identify what to rewrite, remove, or simplify before design or development starts.",
+        "Rebuild scope and implementation roadmap — translate strategy into a clear execution plan."
+      ],
+      "faqItems": [
+        {
+          "question": "Do I need a full rebuild or just a strategic refresh?",
+          "answer": "That depends on whether the issue is mostly messaging and structure or whether the site platform, layout, and user flow are all holding you back. The first step is figuring out which kind of problem you actually have."
+        },
+        {
+          "question": "Can this work on my current platform?",
+          "answer": "Sometimes yes. If the platform can still support the structure, speed, and flexibility the business needs, a strategic refresh can be enough. If not, the recommendation may be a rebuild instead."
+        },
+        {
+          "question": "Do you handle content and structure too, or just design direction?",
+          "answer": "Yes. The point of this service is to fix the structure underneath the site, not just the visuals on top of it. That usually includes messaging, hierarchy, and conversion flow — not only design opinions."
+        },
+        {
+          "question": "How do you measure whether a rebuild worked?",
+          "answer": "By looking at clearer trust, stronger action paths, and better business outcomes — more qualified inquiries, better bookings, better conversion behavior, and better clarity for the right visitor."
+        },
+        {
+          "question": "Is this only for large websites?",
+          "answer": "No. Smaller sites often have the same structural problems as bigger ones — they are just compressed into fewer pages."
+        }
+      ],
+      "primaryProof": {
+        "slug": "pike-medical-consultants",
+        "metric": "45% patient growth",
+        "why": "Strongest trust + healthcare site strategy proof."
+      },
+      "supportingProof": [
+        {
+          "slug": "tuohy-bailey-moore",
+          "metric": "60% more inquiries",
+          "why": "Professional services trust-led redesign proof."
+        },
+        {
+          "slug": "riley-bennett-egloff",
+          "metric": "7+ year engagement",
+          "why": "Long-cycle strategic stewardship and site evolution."
+        }
+      ],
+      "relatedServices": [
+        "conversion-optimization",
+        "fractional-cmo"
+      ]
+    },
+    "crm-architecture": {
+      "status": "seed-ready",
+      "pageIntent": "For businesses whose CRM technically exists but is operationally unreliable — leads slip, reporting is weak, ownership is muddy, and follow-up is inconsistent.",
+      "summaryDirection": [
+        "Open with the buyer problem: the CRM is live but not trusted.",
+        "Explain that the real issue is usually structure, ownership, lifecycle stages, and workflow logic.",
+        "Bridge into the systems model: lead routing, lifecycle design, automation, and reporting need to work together.",
+        "Avoid leading with field mapping or jargon-heavy implementation detail."
+      ],
+      "signsYouNeedIt": [
+        "No one fully trusts the CRM as the source of truth.",
+        "Pipeline stages are inconsistent or mean different things to different people.",
+        "Leads are being followed up manually or inconsistently.",
+        "Reporting exists, but it is hard to turn it into decisions.",
+        "Ownership and handoff between marketing and sales feel messy.",
+        "Duplicate records, missing data, or workarounds are becoming normal.",
+        "The CRM feels like software you have, not a system you can actually run from."
+      ],
+      "deliverables": [
+        "CRM architecture audit — identify where the current setup breaks trust, speed, or visibility.",
+        "Lifecycle and pipeline design — define stages, ownership, and movement clearly.",
+        "Lead-routing and handoff rules — make follow-up more consistent and easier to run.",
+        "Field and property cleanup — simplify data structure so reporting and automation become more usable.",
+        "Automation logic direction — identify what should happen automatically and what still needs human judgment.",
+        "Dashboard and visibility guidance — make the CRM easier to manage by, not just store data in."
+      ],
+      "faqItems": [
+        {
+          "question": "What is CRM architecture, exactly?",
+          "answer": "It is the structure underneath how the CRM works day to day — stages, ownership, lifecycle logic, routing, automation, and visibility. It is broader than a setup task and more practical than a generic CRM audit."
+        },
+        {
+          "question": "Can you work inside our current CRM?",
+          "answer": "Usually yes. The first question is not which CRM you use. It is whether the structure inside it is helping or hurting the business."
+        },
+        {
+          "question": "Do you build the workflows too, or only recommend them?",
+          "answer": "Both. The work can include strategy, cleanup, and implementation direction, and in many cases the workflow logic itself can be built and tested as part of the engagement."
+        },
+        {
+          "question": "How do I know whether this is a CRM issue or a sales-process issue?",
+          "answer": "Often it is both. The CRM exposes where the process is muddy, and the process exposes where the CRM structure is failing. This work is meant to fix that connection."
+        },
+        {
+          "question": "Is this only for large teams?",
+          "answer": "No. Small teams often feel the pain faster because they do not have enough people to absorb manual workarounds."
+        }
+      ],
+      "primaryProof": {
+        "slug": "graston-growth-engine",
+        "metric": "95% less manual overhead",
+        "why": "Strongest CRM + workflow + systems proof."
+      },
+      "supportingProof": [
+        {
+          "slug": "barbershop-command-center",
+          "metric": "90% more bookings",
+          "why": "Operational booking and internal-system proof in a simpler business context."
+        }
+      ],
+      "relatedServices": [
+        "fractional-cmo",
+        "conversion-optimization"
+      ]
+    },
+    "local-seo": {
+      "status": "seed-ready",
+      "pageIntent": "For businesses that should be more visible in local search and maps, but also need that visibility to turn into trust and action.",
+      "summaryDirection": [
+        "Open with the buyer problem: the business should be easier to find locally than it is.",
+        "Explain that rankings alone are not enough if the pages, trust signals, and next-step path are weak.",
+        "Bridge into the operating model: local visibility, trust, and conversion need to support each other.",
+        "Avoid making it sound like a commodity SEO retainer page."
+      ],
+      "signsYouNeedIt": [
+        "Competitors appear more often in the searches that should be yours.",
+        "Your Google Business presence is not pulling its weight.",
+        "You have traffic or visibility, but too little action from it.",
+        "Service or location pages are thin, generic, or hard to trust.",
+        "You are not sure which local SEO work actually matters versus what is just busywork.",
+        "The business is stronger offline than it looks online.",
+        "Reviews, authority signals, and service-page structure are not working together."
+      ],
+      "deliverables": [
+        "Local SEO audit — identify visibility gaps, trust gaps, and page-structure issues.",
+        "Service and location page direction — strengthen page clarity, local relevance, and action paths.",
+        "Google Business and local-signal guidance — improve how the business is represented and trusted locally.",
+        "Internal-linking and content-priority plan — support the pages that matter most first.",
+        "Review and trust-signal strategy — improve the credibility layer that local buyers actually use.",
+        "Measurement guidance — focus on visibility that leads to real business outcomes, not vanity rankings."
+      ],
+      "faqItems": [
+        {
+          "question": "What does local SEO actually include?",
+          "answer": "It usually includes Google Business visibility, service and location page structure, local trust signals, internal linking, and the content and conversion issues that stop visibility from turning into inquiries."
+        },
+        {
+          "question": "Is this different from technical SEO?",
+          "answer": "Yes. Technical SEO can be part of the work, but local SEO is more focused on how the business shows up, gets trusted, and gets chosen in the local searches that matter."
+        },
+        {
+          "question": "Do I need dedicated location pages?",
+          "answer": "Sometimes. The answer depends on how the business is structured, how the market is searched, and whether those pages would genuinely help the user — not just exist for SEO."
+        },
+        {
+          "question": "How long does local SEO usually take to improve?",
+          "answer": "Some trust and structure improvements can help quickly, but stronger local search performance usually builds over time as the right pages, signals, and authority reinforce each other."
+        },
+        {
+          "question": "Will this help if my site already gets traffic?",
+          "answer": "Yes, if the issue is that local visibility is underperforming or traffic is not converting well once people arrive."
+        }
+      ],
+      "primaryProof": {
+        "slug": "russell-painting",
+        "metric": "Lead engine rebuilt",
+        "why": "Best local trust + visibility proof."
+      },
+      "supportingProof": [
+        {
+          "slug": "hoosier-boy-barbershop",
+          "metric": "90% more bookings",
+          "why": "Strong local identity + booking + visibility proof."
+        },
+        {
+          "slug": "pike-medical-consultants",
+          "metric": "45% patient growth",
+          "why": "Healthcare local-intent proof with trust and growth."
+        }
+      ],
+      "relatedServices": [
+        "website-strategy",
+        "conversion-optimization"
+      ]
+    },
+    "conversion-optimization": {
+      "status": "seed-ready",
+      "pageIntent": "For businesses that are getting attention already but not enough action — inquiry, booking, purchase, or quote flow is underperforming.",
+      "summaryDirection": [
+        "Open with the buyer problem: the right people are showing up, but too few are taking the next step.",
+        "Explain that the problem is often friction, structure, unclear action hierarchy, or trust gaps.",
+        "Bridge into the systems model: conversion is not just button color; it is path clarity, trust, and process design.",
+        "Avoid making this sound like generic CRO jargon or experimentation theater."
+      ],
+      "signsYouNeedIt": [
+        "Traffic is decent, but inquiries, bookings, or orders are weaker than they should be.",
+        "Key pages do not make the next step obvious enough.",
+        "Forms, booking flows, or checkout paths feel clunky or high-friction.",
+        "Mobile conversion is weaker than it should be.",
+        "You suspect the site is leaking demand after people arrive.",
+        "The business keeps trying to add more traffic before fixing the path people already use.",
+        "Important pages feel busy, generic, or unfocused when they should guide action clearly."
+      ],
+      "deliverables": [
+        "Conversion-path audit — identify where visitors stall, hesitate, or drop.",
+        "Action hierarchy review — clarify what each key page should persuade the visitor to do next.",
+        "Form, booking, quote, or order-flow review — reduce unnecessary friction in the path to action.",
+        "Trust and reassurance review — strengthen the proof and confidence signals around key decisions.",
+        "Page-level priority recommendations — focus effort on the highest-leverage pages first.",
+        "Implementation roadmap — turn conversion findings into specific changes the business can actually make."
+      ],
+      "faqItems": [
+        {
+          "question": "Do I need conversion optimization or a full redesign?",
+          "answer": "Sometimes you need a redesign, but often the higher-value first step is understanding where the path is breaking. This work helps separate a structural problem from a cosmetic one."
+        },
+        {
+          "question": "Can conversion improve without changing the whole site?",
+          "answer": "Yes. Many gains come from clarifying action paths, trust signals, forms, and page hierarchy rather than rebuilding everything at once."
+        },
+        {
+          "question": "How do you measure whether conversion work helped?",
+          "answer": "By looking at the actions that matter — better inquiry rates, bookings, orders, quote submissions, or movement through the next step — not just surface engagement metrics."
+        },
+        {
+          "question": "Is this only for ecommerce?",
+          "answer": "No. It applies to lead generation, booking flows, quote requests, contact paths, and ecommerce — any place where the business depends on users taking the next step."
+        },
+        {
+          "question": "What usually causes weak conversion?",
+          "answer": "Usually some combination of unclear messaging, weak trust, too much friction, poor action hierarchy, or a path that asks for commitment before the visitor is ready."
+        }
+      ],
+      "primaryProof": {
+        "slug": "317-bbq",
+        "metric": "40% conversion lift",
+        "why": "Strongest direct conversion-path proof."
+      },
+      "supportingProof": [
+        {
+          "slug": "pike-medical-consultants",
+          "metric": "45% patient growth",
+          "why": "Conversion and trust improvements inside a broader growth system."
+        },
+        {
+          "slug": "hoosier-boy-barbershop",
+          "metric": "90% more bookings",
+          "why": "Booking-flow and local conversion proof."
+        }
+      ],
+      "relatedServices": [
+        "website-strategy",
+        "local-seo"
+      ]
+    }
+  }
+}
