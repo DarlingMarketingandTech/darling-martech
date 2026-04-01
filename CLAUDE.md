@@ -264,11 +264,20 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
 #### Build sequence
 
 - ✅ Foundation pass complete (2026-04-01) — data layer, route integrity, template structure
-- **Next: `/services/fractional-cmo` copywriting pass** (Batch 1, page 1)
+- ✅ `/services/fractional-cmo` copywriting pass complete (2026-04-01) — Batch 1, page 1
+  - Summary rewritten following layered writing rule (plain-English buyer → strategic → operational)
+  - 7 `signsYouNeedIt` bullets added (diagnostic, symptom-led)
+  - 5 `faqItems` added (what is it, vs agency, implementation scope, small teams, engagement length)
+  - Deliverables tightened — more specific and commercially legible
+  - Proof reordered: **Graston Technique is primary** (strategy + systems), Pike Medical supporting (long-term CMO stewardship)
+  - `proofWorkSlugs`: `['graston-technique', 'pike-medical-consultants']`
+  - `secondaryCtaHref`: `/work/graston-technique`
+  - CMO Simulator remains as `proofTools` — supporting tool, not primary CTA
+- **Next: `/services/website-strategy` copywriting pass** (Batch 1, page 2)
   - Add `signsYouNeedIt` bullets
-  - Add `faqItems` (4–6 Q&As)
-  - Tighten summary and deliverables to match layered writing rule
-- Then: `website-strategy`, `crm-architecture`, `local-seo`, `conversion-optimization` in order
+  - Add `faqItems` (4–5 Q&As)
+  - Tighten summary following layered writing rule
+- Then: `crm-architecture`, `local-seo`, `conversion-optimization` in order
 - Then: Services index cluster copy alignment (if needed)
 - Then: Batch 2 pages
 
