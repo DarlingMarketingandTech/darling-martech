@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "purpose": "Compact proof snippets for service-page, linking, and lightweight visual-support passes. Use instead of rereading longer proof docs for simple proof decisions.",
+  "services": {
+    "fractional-cmo": {
+      "primary": {
+        "workSlug": "graston-technique",
+        "metric": "+212% qualified leads",
+        "line": "Strategy and systems leadership that improved qualified demand and reduced operational drag."
+      },
+      "supporting": [
+        {
+          "workSlug": "pike-medical-consultants",
+          "metric": "45% patient growth",
+          "line": "Long-term strategic leadership across a multi-division healthcare operation."
+        }
+      ]
+    },
+    "website-strategy": {
+      "primary": {
+        "workSlug": "pike-medical-consultants",
+        "metric": "45% patient growth",
+        "line": "A healthcare site rebuild where trust, clarity, and growth support worked together."
+      },
+      "supporting": [
+        {
+          "workSlug": "tuohy-bailey-moore",
+          "metric": "60% more inquiries",
+          "line": "Trust-led professional-services redesign proof."
+        },
+        {
+          "workSlug": "riley-bennett-egloff",
+          "metric": "7+ year engagement",
+          "line": "Long-cycle site and messaging stewardship proof."
+        }
+      ]
+    },
+    "crm-architecture": {
+      "primary": {
+        "workSlug": "graston-growth-engine",
+        "metric": "95% less manual overhead",
+        "line": "CRM and workflow architecture that made the system easier to run and trust."
+      },
+      "supporting": [
+        {
+          "workSlug": "barbershop-command-center",
+          "metric": "90% more bookings",
+          "line": "Operational booking and internal-system proof in a simpler business context."
+        }
+      ]
+    },
+    "local-seo": {
+      "primary": {
+        "workSlug": "russell-painting",
+        "metric": "Lead engine rebuilt",
+        "line": "Local visibility and trust improvements that made the business easier to find and choose."
+      },
+      "supporting": [
+        {
+          "workSlug": "hoosier-boy-barbershop",
+          "metric": "90% more bookings",
+          "line": "Local identity, visibility, and booking-flow proof."
+        },
+        {
+          "workSlug": "pike-medical-consultants",
+          "metric": "45% patient growth",
+          "line": "Healthcare local-intent growth proof."
+        }
+      ]
+    },
+    "conversion-optimization": {
+      "primary": {
+        "workSlug": "317-bbq",
+        "metric": "40% conversion lift",
+        "line": "A clearer digital path from attention to action."
+      },
+      "supporting": [
+        {
+          "workSlug": "pike-medical-consultants",
+          "metric": "45% patient growth",
+          "line": "Trust and conversion improvements inside a broader growth system."
+        },
+        {
+          "workSlug": "hoosier-boy-barbershop",
+          "metric": "90% more bookings",
+          "line": "Booking-flow and local conversion proof."
+        }
+      ]
+    }
+  }
+}

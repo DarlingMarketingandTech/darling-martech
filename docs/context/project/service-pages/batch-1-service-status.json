@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "purpose": "Machine-friendly status tracker for Batch 1 child-service pages. Use this to avoid rereading CLAUDE.md for simple implementation status questions.",
+  "batchStatus": "implemented",
+  "pages": {
+    "fractional-cmo": {
+      "implemented": true,
+      "summaryDone": true,
+      "signsDone": true,
+      "deliverablesDone": true,
+      "faqDone": true,
+      "proofLocked": true,
+      "relatedServicesReviewed": true,
+      "linkingPassDone": false,
+      "visualSupportDone": false,
+      "nextRecommendedAction": "Include in parent/child linking pass and later visual support pass."
+    },
+    "website-strategy": {
+      "implemented": true,
+      "summaryDone": true,
+      "signsDone": true,
+      "deliverablesDone": true,
+      "faqDone": true,
+      "proofLocked": true,
+      "relatedServicesReviewed": true,
+      "linkingPassDone": false,
+      "visualSupportDone": false,
+      "nextRecommendedAction": "Include in parent/child linking pass and later visual support pass."
+    },
+    "crm-architecture": {
+      "implemented": true,
+      "summaryDone": true,
+      "signsDone": true,
+      "deliverablesDone": true,
+      "faqDone": true,
+      "proofLocked": true,
+      "relatedServicesReviewed": true,
+      "linkingPassDone": false,
+      "visualSupportDone": false,
+      "nextRecommendedAction": "Include in parent/child linking pass and later visual support pass."
+    },
+    "local-seo": {
+      "implemented": true,
+      "summaryDone": true,
+      "signsDone": true,
+      "deliverablesDone": true,
+      "faqDone": true,
+      "proofLocked": true,
+      "relatedServicesReviewed": true,
+      "linkingPassDone": false,
+      "visualSupportDone": false,
+      "nextRecommendedAction": "Include in parent/child linking pass and later visual support pass."
+    },
+    "conversion-optimization": {
+      "implemented": true,
+      "summaryDone": true,
+      "signsDone": true,
+      "deliverablesDone": true,
+      "faqDone": true,
+      "proofLocked": true,
+      "relatedServicesReviewed": true,
+      "linkingPassDone": false,
+      "visualSupportDone": false,
+      "nextRecommendedAction": "Include in parent/child linking pass and later visual support pass."
+    }
+  },
+  "nextPhase": "parent-child-service-linking",
+  "nextAfterThat": "proof-alignment-and-backlinks",
+  "notes": [
+    "Batch 1 page-copy implementation is complete.",
+    "The next highest-value work is service linking cleanup, not another major copy pass.",
+    "Visual support should come after linking and proof alignment."
+  ]
+}
