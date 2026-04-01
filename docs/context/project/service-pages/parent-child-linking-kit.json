@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "purpose": "Compact linking map for parent service pages, Batch 1 child-service pages, proof targets, and CTA behavior. Use this for low-token linking and cleanup passes.",
+  "globalRules": {
+    "primaryContactCta": "/contact?intent=service",
+    "proofRule": "Use canonical /work/[slug] links only.",
+    "antiPatterns": [
+      "adding every child page to every parent page",
+      "stacking multiple equal CTAs in one section",
+      "linking to sibling pages without a strategic relationship",
+      "using /tools links as filler where they are not naturally relevant"
+    ]
+  },
+  "parents": {
+    "strategy-leadership": {
+      "childPages": [
+        "fractional-cmo"
+      ],
+      "primaryProof": "graston-technique",
+      "optionalTool": "/tools/cmo-simulator"
+    },
+    "websites-ux-brand": {
+      "childPages": [
+        "website-strategy",
+        "conversion-optimization"
+      ],
+      "primaryProof": "pike-medical-consultants",
+      "optionalTool": null
+    },
+    "crm-automation-ai": {
+      "childPages": [
+        "crm-architecture"
+      ],
+      "primaryProof": "graston-growth-engine",
+      "optionalTool": null
+    },
+    "growth-seo-demand": {
+      "childPages": [
+        "local-seo",
+        "conversion-optimization"
+      ],
+      "primaryProof": "russell-painting",
+      "optionalTool": "/tools"
+    }
+  },
+  "children": {
+    "fractional-cmo": {
+      "parent": "strategy-leadership",
+      "siblings": [
+        "website-strategy",
+        "crm-architecture"
+      ],
+      "primaryProof": "graston-technique",
+      "secondaryCta": "/work/graston-technique",
+      "tool": "/tools/cmo-simulator"
+    },
+    "website-strategy": {
+      "parent": "websites-ux-brand",
+      "siblings": [
+        "conversion-optimization",
+        "fractional-cmo"
+      ],
+      "primaryProof": "pike-medical-consultants",
+      "secondaryCta": "/work/pike-medical-consultants",
+      "tool": null
+    },
+    "crm-architecture": {
+      "parent": "crm-automation-ai",
+      "siblings": [
+        "fractional-cmo",
+        "conversion-optimization"
+      ],
+      "primaryProof": "graston-growth-engine",
+      "secondaryCta": "/work/graston-growth-engine",
+      "tool": null
+    },
+    "local-seo": {
+      "parent": "growth-seo-demand",
+      "siblings": [
+        "website-strategy",
+        "conversion-optimization"
+      ],
+      "primaryProof": "russell-painting",
+      "secondaryCta": "/work/russell-painting",
+      "tool": null
+    },
+    "conversion-optimization": {
+      "parent": "growth-seo-demand",
+      "siblings": [
+        "website-strategy",
+        "local-seo",
+        "crm-architecture"
+      ],
+      "primaryProof": "317-bbq",
+      "secondaryCta": "/work/317-bbq",
+      "tool": null
+    }
+  }
+}
