@@ -301,8 +301,18 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
   - Proof hierarchy: **Russell Painting is primary** (trust + local search lead engine), Hoosier Boy Barbershop supporting (#1 local search), Pike Medical supporting (multi-location)
   - `proofWorkSlugs` updated: `['russell-painting', 'hoosier-boy-barbershop', 'pike-medical-consultants']`
   - `relatedServiceSlugs` reordered: `website-strategy` first (closest sibling per build kit)
-- **Next: `/services/conversion-optimization` copywriting pass** (Batch 1, page 5 — final)
-- Then: Services index cluster copy alignment (if needed)
+- ✅ `/services/conversion-optimization` copywriting pass complete (2026-04-01) — Batch 1, page 5 (final)
+  - Summary rewritten following layered writing rule (buyer gap → friction/trust/path diagnosis → structural operating model)
+  - Tagline updated to be more buyer-direct ("The right people are already arriving. The question is why they are leaving without acting.")
+  - 7 `signsYouNeedIt` bullets added (symptom-led: traffic/action gap, unclear next steps, clunky flows, mobile weakness, demand leakage, adding traffic before fixing path, unfocused pages)
+  - 5 `faqItems` added (redesign vs optimization, improving without full rebuild, measuring success, not just ecommerce, what causes weak conversion)
+  - Deliverables tightened — 6 items: conversion-path audit, action hierarchy review, form/flow review, trust/reassurance review, page-level priorities, implementation roadmap
+  - Proof hierarchy: **317 BBQ is primary** (40% conversion lift — direct conversion-path proof), Pike Medical supporting (trust + patient acquisition), Hoosier Boy Barbershop supporting (booking flow rebuild)
+  - `proofWorkSlugs`: `['317-bbq', 'hoosier-boy-barbershop', 'pike-medical-consultants']`
+  - `secondaryCtaHref`: `/work/317-bbq`
+  - `relatedServiceSlugs`: `['website-strategy', 'local-seo', 'fractional-cmo', 'crm-architecture']`
+- **Batch 1 child-service build is now complete.** All 5 pages have been implemented with full copywriting passes.
+- **Next likely phase:** parent/child service linking cleanup, related-service cross-link audit, and services index cluster copy alignment (if needed)
 - Then: Batch 2 pages
 
 ### Consolidated Proof / Taxonomy Snapshot

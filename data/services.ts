@@ -1240,17 +1240,47 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     layer: 'growth',
     eyebrow: 'Conversion Optimization',
     title: 'Conversion Optimization',
-    tagline: 'Traffic exists. The gap is what happens to it.',
+    tagline: 'The right people are already arriving. The question is why they are leaving without acting.',
     summary:
-      'Most conversion problems are not traffic problems. They are trust, clarity, and friction problems. The right visitors are arriving but leaving without acting — because the message is unclear, the path is wrong, or confidence breaks somewhere on the page. I find those breakpoints and fix them.',
+      'Most conversion problems are not traffic problems. The visits are there — but the inquiries, bookings, orders, or quote requests are not. That gap is usually friction, unclear action hierarchy, weak trust signals, or a path that asks for commitment before the visitor is ready.\n\nThe instinct is to add more traffic. The better move is to understand where the existing path is breaking, and fix that first.\n\nThis work starts with a conversion-path audit: where do visitors stall, hesitate, or disengage? From there, the focus moves to action hierarchy, form and flow design, trust architecture, and page-level priorities — the structural layer underneath whether a visitor becomes a lead, a booking, or a sale.\n\nThis is not button-color testing or experimentation theater. It is a structured look at how well the business captures the demand it already has.',
+    signsYouNeedIt: [
+      'Traffic is decent, but inquiries, bookings, or orders are weaker than they should be.',
+      'Key pages do not make the next step obvious enough.',
+      'Forms, booking flows, or checkout paths feel clunky or create unnecessary friction.',
+      'Mobile conversion is noticeably weaker than desktop.',
+      'You suspect the site is leaking demand after people arrive — not before.',
+      'The business keeps adding more traffic before fixing the path people already use.',
+      'Important pages feel busy, generic, or unfocused when they should guide action clearly.',
+    ],
     deliverables: [
-      'Conversion audit — page-by-page review of hierarchy, trust signals, and friction points',
-      'Funnel mapping — tracing the visitor path from entry to action across all key pages',
-      'CTA architecture — which actions to push, where, and how to frame them',
-      'Landing page and service-page restructuring for offer clarity and intent matching',
-      'Booking, inquiry, and contact flow optimization — friction identified and removed',
-      'Form and intake design that reduces drop-off without reducing lead quality',
-      'A/B test planning and post-implementation measurement',
+      'Conversion-path audit — identify where visitors stall, hesitate, or drop before acting.',
+      'Action hierarchy review — clarify what each key page should persuade the visitor to do next.',
+      'Form, booking, quote, or order-flow review — reduce unnecessary friction in the path to action.',
+      'Trust and reassurance review — strengthen the proof and confidence signals around key decisions.',
+      'Page-level priority recommendations — focus effort on the highest-leverage pages first.',
+      'Implementation roadmap — turn conversion findings into specific, actionable changes.',
+    ],
+    faqItems: [
+      {
+        q: 'Do I need conversion optimization or a full redesign?',
+        a: 'Sometimes you need a redesign, but often the higher-value first step is understanding where the path is breaking. This work helps separate a structural problem from a cosmetic one — so you are not rebuilding something that did not need it.',
+      },
+      {
+        q: 'Can conversion improve without changing the whole site?',
+        a: 'Yes. Many meaningful gains come from clarifying action paths, tightening trust signals, improving forms, and adjusting page hierarchy — not from rebuilding everything at once.',
+      },
+      {
+        q: 'How do you measure whether conversion work helped?',
+        a: 'By the actions that matter: better inquiry rates, bookings, orders, quote submissions, or movement through the next step. Not just surface engagement metrics like time on page.',
+      },
+      {
+        q: 'Is this only for ecommerce?',
+        a: 'No. It applies wherever the business depends on users taking a next step — lead generation, booking flows, quote requests, contact paths, and ecommerce alike.',
+      },
+      {
+        q: 'What usually causes weak conversion?',
+        a: 'Usually some combination of unclear messaging, weak trust, too much friction, poor action hierarchy, or a path that asks for commitment before the visitor is ready. It is rarely just one thing.',
+      },
     ],
     proof: [
       {
