@@ -1,0 +1,28 @@
+# Excluded from Cursor indexing, semantic search, @-mentions, Tab, Agent, and Inline Edit.
+# Syntax matches .gitignore. See: https://cursor.com/docs/context/ignore-files
+#
+# Add secrets, large generated trees, or anything you never want the AI to read.
+
+# dependencies
+node_modules/
+
+# build / cache
+.next/
+out/
+build/
+dist/
+coverage/
+*.tsbuildinfo
+
+# local env and secrets
+.env
+.env.*
+!.env.example
+
+# tooling / deploy artifacts
+.vercel/
+.worktrees/
+
+# optional: lockfiles if you prefer the agent not to read them
+# package-lock.json
+# pnpm-lock.yaml

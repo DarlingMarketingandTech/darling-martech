@@ -1,0 +1,9 @@
+# Excluded from codebase indexing only — Agent, Inline Edit, and @-mentions can still read these paths.
+# Use for huge or noisy trees that slow indexing but you still want the AI to open on demand.
+# Syntax matches .gitignore. See: https://cursor.com/docs/context/ignore-files
+
+# Example: skip indexing a massive fixture or vendor snapshot folder
+# fixtures/large-datasets/
+
+# Example: generated API clients you rarely edit by hand
+# src/generated/
