@@ -2,16 +2,54 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useMemo, useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
-import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle } from '@phosphor-icons/react'
+import { useMemo, useRef, useState } from 'react'
+import { motion, useInView, AnimatePresence } from 'framer-motion'
+import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle, Warning, Plus, Minus } from '@phosphor-icons/react'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { containerVariants, itemVariants, springEntrance, viewport } from '@/lib/motion'
 import { SERVICE_TAGS, INDUSTRY_TAGS } from '@/data/taxonomy'
 import { workIndex } from '@/data/work/work-index'
-import { allServicePages, serviceDetails, type ServicePageEntry, type ProofTool } from '@/data/services'
+import { allServicePages, serviceDetails, type ServicePageEntry, type ProofTool, type FaqItem } from '@/data/services'
 import styles from './ServiceDetail.module.css'
+
+function FaqAccordionItem({ item, index }: { item: FaqItem; index: number }) {
+  const [open, setOpen] = useState(false)
+  const reduceMotion = useReducedMotion()
+
+  return (
+    <FadeUp delay={index * 0.05}>
+      <div className={styles.faqItem}>
+        <button
+          className={styles.faqQuestion}
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+        >
+          <span>{item.q}</span>
+          {open ? (
+            <Minus weight="regular" size={16} aria-hidden className={styles.faqIcon} />
+          ) : (
+            <Plus weight="regular" size={16} aria-hidden className={styles.faqIcon} />
+          )}
+        </button>
+        <AnimatePresence initial={false}>
+          {open && (
+            <motion.div
+              key="answer"
+              initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
+              className={styles.faqAnswerWrapper}
+            >
+              <p className={styles.faqAnswer}>{item.a}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </FadeUp>
+  )
+}
 
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
@@ -144,9 +182,31 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
         </section>
       ) : null}
 
+      {service.signsYouNeedIt?.length ? (
+        <section className={styles.section}>
+          <FadeUp>
+            <h2 className={styles.sectionLabel}>Signs you need this</h2>
+          </FadeUp>
+          <motion.ul
+            className={styles.signsList}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {service.signsYouNeedIt.map((item) => (
+              <motion.li key={item} className={styles.signsItem} variants={itemVariants}>
+                <Warning weight="fill" size={16} className={styles.signsIcon} aria-hidden />
+                <span>{item}</span>
+              </motion.li>
+            ))}
+          </motion.ul>
+        </section>
+      ) : null}
+
       <section className={styles.section}>
         <FadeUp>
-          <h2 className={styles.sectionLabel}>What&apos;s included</h2>
+          <h2 className={styles.sectionLabel}>What this usually includes</h2>
         </FadeUp>
         <motion.ul
           className={styles.deliverables}
@@ -164,9 +224,22 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
         </motion.ul>
       </section>
 
+      {service.faqItems?.length ? (
+        <section className={styles.section}>
+          <FadeUp>
+            <h2 className={styles.sectionLabel}>Common questions</h2>
+          </FadeUp>
+          <div className={styles.faqList}>
+            {service.faqItems.map((item, index) => (
+              <FaqAccordionItem key={item.q} item={item} index={index} />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       <section className={styles.section}>
         <FadeUp>
-          <h2 className={styles.sectionLabel}>Proof it works</h2>
+          <h2 className={styles.sectionLabel}>Related proof</h2>
         </FadeUp>
         <div className={styles.proofGrid}>
           {service.proof.map((proof, index) => (

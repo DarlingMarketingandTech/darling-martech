@@ -42,6 +42,11 @@ export type ProofTool = {
   imageAlt?: string
 }
 
+export type FaqItem = {
+  q: string
+  a: string
+}
+
 type BaseServicePage = {
   id: string
   routePath?: string
@@ -67,6 +72,10 @@ type BaseServicePage = {
   relatedServiceSlugs?: string[]
   /** Lab tools that demonstrate this service's capabilities — rendered as proof artifact cards */
   proofTools?: ProofTool[]
+  /** Signs a buyer needs this service — symptom-led bullets displayed before deliverables */
+  signsYouNeedIt?: string[]
+  /** FAQ items rendered in an accordion below deliverables */
+  faqItems?: FaqItem[]
 }
 
 export type ParentServiceDetail = BaseServicePage & {
@@ -310,9 +319,9 @@ export const serviceDetails: ParentServiceDetail[] = [
         sceneTarget: 'build-launchpad',
       },
       {
-        label: 'Lab tools',
-        href: '/lab',
-        result: 'Custom calculators, analytics bridges, SEO scanners, and AI experiments already shipped.',
+        label: 'Internal tools',
+        href: '/work/graston-growth-engine',
+        result: 'Custom calculators, analytics dashboards, SEO scanners, and AI-powered support tools built for production.',
         signalLabel: 'Custom tooling',
         metric: 'Production-ready internal tools',
         sceneTarget: 'build-lab',
@@ -678,7 +687,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
         title: 'Try the CMO Simulator.',
         body: 'A 10-minute guided decision framework that walks through budget allocation, channel strategy, KPI selection, and execution priority — the same logic applied in every fractional engagement.',
         externalCtaLabel: 'Run the simulator',
-        externalCtaHref: '/lab/cmo-simulator',
+        externalCtaHref: '/tools/cmo-simulator',
         internalCtaLabel: 'See how it was built',
         imagePublicId: 'CMO_Sim-_Q1',
         imageAlt: 'CMO Simulator — interactive strategy walkthrough',
@@ -925,6 +934,250 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     pricingSignal: '$3K–$8K · Standalone engagement or integrated into a website or campaign build',
     relatedServiceSlugs: ['brand-web', 'strategy', 'fractional-cmo', 'growth'],
   },
+  // ── Batch 1 canonical child-service pages ──────────────────────────────────
+  // These are the first-wave entries that the ServicesExperience clusters link to.
+  // Copy and signsYouNeedIt/faqItems will be filled in the copywriting pass.
+  // Proof assignments follow service-proof-matrix.md.
+
+  {
+    id: 'website-strategy',
+    kind: 'standalone',
+    layer: 'build',
+    eyebrow: 'Website Strategy',
+    title: 'Website Strategy & Rebuilds',
+    tagline: 'A site that looks fine but does not convert is still a problem.',
+    summary:
+      'Most underperforming websites are not ugly — they are structurally broken. Unclear hierarchy, weak trust signals, and messaging that does not match what the visitor needs to hear. I rebuild websites as business systems: positioning and page architecture first, then the conversion logic and UX layer that guides the right visitor to the right action.',
+    deliverables: [
+      'Website strategy and page hierarchy — which pages, in which order, serving which goal',
+      'Conversion-focused UX architecture — how each page moves visitors toward a decision',
+      'Homepage and service-page structure built around offer clarity and buyer intent',
+      'Trust-signal and authority-layer design — credentials, proof, and visual confidence cues',
+      'Booking, inquiry, quote, and contact flow optimization',
+      'Mobile-first experience audit and implementation',
+      'Messaging hierarchy mapped to visitor decision stages',
+    ],
+    proof: [
+      {
+        label: 'Pike Medical Consultants',
+        href: '/work/pike-medical-consultants',
+        result: '45% patient growth over 3 years — brand architecture, digital infrastructure, and acquisition strategy rebuilt from scratch.',
+        signalLabel: 'Healthcare rebuild',
+        metric: '45% patient growth',
+      },
+      {
+        label: 'Riley Bennett Egloff',
+        href: '/work/riley-bennett-egloff',
+        result: 'Seven-year embedded engagement spanning website, PR, and business development for a 29-attorney firm.',
+        signalLabel: 'Long-term ownership',
+        metric: '7+ year engagement',
+      },
+      {
+        label: 'Tuohy Bailey & Moore',
+        href: '/work/tuohy-bailey-moore',
+        result: '60% more contact form submissions after a trust-led brand and website rebuild.',
+        signalLabel: 'Trust-led redesign',
+        metric: '60% more inquiries',
+      },
+    ],
+    proofStats: [
+      { value: '40%', label: 'average conversion lift delivered across website rebuild engagements' },
+      { value: '75%', label: 'more online bookings at PrimaryCare Indy after the redesign and UX rebuild' },
+      { value: '60%', label: 'more contact form submissions at Tuohy Bailey & Moore after brand and site rebuild' },
+    ],
+    proofWorkSlugs: ['pike-medical-consultants', 'riley-bennett-egloff', 'tuohy-bailey-moore'],
+    serviceIds: ['web-development', 'conversion-design', 'brand-strategy'],
+    industryIds: ['legal', 'healthcare', 'local-service', 'hospitality'],
+    outcomeIds: ['conversion-lift', 'lead-gen', 'booking-growth'],
+    primaryCtaLabel: 'Start a website strategy conversation',
+    secondaryCtaLabel: 'See website work',
+    secondaryCtaHref: '/work/pike-medical-consultants',
+    pricingSignal: '$4K–$20K · Project-based, scoped by site size and complexity',
+    relatedServiceSlugs: ['fractional-cmo', 'conversion-optimization', 'crm-architecture', 'local-seo'],
+  },
+  {
+    id: 'crm-architecture',
+    kind: 'standalone',
+    layer: 'build',
+    eyebrow: 'CRM Architecture',
+    title: 'CRM Architecture & Marketing Systems',
+    tagline: 'When leads, follow-up, and reporting live in disconnected tools, growth becomes manual and unreliable.',
+    summary:
+      'Most CRM problems are not software problems. They are architecture problems. The wrong structure means leads fall out, follow-up is inconsistent, and no one can trust the data. I design and build the CRM layer that connects marketing, sales, and operations — so the business actually runs the way it is supposed to.',
+    deliverables: [
+      'CRM architecture design and lifecycle automation mapping',
+      'Lead routing, intake, nurture, and reactivation workflow builds',
+      'Lead scoring and qualification logic design',
+      'CRM-to-marketing and CRM-to-sales alignment — connecting activity to pipeline',
+      'Membership, LMS, and e-commerce integrations with CRM sync',
+      'Attribution and reporting alignment — connecting marketing inputs to revenue outputs',
+      'Stack cleanup and deduplication — removing redundancy and repairing broken handoffs',
+    ],
+    proof: [
+      {
+        label: 'Graston Growth Engine',
+        href: '/work/graston-growth-engine',
+        result: 'Two-sided provider directory with real-time spatial search, AI-powered support, and per-provider analytics — zero manual enrollment.',
+        signalLabel: 'Full-stack CRM build',
+        metric: '0 manual enrollment steps',
+      },
+      {
+        label: 'Barbershop Command Center',
+        href: '/work/barbershop-command-center',
+        result: 'Booking, client history, staff scheduling, and marketing automation unified into a single operational dashboard.',
+        signalLabel: 'Operations integration',
+        metric: 'Full operations unified',
+      },
+      {
+        label: 'Graston Technique',
+        href: '/work/graston-technique',
+        result: '400+ automations across LMS, CRM, e-commerce, and provider directory. 95% reduction in manual overhead.',
+        signalLabel: 'Automation engine',
+        metric: '95% less manual overhead',
+      },
+    ],
+    proofStats: [
+      { value: '400+', label: 'automations built and deployed across production marketing and sales systems' },
+      { value: '95%', label: 'reduction in manual overhead at Graston Technique after the full CRM and automation stack' },
+      { value: '48 hrs/wk', label: 'saved at Graston Technique after the automation layer was deployed' },
+    ],
+    proofWorkSlugs: ['graston-growth-engine', 'graston-technique'],
+    serviceIds: ['crm-automation', 'lead-gen-workflows', 'agentic-systems'],
+    industryIds: ['healthcare', 'saas', 'ecommerce', 'b2b'],
+    outcomeIds: ['time-saved', 'lead-gen', 'cost-reduction'],
+    primaryCtaLabel: 'Start a CRM architecture conversation',
+    secondaryCtaLabel: 'See the Graston build',
+    secondaryCtaHref: '/work/graston-growth-engine',
+    pricingSignal: '$4K–$30K+ · Scoped by stack size and integration depth',
+    relatedServiceSlugs: ['fractional-cmo', 'website-strategy', 'local-seo', 'conversion-optimization'],
+    proofTools: [
+      {
+        labSlug: 'graston-growth-engine',
+        eyebrow: 'Live build',
+        title: 'See the Graston Growth Engine in action.',
+        body: 'A two-sided provider directory with real-time spatial search, AI-powered support automation, and a per-provider analytics dashboard — built as a production system, not a demo.',
+        externalCtaLabel: 'Explore the live build',
+        externalCtaHref: 'https://graston-growth-engine.vercel.app/',
+        internalCtaLabel: 'See the full build breakdown',
+        imagePublicId: 'graston-growth-engine_-_admin_command_center',
+        imageAlt: 'Graston Growth Engine — admin command center',
+      },
+    ],
+  },
+  {
+    id: 'local-seo',
+    kind: 'standalone',
+    layer: 'growth',
+    eyebrow: 'Local SEO',
+    title: 'Local SEO & Search Visibility',
+    tagline: 'The business should be found more often by the people who are already looking for it.',
+    summary:
+      'Most local businesses are invisible in search not because the competition is stronger, but because the structure is wrong. I fix the architecture — Google Business, schema, local signals, and content hierarchy — so the business earns the visibility it deserves and turns that traffic into action.',
+    deliverables: [
+      'Google Business Profile audit, optimization, and ongoing management strategy',
+      'Local keyword architecture and landing-page structure for geo-targeted visibility',
+      'Schema markup implementation — LocalBusiness, services, reviews, and FAQ',
+      'Citation audit and cleanup — NAP consistency across directories and aggregators',
+      'Review strategy and trust-signal architecture',
+      'Content hierarchy and internal linking built for local search intent',
+      'Analytics and reporting — tracking local visibility, clicks, and conversions',
+    ],
+    proof: [
+      {
+        label: 'Russell Painting',
+        href: '/work/russell-painting',
+        result: 'Heritage-led SEO and trust architecture turned the site into a lead engine. 4.9★ Google rating as primary conversion driver.',
+        signalLabel: 'Trust + local search',
+        metric: 'Lead engine rebuilt',
+      },
+      {
+        label: 'Hoosier Boy Barbershop',
+        href: '/work/hoosier-boy-barbershop',
+        result: '#1 local search position and 200% social engagement growth after brand identity and local SEO build.',
+        signalLabel: 'Local visibility',
+        metric: '#1 local search',
+      },
+      {
+        label: 'Pike Medical Consultants',
+        href: '/work/pike-medical-consultants',
+        result: 'Multi-location local search presence built across five medical divisions over three years.',
+        signalLabel: 'Multi-location SEO',
+        metric: '45% patient growth',
+      },
+    ],
+    proofStats: [
+      { value: '300%', label: 'organic traffic growth at PrimaryCare Indy after local SEO and site architecture rebuild' },
+      { value: '75%', label: 'more online bookings at PrimaryCare Indy driven by improved local search visibility' },
+      { value: '#1', label: 'local search ranking achieved for Hoosier Boy Barbershop after brand and SEO build' },
+    ],
+    proofWorkSlugs: ['russell-painting', 'hoosier-boy-barbershop', 'primarycare-indy'],
+    serviceIds: ['local-seo', 'seo-content', 'technical-seo'],
+    industryIds: ['local-service', 'healthcare', 'hospitality', 'legal'],
+    outcomeIds: ['traffic-growth', 'lead-gen', 'booking-growth'],
+    primaryCtaLabel: 'Start a local SEO conversation',
+    secondaryCtaLabel: 'See the Russell Painting build',
+    secondaryCtaHref: '/work/russell-painting',
+    pricingSignal: '$2K–$8K/month · Project or retainer depending on scope',
+    relatedServiceSlugs: ['conversion-optimization', 'website-strategy', 'fractional-cmo'],
+  },
+  {
+    id: 'conversion-optimization',
+    kind: 'standalone',
+    layer: 'growth',
+    eyebrow: 'Conversion Optimization',
+    title: 'Conversion Optimization',
+    tagline: 'Traffic exists. The gap is what happens to it.',
+    summary:
+      'Most conversion problems are not traffic problems. They are trust, clarity, and friction problems. The right visitors are arriving but leaving without acting — because the message is unclear, the path is wrong, or confidence breaks somewhere on the page. I find those breakpoints and fix them.',
+    deliverables: [
+      'Conversion audit — page-by-page review of hierarchy, trust signals, and friction points',
+      'Funnel mapping — tracing the visitor path from entry to action across all key pages',
+      'CTA architecture — which actions to push, where, and how to frame them',
+      'Landing page and service-page restructuring for offer clarity and intent matching',
+      'Booking, inquiry, and contact flow optimization — friction identified and removed',
+      'Form and intake design that reduces drop-off without reducing lead quality',
+      'A/B test planning and post-implementation measurement',
+    ],
+    proof: [
+      {
+        label: '317 BBQ',
+        href: '/work/317-bbq',
+        result: '40% lift in online order conversions and 2x catering inquiries after photography-first UX and purchase-intent restructuring.',
+        signalLabel: 'Purchase-intent UX',
+        metric: '40% conversion lift',
+      },
+      {
+        label: 'Pike Medical Consultants',
+        href: '/work/pike-medical-consultants',
+        result: 'Online check-in, pricing transparency, and patient acquisition built into one experience — 60% of visits now via online check-in.',
+        signalLabel: 'Healthcare conversion',
+        metric: '60% visits via online check-in',
+      },
+      {
+        label: 'Hoosier Boy Barbershop',
+        href: '/work/hoosier-boy-barbershop',
+        result: 'Booking flow rebuilt around the local identity — 90% more online bookings.',
+        signalLabel: 'Booking flow rebuild',
+        metric: '90% more bookings',
+      },
+    ],
+    proofStats: [
+      { value: '40%', label: 'average conversion lift delivered across website and funnel rebuild engagements' },
+      { value: '90%', label: 'more online bookings at Hoosier Boy after the booking flow and identity rebuild' },
+      { value: '2x', label: 'catering inquiry volume at 317 BBQ after the purchase-intent UX restructure' },
+    ],
+    proofWorkSlugs: ['317-bbq', 'hoosier-boy-barbershop', 'pike-medical-consultants'],
+    serviceIds: ['conversion-design', 'web-development', 'seo-content'],
+    industryIds: ['hospitality', 'healthcare', 'local-service', 'ecommerce'],
+    outcomeIds: ['conversion-lift', 'lead-gen', 'booking-growth'],
+    primaryCtaLabel: 'Start a conversion conversation',
+    secondaryCtaLabel: 'See the 317 BBQ build',
+    secondaryCtaHref: '/work/317-bbq',
+    pricingSignal: '$2K–$8K · Audit or project-based depending on scope',
+    relatedServiceSlugs: ['website-strategy', 'local-seo', 'fractional-cmo', 'crm-architecture'],
+  },
+  // ── End Batch 1 canonical entries ──────────────────────────────────────────
+
   {
     id: 'website-redesign-conversion-ux',
     kind: 'standalone',

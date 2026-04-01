@@ -172,12 +172,64 @@ other pages sell.
 + `/api/contact/route.ts`. API supports: `intent`, `service`, `toolOutput` fields.
 No additional routes, data files, or API routes required.
 
-### Service Page System (2026-03-29)
+### Service Page System (2026-04-01 — foundation pass complete)
 
 > Canonical planning and implementation docs now live in `docs/context/project/service-pages/`.
 > Consult that folder before any `/services` or child-service page work.
 
+#### Batch 1 canonical child-service slugs (foundation normalized 2026-04-01)
+
+These 5 slugs are now clean in `data/services.ts` and resolve via the dynamic route:
+
+- `fractional-cmo` — Fractional CMO & Embedded Marketing Leadership
+- `website-strategy` — Website Strategy & Rebuilds (**new** — canonical Batch 1 entry)
+- `crm-architecture` — CRM Architecture & Marketing Systems (**new**)
+- `local-seo` — Local SEO & Search Visibility (**new**)
+- `conversion-optimization` — Conversion Optimization (**new**)
+
+`website-redesign-conversion-ux`, `geo-optimization`, `agentic-marketing-systems`,
+`the-fortress`, `the-conductor`, `brand-strategy`, and `martech-audit` remain in
+`standaloneServicePages` as pre-existing entries. They serve their own routes.
+Do not treat them as conflicting with Batch 1 — they are distinct or supporting entries.
+
+#### Service data architecture (current)
+
+- `serviceDetails` — 6 parent service entries (strategy, brand-web, systems, growth, commerce, specialized)
+- `standaloneServicePages` — 11 standalone entries including all 5 Batch 1 slugs
+- `allServicePages` — combined array used by `getServicePageBySlug()` and `generateServiceStaticParams()`
+- `generateServiceStaticParams()` excludes entries with a nested `routePath` — those 4 entries
+  (`geo-optimization`, `agentic-marketing-systems`, `the-fortress`, `the-conductor`) use nested routes
+  and are intentionally excluded from the flat `[slug]` dynamic route
+
+#### ServiceDetailPage.tsx template sections (as of 2026-04-01)
+
+The component now renders these sections in order when data is present:
+
+1. Back nav + parent breadcrumb
+2. Hero (eyebrow, H1, tagline, summary, CTA)
+3. Pricing signal (optional)
+4. Proof stats / audit snapshot (optional)
+5. **Signs you need this** (optional — `signsYouNeedIt?: string[]`)
+6. **What this usually includes** (deliverables list)
+7. **Common questions** FAQ accordion (optional — `faqItems?: FaqItem[]`)
+8. **Related proof** (proof grid linking to work pages)
+9. Proof tool card (optional)
+10. Related case studies (optional — from `proofWorkSlugs`)
+11. Featured offers / child services (optional — parent pages only)
+12. Related services (optional)
+13. Tag row
+14. CTA strip
+
+The `signsYouNeedIt` and `faqItems` fields are new — they are optional and gracefully
+absent for existing entries. Fill them in the copywriting pass for each Batch 1 page.
+
+#### Stale references fixed (2026-04-01)
+
+- `systems` parent proof card: `/lab` href → `/work/graston-growth-engine`
+- `fractional-cmo` standalone: `externalCtaHref` `/lab/cmo-simulator` → `/tools/cmo-simulator`
+
 #### Page-role logic
+
 - **Homepage** — orient the right buyer fast; hero carries the core positioning load
 - **Services index** — explain problem clusters and route users to the right child page
 - **Sub-service pages** — explain one service clearly enough to convert the right buyer
@@ -186,7 +238,9 @@ No additional routes, data files, or API routes required.
 - **Contact** — qualified conversation request
 
 #### Layered writing rule
+
 Service pages must move through content in this order:
+
 1. Plain-English buyer language (what is broken, what this fixes, why it matters)
 2. Strategic translator language (how strategy, systems, execution, and growth connect)
 3. Technical / specialist language (architecture, automation, CRM, SEO, tooling specifics)
@@ -194,21 +248,29 @@ Service pages must move through content in this order:
 Do not reverse this order. Do not ask visitors to choose a knowledge level. Translate complexity instead.
 
 #### CTA rule
+
 - Default child-service CTA: `/contact?intent=service`
 - Supporting CTA: one relevant `/work` proof page
 - Tool link: only when naturally relevant to the service — not forced
 
 #### Proof assignment rule
+
 Use `service-proof-matrix.md` first when assigning proof to a service page:
+
 - One dominant proof item per service page
 - Supporting proof only when it adds range or mechanism clarity
 - Do not attach weak or visually similar but strategically irrelevant proof
 
 #### Build sequence
-1. Top-priority child-service pages (Fractional CMO, Website Strategy, CRM Architecture, Local SEO, Conversion Optimization)
-2. Services index reframe
-3. Homepage/services alignment work
-4. Secondary / specialty child pages
+
+- ✅ Foundation pass complete (2026-04-01) — data layer, route integrity, template structure
+- **Next: `/services/fractional-cmo` copywriting pass** (Batch 1, page 1)
+  - Add `signsYouNeedIt` bullets
+  - Add `faqItems` (4–6 Q&As)
+  - Tighten summary and deliverables to match layered writing rule
+- Then: `website-strategy`, `crm-architecture`, `local-seo`, `conversion-optimization` in order
+- Then: Services index cluster copy alignment (if needed)
+- Then: Batch 2 pages
 
 ### Consolidated Proof / Taxonomy Snapshot
 - Top reusable proof assets: Graston Technique, Pike Medical, PrimaryCare Indy,
