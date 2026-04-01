@@ -273,11 +273,35 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
   - `proofWorkSlugs`: `['graston-technique', 'pike-medical-consultants']`
   - `secondaryCtaHref`: `/work/graston-technique`
   - CMO Simulator remains as `proofTools` — supporting tool, not primary CTA
-- **Next: `/services/website-strategy` copywriting pass** (Batch 1, page 2)
-  - Add `signsYouNeedIt` bullets
-  - Add `faqItems` (4–5 Q&As)
-  - Tighten summary following layered writing rule
-- Then: `crm-architecture`, `local-seo`, `conversion-optimization` in order
+- ✅ `/services/website-strategy` copywriting pass complete (2026-04-01) — Batch 1, page 2
+  - Summary rewritten following layered writing rule (buyer problem → strategic model → how it works)
+  - 7 `signsYouNeedIt` bullets added (symptom-led, buyer-recognizable)
+  - 5 `faqItems` added (rebuild vs refresh, platform compatibility, content/structure scope, measuring success, site size)
+  - Deliverables tightened — 6 items focused on strategy, hierarchy, trust, and conversion path
+  - Proof reordered: **Pike Medical Consultants is primary** (trust + healthcare rebuild), Tuohy Bailey & Moore supporting (trust-led redesign), Riley Bennett Egloff supporting (long-term stewardship)
+  - `proofWorkSlugs`: `['pike-medical-consultants', 'tuohy-bailey-moore', 'riley-bennett-egloff']`
+  - `secondaryCtaHref`: `/work/pike-medical-consultants`
+  - `relatedServiceSlugs`: `['conversion-optimization', 'fractional-cmo', 'crm-architecture', 'local-seo']`
+- ✅ `/services/crm-architecture` copywriting pass complete (2026-04-01) — Batch 1, page 3
+  - Summary rewritten following layered writing rule (CRM is live but not trusted → structure problem → systems model)
+  - 7 `signsYouNeedIt` bullets added (symptom-led: trust, stages, manual follow-up, reporting, ownership, data quality, usability)
+  - 5 `faqItems` added (what is CRM architecture, current platform, build vs recommend, CRM vs sales-process, team size)
+  - Deliverables tightened — 6 items: audit, lifecycle/pipeline design, routing/handoff, field cleanup, automation logic, dashboard visibility
+  - Tagline updated to be more buyer-direct ("Having a CRM is not the same as having a system you can actually run from.")
+  - Proof hierarchy: **Graston Growth Engine is primary** (full-stack systems proof), Barbershop Command Center supporting (operational integration), Graston Technique supporting (automation scale)
+  - `proofWorkSlugs` updated: `['graston-growth-engine', 'barbershop-command-center']`
+  - `relatedServiceSlugs` reordered: `['fractional-cmo', 'conversion-optimization', 'website-strategy', 'local-seo']`
+  - `proofTools` retained (Graston Growth Engine live demo card)
+- ✅ `/services/local-seo` copywriting pass complete (2026-04-01) — Batch 1, page 4
+  - Summary rewritten following layered writing rule (local visibility underperforms → trust + structure problem → strategic model)
+  - Tagline updated to be more specific ("easier to find — and easier to trust")
+  - 7 `signsYouNeedIt` bullets added (symptom-led: competitor visibility, Google Business, weak action rate, thin pages, unclear priorities, offline/online gap, trust signals not working together)
+  - 5 `faqItems` added (what local SEO includes, vs technical SEO, location pages, timeline, traffic already exists)
+  - Deliverables tightened — 6 items: audit, page direction, Google Business/local signals, internal linking/content priorities, review/trust strategy, measurement
+  - Proof hierarchy: **Russell Painting is primary** (trust + local search lead engine), Hoosier Boy Barbershop supporting (#1 local search), Pike Medical supporting (multi-location)
+  - `proofWorkSlugs` updated: `['russell-painting', 'hoosier-boy-barbershop', 'pike-medical-consultants']`
+  - `relatedServiceSlugs` reordered: `website-strategy` first (closest sibling per build kit)
+- **Next: `/services/conversion-optimization` copywriting pass** (Batch 1, page 5 — final)
 - Then: Services index cluster copy alignment (if needed)
 - Then: Batch 2 pages
 
