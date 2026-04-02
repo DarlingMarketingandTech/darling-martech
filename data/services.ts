@@ -900,7 +900,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaLabel: 'See measurement proof',
     secondaryCtaHref: '/work?service=analytics-reporting',
     pricingSignal: '$2K–$8K · Project-based audit and setup, optional retainer for ongoing reporting',
-    relatedServiceSlugs: ['growth', 'martech-audit', 'systems', 'strategy'],
+    relatedServiceSlugs: ['conversion-optimization', 'local-seo', 'martech-audit'],
   },
   {
     id: 'brand-strategy',
@@ -956,7 +956,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaLabel: 'See brand work',
     secondaryCtaHref: '/work',
     pricingSignal: '$3K–$8K · Standalone engagement or integrated into a website or campaign build',
-    relatedServiceSlugs: ['brand-web', 'strategy', 'fractional-cmo', 'growth'],
+    relatedServiceSlugs: ['website-strategy', 'fractional-cmo', 'conversion-optimization'],
   },
   // ── Batch 1 canonical child-service pages ──────────────────────────────────
   // These are the first-wave entries that the ServicesExperience clusters link to.
@@ -1377,7 +1377,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaLabel: 'See website work',
     secondaryCtaHref: '/work',
     pricingSignal: '$4K–$20K · Project-based, scoped by site size, complexity, and whether copy and content are included',
-    relatedServiceSlugs: ['brand-web', 'brand-strategy', 'martech-audit', 'growth'],
+    relatedServiceSlugs: ['website-strategy', 'conversion-optimization', 'martech-audit'],
   },
 ]
 

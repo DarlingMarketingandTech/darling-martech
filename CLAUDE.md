@@ -107,12 +107,12 @@ Conflict rule:
   - child-service money pages under current service parents
   - `/industries/[slug]` after child service pages
   - `/pricing` later
-- Immediate service-page execution priority (updated 2026-03-29 — see `docs/context/project/service-pages/`):
-  1. Fractional CMO / Strategic Leadership → `fractional-cmo`
-  2. Website Strategy & Rebuilds → `website-strategy`
-  3. CRM Architecture → `crm-architecture`
-  4. Local SEO → `local-seo`
-  5. Conversion Optimization → `conversion-optimization`
+- Batch 1 child-service execution (complete 2026-04-01): `fractional-cmo`, `website-strategy`,
+  `crm-architecture`, `local-seo`, `conversion-optimization` — all shipped with copy + linking + proof alignment.
+- Confirmed Batch 2 build order (post-consolidation audit 2026-04-01; after lightweight visual support):
+  1. `martech-audit`
+  2. `agentic-marketing-systems`
+  3. `geo-optimization` (nested canonical route; specialty relative to Batch 1 growth pages)
 - Sub-service routes: plain-English slugs under `/services/[slug]`. See `service-route-and-slug-conventions.md`.
 - Internal linking minimums:
   - Every service page: link to `/contact` + at least 2 relevant work pages.
@@ -187,10 +187,15 @@ These 5 slugs are now clean in `data/services.ts` and resolve via the dynamic ro
 - `local-seo` — Local SEO & Search Visibility (**new**)
 - `conversion-optimization` — Conversion Optimization (**new**)
 
-`website-redesign-conversion-ux`, `geo-optimization`, `agentic-marketing-systems`,
-`the-fortress`, `the-conductor`, `brand-strategy`, and `martech-audit` remain in
-`standaloneServicePages` as pre-existing entries. They serve their own routes.
-Do not treat them as conflicting with Batch 1 — they are distinct or supporting entries.
+Additional standalone entries remain in `standaloneServicePages` with their own routes.
+**Next-tier priorities (Batch 2, in order):** `martech-audit`, `agentic-marketing-systems`,
+`geo-optimization`. **Valid but de-emphasized in related-service surfacing (consolidation audit 2026-04-01):**
+`website-redesign-conversion-ux` (conceptual overlap with `website-strategy` + `conversion-optimization`;
+related links now point to those Batch 1 pages), `the-conductor` (legacy/internal naming; related links
+now point to Batch 1 growth/measurement-adjacent pages), `brand-strategy` (real offer; related links
+now favor Batch 1 siblings over parent-category filler). **`the-fortress`** stays a nested systems proof
+page. These are not treated as conflicting with Batch 1 — routes stay live; emphasis is via linking and
+cluster choices, not deletion.
 
 #### Service data architecture (current)
 
@@ -321,7 +326,14 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
 - ✅ **Proof alignment + work→service backlinks (2026-04-01)** — `data/services.ts`, `data/work/work-index.ts`, `lib/work.ts`, `app/work/[slug]/page.tsx`, `WorkDetailContent.tsx`
   - Batch 1 service proof stacks checked against `service-proof-snippets.json`: **CRM Architecture** dropped a redundant third proof card (Graston Technique parent) so supporting proof stays subordinate to **Graston Growth Engine** + Barbershop Command Center; `secondaryCtaLabel` clarified for the Growth Engine URL.
   - Flagship work cards set `primaryServicePageSlug` for the strongest pairings: Graston Technique → `fractional-cmo`, Pike Medical → `website-strategy`, Graston Growth Engine → `crm-architecture`, Russell Painting → `local-seo`, 317 BBQ → `conversion-optimization`. Work detail renders a single “This build supports …” link to the resolved service route (respects `routePath` when present).
-- **Next likely phase:** lightweight visual support for service/work proof surfaces; then Batch 2 service pages when planned.
+- ✅ **Post-Batch-1 service-system consolidation audit (2026-04-01)** — Confirmed next-tier Batch 2 order
+  (`martech-audit` → `agentic-marketing-systems` → `geo-optimization`). Confirmed de-emphasis strategy for
+  `website-redesign-conversion-ux`, `the-conductor`, and `brand-strategy` (narrow `relatedServiceSlugs`
+  updates in `data/services.ts` only; no `/services` layout or Batch 1 copy changes). `/services` cluster
+  links unchanged: `brand-strategy` still appears twice with different labels (positioning vs identity);
+  legacy combo slug is not cluster-featured.
+- **Next likely phase:** lightweight visual support for service/work proof surfaces; then Batch 2 page
+  builds in the order above.
 
 ### Consolidated Proof / Taxonomy Snapshot
 - Top reusable proof assets: Graston Technique, Pike Medical, PrimaryCare Indy,

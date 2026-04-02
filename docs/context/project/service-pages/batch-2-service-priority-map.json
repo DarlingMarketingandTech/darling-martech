@@ -3,8 +3,10 @@
   "purpose": "Compact decision map for post-Batch-1 service-system consolidation and Batch 2 planning. Use this to decide what to keep, de-emphasize, merge, or build next without rereading the full planning stack.",
   "currentState": {
     "batch1Status": "implemented",
-    "nextStrategicStep": "service-system-consolidation",
-    "nextAfterThat": "lightweight-visual-support"
+    "serviceSystemConsolidationAudit": "complete",
+    "consolidationAuditDate": "2026-04-01",
+    "nextStrategicStep": "lightweight-visual-support",
+    "nextAfterThat": "batch-2-service-pages"
   },
   "decisionRules": {
     "keepIf": [
@@ -113,5 +115,9 @@
     "website-redesign-conversion-ux",
     "the-conductor",
     "brand-strategy"
+  ],
+  "postAuditNotes": [
+    "2026-04-01: Repo runtime matches priority-map intent — Batch 1 owns parent childServiceSlugs; website-redesign-conversion-ux and the-conductor are not /services cluster links.",
+    "2026-04-01: suggestedBuildOrder unchanged after audit; narrow relatedServiceSlugs updates applied on legacy standalones in data/services.ts."
   ]
 }
