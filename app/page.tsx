@@ -7,9 +7,9 @@ import { ContactCTA } from '@/components/sections/ContactCTA'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Darling MarTech — Marketing Strategy & Technology',
+  title: 'Marketing Strategy, Systems & Execution for Growth',
   description:
-    'Jacob Darling fixes the gaps between marketing strategy, websites, CRM, automation, and measurement — so growth is easier to run and easier to trust. Based in Indianapolis, IN.',
+    'If your marketing feels disconnected, underperforming, or hard to trust — this is where it gets fixed. Strategy, websites, CRM, automation, and measurement built into one system.',
 }
 
 export default function Home() {
