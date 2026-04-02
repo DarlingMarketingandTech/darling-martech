@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "purpose": "Compact decision map for narrowing and clarifying the /work index without redesigning the site. Use this before reading deeper runtime files.",
+  "lastUpdated": "2026-04-02",
+  "referenceBias": {
+    "indexPattern": "instrument-restraint",
+    "trustPattern": "focus-lab-credibility",
+    "caseNarrativePattern": "c42d-clarity",
+    "notes": "Use calm hierarchy and buyer-readable proof. Do not turn /work into a creative-studio archive or an enterprise dashboard."
+  },
+  "pageRole": {
+    "route": "/work",
+    "job": "Proof of capability — curated client work with measurable outcomes.",
+    "not": [
+      "a dashboard or command center",
+      "a full portfolio archive",
+      "a tools index",
+      "a studio-first gallery"
+    ]
+  },
+  "keep": [
+    "Flagship work as the main entry point.",
+    "Supporting case studies as a secondary browsing layer.",
+    "Connected-system strips under parent engagements instead of flattening all child builds into one tier.",
+    "Restrained studio support lower on the page.",
+    "Canonical links into /work/[slug].",
+    "Existing accessibility patterns for tabs/segmented navigation where they remain useful."
+  ],
+  "reduceOrRemove": [
+    "Signal-strip or status-strip UI that makes the page feel operational instead of editorial.",
+    "A second filter row or any parallel control layer competing with the case studies.",
+    "Dense card footers, extra chrome, and dashboard-like metadata stacks.",
+    "Equal visual weight between flagship parent studies and system-child projects.",
+    "Anything that makes a visitor work to understand which proof matters most."
+  ],
+  "recommendedSectionOrder": [
+    "Editorial intro",
+    "Flagship studies",
+    "Supporting proof grid",
+    "Connected system strips under parent studies",
+    "Restrained studio strip",
+    "Simple CTA or browse continuation"
+  ],
+  "hierarchyRules": {
+    "flagship": {
+      "countBias": "4-5 max before supporting proof takes over",
+      "cardNeeds": [
+        "client",
+        "plain-English problem or transformation line",
+        "one dominant metric",
+        "service proof direction"
+      ],
+      "notes": "These are the trust anchors. They should be easier to notice than every other tier on the page."
+    },
+    "supporting": {
+      "cardNeeds": [
+        "client",
+        "one concise relevance line",
+        "one primary metric"
+      ],
+      "notes": "Compact and skimmable. Do not let this tier overpower flagship proof."
+    },
+    "systemChildren": {
+      "displayRule": "Always subordinate to the parent engagement they came from.",
+      "notes": "Useful for range and mechanism clarity, but they should read like inside-the-system proof rather than equal flagship entries."
+    }
+  },
+  "browsingRule": {
+    "default": "One calm browsing surface only.",
+    "preferredBehavior": "Keep or simplify to a single segmented navigation model. Do not add new filters in this pass.",
+    "labelBias": "Prefer buyer-readable or proof-readable labels over internal taxonomy jargon.",
+    "antiPattern": "Do not keep two filter rows just because both already exist."
+  },
+  "copyAndToneRules": [
+    "Use short editorial framing, not hype.",
+    "Explain what the work proved, not just what was made.",
+    "Let outcomes and mechanisms do the persuasion.",
+    "Avoid portfolio wallpaper language."
+  ],
+  "likelyRuntimeFiles": [
+    "app/work/page.tsx",
+    "components/sections/WorkIndex/*",
+    "data/work/work-index.ts",
+    "related CSS Modules directly tied to the work index"
+  ],
+  "antiPatterns": [
+    "Rebuilding /work as a new information architecture.",
+    "Introducing a new taxonomy system in the same pass.",
+    "Promoting every sub-project equally because it has content.",
+    "Turning studio content into the primary trust layer.",
+    "Using additional motion, counters, or UI chrome to manufacture importance."
+  ],
+  "successCriteria": [
+    "The page feels calmer within one screen of scanning.",
+    "A first-time visitor can identify the top proof items immediately.",
+    "System-child work reads as connected proof rather than clutter.",
+    "Browsing feels simpler, not more configurable.",
+    "The page looks more curated and less dashboard-like."
+  ]
+}
