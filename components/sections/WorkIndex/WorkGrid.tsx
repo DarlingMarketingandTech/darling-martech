@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useMemo, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ArrowRight } from '@phosphor-icons/react'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
 import type { CaseStudy, WorkDashboardTier } from '@/lib/work'
@@ -38,6 +38,13 @@ const CARD_STAGGER = {
 const CARD_ITEM = {
   hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 180, damping: 24 } },
+}
+
+const FLAGSHIP_CONTEXT_BY_SLUG: Record<string, { label: string; items: string[] }> = {
+  '317-bbq': {
+    label: 'Project notes',
+    items: ['Menu-first UX', 'Catering pathway', 'Proudly Indiana', 'Photography + video'],
+  },
 }
 
 function getTierRank(tier: WorkDashboardTier | undefined) {
@@ -134,6 +141,24 @@ function SubProjectStrip({ children, parentCategory }: { readonly children: Case
   )
 }
 
+function FlagshipContextStrip({ slug }: { readonly slug: string }) {
+  const context = FLAGSHIP_CONTEXT_BY_SLUG[slug]
+  if (!context) return null
+
+  return (
+    <div className={styles.subProjectStrip}>
+      <span className={styles.subProjectLabel}>{context.label}</span>
+      <div className={styles.subProjectList}>
+        {context.items.map((item) => (
+          <span key={item} className={styles.subProjectItem}>
+            <span className={styles.subProjectName}>{item}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function FlagshipUnit({ study, allStudies }: { readonly study: CaseStudy; readonly allStudies: CaseStudy[] }) {
   const children = useMemo(
     () => (study.relatedProjectSlugs ?? []).flatMap(
@@ -146,6 +171,7 @@ function FlagshipUnit({ study, allStudies }: { readonly study: CaseStudy; readon
     <div className={styles.flagshipUnit}>
       <WorkDashboardCard study={study} layoutRole="flagship" />
       <SubProjectStrip children={children} parentCategory={study.category} />
+      {children.length === 0 && <FlagshipContextStrip slug={study.slug} />}
     </div>
   )
 }
@@ -203,8 +229,10 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
               </p>
             </div>
 
-            {flagshipStudies.map((study) => (
-              <FlagshipUnit key={study.slug} study={study} allStudies={orderedStudies} />
+            {flagshipStudies.map((study, index) => (
+              <div key={study.slug} style={index > 0 ? { marginTop: '1.5rem' } : undefined}>
+                <FlagshipUnit study={study} allStudies={orderedStudies} />
+              </div>
             ))}
           </>
         )}
