@@ -1,0 +1,24 @@
+{
+  "project": "Darling MarTech",
+  "framework": "Next.js App Router",
+  "core": {
+    "layout": "app/layout.tsx",
+    "homepage": "app/page.tsx",
+    "globalStyles": "app/globals.css"
+  },
+  "data": {
+    "services": "data/services.ts",
+    "work": "data/work/work-index.ts"
+  },
+  "sections": [
+    "components/sections/Hero.tsx",
+    "components/sections/Services.tsx",
+    "components/sections/CaseStudies.tsx",
+    "components/sections/ContactCTA.tsx"
+  ],
+  "rules": {
+    "styling": "CSS Modules only",
+    "motion": "Framer Motion",
+    "noTailwindVisuals": true
+  }
+}
