@@ -18,9 +18,20 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Create branch
+      - name: Create or update branch
         run: |
-          git checkout -b ${{ github.event.inputs.branch_name }}
+          set -euo pipefail
+          BRANCH="${{ github.event.inputs.branch_name }}"
+
+          git fetch origin
+
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            # Branch exists on remote: base local branch on it
+            git checkout -B "$BRANCH" "origin/$BRANCH"
+          else
+            # Branch does not exist: create from current HEAD (checked out by actions/checkout)
+            git checkout -b "$BRANCH"
+          fi
 
       - name: Make placeholder change
         run: |
@@ -38,7 +49,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}
-          git push origin ${{ github.event.inputs.branch_name }}
+          git push --set-upstream origin HEAD:${{ github.event.inputs.branch_name }}
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v6
