@@ -1,92 +1,28 @@
-name: AI PR Creator
+name: CI
 
 on:
   workflow_dispatch:
     inputs:
-      branch_name:
-        description: "Branch name"
-        required: true
-      commit_message:
-        description: "Commit message"
-        required: true
       patch:
-        description: "Git patch to apply"
+        description: 'The patch to apply'
         required: true
 
 jobs:
-  create-pr:
+  apply_patch:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
-      - name: Create or update branch
-        shell: bash
-        run: |
-          set -euo pipefail
-          BRANCH="${{ github.event.inputs.branch_name }}"
-
-          git fetch origin
-
-          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
-            echo "Branch exists on remote. Resetting local branch."
-            git checkout -B "$BRANCH" "origin/$BRANCH"
-          else
-            echo "Branch does not exist. Creating new branch."
-            git checkout -b "$BRANCH"
-          fi
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Apply patch
-        shell: bash
+        env:
+          PATCH: ${{ github.event.inputs.patch }}
         run: |
-          cat <<'EOF' > patch.diff
-          ${{ github.event.inputs.patch }}
-          EOF
-
-          echo "----- PATCH CONTENT -----"
+          printf '%s' "$PATCH" > patch.diff
           cat patch.diff
-
-          # Validate patch format
-          if ! grep -q '^diff --git ' patch.diff; then
-            echo "ERROR: Invalid patch format (missing diff header)"
+          # Validate patch headers
+          if ! grep -q -E '^diff --git |^--- |^+++ ' patch.diff; then
+            echo "Invalid patch format"
             exit 1
           fi
-
           git apply --verbose patch.diff
-
-      - name: Commit changes
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "AI Bot"
-          git config user.email "ai@darlingmartech.dev"
-
-          if ! git diff --staged --quiet || ! git diff --quiet; then
-            git add .
-          fi
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-            exit 0
-          fi
-
-          git commit -m "${{ github.event.inputs.commit_message }}"
-
-      - name: Push branch
-        shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          set -euo pipefail
-          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}"
-          git push --set-upstream origin "HEAD:${{ github.event.inputs.branch_name }}"
-
-      - name: Create PR
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          branch: ${{ github.event.inputs.branch_name }}
-          base: main
-          title: ${{ github.event.inputs.commit_message }}
-          body: "AI-generated PR with applied patch"
