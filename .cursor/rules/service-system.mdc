@@ -1,0 +1,39 @@
+---
+description: Darling MarTech service-system context for service pages, service linking, and proof cleanup
+globs:
+  - data/services.ts
+  - app/services/**
+  - components/sections/ServiceDetail/**
+alwaysApply: false
+---
+
+# Darling MarTech service-system rule
+
+Use the compact helper files first before rereading broader planning docs:
+- `docs/context/project/service-pages/batch-1-service-build-kit.json`
+- `docs/context/project/service-pages/parent-child-linking-kit.json`
+- `docs/context/project/service-pages/batch-1-service-status.json`
+- `docs/context/project/service-pages/service-proof-snippets.json`
+
+Service-system rules:
+- `/services` is the routing layer.
+- Child-service pages are the specificity and conversion layer.
+- Canonical proof always lives at `/work/[slug]`.
+- Primary service CTA should usually stay `/contact?intent=service`.
+- Prefer 2–3 strong related service links over broad cross-linking.
+- Do not redesign homepage or `/services` index during service-detail/linking passes unless the task explicitly asks for it.
+
+Current project state:
+- Batch 1 child-service implementation is complete.
+- The next likely phases are:
+  1. parent/child service linking cleanup
+  2. proof alignment and backlinks
+  3. lightweight visual support
+
+Use Cursor for:
+- linking cleanup
+- related-service cleanup
+- JSON/data cleanup
+- proof-link hygiene
+
+Avoid broad copy rewrites unless the task explicitly requests them.
