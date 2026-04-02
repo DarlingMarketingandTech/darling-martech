@@ -64,13 +64,16 @@
       "nextRecommendedAction": "Batch 2: start martech-audit service page when ready."
     }
   },
-  "nextPhase": "martech-audit",
-  "nextAfterThat": "agentic-marketing-systems",
+  "nextPhase": "batch-2-post-trio-refinement",
+  "nextAfterThat": "consolidation-check-proof-media-light-polish",
   "notes": [
     "Batch 1 page-copy implementation is complete.",
     "Parent/child linking pass complete (2026-04-01) — see CLAUDE.md.",
     "Proof alignment + work→service backlinks complete (2026-04-01) — see CLAUDE.md service-system section.",
     "Post-Batch-1 service-system consolidation audit complete (2026-04-01) — Batch 2 order confirmed; legacy overlap pages de-emphasized in related-service data — see CLAUDE.md.",
-    "Batch 1 lightweight visual support complete (2026-04-01) — optional Cloudinary proof block on ServiceDetailPage; see CLAUDE.md service-system section."
+    "Batch 1 lightweight visual support complete (2026-04-01) — optional Cloudinary proof block on ServiceDetailPage; see CLAUDE.md service-system section.",
+    "Batch 2 started (2026-04-01): `/services/martech-audit` full child-style copy pass — see CLAUDE.md.",
+    "Batch 2 page 2 (2026-04-01): `/services/systems/agentic-marketing-systems` full copy pass — see CLAUDE.md.",
+    "Batch 2 page 3 (2026-04-01): `/services/growth/geo-optimization` full copy pass — Batch 2 suggested trio complete; next phase is consolidation check / proof-media cleanup / light services polish — see CLAUDE.md."
   ]
 }

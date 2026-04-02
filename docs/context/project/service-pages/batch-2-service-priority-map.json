@@ -5,8 +5,18 @@
     "batch1Status": "implemented",
     "serviceSystemConsolidationAudit": "complete",
     "consolidationAuditDate": "2026-04-01",
-    "nextStrategicStep": "lightweight-visual-support",
-    "nextAfterThat": "batch-2-service-pages"
+    "batch2Status": "in_progress",
+    "batch2Page1": "martech-audit",
+    "batch2Page1Implemented": true,
+    "batch2Page1Date": "2026-04-01",
+    "batch2Page2": "agentic-marketing-systems",
+    "batch2Page2Implemented": true,
+    "batch2Page2Date": "2026-04-01",
+    "batch2Page3": "geo-optimization",
+    "batch2Page3Implemented": true,
+    "batch2Page3Date": "2026-04-01",
+    "nextStrategicStep": "batch-2-post-trio-refinement",
+    "nextAfterThat": "consolidation-check-proof-media-light-polish"
   },
   "decisionRules": {
     "keepIf": [
@@ -118,6 +128,9 @@
   ],
   "postAuditNotes": [
     "2026-04-01: Repo runtime matches priority-map intent — Batch 1 owns parent childServiceSlugs; website-redesign-conversion-ux and the-conductor are not /services cluster links.",
-    "2026-04-01: suggestedBuildOrder unchanged after audit; narrow relatedServiceSlugs updates applied on legacy standalones in data/services.ts."
+    "2026-04-01: suggestedBuildOrder unchanged after audit; narrow relatedServiceSlugs updates applied on legacy standalones in data/services.ts.",
+    "2026-04-01: `martech-audit` Batch 2 page 1 implemented in `data/services.ts` + doc updates; next build `agentic-marketing-systems`.",
+    "2026-04-01: `agentic-marketing-systems` Batch 2 page 2 implemented — nested `/services/systems/agentic-marketing-systems`.",
+    "2026-04-01: `geo-optimization` Batch 2 page 3 implemented — nested `/services/growth/geo-optimization`; suggested Batch 2 trio complete — next: consolidation check / proof-media cleanup / light services polish."
   ]
 }

@@ -86,6 +86,58 @@
           "line": "Booking-flow and local conversion proof."
         }
       ]
+    },
+    "martech-audit": {
+      "primary": {
+        "workSlug": "graston-technique",
+        "metric": "+212% qualified leads",
+        "line": "Full-stack diagnosis and rebuild — demand up and operational drag down once constraints were clear."
+      },
+      "supporting": [
+        {
+          "workSlug": "graston-growth-engine",
+          "metric": "$27k+ projected provider revenue",
+          "line": "Deep systems build after architectural clarity — two-sided product and operational visibility."
+        },
+        {
+          "workSlug": "the-compass",
+          "metric": "94% issues auto-resolved",
+          "line": "Measurement and monitoring that support decisions — visibility audits protect."
+        }
+      ]
+    },
+    "agentic-marketing-systems": {
+      "primary": {
+        "workSlug": "graston-growth-engine",
+        "metric": "$27k+ projected provider revenue",
+        "line": "Two-sided product, AI-accelerated support, and admin visibility — applied workflow leverage at scale."
+      },
+      "supporting": [
+        {
+          "workSlug": "barbershop-command-center",
+          "metric": "Dual-sided booking OS",
+          "line": "Operational booking and owner/client workflow in a simpler business context."
+        },
+        {
+          "workSlug": "the-launchpad",
+          "metric": "0 manual enrollment steps",
+          "line": "CRM-connected lifecycle flow replacing repetitive membership ops."
+        }
+      ]
+    },
+    "geo-optimization": {
+      "primary": {
+        "workSlug": "russell-painting",
+        "metric": "Lead engine rebuilt",
+        "line": "Trust-led structure and visibility that made the business easier to find and believe."
+      },
+      "supporting": [
+        {
+          "workSlug": "pike-medical-consultants",
+          "metric": "45% patient growth",
+          "line": "Multi-division healthcare — entity clarity, authority signals, and organized content working together."
+        }
+      ]
     }
   }
 }

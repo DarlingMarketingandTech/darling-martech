@@ -14,6 +14,7 @@
   "parents": {
     "strategy-leadership": {
       "childPages": [
+        "martech-audit",
         "fractional-cmo"
       ],
       "primaryProof": "graston-technique",
@@ -29,7 +30,8 @@
     },
     "crm-automation-ai": {
       "childPages": [
-        "crm-architecture"
+        "crm-architecture",
+        "agentic-marketing-systems"
       ],
       "primaryProof": "graston-growth-engine",
       "optionalTool": null

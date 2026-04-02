@@ -109,10 +109,11 @@ Conflict rule:
   - `/pricing` later
 - Batch 1 child-service execution (complete 2026-04-01): `fractional-cmo`, `website-strategy`,
   `crm-architecture`, `local-seo`, `conversion-optimization` — all shipped with copy + linking + proof alignment.
-- Confirmed Batch 2 build order (post-consolidation audit 2026-04-01; Batch 1 lightweight visual support complete 2026-04-01):
+- Confirmed Batch 2 build order (post-consolidation audit 2026-04-01; Batch 1 lightweight visual support complete 2026-04-01) — **suggested trio shipped 2026-04-01**:
   1. `martech-audit`
   2. `agentic-marketing-systems`
-  3. `geo-optimization` (nested canonical route; specialty relative to Batch 1 growth pages)
+  3. `geo-optimization` (nested `/services/growth/geo-optimization`; specialty relative to Batch 1 growth pages)
+- **Next likely phase (post–Batch 2 trio):** consolidation check, proof-media cleanup, light services polish — not another full child-service batch unless scoped.
 - Sub-service routes: plain-English slugs under `/services/[slug]`. See `service-route-and-slug-conventions.md`.
 - Internal linking minimums:
   - Every service page: link to `/contact` + at least 2 relevant work pages.
@@ -188,8 +189,7 @@ These 5 slugs are now clean in `data/services.ts` and resolve via the dynamic ro
 - `conversion-optimization` — Conversion Optimization (**new**)
 
 Additional standalone entries remain in `standaloneServicePages` with their own routes.
-**Next-tier priorities (Batch 2, in order):** `martech-audit`, `agentic-marketing-systems`,
-`geo-optimization`. **Valid but de-emphasized in related-service surfacing (consolidation audit 2026-04-01):**
+**Batch 2 (in order) — core trio complete 2026-04-01:** ✅ **`martech-audit`** — layered summary, 7 `signsYouNeedIt`, 6 deliverables, 5 `faqItems`, proof **Graston Technique → Graston Growth Engine → The Compass**, `secondaryCtaHref` `/work/graston-technique`, `relatedServiceSlugs` `crm-architecture`, `fractional-cmo`, `website-strategy`, CMO Simulator `proofTools`, `layer: strategy`, strategy parent `childServiceSlugs` `['martech-audit', 'fractional-cmo']`. ✅ **`agentic-marketing-systems`** — nested `/services/systems/agentic-marketing-systems`; title `Agentic Marketing Systems & Internal Workflow Leverage`, 7 `signsYouNeedIt`, 6 deliverables, 5 `faqItems`, proof **Graston Growth Engine** (primary) → **Barbershop Command Center** → **The Launchpad**, `proofWorkSlugs` those three; `secondaryCtaHref` `/work/graston-growth-engine`; `relatedServiceSlugs` `crm-architecture`, `martech-audit`, `fractional-cmo`; Graston Growth Engine `proofTools` retained; `layer: build` (systems parent). ✅ **`geo-optimization`** — nested `/services/growth/geo-optimization`; title `GEO & Discoverability Readiness`, layered summary (buyer discoverability shift → strategic clarity → GEO as working label), 7 `signsYouNeedIt`, 6 deliverables, 5 `faqItems`; **Related proof** grid is work-only: **Russell Painting** (primary) → **Pike Medical Consultants** (supporting); `proofWorkSlugs` `['russell-painting', 'pike-medical-consultants']`; `secondaryCtaHref` `/work/russell-painting`; `relatedServiceSlugs` `local-seo`, `website-strategy`, `martech-audit`; GEO Readiness Auditor remains optional `proofTools` (self-diagnostic; `internalCtaLabel` removed — no `/tools/[slug]` detail route for this tool). **Valid but de-emphasized in related-service surfacing (consolidation audit 2026-04-01):**
 `website-redesign-conversion-ux` (conceptual overlap with `website-strategy` + `conversion-optimization`;
 related links now point to those Batch 1 pages), `the-conductor` (legacy/internal naming; related links
 now point to Batch 1 growth/measurement-adjacent pages), `brand-strategy` (real offer; related links
@@ -200,7 +200,7 @@ cluster choices, not deletion.
 #### Service data architecture (current)
 
 - `serviceDetails` — 6 parent service entries (strategy, brand-web, systems, growth, commerce, specialized)
-- `standaloneServicePages` — 11 standalone entries including all 5 Batch 1 slugs
+- `standaloneServicePages` — standalone entries including all 5 Batch 1 slugs plus Batch 2 `martech-audit`, `agentic-marketing-systems`, and `geo-optimization` (polished 2026-04-01)
 - `allServicePages` — combined array used by `getServicePageBySlug()` and `generateServiceStaticParams()`
 - Optional **proof visual support** on any service page: `supportImagePublicId`, `supportImageAlt`, `supportImageCaption`, `supportImageWorkSlug` (Cloudinary-first, one image max; Batch 1 entries populated per `service-visual-support-map.json`)
 - `generateServiceStaticParams()` excludes entries with a nested `routePath` — those 4 entries
@@ -320,8 +320,11 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
   - `secondaryCtaHref`: `/work/317-bbq`
   - `relatedServiceSlugs` (linking pass): `['website-strategy', 'local-seo', 'crm-architecture']`
 - **Batch 1 child-service build is now complete.** All 5 pages have been implemented with full copywriting passes.
+- ✅ **Batch 2 — `/services/martech-audit` (2026-04-01)** — Full copy pass: title `MarTech Audit & Stack Diagnostic`, layered summary, 7 signs, 6 deliverables, 5 FAQs, proof **Graston Technique** (primary) + **Graston Growth Engine** + **The Compass**, `proofWorkSlugs` trimmed to those three; `secondaryCtaHref` → `/work/graston-technique`; `layer` → `strategy`; strategy parent `childServiceSlugs` → `martech-audit` then `fractional-cmo`; related links `crm-architecture`, `fractional-cmo`, `website-strategy`; CMO Simulator `proofTools` (optional self-diagnostic). No `ServiceDetailPage` template changes.
+- ✅ **Batch 2 — `/services/systems/agentic-marketing-systems` (2026-04-01)** — Full copy pass: applied workflow / internal-leverage framing (not hype-led); 7 signs, 6 deliverables, 5 FAQs; proof **Graston Growth Engine** (primary) + **Barbershop Command Center** + **The Launchpad**; `secondaryCtaHref` → `/work/graston-growth-engine`; related `crm-architecture`, `martech-audit`, `fractional-cmo`; live Growth Engine `proofTools` retained. No `ServiceDetailPage` template changes.
+- ✅ **Batch 2 — `/services/growth/geo-optimization` (2026-04-01)** — Full copy pass: discoverability / future-facing search readiness without hype; 7 signs, 6 deliverables, 5 FAQs; proof grid **Russell Painting** (primary) + **Pike Medical Consultants** (supporting) only; `secondaryCtaHref` → `/work/russell-painting`; related `local-seo`, `website-strategy`, `martech-audit`; GEO Readiness Auditor `proofTools` (optional); removed broken `internalCtaLabel` to non-existent `/tools/geo-readiness-auditor`. No `ServiceDetailPage` template changes.
 - ✅ **Parent/child linking pass complete (2026-04-01)** — `data/services.ts` + `ServicesExperience.tsx` + `ServiceDetailPage.tsx`
-  - Parent `childServiceSlugs` now surface Batch 1 children per `parent-child-linking-kit.json` (`brand-web` → `website-strategy` + `conversion-optimization`; `systems` leads with `crm-architecture`; `growth` → `local-seo` + `conversion-optimization` + `geo-optimization`; `strategy` unchanged → `fractional-cmo`).
+  - Parent `childServiceSlugs` now surface Batch 1 children per `parent-child-linking-kit.json` (`brand-web` → `website-strategy` + `conversion-optimization`; `systems` leads with `crm-architecture`; `growth` → `local-seo` + `conversion-optimization` + `geo-optimization`; `strategy` → `martech-audit` + `fractional-cmo` after Batch 2 page 1 — diagnostic entry before embedded leadership).
   - Batch 1 `relatedServiceSlugs` trimmed to 2–3 strategic siblings per kit (no parent-id noise in related lists).
   - Standalone breadcrumb parent: when a slug appears under more than one parent `childServiceSlugs`, the UI prefers the parent whose `layer` matches the page (`conversion-optimization` → `growth`, not `brand-web`).
   - `/services` cluster links: broken placeholder slugs now target real routes (`brand-strategy`, `martech-audit`, `geo-optimization`, `agentic-marketing-systems`).
@@ -334,7 +337,8 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
   updates in `data/services.ts` only; no `/services` layout or Batch 1 copy changes). `/services` cluster
   links unchanged: `brand-strategy` still appears twice with different labels (positioning vs identity);
   legacy combo slug is not cluster-featured.
-- ✅ **Batch 1 lightweight visual support (2026-04-01)** — `ServiceDetailPage` renders one optional proof-led image block when `supportImage*` fields are set; all five Batch 1 child pages populated (Cloudinary public IDs, captions from visual-support map, work slugs aligned with primary proof — no `proofWorkSlugs` changes). **Next likely phase:** Batch 2 first page `martech-audit`, then `agentic-marketing-systems`, then `geo-optimization` (order unchanged above).
+- ✅ **Batch 1 lightweight visual support (2026-04-01)** — `ServiceDetailPage` renders one optional proof-led image block when `supportImage*` fields are set; all five Batch 1 child pages populated (Cloudinary public IDs, captions from visual-support map, work slugs aligned with primary proof — no `proofWorkSlugs` changes).
+- ✅ **Batch 2 suggested trio complete (2026-04-01)** — `martech-audit` + `agentic-marketing-systems` + `geo-optimization` — see Batch 2 bullet under “Additional standalone entries” above; repo ready for **post–Batch 2 refinement** (consolidation check, proof-media cleanup, light services polish).
 
 ### Consolidated Proof / Taxonomy Snapshot
 - Top reusable proof assets: Graston Technique, Pike Medical, PrimaryCare Indy,

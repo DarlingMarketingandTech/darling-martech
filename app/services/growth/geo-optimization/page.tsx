@@ -4,9 +4,9 @@ import { allServicePages } from '@/data/services'
 import { ServiceDetailPage } from '@/components/sections/ServiceDetail/ServiceDetailPage'
 
 export const metadata: Metadata = {
-  title: 'GEO Optimization — Darling MarTech',
+  title: 'GEO & Discoverability Readiness — Darling MarTech',
   description:
-    'Run a free GEO audit, then fix the structural and trust signals that improve AI-search visibility for your business.',
+    'Discoverability and GEO readiness: clearer structure, trustworthy signals, and a practical roadmap as search behavior shifts — without hype.',
   alternates: {
     canonical: '/services/growth/geo-optimization',
   },

@@ -29,7 +29,7 @@ Current project state:
 - Proof alignment and work→service backlinks are complete (2026-04-01).
 - Post-Batch-1 service-system consolidation audit is complete (2026-04-01) — see `batch-2-service-priority-map.json` and CLAUDE.md for next-tier vs de-emphasized pages.
 - Batch 1 lightweight visual support is complete (2026-04-01) — one optional Cloudinary proof image + caption + work link per Batch 1 service page (`supportImage*` fields in `data/services.ts`, rendered in `ServiceDetailPage`).
-- The next likely phase is Batch 2 service page builds starting with `martech-audit`, then `agentic-marketing-systems`, then `geo-optimization`.
+- Batch 2 suggested trio complete (2026-04-01): `/services/martech-audit`, `/services/systems/agentic-marketing-systems`, `/services/growth/geo-optimization` (discoverability / GEO readiness copy pass). Next likely phase: Batch 2 consolidation check, proof-media cleanup, light services polish — see CLAUDE.md.
 
 Use Cursor for:
 - linking cleanup
