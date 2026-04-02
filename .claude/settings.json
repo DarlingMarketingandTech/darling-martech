@@ -39,5 +39,22 @@
     "claude-code-setup@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
     "playground@claude-plugins-official": true
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "command": ".claude/hooks/session-start-context.sh"
+      }
+    ],
+    "PostToolUse": [
+      {
+        "tools": [
+          "Edit",
+          "Write",
+          "MultiEdit"
+        ],
+        "command": ".claude/hooks/check-doc-sync.sh"
+      }
+    ]
   }
 }

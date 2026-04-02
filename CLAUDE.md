@@ -21,6 +21,15 @@ Canonical tools/skills routing reference: `docs/tools-and-skills-map.md`.
 >
 > See `skills/README.md` for the full skill index and when to use each.
 
+> **Claude Code support layer (repo-local):**
+> - Subtree guidance for focused `/work` edits:
+>   - `components/sections/WorkIndex/CLAUDE.md`
+>   - `components/sections/WorkDetail/CLAUDE.md`
+>   - `data/work/CLAUDE.md`
+> - Preferred `/work` skill: `skills/darling-martech-work/SKILL.md`
+> - Claude Code prompt templates: `docs/context/project/prompts/`
+> - Lightweight reminders/hooks: `.claude/hooks/` (wired via `.claude/settings.json`)
+
 ---
 
 ## Master Context Policy (Single-File Workflow)

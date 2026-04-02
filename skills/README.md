@@ -24,6 +24,10 @@ Skills activate for specific task types and provide deeper decision rules for th
 **Use when:** writing any proof block, assigning proof to a page, choosing which case study to reference, writing CTA-adjacent credibility lines, verifying proof links.
 **Governs:** service-to-proof matrix, canonical metrics (verbatim), canonical slug list, proof block structure, proof anti-patterns.
 
+### `darling-martech-work`
+**Use when:** working on `/work` (index or detail), adjusting flagship/supporting/system-child hierarchy, connected-system strip behavior, work detail template weights, route-out rules, or work↔service proof mapping.
+**Governs:** `/work` page roles, hierarchy rules, connected-system strip, template weights, parent/child proof logic, and anti-patterns.
+
 ### `darling-martech-copy`
 **Use when:** writing or reviewing any copy on the site — headlines, CTAs, body copy, microcopy, error states.
 **Governs:** Jacob's voice, tone rules, copy anti-patterns.
