@@ -1,0 +1,12 @@
+GitHub connector smoke test
+
+This file was created by an automated end-to-end connector test.
+
+Purpose:
+- verify branch creation
+- verify tree creation
+- verify commit creation
+- verify branch update
+- verify pull request creation
+
+Safe to delete after verification.
