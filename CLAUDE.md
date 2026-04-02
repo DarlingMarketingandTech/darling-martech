@@ -6,6 +6,12 @@ Read this file in full before doing any work. Every decision about design,
 copy, architecture, and tone should reference this document.
 Canonical tools/skills routing reference: `docs/tools-and-skills-map.md`.
 
+### How to Use This File
+- Read in this order before touching code: `Master Context Policy` -> strategy/IA snapshots -> route/data architecture -> gotchas.
+- Canonical truth order for conflicts: runtime code/data (`app/`, `components/`, `data/`, `lib/`) -> this file -> archived/context docs.
+- Keep this file practical: remove stale migration notes once they stop affecting implementation choices.
+- Update this file immediately when route behavior, tool inventory, nav structure, offer packaging, or CTA intent logic changes.
+
 > **Skill files:** Extended design, redesign-audit, and copy instructions
 > live in `skills/` (co-located in this repo) AND in the Claude OS:
 > `C:\Users\hoosi\ClaudeOS\taste-skill-main\`
@@ -555,7 +561,7 @@ Use project skills when they directly match the task. Avoid overlapping skill sp
 
 Local repo skills:
 - `darling-martech-seo` — service/page SEO, metadata, linking strategy, taxonomy, GEO/AI-search structure.
-- `darling-martech-labs` — `/lab` structure, categorization, service-linking, lab-vs-work mapping.
+- `darling-martech-labs` — tools/work taxonomy, legacy redirect awareness, service-linking, tool-vs-proof mapping.
 - `darling-martech-data` — analytics, attribution, reporting, KPI/measurement planning.
 - `darling-martech-services` — service architecture, parent/child design, packaging, intent-led service pages.
 - `darling-martech-copy` — messaging, headlines, CTAs, trust/conversion copy.
@@ -588,7 +594,7 @@ For service architecture:
 3. `darling-martech-services`
 4. `darling-martech-seo` when needed
 
-For `/work` and `/lab` mapping:
+For `/work` and `/tools` mapping:
 1. taxonomy docs
 2. local content/data files
 3. `darling-martech-labs`
@@ -621,8 +627,9 @@ converts visitors into clients.
 - **Domain:** darlingmartech.com
 - **Email:** jacob@jacobdarling.com
 - **Portfolio reference:** bearcavemarketing.com
+- **Production URL (canonical):** [www.darlingmartech.com](https://www.darlingmartech.com/)
 - **Vercel project:** [darling-mar-tech/darling-martech](https://vercel.com/darling-mar-tech/darling-martech)
-- **Vercel domain:** [darling-martech.vercel.app](https://darling-martech.vercel.app/)
+- **Preview/runtime URL (secondary):** [darling-martech.vercel.app](https://darling-martech.vercel.app/)
 
 ---
 
@@ -933,9 +940,9 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 
 ---
 
-## Current Site Architecture (Phase 2 — Live)
+## Current Site Architecture
 
-### Pages live on darling-martech.vercel.app
+### Pages live on darlingmartech.com (canonical production)
 
 - `/` — Home (all core sections, 3D hero, stats, services, case studies, testimonials, CTA)
 - `/about` — Full about page with career timeline
@@ -945,7 +952,7 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 - `/tools` — Tools index (3 live utilities — CMO Simulator, GEO Readiness Auditor, CMO Roadmap Generator)
 - `/tools/cmo-simulator` — Special: gated access via `CmoAccessModal`
 
-> Note: `/lab` routes are legacy and now redirect with explicit migration rules (e.g. `/lab/cmo-simulator` -> `/tools/cmo-simulator`, old tool slugs redirect to `/tools` or `/work/[slug]` as appropriate).
+> Note: `/lab` is legacy-only redirect surface. Do not design new UX/content around `/lab`; use `/tools` and `/work`.
 
 - `/services` — Services page with 6 service categories (Live)
 - `/services/[slug]` — Individual service detail pages (Live)
@@ -955,7 +962,7 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 - `/api/cmo-simulator-access` — CMO Simulator gate API
 - `/api/studio` — Studio Cloudinary API
 
-### Phase 3 — Planned
+### Planned routes (when prioritized)
 - `/pricing` — Pricing page (content session needed)
 - `/blog` — Thought leadership (MDX-powered)
 - `/blog/[slug]` — Individual posts
@@ -1055,10 +1062,10 @@ design, GA4, Google Search Console, Google My Business.
 
 ---
 
-## Lab Tools — Detailed Reference
+## Tools — Detailed Reference
 
-### Access-gated lab: CMO Simulator
-- Route: `/lab/cmo-simulator`
+### Access-gated tool: CMO Simulator
+- Canonical route: `/tools/cmo-simulator`
 - Access gate: `CmoAccessModal` component — requires name + email via Resend
 - Session bypass: `sessionStorage` key for returning visitors
 - API: `/api/cmo-simulator-access`
@@ -1075,7 +1082,7 @@ These are legacy standalone files that are now surfaced through work case studie
 Each lab entry includes `screenshots[]` with Cloudinary URLs for the detail page.
 
 ### Current lab launch pattern for lead-gen tools
-Same-tab modal launch from `/lab` where strategically appropriate; detail pages can still exist for deep links / "Read the build".
+Same-tab modal launch from `/tools` where strategically appropriate; dedicated static tool pages are used only when they improve explanation, SEO, or onboarding.
 
 ### CTA-discipline note for tool placement
 Do not overuse tool CTAs; one relevant tool CTA per page max; use tools only where they fit naturally.
@@ -1333,7 +1340,7 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
   /work/[slug]/page.tsx  — Case study detail ✅
   /lab/page.tsx          — legacy redirect to /tools ✅
   /lab/[slug]/page.tsx   — legacy redirect to /tools or /work/[slug] ✅
-  /lab/cmo-simulator/    — CMO Simulator (gated) ✅
+  /tools/cmo-simulator/  — CMO Simulator (gated) ✅
   /services/page.tsx     — Services index ✅
   /services/[slug]/page.tsx — Service pages ✅
   /studio/page.tsx       — Studio gallery ✅
@@ -1400,49 +1407,53 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
 
 ---
 
-## Build Status
+## Current State and Priorities
 
-### Phase 1 — Complete ✅
-- [x] Project scaffold
-- [x] Brand tokens + CSS custom properties in globals.css
-- [x] Nav + Footer
-- [x] Home page (all sections, 3D hero, stats, services, case studies, testimonials, CTA)
-- [x] About page + career timeline
-- [x] Contact page + API route
-- [x] SEO files (robots.ts, sitemap.ts) + structured data (JsonLd.tsx)
-- [x] Cabinet Grotesk fonts — `/public/fonts/cabinet-grotesk/`
-- [x] `lib/motion.ts` spring presets
-- [x] Phosphor icons (`@phosphor-icons/react`)
-- [x] 3D components: HeroBackground, LabTelemetryScene, ServicesAmbient, WorkAmbient, FloatingCard
-- [x] Interactive: CursorSpotlight, MagneticButton
-- [x] Motion: KineticHeadline, ClientTicker, StatCounter
-- [x] LenisProvider smooth scroll
-- [x] Analytics provider + CookieConsent
-- [x] Resend API key — configured in .env.local and Vercel env vars (rotated 2026-03-27)
-- [ ] Remaining Tailwind visual classes → CSS Modules migration
+### Current state
+- Core production surface is live on `darlingmartech.com`: `/`, `/services`, `/services/[slug]`, `/work`, `/work/[slug]`, `/tools`, `/tools/cmo-simulator`, `/about`, `/contact`, `/studio`.
+- Tools surface is intentionally constrained to three visitor utilities: CMO Simulator, GEO Readiness Auditor, CMO Roadmap Generator.
+- `/lab` remains legacy redirect behavior only; it is not a user-facing IA concept.
+- Service architecture is parent/child and problem-cluster driven with proof routing and intent-aware CTAs.
+- Content/data source-of-truth remains typed files in `data/`; avoid hardcoding narrative content in components.
 
-### Phase 2 — Complete ✅
-- [x] `/work` index page — masonry/staggered grid with 26 case studies
-- [x] `/work/[slug]` dynamic route — data in `data/work/work-data.ts`
-- [x] `/lab` route now redirects to `/tools` (legacy tool catalog removed)
-- [x] `/lab/[slug]` route now redirects to `/tools` or `/work/[slug]` (legacy behavior)
-- [x] `/lab/cmo-simulator` — gated CMO tool with email access modal
-- [x] `/services` page with 6 service categories, 3D ambient scene
-- [x] `/services/[slug]` — 4+ service detail pages
-- [x] `/studio` page — Cloudinary masonry gallery
-- [x] WorkAmbient + ServicesAmbient 3D scenes
-- [x] 21st.dev components adapted: background-paths, button-colorful, grid-card, underline-animation
-- [x] Resend API integration — key configured in .env.local and Vercel
-
-### Phase 3 — Planned
-- [ ] `/pricing` page (after content session)
-- [ ] Blog infrastructure (MDX)
+### Next priorities
+1. `/pricing` (after pricing/content session).
+2. Blog infrastructure + `/blog/[slug]` (when thought-leadership workflow is scoped).
+3. Continue tightening service child-page depth and proof-link quality when new offers ship.
 
 ---
 
 ## Content Sessions Still Needed
 1. Pricing — define service tiers before building page
 2. Services — expand each service page with process steps if needed
+
+---
+
+## Do Not Regress
+- Do not reintroduce `/lab` as a primary UX/content surface; keep it as redirects only.
+- Keep route semantics strict: `/tools` for visitor utilities, `/work` for proof/case studies, `/services` for offer architecture.
+- Preserve CTA intent params where required (`/contact?intent=service|work|tool|unsure`).
+- Keep one primary conversion path per page section; avoid CTA sprawl.
+- Do not let preview-domain wording replace production-domain wording in strategy/architecture guidance.
+
+---
+
+## Freshness Protocol
+
+### Update triggers (mandatory)
+Update `CLAUDE.md` within the same working session whenever any of these change:
+- Route inventory or redirect behavior.
+- Navigation labels/IA framing.
+- Tool inventory or tool launch model.
+- Service packaging, child slugs, or proof-linking logic.
+- Contact intent model or CTA routing conventions.
+
+### Monthly sanity check (lightweight)
+1. Validate production page-role alignment (`/services`, `/work`, `/tools`, `/contact`).
+2. Scan for stale legacy language (`/lab` operational wording, old phase logs, obsolete routes).
+3. Confirm canonical URLs and offer language match production copy.
+4. Remove migration/history notes that no longer alter implementation decisions.
+5. Verify “Do Not Regress” rules still match runtime behavior.
 
 ---
 
