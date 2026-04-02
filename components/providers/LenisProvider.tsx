@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ReactLenis } from 'lenis/react'
 
 type Props = {
@@ -13,20 +13,17 @@ export function LenisProvider({ children }: Props) {
   useEffect(() => {
     // Respect user motion preferences to avoid forcing smooth-scroll.
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const update = () => setPrefersReducedMotion(mediaQuery.matches)
 
-    update()
+    const updateFromMatch = () => setPrefersReducedMotion(mediaQuery.matches)
+    updateFromMatch()
 
-    // Safari still prefers addListener/removeListener.
-    if ('addEventListener' in mediaQuery) {
-      mediaQuery.addEventListener('change', update)
-      return () => mediaQuery.removeEventListener('change', update)
+    // Modern API (supported by current TS DOM libs and modern browsers)
+    const onChange = (event: MediaQueryListEvent) => {
+      setPrefersReducedMotion(event.matches)
     }
 
-    // eslint-disable-next-line deprecation/deprecation
-    mediaQuery.addListener(update)
-    // eslint-disable-next-line deprecation/deprecation
-    return () => mediaQuery.removeListener(update)
+    mediaQuery.addEventListener('change', onChange)
+    return () => mediaQuery.removeEventListener('change', onChange)
   }, [])
 
   const options = useMemo(
