@@ -39,7 +39,8 @@
     "growth-seo-demand": {
       "childPages": [
         "local-seo",
-        "conversion-optimization"
+        "conversion-optimization",
+        "geo-optimization"
       ],
       "primaryProof": "russell-painting",
       "optionalTool": "/tools"
@@ -80,7 +81,8 @@
       "parent": "growth-seo-demand",
       "siblings": [
         "website-strategy",
-        "conversion-optimization"
+        "conversion-optimization",
+        "geo-optimization"
       ],
       "primaryProof": "russell-painting",
       "secondaryCta": "/work/russell-painting",
@@ -96,6 +98,17 @@
       "primaryProof": "317-bbq",
       "secondaryCta": "/work/317-bbq",
       "tool": null
+    },
+    "geo-optimization": {
+      "parent": "growth-seo-demand",
+      "siblings": [
+        "local-seo",
+        "website-strategy",
+        "martech-audit"
+      ],
+      "primaryProof": "russell-painting",
+      "secondaryCta": "/work/russell-painting",
+      "tool": "https://darling-martech-geo-audit-tool.vercel.app/"
     }
   }
 }

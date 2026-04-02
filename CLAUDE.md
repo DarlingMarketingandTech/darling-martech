@@ -113,7 +113,8 @@ Conflict rule:
   1. `martech-audit`
   2. `agentic-marketing-systems`
   3. `geo-optimization` (nested `/services/growth/geo-optimization`; specialty relative to Batch 1 growth pages)
-- **Next likely phase (post–Batch 2 trio):** consolidation check, proof-media cleanup, light services polish — not another full child-service batch unless scoped.
+- **Post–Batch 2 refinement (complete 2026-04-01):** consolidation sanity + proof-link hygiene — `parent-child-linking-kit.json` now includes growth `geo-optimization` child + `children.geo-optimization`; legacy standalones **the-fortress**, **brand-strategy**, and **website-redesign-conversion-ux** use specific `secondaryCtaHref` targets (`/work/the-fortress`, `/work/hoosier-boy-barbershop`, `/work/317-bbq`) instead of generic `/work`; **`/tools/graston-growth-engine` → `/work/graston-growth-engine`** redirect in `next.config.js` so Growth Engine proof-tool internal links resolve (mirrors legacy `/lab/graston-growth-engine` behavior).
+- **Next likely phase:** strategic site expansion when scoped — e.g. `/industries/[slug]`, `/pricing`, or other content — not another service batch unless explicitly chartered.
 - Sub-service routes: plain-English slugs under `/services/[slug]`. See `service-route-and-slug-conventions.md`.
 - Internal linking minimums:
   - Every service page: link to `/contact` + at least 2 relevant work pages.
@@ -338,7 +339,8 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
   links unchanged: `brand-strategy` still appears twice with different labels (positioning vs identity);
   legacy combo slug is not cluster-featured.
 - ✅ **Batch 1 lightweight visual support (2026-04-01)** — `ServiceDetailPage` renders one optional proof-led image block when `supportImage*` fields are set; all five Batch 1 child pages populated (Cloudinary public IDs, captions from visual-support map, work slugs aligned with primary proof — no `proofWorkSlugs` changes).
-- ✅ **Batch 2 suggested trio complete (2026-04-01)** — `martech-audit` + `agentic-marketing-systems` + `geo-optimization` — see Batch 2 bullet under “Additional standalone entries” above; repo ready for **post–Batch 2 refinement** (consolidation check, proof-media cleanup, light services polish).
+- ✅ **Batch 2 suggested trio complete (2026-04-01)** — `martech-audit` + `agentic-marketing-systems` + `geo-optimization` — see Batch 2 bullet under “Additional standalone entries” above.
+- ✅ **Post–Batch 2 refinement pass (2026-04-01)** — Linking kit synced to runtime growth children (includes `geo-optimization`); Batch 1/Batch 2 proof stacks unchanged; legacy secondary CTAs and Growth Engine tool internal link path corrected; see consolidated snapshot bullet above for details. Repo stable for next strategic slice (industries/pricing/scoped content).
 
 ### Consolidated Proof / Taxonomy Snapshot
 - Top reusable proof assets: Graston Technique, Pike Medical, PrimaryCare Indy,

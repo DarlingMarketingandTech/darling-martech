@@ -5,7 +5,7 @@
     "batch1Status": "implemented",
     "serviceSystemConsolidationAudit": "complete",
     "consolidationAuditDate": "2026-04-01",
-    "batch2Status": "in_progress",
+    "batch2Status": "complete",
     "batch2Page1": "martech-audit",
     "batch2Page1Implemented": true,
     "batch2Page1Date": "2026-04-01",
@@ -15,8 +15,8 @@
     "batch2Page3": "geo-optimization",
     "batch2Page3Implemented": true,
     "batch2Page3Date": "2026-04-01",
-    "nextStrategicStep": "batch-2-post-trio-refinement",
-    "nextAfterThat": "consolidation-check-proof-media-light-polish"
+    "nextStrategicStep": "post-batch-2-refinement-complete",
+    "nextAfterThat": "strategic-next-industries-pricing-or-scoped-content"
   },
   "decisionRules": {
     "keepIf": [
@@ -131,6 +131,7 @@
     "2026-04-01: suggestedBuildOrder unchanged after audit; narrow relatedServiceSlugs updates applied on legacy standalones in data/services.ts.",
     "2026-04-01: `martech-audit` Batch 2 page 1 implemented in `data/services.ts` + doc updates; next build `agentic-marketing-systems`.",
     "2026-04-01: `agentic-marketing-systems` Batch 2 page 2 implemented — nested `/services/systems/agentic-marketing-systems`.",
-    "2026-04-01: `geo-optimization` Batch 2 page 3 implemented — nested `/services/growth/geo-optimization`; suggested Batch 2 trio complete — next: consolidation check / proof-media cleanup / light services polish."
+    "2026-04-01: `geo-optimization` Batch 2 page 3 implemented — nested `/services/growth/geo-optimization`; suggested Batch 2 trio complete — next: consolidation check / proof-media cleanup / light services polish.",
+    "2026-04-01: Post–Batch 2 refinement — `parent-child-linking-kit.json` updated for `geo-optimization`; `batch2Status` complete; legacy `secondaryCtaHref` cleanup + `/tools/graston-growth-engine` redirect — see CLAUDE.md."
   ]
 }

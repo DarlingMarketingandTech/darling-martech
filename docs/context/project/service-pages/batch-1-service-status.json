@@ -13,7 +13,7 @@
       "relatedServicesReviewed": true,
       "linkingPassDone": true,
       "visualSupportDone": true,
-      "nextRecommendedAction": "Batch 2: start martech-audit service page when ready."
+      "nextRecommendedAction": "Post–Batch 2 refinement complete — see CLAUDE.md for next strategic slice."
     },
     "website-strategy": {
       "implemented": true,
@@ -25,7 +25,7 @@
       "relatedServicesReviewed": true,
       "linkingPassDone": true,
       "visualSupportDone": true,
-      "nextRecommendedAction": "Batch 2: start martech-audit service page when ready."
+      "nextRecommendedAction": "Post–Batch 2 refinement complete — see CLAUDE.md for next strategic slice."
     },
     "crm-architecture": {
       "implemented": true,
@@ -37,7 +37,7 @@
       "relatedServicesReviewed": true,
       "linkingPassDone": true,
       "visualSupportDone": true,
-      "nextRecommendedAction": "Batch 2: start martech-audit service page when ready."
+      "nextRecommendedAction": "Post–Batch 2 refinement complete — see CLAUDE.md for next strategic slice."
     },
     "local-seo": {
       "implemented": true,
@@ -49,7 +49,7 @@
       "relatedServicesReviewed": true,
       "linkingPassDone": true,
       "visualSupportDone": true,
-      "nextRecommendedAction": "Batch 2: start martech-audit service page when ready."
+      "nextRecommendedAction": "Post–Batch 2 refinement complete — see CLAUDE.md for next strategic slice."
     },
     "conversion-optimization": {
       "implemented": true,
@@ -61,11 +61,11 @@
       "relatedServicesReviewed": true,
       "linkingPassDone": true,
       "visualSupportDone": true,
-      "nextRecommendedAction": "Batch 2: start martech-audit service page when ready."
+      "nextRecommendedAction": "Post–Batch 2 refinement complete — see CLAUDE.md for next strategic slice."
     }
   },
-  "nextPhase": "batch-2-post-trio-refinement",
-  "nextAfterThat": "consolidation-check-proof-media-light-polish",
+  "nextPhase": "post-batch-2-refinement-complete",
+  "nextAfterThat": "strategic-next-industries-pricing-or-scoped-content",
   "notes": [
     "Batch 1 page-copy implementation is complete.",
     "Parent/child linking pass complete (2026-04-01) — see CLAUDE.md.",
@@ -74,6 +74,7 @@
     "Batch 1 lightweight visual support complete (2026-04-01) — optional Cloudinary proof block on ServiceDetailPage; see CLAUDE.md service-system section.",
     "Batch 2 started (2026-04-01): `/services/martech-audit` full child-style copy pass — see CLAUDE.md.",
     "Batch 2 page 2 (2026-04-01): `/services/systems/agentic-marketing-systems` full copy pass — see CLAUDE.md.",
-    "Batch 2 page 3 (2026-04-01): `/services/growth/geo-optimization` full copy pass — Batch 2 suggested trio complete; next phase is consolidation check / proof-media cleanup / light services polish — see CLAUDE.md."
+    "Batch 2 page 3 (2026-04-01): `/services/growth/geo-optimization` full copy pass — Batch 2 suggested trio complete — see CLAUDE.md.",
+    "Post–Batch 2 refinement pass (2026-04-01): parent-child linking kit synced (growth + `geo-optimization`); legacy service secondary CTAs pointed at primary work slugs where they used generic `/work`; `/tools/graston-growth-engine` → `/work/graston-growth-engine` redirect for proof-tool internal links — see CLAUDE.md."
   ]
 }

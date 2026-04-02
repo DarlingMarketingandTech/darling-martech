@@ -119,7 +119,13 @@ const nextConfig = {
         source: '/lab/license-requirements',
         destination: '/work/license-requirements',
         permanent: true,
-      }
+      },
+      // Proof-tool internal links use /tools/[labSlug]; Growth Engine is a work case study, not a tools detail route.
+      {
+        source: '/tools/graston-growth-engine',
+        destination: '/work/graston-growth-engine',
+        permanent: true,
+      },
     ]
   },
   // NOTE: If build fails with "generate is not a function", it's because

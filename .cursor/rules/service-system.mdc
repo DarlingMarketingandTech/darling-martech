@@ -29,7 +29,8 @@ Current project state:
 - Proof alignment and work→service backlinks are complete (2026-04-01).
 - Post-Batch-1 service-system consolidation audit is complete (2026-04-01) — see `batch-2-service-priority-map.json` and CLAUDE.md for next-tier vs de-emphasized pages.
 - Batch 1 lightweight visual support is complete (2026-04-01) — one optional Cloudinary proof image + caption + work link per Batch 1 service page (`supportImage*` fields in `data/services.ts`, rendered in `ServiceDetailPage`).
-- Batch 2 suggested trio complete (2026-04-01): `/services/martech-audit`, `/services/systems/agentic-marketing-systems`, `/services/growth/geo-optimization` (discoverability / GEO readiness copy pass). Next likely phase: Batch 2 consolidation check, proof-media cleanup, light services polish — see CLAUDE.md.
+- Batch 2 suggested trio complete (2026-04-01): `/services/martech-audit`, `/services/systems/agentic-marketing-systems`, `/services/growth/geo-optimization` (discoverability / GEO readiness copy pass).
+- Post–Batch 2 refinement pass complete (2026-04-01): linking kit synced with growth + `geo-optimization`; legacy pages’ secondary CTAs use specific `/work/[slug]` where they previously used generic `/work`; `/tools/graston-growth-engine` redirects to `/work/graston-growth-engine` so proof-tool “see build” links resolve. Next likely phase: strategic content (e.g. `/industries`, `/pricing`) when scoped — see CLAUDE.md.
 
 Use Cursor for:
 - linking cleanup
