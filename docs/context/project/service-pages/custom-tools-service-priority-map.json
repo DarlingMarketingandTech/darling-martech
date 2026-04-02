@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "purpose": "Compact decision map for evaluating a new service layer around custom tools, apps, and interactive products without drifting into portfolio-first positioning.",
+  "currentState": {
+    "serviceSystemStatus": "batch-1-and-batch-2-complete",
+    "nextStrategicQuestion": "Should custom tools/apps become a defined service offer?",
+    "guardrail": "Any new project should be added only if it strengthens a service offer, not just to increase volume of showcased work."
+  },
+  "serviceOptions": [
+    {
+      "label": "Custom Tools & App Development",
+      "status": "candidate",
+      "recommendation": "usable-but-generic",
+      "priority": "medium",
+      "notes": "Clear, but risks sounding commodity unless paired with a stronger positioning statement."
+    },
+    {
+      "label": "Custom Tools, Apps & Interactive Products",
+      "status": "candidate",
+      "recommendation": "preferred",
+      "priority": "high",
+      "notes": "Broad enough to include internal tools, client-facing apps, creator builds, and interactive brand experiences without sounding like a generic dev shop."
+    },
+    {
+      "label": "Digital Products, Tools & App Builds",
+      "status": "candidate",
+      "recommendation": "alternate",
+      "priority": "medium",
+      "notes": "Viable if the site wants a slightly more product-oriented tone."
+    }
+  ],
+  "fitRules": {
+    "includeIf": [
+      "the work proves a service you can actually sell now",
+      "the project shows strategic problem-solving, not just visual experimentation",
+      "the offer complements systems / website / CRM work rather than competing with them",
+      "the proof can be framed as useful to businesses, creators, or teams with specific needs"
+    ],
+    "excludeIf": [
+      "the project is only interesting as personal experimentation",
+      "the project cannot be tied to a buyer problem",
+      "the work would make the site feel like a portfolio-first studio instead of a services-led business"
+    ]
+  },
+  "recommendedDirection": {
+    "serviceName": "Custom Tools, Apps & Interactive Products",
+    "positioning": "For teams, founders, and brands that need something more specialized than a standard website or off-the-shelf software.",
+    "bestClusterFit": "crm-automation-ai",
+    "alternateClusterFit": "websites-ux-brand",
+    "recommendation": "Plan as a specialty or next-tier service expansion, not as a replacement for the current core service system."
+  },
+  "nextProofCandidates": [
+    {
+      "slug": "guitar-app",
+      "status": "candidate",
+      "recommendation": "good-proof-if-framed-as-product-build",
+      "notes": "Strong if it demonstrates real product thinking, user flow, and app design rather than a hobby prototype."
+    },
+    {
+      "slug": "piko-artist-website-v3",
+      "status": "candidate",
+      "recommendation": "strong-proof",
+      "notes": "Especially valuable because it blends website, artist platform, and interactive tool experience."
+    },
+    {
+      "slug": "pro-studio-mixer",
+      "status": "candidate",
+      "recommendation": "conditional",
+      "notes": "Use only if the build is mature and visually convincing enough to support a sellable offer."
+    },
+    {
+      "slug": "blazing-star-therapy",
+      "status": "candidate",
+      "recommendation": "not-primary-for-this-service",
+      "notes": "Better fit for website-strategy / trust-led client work than custom tools/apps."
+    }
+  ],
+  "suggestedNextSteps": [
+    "Define the service offer before adding more work entries.",
+    "Choose the preferred naming/positioning option.",
+    "Identify which proof candidates are strong enough to support the offer now.",
+    "Only then build the service page or service-expansion surface."
+  ]
+}
