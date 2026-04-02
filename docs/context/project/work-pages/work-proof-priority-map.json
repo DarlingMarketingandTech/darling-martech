@@ -1,0 +1,194 @@
+{
+  "version": 1,
+  "purpose": "Compact proof hierarchy map for /work, /work/[slug], and homepage proof selection. Use this to avoid flattening parent systems, over-promoting weak supporting work, or re-reading long proof docs.",
+  "lastUpdated": "2026-04-02",
+  "flagshipWork": [
+    {
+      "slug": "graston-technique",
+      "dominantMetric": "+212% qualified leads",
+      "proofDirection": "strategy + systems + operational leverage",
+      "detailTemplate": "flagship-longform",
+      "homepageCandidate": true,
+      "serviceLink": "fractional-cmo"
+    },
+    {
+      "slug": "pike-medical-consultants",
+      "dominantMetric": "45% patient growth",
+      "proofDirection": "long-term leadership + healthcare growth + website trust",
+      "detailTemplate": "flagship-longform",
+      "homepageCandidate": true,
+      "serviceLink": "website-strategy"
+    },
+    {
+      "slug": "317-bbq",
+      "dominantMetric": "40% conversion lift",
+      "proofDirection": "conversion path + story-led website performance",
+      "detailTemplate": "flagship-longform",
+      "homepageCandidate": true,
+      "serviceLink": "conversion-optimization"
+    },
+    {
+      "slug": "hoosier-boy-barbershop",
+      "dominantMetric": "90% more bookings",
+      "proofDirection": "brand + local visibility + booking flow",
+      "detailTemplate": "flagship-longform",
+      "homepageCandidate": true,
+      "serviceLink": "local-seo"
+    }
+  ],
+  "highValueSupporting": [
+    {
+      "slug": "russell-painting",
+      "dominantMetric": "Lead engine rebuilt",
+      "proofDirection": "local trust + visibility",
+      "detailTemplate": "flagship-longform"
+    },
+    {
+      "slug": "riley-bennett-egloff",
+      "dominantMetric": "7+ year engagement",
+      "proofDirection": "embedded stewardship + trust-led professional services",
+      "detailTemplate": "supporting-standard"
+    },
+    {
+      "slug": "tuohy-bailey-moore",
+      "dominantMetric": "60% more form submissions",
+      "proofDirection": "trust-led website redesign",
+      "detailTemplate": "supporting-standard"
+    },
+    {
+      "slug": "behr-pet-essentials",
+      "dominantMetric": "3x conversion",
+      "proofDirection": "ecommerce content and conversion",
+      "detailTemplate": "supporting-standard"
+    }
+  ],
+  "parentSystems": {
+    "graston-technique": {
+      "displayRule": "Parent first. Child work belongs beneath or beside the parent story, never in the same visual tier by default.",
+      "children": [
+        "the-launchpad",
+        "the-closer",
+        "the-compass",
+        "the-fortress",
+        "graston-growth-engine",
+        "smart-sales-pricing",
+        "investment-roi-planner",
+        "clinical-compass",
+        "license-requirements"
+      ],
+      "expandedChildren": [
+        "graston-growth-engine"
+      ],
+      "compactChildren": [
+        "the-launchpad",
+        "the-closer",
+        "the-compass",
+        "the-fortress",
+        "smart-sales-pricing",
+        "investment-roi-planner",
+        "clinical-compass",
+        "license-requirements"
+      ]
+    },
+    "pike-medical-consultants": {
+      "displayRule": "Use sub-brands as system proof, not as equal replacements for the parent healthcare story.",
+      "children": [
+        "primarycare-indy",
+        "urgentcare-indy"
+      ],
+      "expandedChildren": [],
+      "compactChildren": [
+        "primarycare-indy",
+        "urgentcare-indy"
+      ]
+    },
+    "hoosier-boy-barbershop": {
+      "displayRule": "Use command-center proof to deepen the operational story, not to overshadow the flagship booking/local case study.",
+      "children": [
+        "barbershop-command-center"
+      ],
+      "expandedChildren": [
+        "barbershop-command-center"
+      ],
+      "compactChildren": []
+    }
+  },
+  "detailTemplateRules": {
+    "flagship-longform": {
+      "useFor": [
+        "graston-technique",
+        "pike-medical-consultants",
+        "317-bbq",
+        "hoosier-boy-barbershop",
+        "russell-painting"
+      ],
+      "notes": "These deserve the fullest story structure: business context, intervention, proof media, results, and routing into services."
+    },
+    "supporting-standard": {
+      "useFor": [
+        "riley-bennett-egloff",
+        "tuohy-bailey-moore",
+        "behr-pet-essentials",
+        "circle-city-kicks",
+        "black-letter",
+        "clean-aesthetic",
+        "perpetual-movement-fitness",
+        "primary-colours"
+      ],
+      "notes": "Keep these concise and strong. Do not over-architect them to feel like enterprise case-study theater."
+    },
+    "system-compact": {
+      "useFor": [
+        "the-launchpad",
+        "the-closer",
+        "the-compass",
+        "the-fortress",
+        "smart-sales-pricing",
+        "investment-roi-planner",
+        "clinical-compass",
+        "license-requirements",
+        "primarycare-indy",
+        "urgentcare-indy"
+      ],
+      "notes": "These should explain the role of the build inside a larger system, what it solved, and what changed because it existed."
+    },
+    "system-expanded": {
+      "useFor": [
+        "graston-growth-engine",
+        "barbershop-command-center"
+      ],
+      "notes": "Still tied to parent context, but strong enough to justify a richer story and clearer media handling."
+    }
+  },
+  "homepageShowcaseBias": {
+    "preferredSlugs": [
+      "graston-technique",
+      "pike-medical-consultants",
+      "317-bbq",
+      "russell-painting"
+    ],
+    "notes": "Use a tighter, more commercially varied proof set on the homepage. Bias toward outcomes and range, not just visual contrast."
+  },
+  "mediaPriorityRules": {
+    "global": [
+      "Prefer real product, website, dashboard, or workflow screens over logos whenever available.",
+      "Use logos only as support media, not as the hero proof surface.",
+      "Use parent-system media to reinforce hierarchy — child builds should not visually outrank their parent engagement by accident."
+    ],
+    "heroBias": {
+      "graston-technique": "real system or product screen",
+      "pike-medical-consultants": "real website screen",
+      "317-bbq": "ordering or conversion-path screen",
+      "hoosier-boy-barbershop": "booking or brand/visibility screen",
+      "russell-painting": "service-page or trust-led screen",
+      "graston-growth-engine": "dashboard or workflow screen",
+      "barbershop-command-center": "operational UI or booking OS screen"
+    }
+  },
+  "antiPatterns": [
+    "Letting every child build compete with the parent system visually.",
+    "Using weaker but more visual work as the homepage proof just because it is eye-catching.",
+    "Forcing every work detail page into the same long-form template.",
+    "Using brand-only projects to carry system or conversion claims they do not actually prove."
+  ]
+}
