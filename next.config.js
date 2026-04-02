@@ -43,6 +43,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/services/custom-tools-workflow-products',
+        destination: '/services/systems/custom-tools-workflow-products',
+        permanent: true,
+      },
+      {
         source: '/services/the-conductor',
         destination: '/services/growth/the-conductor',
         permanent: true,

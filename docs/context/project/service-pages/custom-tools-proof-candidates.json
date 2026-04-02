@@ -1,78 +1,62 @@
 {
   "version": 1,
-  "purpose": "Compact proof-candidate map for evaluating app/tool/interactive builds as support for a new service offer. Use this to decide what belongs in the service system and what should remain out of scope for now.",
-  "candidates": [
+  "purpose": "Rank work items for a future Custom Tools & Workflow Products service page. Does not change /work index or work-data.",
+  "lastUpdated": "2026-04-02",
+  "proofReadinessForFirstRuntimePage": {
+    "sufficient": true,
+    "assessment": "Primary + supporting pair (Growth Engine + Barbershop Command Center) already carry production tool/workflow-product narratives with metrics. No requirement to wait on additional /work entries before first ship.",
+    "optionalThirdLater": "the-launchpad — only if the page needs a third card without bloating the Graston micro-tool list."
+  },
+  "notCandidatesForThisServiceLine": [
     {
-      "slug": "piko-artist-website-v3",
-      "label": "Piko artist website + interactive DJ mixer",
-      "type": "creative-interactive-build",
-      "status": "high-potential",
-      "strengths": [
-        "blends website and interactive product thinking",
-        "shows custom front-end and experience design ability",
-        "can demonstrate a sellable service beyond brochure sites"
-      ],
-      "risks": [
-        "must be framed clearly so it does not feel like random creative experimentation",
-        "may need tighter articulation of buyer problem and project purpose"
-      ],
-      "bestUse": "Primary proof candidate for a custom tools / apps / interactive products service.",
-      "readiness": "good-with-light-positioning-cleanup"
+      "topic": "Personal / non-client builds (e.g. PRO DJ Studio, Strum AI)",
+      "reason": "Per CLAUDE.md Phase 3D — removed from public tool surface; not client proof for a demand-gen service line."
     },
     {
-      "slug": "guitar-app",
-      "label": "Guitar app",
-      "type": "product-app-build",
-      "status": "high-potential",
-      "strengths": [
-        "shows product/app thinking",
-        "supports a stronger app/tool capability story",
-        "useful if the flow, UX, and purpose are coherent"
-      ],
-      "risks": [
-        "could read as hobby work if not tied to a clear product or buyer problem",
-        "needs maturity and feature clarity to support a sellable service"
-      ],
-      "bestUse": "Supporting or primary proof candidate depending on maturity and framing.",
-      "readiness": "conditional-on-quality-and-positioning"
-    },
-    {
-      "slug": "pro-studio-mixer",
-      "label": "Pro studio mixer",
-      "type": "product-app-build",
-      "status": "conditional",
-      "strengths": [
-        "could strongly reinforce interactive product capability",
-        "aligned with custom tool/product build positioning if mature"
-      ],
-      "risks": [
-        "should not be included if the build is incomplete or visually weak",
-        "could duplicate what Piko already proves unless it offers clearer product depth"
-      ],
-      "bestUse": "Hold until strong enough to support the offer cleanly.",
-      "readiness": "not-yet-confirmed"
-    },
-    {
-      "slug": "blazing-star-therapy",
-      "label": "Blazing Star Therapy website",
-      "type": "client-website-build",
-      "status": "valuable-but-different",
-      "strengths": [
-        "real client delivery",
-        "trust-led site work",
-        "founder-led practice support"
-      ],
-      "risks": [
-        "not the right primary proof for a tools/apps service",
-        "fits website strategy and trust-led service work more strongly"
-      ],
-      "bestUse": "Keep for website strategy / trust-driven client proof, not this service expansion.",
-      "readiness": "strong-for-other-service-surfaces"
+      "topic": "Identity- or studio-first case studies without a centered tool narrative",
+      "reason": "Portfolio expansion for this offer risks generic app positioning; only add work when the case study clearly supports tools/workflow products."
     }
   ],
-  "selectionRule": {
-    "primaryRecommendation": "Lead with one strongest proof candidate, not multiple equal examples.",
-    "supportRecommendation": "Use a second build only if it adds range or product depth.",
-    "guardrail": "If a project cannot be framed around a buyer problem and a sellable outcome, do not surface it yet."
-  }
+  "primaryProof": {
+    "slug": "graston-growth-engine",
+    "role": "dominant",
+    "why": "Production two-sided product: search, admin/staff surfaces, AI-assisted support, dashboards — strongest single artifact for custom tool + workflow product framing."
+  },
+  "supportingProof": {
+    "slug": "barbershop-command-center",
+    "role": "supporting",
+    "why": "Operational dual-sided UI (booking, rules, visibility) that illustrates workflow product without competing with Growth Engine as the hero metric story."
+  },
+  "secondaryMechanismOnly": [
+    {
+      "slug": "the-launchpad",
+      "note": "Strong lifecycle/automation story; use as third proof only if page needs range — otherwise keep under Graston parent narrative."
+    }
+  ],
+  "outOfScopeForNow": [
+    {
+      "slug": "smart-sales-pricing",
+      "reason": "Supporting Graston system detail; not a standalone buyer-facing proof line for this offer unless case study is expanded."
+    },
+    {
+      "slug": "investment-roi-planner",
+      "reason": "Same — embedded in Graston arc; avoid portfolio sprawl."
+    },
+    {
+      "slug": "clinical-compass",
+      "reason": "Same."
+    },
+    {
+      "slug": "license-requirements",
+      "reason": "Same."
+    },
+    {
+      "slug": "cmo-simulator",
+      "reason": "Lives on /tools as self-serve lead utility; not client proof for this service line."
+    }
+  ],
+  "explicitNonCandidates": [
+    "Personal or non-client builds (per CLAUDE.md Phase 3D removals)",
+    "Any work item without a clear client + outcome narrative"
+  ]
 }

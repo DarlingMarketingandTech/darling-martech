@@ -58,6 +58,10 @@ const clusters = [
     links: [
       { label: 'CRM Architecture', href: '/services/crm-architecture' },
       { label: 'Workflow Automation', href: '/services/agentic-marketing-systems' },
+      {
+        label: 'Custom tools & workflow products',
+        href: '/services/systems/custom-tools-workflow-products',
+      },
       { label: 'MarTech audit & stack review', href: '/services/martech-audit' },
     ],
     proof: {

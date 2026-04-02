@@ -125,6 +125,20 @@
         }
       ]
     },
+    "custom-tools-workflow-products": {
+      "primary": {
+        "workSlug": "graston-growth-engine",
+        "metric": "$27k+ projected provider revenue",
+        "line": "Production two-sided workflow product — search, admin surfaces, AI-assisted support, and analytics in one build."
+      },
+      "supporting": [
+        {
+          "workSlug": "barbershop-command-center",
+          "metric": "Dual-sided booking OS",
+          "line": "Customer- and owner-facing operational surface replacing scattered tools and memory."
+        }
+      ]
+    },
     "geo-optimization": {
       "primary": {
         "workSlug": "russell-painting",

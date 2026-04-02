@@ -337,7 +337,12 @@ export const serviceDetails: ParentServiceDetail[] = [
     primaryCtaLabel: 'Start a systems conversation',
     secondaryCtaLabel: 'See systems proof',
     relatedServiceSlugs: ['martech-audit', 'strategy', 'growth', 'commerce'],
-    childServiceSlugs: ['crm-architecture', 'agentic-marketing-systems', 'the-fortress'],
+    childServiceSlugs: [
+      'crm-architecture',
+      'agentic-marketing-systems',
+      'custom-tools-workflow-products',
+      'the-fortress',
+    ],
     proofTools: [
       {
         labSlug: 'graston-growth-engine',
@@ -891,7 +896,103 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaLabel: 'See the Graston Growth Engine build',
     secondaryCtaHref: '/work/graston-growth-engine',
     pricingSignal: '$4K–$30K+ · Scoped by workflow depth, integration count, and build surface',
-    relatedServiceSlugs: ['crm-architecture', 'martech-audit', 'fractional-cmo'],
+    relatedServiceSlugs: ['crm-architecture', 'custom-tools-workflow-products', 'martech-audit'],
+    proofTools: [
+      {
+        labSlug: 'graston-growth-engine',
+        eyebrow: 'Live build',
+        title: 'See the Graston Growth Engine in action.',
+        body: 'A two-sided provider directory with real-time spatial search, AI-powered support automation, and a per-provider analytics dashboard — built as a production system, not a demo.',
+        externalCtaLabel: 'Explore the live build',
+        externalCtaHref: 'https://graston-growth-engine.vercel.app/',
+        internalCtaLabel: 'See the full build breakdown',
+        imagePublicId: 'graston-growth-engine_-_admin_command_center',
+        imageAlt: 'Graston Growth Engine — admin command center',
+      },
+    ],
+  },
+  {
+    id: 'custom-tools-workflow-products',
+    routePath: '/services/systems/custom-tools-workflow-products',
+    kind: 'standalone',
+    layer: 'build',
+    eyebrow: 'Workflow products',
+    title: 'Custom Tools & Workflow Products',
+    tagline:
+      'When the gap is a real surface — not another page in the CMS — custom tools turn messy workflows into something your team and customers can actually run.',
+    summary:
+      'Sometimes the business does not need more content. It needs a thing that works: a customer-facing configurator, a staff dashboard, a quoting or eligibility flow, a partner portal, or an internal app that closes the loop between marketing, sales, and operations.\n\nOff-the-shelf products force you into their model. Spreadsheets and one-off forms break under volume. A custom workflow product is scoped to your rules, your data, and how you already sell — then wired into the CRM, the site, and measurement so it is not a science project on the side.\n\nThis sits next to CRM architecture and agentic systems work: CRM is the spine, automation removes drag, and this offer is the durable interface layer — the product-shaped build buyers and staff touch every week. It is not generic app development. It is demand capture and operational clarity in a focused build.',
+    deliverables: [
+      'Jobs-to-be-done and scope framing — what the tool must do for customers or staff, what it must never pretend to be, and how it connects to revenue or throughput',
+      'UX and data-flow design — roles, states, handoffs, and what has to sync to CRM, commerce, or ops tools',
+      'Build or integration blueprint — what ships as custom surface vs what stays in the existing stack (and how they talk)',
+      'Implementation direction or hands-on build — production-minded delivery, not a throwaway prototype',
+      'Rollout, ownership, and training hooks — who runs it day to day and how it survives the first busy quarter',
+      'Measurement and iteration tie-in — how you will know it is working and what to tighten next',
+    ],
+    signsYouNeedIt: [
+      'You keep duct-taping the same workflow with forms, spreadsheets, and email because nothing off-the-shelf fits how you actually sell or deliver.',
+      'Customers or partners need a guided flow — quote, configure, qualify, book — that a static site page cannot carry.',
+      'Staff live in scattered tabs; the “source of truth” is still partly in someone’s head.',
+      'You are about to buy another SaaS seat hoping it fixes a problem that is really your rules and data model.',
+      'Marketing and ops agree the website is not enough, but they cannot describe the product-shaped build they need in one sentence — yet.',
+      'You already improved CRM or automation, but the **visible layer** people use daily never got built.',
+      'You want one accountable owner for strategy and implementation — not a dev shop that disappears after handoff.',
+    ],
+    faqItems: [
+      {
+        q: 'How is this different from a website or landing page project?',
+        a: 'Websites organize trust, story, and conversion paths across many pages. A workflow product is usually narrower and deeper: specific logic, roles, and data — something people use as a tool, not just read. Many clients need both; this engagement is for when the bottleneck is the tool-shaped build.',
+      },
+      {
+        q: 'How is this different from CRM architecture?',
+        a: 'CRM architecture is about stages, fields, lifecycle design, and trust in the system of record. Custom tools often sit on top of or beside that: the screens and flows where people actually complete work or where customers self-serve. They connect tightly, but the primary value here is the shipped product surface.',
+      },
+      {
+        q: 'How is this different from agentic marketing systems?',
+        a: 'Agentic systems work emphasizes operational leverage — routing, follow-up, internal drag, structured AI assistance across processes. Custom tools can include those ideas, but the hero of this offer is a durable app-like surface (customer- or staff-facing) with clear jobs-to-be-done. If the centerpiece is mostly automation orchestration, agentic systems may be the better front door.',
+      },
+      {
+        q: 'Do you only build in one stack?',
+        a: 'No. The stack follows the business constraint: what you already run, what must integrate, and what will actually be maintained. The through-line is production discipline and marketing accountability — not a single framework fetish.',
+      },
+      {
+        q: 'Is this only for large teams?',
+        a: 'No. Small teams often feel this pain first — there is no extra bandwidth to babysit manual workarounds. A focused tool can replace fragile habit with something repeatable.',
+      },
+    ],
+    proof: [
+      {
+        label: 'Graston Growth Engine',
+        href: '/work/graston-growth-engine',
+        result:
+          'A production two-sided product — map-synced search, provider and admin surfaces, AI-accelerated support, and per-provider analytics — the kind of workflow product that only works when UX, data, and integrations are designed together.',
+        signalLabel: 'Two-sided workflow product',
+        metric: '$27k+ projected provider revenue',
+      },
+      {
+        label: 'Barbershop Command Center',
+        href: '/work/barbershop-command-center',
+        result:
+          'Owner and client sides unified — booking, rules, deposits, and operational visibility in one place instead of scattered tools and memory.',
+        signalLabel: 'Operational product surface',
+        metric: 'Dual-sided booking OS',
+      },
+    ],
+    proofStats: [
+      { value: 'Production', label: 'client tools and surfaces built to run — not demos parked on the side' },
+      { value: 'Two-sided', label: 'customer- and operator-facing flows kept in sync where the business requires it' },
+      { value: 'Stack-aware', label: 'integrations and CRM/site context treated as part of the product, not an afterthought' },
+    ],
+    proofWorkSlugs: ['graston-growth-engine', 'barbershop-command-center'],
+    serviceIds: ['crm-automation', 'web-development', 'lead-gen-workflows'],
+    industryIds: ['healthcare', 'saas', 'ecommerce', 'b2b', 'local-service'],
+    outcomeIds: ['time-saved', 'lead-gen', 'conversion-lift'],
+    primaryCtaLabel: 'Start a custom tools conversation',
+    secondaryCtaLabel: 'See the Graston Growth Engine build',
+    secondaryCtaHref: '/work/graston-growth-engine',
+    pricingSignal: '$4K–$30K+ · Scoped by surface complexity, integrations, and rollout depth',
+    relatedServiceSlugs: ['crm-architecture', 'agentic-marketing-systems', 'martech-audit'],
     proofTools: [
       {
         labSlug: 'graston-growth-engine',
@@ -1253,7 +1354,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     supportImageAlt: 'Graston Growth Engine provider hub — map-synced search and operational structure',
     supportImageCaption: 'A CRM should be a system you can run from, not just software you happen to have.',
     supportImageWorkSlug: 'graston-growth-engine',
-    relatedServiceSlugs: ['fractional-cmo', 'conversion-optimization'],
+    relatedServiceSlugs: ['agentic-marketing-systems', 'custom-tools-workflow-products', 'fractional-cmo'],
     proofTools: [
       {
         labSlug: 'graston-growth-engine',
@@ -1583,6 +1684,10 @@ export const contactServiceOptions = [
   { value: 'Fractional Marketing Leadership & Strategy', label: 'Fractional Marketing Leadership & Strategy' },
   { value: 'Brand Identity, Website & Conversion Design', label: 'Brand Identity, Website & Conversion Design' },
   { value: 'CRM, Automation, Integrations & AI Tools', label: 'CRM, Automation, Integrations & AI Tools' },
+  {
+    value: 'Custom Tools & Workflow Products',
+    label: 'Custom Tools & Workflow Products',
+  },
   { value: 'SEO, Content, Paid Acquisition & Analytics', label: 'SEO, Content, Paid Acquisition & Analytics' },
   { value: 'E-Commerce & Revenue Systems', label: 'E-Commerce & Revenue Systems' },
   { value: 'Specialized or Industry-Specific Engagement', label: 'Specialized or Industry-Specific Engagement' },

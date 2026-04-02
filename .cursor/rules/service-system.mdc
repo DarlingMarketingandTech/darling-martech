@@ -14,6 +14,9 @@ Use the compact helper files first before rereading broader planning docs:
 - `docs/context/project/service-pages/parent-child-linking-kit.json`
 - `docs/context/project/service-pages/batch-1-service-status.json`
 - `docs/context/project/service-pages/service-proof-snippets.json`
+- `docs/context/project/service-pages/custom-tools-service-priority-map.json` — custom tools / workflow-products offer (definition; implementation deferred until chartered)
+- `docs/context/project/service-pages/custom-tools-service-plan.md`
+- `docs/context/project/service-pages/custom-tools-proof-candidates.json`
 
 Service-system rules:
 - `/services` is the routing layer.

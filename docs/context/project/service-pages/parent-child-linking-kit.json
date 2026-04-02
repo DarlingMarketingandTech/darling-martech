@@ -31,7 +31,8 @@
     "crm-automation-ai": {
       "childPages": [
         "crm-architecture",
-        "agentic-marketing-systems"
+        "agentic-marketing-systems",
+        "custom-tools-workflow-products"
       ],
       "primaryProof": "graston-growth-engine",
       "optionalTool": null
@@ -70,8 +71,20 @@
     "crm-architecture": {
       "parent": "crm-automation-ai",
       "siblings": [
-        "fractional-cmo",
-        "conversion-optimization"
+        "agentic-marketing-systems",
+        "custom-tools-workflow-products",
+        "fractional-cmo"
+      ],
+      "primaryProof": "graston-growth-engine",
+      "secondaryCta": "/work/graston-growth-engine",
+      "tool": null
+    },
+    "agentic-marketing-systems": {
+      "parent": "crm-automation-ai",
+      "siblings": [
+        "crm-architecture",
+        "custom-tools-workflow-products",
+        "martech-audit"
       ],
       "primaryProof": "graston-growth-engine",
       "secondaryCta": "/work/graston-growth-engine",
@@ -109,6 +122,17 @@
       "primaryProof": "russell-painting",
       "secondaryCta": "/work/russell-painting",
       "tool": "https://darling-martech-geo-audit-tool.vercel.app/"
+    },
+    "custom-tools-workflow-products": {
+      "parent": "crm-automation-ai",
+      "siblings": [
+        "crm-architecture",
+        "agentic-marketing-systems",
+        "martech-audit"
+      ],
+      "primaryProof": "graston-growth-engine",
+      "secondaryCta": "/work/graston-growth-engine",
+      "tool": null
     }
   }
 }

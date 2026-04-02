@@ -132,6 +132,7 @@
     "2026-04-01: `martech-audit` Batch 2 page 1 implemented in `data/services.ts` + doc updates; next build `agentic-marketing-systems`.",
     "2026-04-01: `agentic-marketing-systems` Batch 2 page 2 implemented — nested `/services/systems/agentic-marketing-systems`.",
     "2026-04-01: `geo-optimization` Batch 2 page 3 implemented — nested `/services/growth/geo-optimization`; suggested Batch 2 trio complete — next: consolidation check / proof-media cleanup / light services polish.",
-    "2026-04-01: Post–Batch 2 refinement — `parent-child-linking-kit.json` updated for `geo-optimization`; `batch2Status` complete; legacy `secondaryCtaHref` cleanup + `/tools/graston-growth-engine` redirect — see CLAUDE.md."
+    "2026-04-01: Post–Batch 2 refinement — `parent-child-linking-kit.json` updated for `geo-optimization`; `batch2Status` complete; legacy `secondaryCtaHref` cleanup + `/tools/graston-growth-engine` redirect — see CLAUDE.md.",
+    "2026-04-02: Custom tools / workflow-products direction documented (definition-only) — `custom-tools-service-priority-map.json`, `custom-tools-service-plan.md`, `custom-tools-proof-candidates.json`; preferred fit = specialty nested under systems cluster; no Batch 1/Batch 2 page rewrites; runtime implementation deferred — see CLAUDE.md."
   ]
 }

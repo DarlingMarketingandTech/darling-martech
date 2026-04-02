@@ -1,84 +1,118 @@
 {
   "version": 1,
-  "purpose": "Compact decision map for evaluating a new service layer around custom tools, apps, and interactive products without drifting into portfolio-first positioning.",
-  "currentState": {
-    "serviceSystemStatus": "batch-1-and-batch-2-complete",
-    "nextStrategicQuestion": "Should custom tools/apps become a defined service offer?",
-    "guardrail": "Any new project should be added only if it strengthens a service offer, not just to increase volume of showcased work."
+  "purpose": "Compact decision map for a potential custom tools / workflow-products service line. Use before any implementation pass; do not replace batch-1/batch-2 maps.",
+  "lastUpdated": "2026-04-02",
+  "decision": {
+    "status": "approved-for-definition",
+    "implementation": "shipped-runtime-2026-04-02",
+    "summary": "Darling MarTech should treat custom tools and small workflow products as a sellable specialty aligned with systems work — framed around demand capture and operational clarity, not generic app development or portfolio sprawl."
   },
-  "serviceOptions": [
+  "implementationPlan": {
+    "lastPlanned": "2026-04-02",
+    "recommendedSlug": "custom-tools-workflow-products",
+    "slugAlternativesAssessed": [
+      {
+        "slug": "custom-tools-workflow-products",
+        "verdict": "recommended",
+        "notes": "Buyer-readable, maps to offer title, distinct from generic custom-apps or internal-tools-only phrasing; matches kebab length of agentic-marketing-systems."
+      },
+      {
+        "slug": "custom-marketing-tools",
+        "verdict": "alternate",
+        "notes": "Shorter but slightly narrower — can sound like martech stack plugins rather than workflow products and surfaces."
+      },
+      {
+        "slug": "custom-workflow-products",
+        "verdict": "alternate",
+        "notes": "Omits 'tools' — still valid if title on page stays full; slightly less obvious in cluster link labels."
+      }
+    ],
+    "canonicalRoutePath": "/services/systems/custom-tools-workflow-products",
+    "flatSlugRedirect": {
+      "from": "/services/custom-tools-workflow-products",
+      "to": "/services/systems/custom-tools-workflow-products",
+      "notes": "Add permanent redirect in next.config.js mirroring agentic-marketing-systems pattern so bookmarks and flat links resolve."
+    },
+    "runtimePattern": "Nested page under app/services/systems/<slug>/page.tsx loads entry from allServicePages by id (same as agentic-marketing-systems). standaloneServicePages entry uses routePath !== /services/{id} so generateServiceStaticParams excludes it.",
+    "timing": {
+      "shipped": true,
+      "shippedNote": "Runtime page, data entry, redirect, and helpers landed 2026-04-02. `/services` cluster link still intentionally omitted until chartered.",
+      "proofReadyForFirstShip": true,
+      "proofRationale": "graston-growth-engine + barbershop-command-center are sufficient for an initial proof grid; no need to delay on proof prep unless copy strategy changes."
+    },
+    "servicesIndexStrategy": {
+      "appearInServicesExperienceClusters": "live-2026-04-02-integration-pass",
+      "rationale": "Fourth systems cluster link added (`Custom tools & workflow products` → nested canonical URL) for discoverability without redesigning the index layout."
+    },
+    "futureFilesToTouchMinimal": [
+      "data/services.ts — new standaloneServicePages object (id custom-tools-workflow-products, routePath, layer build, proofWorkSlugs, relatedServiceSlugs, signs/deliverables/faq when copy ready); serviceDetails systems parent childServiceSlugs",
+      "app/services/systems/custom-tools-workflow-products/page.tsx — new file, mirror agentic-marketing-systems page (metadata + ServiceDetailPage)",
+      "next.config.js — redirects() entry flat /services/custom-tools-workflow-products → nested canonical",
+      "docs/context/project/service-pages/parent-child-linking-kit.json — parents.crm-automation-ai.childPages + new children.<slug> siblings/proof/secondaryCta",
+      "docs/context/project/service-pages/service-proof-snippets.json — add services.<slug> primary/supporting lines when copy locked",
+      "app/sitemap.ts — no manual change if allServicePages continues to drive URLs (new entry auto-included)",
+      "CLAUDE.md — swap planning/deferred note for shipped status when live",
+      "Optional: data/services.ts contactServiceOptions if contact form should list the new offer by name"
+    ]
+  },
+  "preferredLabel": {
+    "title": "Custom Tools & Workflow Products",
+    "shortLabel": "Custom tools & workflow products",
+    "rationale": "Keeps the offer adjacent to CRM/automation ('workflow') and recognizable buyer language ('tools', 'products') without reading as a dev shop or 'we build apps.'"
+  },
+  "namingOptionsReviewed": [
     {
-      "label": "Custom Tools & App Development",
-      "status": "candidate",
-      "recommendation": "usable-but-generic",
-      "priority": "medium",
-      "notes": "Clear, but risks sounding commodity unless paired with a stronger positioning statement."
+      "label": "Custom Tools & Workflow Products",
+      "verdict": "preferred",
+      "notes": "Broad enough for internal dashboards, customer-facing configurators, and interactive surfaces; still outcome-anchored."
     },
     {
-      "label": "Custom Tools, Apps & Interactive Products",
-      "status": "candidate",
-      "recommendation": "preferred",
-      "priority": "high",
-      "notes": "Broad enough to include internal tools, client-facing apps, creator builds, and interactive brand experiences without sounding like a generic dev shop."
+      "label": "Custom Marketing & Operations Tools",
+      "verdict": "alternate",
+      "notes": "Clear demand-gen tie; slightly more verbose; good for body copy or parent deliverable bullets."
     },
     {
-      "label": "Digital Products, Tools & App Builds",
-      "status": "candidate",
-      "recommendation": "alternate",
-      "priority": "medium",
-      "notes": "Viable if the site wants a slightly more product-oriented tone."
+      "label": "Bespoke Web Applications",
+      "verdict": "reject",
+      "notes": "Reads generic dev-shop; invites RFP-style scope creep."
+    },
+    {
+      "label": "Interactive Experiences / Products",
+      "verdict": "reject",
+      "notes": "Portfolio- and agency-flavored; weak commercial specificity for SMB buyers."
     }
   ],
   "fitRules": {
-    "includeIf": [
-      "the work proves a service you can actually sell now",
-      "the project shows strategic problem-solving, not just visual experimentation",
-      "the offer complements systems / website / CRM work rather than competing with them",
-      "the proof can be framed as useful to businesses, creators, or teams with specific needs"
+    "belongsInSystemIf": [
+      "The build closes a measurable gap in demand capture, qualification, handoff, or day-to-day execution (not 'nice to have' software).",
+      "It connects to the existing stack story: CRM, site, measurement, or automation — accountable owner stays Darling MarTech-shaped.",
+      "Proof can be anchored on production client work, not internal experiments or /tools utilities."
     ],
-    "excludeIf": [
-      "the project is only interesting as personal experimentation",
-      "the project cannot be tied to a buyer problem",
-      "the work would make the site feel like a portfolio-first studio instead of a services-led business"
+    "doesNotBelongIf": [
+      "The primary motivation is showing more builds on /work or padding portfolio depth.",
+      "The buyer only wants commodity engineering with no marketing/systems accountability.",
+      "The same story is already the hero of website-strategy or agentic-marketing-systems without adding a distinct purchase."
     ]
   },
-  "recommendedDirection": {
-    "serviceName": "Custom Tools, Apps & Interactive Products",
-    "positioning": "For teams, founders, and brands that need something more specialized than a standard website or off-the-shelf software.",
-    "bestClusterFit": "crm-automation-ai",
-    "alternateClusterFit": "websites-ux-brand",
-    "recommendation": "Plan as a specialty or next-tier service expansion, not as a replacement for the current core service system."
+  "clusterFit": {
+    "primaryClusterId": "systems",
+    "primaryClusterLabel": "CRM, Automation & AI",
+    "rationale": "Parent systems copy and deliverables already include custom calculators, dashboards, and internal tools; this specialty makes that line item conversion-ready without inventing a new top-level cluster."
   },
-  "nextProofCandidates": [
-    {
-      "slug": "guitar-app",
-      "status": "candidate",
-      "recommendation": "good-proof-if-framed-as-product-build",
-      "notes": "Strong if it demonstrates real product thinking, user flow, and app design rather than a hobby prototype."
-    },
-    {
-      "slug": "piko-artist-website-v3",
-      "status": "candidate",
-      "recommendation": "strong-proof",
-      "notes": "Especially valuable because it blends website, artist platform, and interactive tool experience."
-    },
-    {
-      "slug": "pro-studio-mixer",
-      "status": "candidate",
-      "recommendation": "conditional",
-      "notes": "Use only if the build is mature and visually convincing enough to support a sellable offer."
-    },
-    {
-      "slug": "blazing-star-therapy",
-      "status": "candidate",
-      "recommendation": "not-primary-for-this-service",
-      "notes": "Better fit for website-strategy / trust-led client work than custom tools/apps."
-    }
-  ],
-  "suggestedNextSteps": [
-    "Define the service offer before adding more work entries.",
-    "Choose the preferred naming/positioning option.",
-    "Identify which proof candidates are strong enough to support the offer now.",
-    "Only then build the service page or service-expansion surface."
+  "recommendedSystemFit": {
+    "pattern": "specialty-standalone-nested-under-systems",
+    "description": "Mirror Batch 2 nested pattern: future slug as standaloneServicePages entry with routePath under /services/systems/… (like agentic-marketing-systems). Not a new parent in serviceDetails. Do not add a fifth /services cluster.",
+    "alternateIfNarrower": "If a full page is deferred long-term, reinforce positioning only inside crm-architecture + agentic-marketing-systems copy — secondary to a dedicated page."
+  },
+  "candidateProofDirection": {
+    "primaryWorkSlugs": ["graston-growth-engine"],
+    "supportingWorkSlugs": ["barbershop-command-center"],
+    "notes": "Graston Growth Engine is the strongest primary: production two-sided surface, integrations, AI-assisted workflow. Barbershop Command Center supports dual-sided operational UI without duplicating the entire CRM-architecture story."
+  },
+  "nextImplementationSlice": [
+    "Copy pass (layered writing rule) then data/services.ts standalone + systems.childServiceSlugs.",
+    "app/services/systems/custom-tools-workflow-products/page.tsx + next.config.js redirect from flat slug.",
+    "parent-child-linking-kit.json + service-proof-snippets.json for the new slug.",
+    "ServicesExperience.tsx systems cluster fourth link — only after page exists and is explicitly chartered."
   ]
 }
