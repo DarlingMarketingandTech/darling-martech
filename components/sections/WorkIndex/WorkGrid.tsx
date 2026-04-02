@@ -10,16 +10,15 @@ import type { ServiceTag } from '@/data/taxonomy'
 import styles from './WorkIndex.module.css'
 import { WorkDashboardCard } from './WorkDashboardCard'
 
-// ── Sub-nav segments ──────────────────────────────────────────────────────────
 type WorkSegment = 'All' | 'Client Work' | 'Systems' | 'Brand'
 
 const SEGMENT_LABELS: WorkSegment[] = ['All', 'Client Work', 'Systems', 'Brand']
 
 const SEGMENT_CATEGORY_MAP: Record<WorkSegment, string[]> = {
-  'All': [],
+  All: [],
   'Client Work': ['Healthcare', 'Legal & Professional', 'Hospitality & Local', 'E-Commerce', 'Non-Profit'],
-  'Systems': ['Automation & Systems'],
-  'Brand': ['Brand Identity'],
+  Systems: ['Automation & Systems'],
+  Brand: ['Brand Identity'],
 }
 
 const WORK_TAB_IDS: Record<WorkSegment, string> = {
@@ -195,8 +194,6 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
       <WorkSubNav active={activeSegment} onChange={setActiveSegment} />
 
       <div id={WORK_INDEX_PANEL_ID} role="tabpanel" className={styles.flagshipSections}>
-
-        {/* Flagship */}
         {flagshipStudies.length > 0 && (
           <>
             <div className={styles.flagshipIntro}>
@@ -212,7 +209,6 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
           </>
         )}
 
-        {/* Supporting */}
         {supportingStudies.length > 0 && (
           <>
             {flagshipStudies.length > 0 && (
@@ -250,9 +246,18 @@ export function WorkBottomCTA() {
   return (
     <div className={styles.cta}>
       <p className={styles.ctaText}>Every serious build started as a conversation.</p>
-      <MagneticButton href="/contact?intent=work" className={styles.ctaBtn}>
-        Start one
-        <ArrowRight className={styles.ctaIcon} />
+      <MagneticButton radius={120} maxPull={14}>
+        <motion.div
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          transition={{ type: 'spring', stiffness: 180, damping: 24 }}
+          style={{ display: 'inline-block' }}
+        >
+          <Link href="/contact?intent=work" className={styles.ctaBtn}>
+            Start one
+            <ArrowRight className={styles.ctaIcon} />
+          </Link>
+        </motion.div>
       </MagneticButton>
     </div>
   )
