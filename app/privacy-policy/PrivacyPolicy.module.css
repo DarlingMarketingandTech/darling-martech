@@ -1,0 +1,76 @@
+.page {
+  padding: 6rem 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .page {
+    padding: 7rem 2.5rem;
+  }
+}
+
+.inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.08;
+}
+
+.meta {
+  margin: 0 0 2rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: rgba(245, 240, 232, 0.72);
+}
+
+.inner h2 {
+  margin: 2.5rem 0 0.75rem;
+  font-size: 1.25rem;
+}
+
+.inner p {
+  margin: 0 0 1.25rem;
+}
+
+.inner ul {
+  margin: 0 0 1.5rem 1.2rem;
+  padding: 0;
+}
+
+.inner li {
+  margin: 0.5rem 0;
+  color: rgba(245, 240, 232, 0.82);
+}
+
+.inner a {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 77, 0, 0.45);
+  text-underline-offset: 3px;
+}
+
+.inner a:hover {
+  text-decoration-color: rgba(255, 77, 0, 0.75);
+}
+
+.address {
+  font-style: normal;
+  margin-top: 0.5rem;
+  color: rgba(245, 240, 232, 0.82);
+}
+
+.address div {
+  margin: 0.25rem 0;
+}

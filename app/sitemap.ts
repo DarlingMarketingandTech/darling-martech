@@ -30,10 +30,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/process`, priority: 0.7 },
     { url: `${baseUrl}/studio`, priority: 0.5 },
     { url: `${baseUrl}/contact`, priority: 0.7 },
+    { url: `${baseUrl}/privacy-policy`, priority: 0.3, changeFrequency: 'yearly' as const },
   ].map((route) => ({
     ...route,
     lastModified,
-    changeFrequency: 'monthly' as const,
+    changeFrequency: route.changeFrequency ?? ('monthly' as const),
   }))
 
   return [
