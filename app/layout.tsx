@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter, Instrument_Serif } from 'next/font/google'
 import localFont from 'next/font/local'
-import dynamic from 'next/dynamic'
 
 import './globals.css'
 import { Nav } from '@/components/layout/Nav'
@@ -9,24 +8,7 @@ import { Footer } from '@/components/layout/Footer'
 import { LocalBusinessJsonLd } from '@/components/JsonLd'
 import { LenisProvider } from '@/components/providers/LenisProvider'
 import { GoogleAnalytics } from '@/components/providers/Analytics'
-
-// Defer non-essential, purely cosmetic UI to reduce global JS/hydration cost.
-const CursorSpotlight = dynamic(
-  () => import('@/components/interactive/CursorSpotlight').then((m) => m.CursorSpotlight),
-  { ssr: false }
-)
-const ScrollProgress = dynamic(
-  () => import('@/components/ui/ScrollProgress').then((m) => m.ScrollProgress),
-  { ssr: false }
-)
-const BackToTop = dynamic(
-  () => import('@/components/ui/BackToTop').then((m) => m.BackToTop),
-  { ssr: false }
-)
-const CookieConsent = dynamic(
-  () => import('@/components/ui/CookieConsent').then((m) => m.CookieConsent),
-  { ssr: false }
-)
+import { ClientCosmetics } from '@/components/layout/ClientCosmetics'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -137,14 +119,13 @@ export default function RootLayout({
       <body>
         <GoogleAnalytics />
         <LenisProvider>
-          <CursorSpotlight />
+          {/* Cosmetic UI is deferred in a Client Component to avoid Server Component build constraints. */}
+          <ClientCosmetics position="top" />
           <LocalBusinessJsonLd />
-          <ScrollProgress />
           <Nav />
           <main>{children}</main>
           <Footer />
-          <BackToTop />
-          <CookieConsent />
+          <ClientCosmetics position="bottom" />
         </LenisProvider>
       </body>
     </html>
