@@ -9,6 +9,9 @@ on:
       commit_message:
         description: "Commit message"
         required: true
+      patch:
+        description: "Git patch to apply"
+        required: true
 
 jobs:
   create-pr:
@@ -29,20 +32,21 @@ jobs:
             # Branch exists on remote: base local branch on it
             git checkout -B "$BRANCH" "origin/$BRANCH"
           else
-            # Branch does not exist: create from current HEAD (checked out by actions/checkout)
+            # Branch does not exist: create from current HEAD
             git checkout -b "$BRANCH"
           fi
 
-      - name: Make placeholder change
+      - name: Apply patch
         run: |
-          echo "// AI change placeholder" >> ai-change.log
+          echo "${{ github.event.inputs.patch }}" > patch.diff
+          git apply patch.diff
 
       - name: Commit changes
         run: |
           git config user.name "AI Bot"
           git config user.email "ai@darlingmartech.dev"
           git add .
-          git commit -m "${{ github.event.inputs.commit_message }}"
+          git commit -m "${{ github.event.inputs.commit_message }}" || echo "No changes to commit"
 
       - name: Push branch
         env:
@@ -58,4 +62,4 @@ jobs:
           branch: ${{ github.event.inputs.branch_name }}
           base: main
           title: ${{ github.event.inputs.commit_message }}
-          body: "Automated PR created by AI workflow"
+          body: "AI-generated PR with applied patch"
