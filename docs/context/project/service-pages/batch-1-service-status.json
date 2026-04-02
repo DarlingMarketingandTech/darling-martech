@@ -12,8 +12,8 @@
       "proofLocked": true,
       "relatedServicesReviewed": true,
       "linkingPassDone": true,
-      "visualSupportDone": false,
-      "nextRecommendedAction": "Lightweight visual support when running that pass."
+      "visualSupportDone": true,
+      "nextRecommendedAction": "Batch 2: start martech-audit service page when ready."
     },
     "website-strategy": {
       "implemented": true,
@@ -24,8 +24,8 @@
       "proofLocked": true,
       "relatedServicesReviewed": true,
       "linkingPassDone": true,
-      "visualSupportDone": false,
-      "nextRecommendedAction": "Lightweight visual support when running that pass."
+      "visualSupportDone": true,
+      "nextRecommendedAction": "Batch 2: start martech-audit service page when ready."
     },
     "crm-architecture": {
       "implemented": true,
@@ -36,8 +36,8 @@
       "proofLocked": true,
       "relatedServicesReviewed": true,
       "linkingPassDone": true,
-      "visualSupportDone": false,
-      "nextRecommendedAction": "Lightweight visual support when running that pass."
+      "visualSupportDone": true,
+      "nextRecommendedAction": "Batch 2: start martech-audit service page when ready."
     },
     "local-seo": {
       "implemented": true,
@@ -48,8 +48,8 @@
       "proofLocked": true,
       "relatedServicesReviewed": true,
       "linkingPassDone": true,
-      "visualSupportDone": false,
-      "nextRecommendedAction": "Lightweight visual support when running that pass."
+      "visualSupportDone": true,
+      "nextRecommendedAction": "Batch 2: start martech-audit service page when ready."
     },
     "conversion-optimization": {
       "implemented": true,
@@ -60,16 +60,17 @@
       "proofLocked": true,
       "relatedServicesReviewed": true,
       "linkingPassDone": true,
-      "visualSupportDone": false,
-      "nextRecommendedAction": "Lightweight visual support when running that pass."
+      "visualSupportDone": true,
+      "nextRecommendedAction": "Batch 2: start martech-audit service page when ready."
     }
   },
-  "nextPhase": "lightweight-visual-support",
-  "nextAfterThat": "batch-2-service-pages",
+  "nextPhase": "martech-audit",
+  "nextAfterThat": "agentic-marketing-systems",
   "notes": [
     "Batch 1 page-copy implementation is complete.",
     "Parent/child linking pass complete (2026-04-01) — see CLAUDE.md.",
     "Proof alignment + work→service backlinks complete (2026-04-01) — see CLAUDE.md service-system section.",
-    "Post-Batch-1 service-system consolidation audit complete (2026-04-01) — Batch 2 order confirmed; legacy overlap pages de-emphasized in related-service data — see CLAUDE.md."
+    "Post-Batch-1 service-system consolidation audit complete (2026-04-01) — Batch 2 order confirmed; legacy overlap pages de-emphasized in related-service data — see CLAUDE.md.",
+    "Batch 1 lightweight visual support complete (2026-04-01) — optional Cloudinary proof block on ServiceDetailPage; see CLAUDE.md service-system section."
   ]
 }

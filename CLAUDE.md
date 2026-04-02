@@ -109,7 +109,7 @@ Conflict rule:
   - `/pricing` later
 - Batch 1 child-service execution (complete 2026-04-01): `fractional-cmo`, `website-strategy`,
   `crm-architecture`, `local-seo`, `conversion-optimization` — all shipped with copy + linking + proof alignment.
-- Confirmed Batch 2 build order (post-consolidation audit 2026-04-01; after lightweight visual support):
+- Confirmed Batch 2 build order (post-consolidation audit 2026-04-01; Batch 1 lightweight visual support complete 2026-04-01):
   1. `martech-audit`
   2. `agentic-marketing-systems`
   3. `geo-optimization` (nested canonical route; specialty relative to Batch 1 growth pages)
@@ -202,6 +202,7 @@ cluster choices, not deletion.
 - `serviceDetails` — 6 parent service entries (strategy, brand-web, systems, growth, commerce, specialized)
 - `standaloneServicePages` — 11 standalone entries including all 5 Batch 1 slugs
 - `allServicePages` — combined array used by `getServicePageBySlug()` and `generateServiceStaticParams()`
+- Optional **proof visual support** on any service page: `supportImagePublicId`, `supportImageAlt`, `supportImageCaption`, `supportImageWorkSlug` (Cloudinary-first, one image max; Batch 1 entries populated per `service-visual-support-map.json`)
 - `generateServiceStaticParams()` excludes entries with a nested `routePath` — those 4 entries
   (`geo-optimization`, `agentic-marketing-systems`, `the-fortress`, `the-conductor`) use nested routes
   and are intentionally excluded from the flat `[slug]` dynamic route
@@ -213,17 +214,18 @@ The component now renders these sections in order when data is present:
 1. Back nav + parent breadcrumb
 2. Hero (eyebrow, H1, tagline, summary, CTA)
 3. Pricing signal (optional)
-4. Proof stats / audit snapshot (optional)
-5. **Signs you need this** (optional — `signsYouNeedIt?: string[]`)
-6. **What this usually includes** (deliverables list)
-7. **Common questions** FAQ accordion (optional — `faqItems?: FaqItem[]`)
-8. **Related proof** (proof grid linking to work pages)
-9. Proof tool card (optional)
-10. Related case studies (optional — from `proofWorkSlugs`)
-11. Featured offers / child services (optional — parent pages only)
-12. Related services (optional)
-13. Tag row
-14. CTA strip
+4. **Proof visual support** (optional — one Cloudinary image + caption + link to `/work/[slug]` when `supportImagePublicId` + `supportImageAlt` are set; Batch 1 pages populated; subordinate to proof cards below)
+5. Proof stats / audit snapshot (optional)
+6. **Signs you need this** (optional — `signsYouNeedIt?: string[]`)
+7. **What this usually includes** (deliverables list)
+8. **Common questions** FAQ accordion (optional — `faqItems?: FaqItem[]`)
+9. **Related proof** (proof grid linking to work pages)
+10. Proof tool card (optional)
+11. Related case studies (optional — from `proofWorkSlugs`)
+12. Featured offers / child services (optional — parent pages only)
+13. Related services (optional)
+14. Tag row
+15. CTA strip
 
 The `signsYouNeedIt` and `faqItems` fields are new — they are optional and gracefully
 absent for existing entries. Fill them in the copywriting pass for each Batch 1 page.
@@ -332,8 +334,7 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
   updates in `data/services.ts` only; no `/services` layout or Batch 1 copy changes). `/services` cluster
   links unchanged: `brand-strategy` still appears twice with different labels (positioning vs identity);
   legacy combo slug is not cluster-featured.
-- **Next likely phase:** lightweight visual support for service/work proof surfaces; then Batch 2 page
-  builds in the order above.
+- ✅ **Batch 1 lightweight visual support (2026-04-01)** — `ServiceDetailPage` renders one optional proof-led image block when `supportImage*` fields are set; all five Batch 1 child pages populated (Cloudinary public IDs, captions from visual-support map, work slugs aligned with primary proof — no `proofWorkSlugs` changes). **Next likely phase:** Batch 2 first page `martech-audit`, then `agentic-marketing-systems`, then `geo-optimization` (order unchanged above).
 
 ### Consolidated Proof / Taxonomy Snapshot
 - Top reusable proof assets: Graston Technique, Pike Medical, PrimaryCare Indy,

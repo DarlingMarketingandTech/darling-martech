@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { CldImage } from 'next-cloudinary'
 import { useMemo, useRef, useState } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle, Warning, Plus, Minus } from '@phosphor-icons/react'
@@ -163,6 +164,39 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
           </div>
         </FadeUp>
       )}
+
+      {service.supportImagePublicId && service.supportImageAlt ? (
+        <section className={styles.section} aria-label="Proof preview">
+          <FadeUp delay={0.28}>
+            <figure className={styles.proofVisual}>
+              <div className={styles.proofVisualFrame}>
+                <CldImage
+                  src={service.supportImagePublicId}
+                  alt={service.supportImageAlt}
+                  width={1200}
+                  height={675}
+                  sizes="(max-width: 768px) 100vw, min(960px, 92vw)"
+                  crop="fill"
+                  gravity="auto"
+                  className={styles.proofVisualImage}
+                />
+              </div>
+              {service.supportImageCaption ? (
+                <figcaption className={styles.proofVisualCaption}>{service.supportImageCaption}</figcaption>
+              ) : null}
+              {service.supportImageWorkSlug ? (
+                <Link
+                  href={`/work/${service.supportImageWorkSlug}`}
+                  className={styles.proofVisualLink}
+                >
+                  View case study
+                  <ArrowUpRight weight="regular" size={14} aria-hidden />
+                </Link>
+              ) : null}
+            </figure>
+          </FadeUp>
+        </section>
+      ) : null}
 
       {service.proofStats?.length ? (
         <section className={styles.section}>

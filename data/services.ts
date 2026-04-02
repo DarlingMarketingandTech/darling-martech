@@ -76,6 +76,12 @@ type BaseServicePage = {
   signsYouNeedIt?: string[]
   /** FAQ items rendered in an accordion below deliverables */
   faqItems?: FaqItem[]
+  /** Optional single proof-led image (Cloudinary public ID) — Batch 1 visual support; subordinate to proof cards */
+  supportImagePublicId?: string
+  supportImageAlt?: string
+  supportImageCaption?: string
+  /** Canonical `/work/[slug]` for the optional case-study link under the support image */
+  supportImageWorkSlug?: string
 }
 
 export type ParentServiceDetail = BaseServicePage & {
@@ -703,6 +709,11 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaLabel: 'See the Graston build',
     secondaryCtaHref: '/work/graston-technique',
     pricingSignal: '$3.5K–$12K/month · Audit-first onboarding, then monthly retainer',
+    supportImagePublicId: 'graston-website',
+    supportImageAlt: 'Graston Technique marketing website showing training and shop paths',
+    supportImageCaption:
+      'Strategic leadership is visible in how the whole system is structured, not just in one campaign output.',
+    supportImageWorkSlug: 'graston-technique',
     relatedServiceSlugs: ['website-strategy', 'crm-architecture'],
     proofTools: [
       {
@@ -1047,6 +1058,11 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaLabel: 'See the Pike Medical rebuild',
     secondaryCtaHref: '/work/pike-medical-consultants',
     pricingSignal: '$4K–$20K · Project-based, scoped by site size and complexity',
+    supportImagePublicId: 'primary-care-indy-website',
+    supportImageAlt: 'PrimaryCare Indy website after rebuild — clear hierarchy and patient-focused homepage',
+    supportImageCaption:
+      'The issue is not only how the site looks, but how clearly it earns trust and moves the right visitor forward.',
+    supportImageWorkSlug: 'pike-medical-consultants',
     relatedServiceSlugs: ['conversion-optimization', 'fractional-cmo'],
   },
   {
@@ -1126,6 +1142,10 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaLabel: 'See the Graston Growth Engine build',
     secondaryCtaHref: '/work/graston-growth-engine',
     pricingSignal: '$4K–$30K+ · Scoped by stack size and integration depth',
+    supportImagePublicId: 'graston-growth-engine_-_for_providers',
+    supportImageAlt: 'Graston Growth Engine provider hub — map-synced search and operational structure',
+    supportImageCaption: 'A CRM should be a system you can run from, not just software you happen to have.',
+    supportImageWorkSlug: 'graston-growth-engine',
     relatedServiceSlugs: ['fractional-cmo', 'conversion-optimization'],
     proofTools: [
       {
@@ -1225,6 +1245,10 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaLabel: 'See the Russell Painting build',
     secondaryCtaHref: '/work/russell-painting',
     pricingSignal: '$2K–$8K/month · Project or retainer depending on scope',
+    supportImagePublicId: 'russell-painting-website-services',
+    supportImageAlt: 'Russell Painting website services page — local trust and clear service structure',
+    supportImageCaption: 'Local visibility only matters when it leads to trust and action, not just rankings.',
+    supportImageWorkSlug: 'russell-painting',
     relatedServiceSlugs: ['website-strategy', 'conversion-optimization'],
   },
   {
@@ -1311,6 +1335,10 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaLabel: 'See the 317 BBQ build',
     secondaryCtaHref: '/work/317-bbq',
     pricingSignal: '$2K–$8K · Audit or project-based depending on scope',
+    supportImagePublicId: 'Image_from_iOS',
+    supportImageAlt: '317 BBQ site on mobile — menu-forward layout and clear path to order',
+    supportImageCaption: 'The goal is not more activity on the page — it is a clearer path to action.',
+    supportImageWorkSlug: '317-bbq',
     relatedServiceSlugs: ['website-strategy', 'local-seo', 'crm-architecture'],
   },
   // ── End Batch 1 canonical entries ──────────────────────────────────────────
