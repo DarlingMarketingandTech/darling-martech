@@ -45,5 +45,6 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           branch: ${{ github.event.inputs.branch_name }}
+          base: main
           title: ${{ github.event.inputs.commit_message }}
           body: "Automated PR created by AI workflow"
