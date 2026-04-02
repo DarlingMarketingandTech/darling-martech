@@ -79,12 +79,13 @@ Conflict rule:
   an artifact and a reason to call.
 - `/work` role: proof of capability — client builds with measurable outcomes.
   A prospect evaluates these; they do not use them. Curated, not exhaustive.
-  Work index layout: flagship studies first, supporting grid, connected-system strips
-  under parents, then a restrained studio strip (horizontal track). Flagship block
-  includes a short editorial intro label; supporting cards use a compact layout (one
-  primary metric, minimal footer chrome). Studio carousel does not auto-advance;
-  horizontal scroll is confined to the track (no document `scrollIntoView`) so smooth
-  scroll (Lenis) is not hijacked.
+Work index layout: flagship studies first, supporting grid, connected-system strips
+ under parents, then a restrained studio strip (horizontal track). Flagship block
+ includes a short editorial intro label; both flagship and supporting cards use a
+ compact layout (one primary metric) with tier/category badges and extra footer meta
+ removed to keep the grid calmer and more proof-led. Studio carousel does not
+ auto-advance; horizontal scroll is confined to the track (no document
+ `scrollIntoView`) so smooth scroll (Lenis) is not hijacked.
 - Phase 3D classification decisions (2026-03-28):
   - Core tools (permanent, primary): CMO Simulator, GEO Readiness Auditor,
     CMO Roadmap Generator. These are the only entries on `/tools`.
@@ -119,6 +120,7 @@ Conflict rule:
 - Internal linking minimums:
   - Every service page: link to `/contact` + at least 2 relevant work pages.
   - Every work page: link to the service page it proves (Batch 1 flagship pairings use `primaryServicePageSlug` on `work-index` entries → one contextual link on the work detail hero from `WorkDetailContent`).
+  - Work detail pages now apply proof-weight templates (flagship longform / supporting standard / system-child compact|expanded) and end with a single route-out set: one service link + up to 2 related proof links (prev/next + related grid de-emphasized/removed). Hero openings now follow problem → intervention → proof signal, with system-child pages leading with system role + outcome.
   - Every tools page: exactly 1 primary service link + 1 supporting work link.
 - Homepage/services alignment rule:
   - Hero carries the core positioning load (problem + promise + model).
@@ -128,6 +130,7 @@ Conflict rule:
   - Homepage flow (implemented): Hero → Services → FeaturedTool → CaseStudies → Testimonials → ContactCTA.
   - Hero primary CTA routes to `/work`. Secondary CTA routes to `/contact?intent=unsure`.
   - Services section headline and card summaries are problem-led (updated 2026-03-29).
+  - Homepage proof polish: hero copy tightened for operator clarity; the case studies rail is now a selected-teaser format with a single dominant metric per card for faster scanning.
   - Consult `docs/context/project/service-pages/homepage-hero-and-services-alignment.md` before
     changing the hero or services section.
 

@@ -8,7 +8,7 @@ Use this structure for `/work/[slug]` pages.
 - **Secondary CTA:** one contact path or one relevant related proof link
 - **Do not turn this page into:** a portfolio gallery, a process diary, or a dashboard walkthrough with no commercial framing
 
-## Two valid templates
+## Three template weights
 Not every work page should use the same storytelling weight.
 
 ### 1. Flagship longform
@@ -20,7 +20,13 @@ Use for:
 - `russell-painting`
 - any future flagship with a broad enough business story
 
-### 2. System-child / compact detail
+### 2. Supporting standard
+Use for:
+- smaller but still meaningful client work
+- focused website / conversion / branding engagements
+- “proof-worthy but not enterprise-theater” pages
+
+### 3. System-child / compact detail
 Use for:
 - child builds that sit inside a parent engagement
 - supporting system surfaces
@@ -105,7 +111,35 @@ Do not add a giant recommendation wall.
 
 ---
 
-# B. System-child / compact detail template
+# B. Supporting standard template
+
+## 1. Hero
+Include:
+- client name
+- plain-English problem statement
+- one-sentence intervention summary
+- one proof signal (metric or outcome)
+- one contextual “This build supports …” service link when available
+
+## 2. What changed (tight flow)
+Use a simple three-step flow:
+1. constraint / problem
+2. strategic move / build
+3. result / operating impact
+
+## 3. Results + validation (tight)
+Prefer:
+- one outcome paragraph
+- one strong validation element (metric recap or short business confirmation)
+
+## 4. Related route-out
+Same as flagship:
+- one service page link
+- up to 2 related work links
+
+---
+
+# C. System-child / compact detail template
 
 ## 1. Hero
 Include:
@@ -163,6 +197,14 @@ Compact child pages should deepen the parent proof, not compete with it.
 - what changed section
 - proof media section
 - results section
+- one service link
+- 1–2 related work links
+
+## Supporting standard
+- hero with business framing
+- context/problem section (brief)
+- what changed section (simple flow)
+- results + one validation element
 - one service link
 - 1–2 related work links
 

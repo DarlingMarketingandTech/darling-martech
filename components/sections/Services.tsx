@@ -43,15 +43,15 @@ export function Services() {
               Services
             </motion.p>
             <motion.h2 variants={itemVariants} className={styles.headline}>
-              Where the bottlenecks usually are.
+              Where the bottlenecks usually show up.
             </motion.h2>
           </div>
 
           <motion.div variants={itemVariants} className={styles.copyBlock}>
             <p className={styles.body}>
-              Most businesses don&apos;t need more activity. They need the right
-              layer fixed first — whether that&apos;s strategy, website performance,
-              CRM and automation, or visibility and demand.
+              Most businesses don&apos;t need more activity. They need one missing
+              layer fixed first — strategy, website conversion, CRM automation, or
+              visibility and demand.
             </p>
             <div className={styles.ctaRow}>
               <Link href="/services" className={styles.primaryCta}>

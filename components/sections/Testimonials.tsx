@@ -39,7 +39,7 @@ export function Testimonials({
   items = defaultTestimonials,
   label = 'What People Are Saying',
   title = 'Proof that travels well.',
-  intro = 'Peer recommendations, client trust, and long-term collaboration history collected into one branded module that can anchor the homepage, service pages, and deeper credibility moments across the site.',
+  intro = 'Peer recommendations from operators I&apos;ve worked with — collected as proof, not filler.',
   className,
 }: TestimonialsProps) {
   const [activeIndex, setActiveIndex] = useState(0)

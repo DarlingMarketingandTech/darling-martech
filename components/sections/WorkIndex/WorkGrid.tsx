@@ -83,11 +83,9 @@ function WorkHeroEntry() {
 function WorkSubNav({
   active,
   onChange,
-  counts,
 }: {
   readonly active: WorkSegment
   readonly onChange: (segment: WorkSegment) => void
-  readonly counts: Record<WorkSegment, number>
 }) {
   const handleTabKeyDown = (event: ReactKeyboardEvent, seg: WorkSegment) => {
     if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
@@ -117,9 +115,6 @@ function WorkSubNav({
             className={`${styles.subNavBtn} ${active === seg ? styles.subNavBtnActive : ''}`}
           >
             {seg}
-            {counts[seg] > 0 && active !== seg && (
-              <span className={styles.subNavCount}>{counts[seg]}</span>
-            )}
           </button>
         ))}
       </div>
@@ -196,20 +191,6 @@ export function WorkIndexExperience({
     [orderedStudies]
   )
 
-  // Count per segment (flagship + standard only; system sub-projects count under parents)
-  const segmentCounts = useMemo(() => {
-    const counts: Record<WorkSegment, number> = { 'All': 0, 'Client Work': 0, 'Systems': 0, 'Brand': 0 }
-    for (const study of orderedStudies) {
-      if (systemSlugs.has(study.slug)) continue
-      for (const [seg, cats] of Object.entries(SEGMENT_CATEGORY_MAP)) {
-        if (cats.includes(study.category)) {
-          counts[seg as WorkSegment]++
-        }
-      }
-    }
-    return counts
-  }, [orderedStudies, systemSlugs])
-
   // Visible studies filtered by segment — system slugs excluded (shown via SubProjectStrip)
   const visibleStudies = useMemo(() => {
     let result = orderedStudies.filter((s) => !systemSlugs.has(s.slug))
@@ -243,7 +224,6 @@ export function WorkIndexExperience({
       <WorkSubNav
         active={activeSegment}
         onChange={setActiveSegment}
-        counts={segmentCounts}
       />
 
       <AnimatePresence mode="wait">

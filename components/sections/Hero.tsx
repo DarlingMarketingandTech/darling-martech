@@ -101,7 +101,7 @@ export function Hero() {
             >
               {/* Eyebrow */}
               <motion.p variants={itemVariants} className={styles.eyebrow}>
-                Indianapolis, IN · Strategy &amp; Technology
+                Indianapolis, IN · Built for operators
               </motion.p>
 
               {/* KineticHeadline — word-by-word 3D entrance */}
@@ -110,16 +110,16 @@ export function Hero() {
                   accentPhrase="one accountable lead"
                   className={styles.heroHeadline}
                 >
-                  {`Strategy, systems, and execution — in one accountable lead.`}
+                  {`Strategy, systems, websites, and growth — in one accountable lead.`}
                 </KineticHeadline>
               </motion.div>
 
               {/* Subheadline */}
               <motion.p variants={itemVariants} className={styles.subheadline}>
-                When growth, websites, CRM, and reporting are disconnected,
-                everything gets harder to run and harder to trust. I fix the gaps
-                between them — strategy, technology, and execution, directly
-                with you. No agencies. No hand-offs.
+                When marketing growth, websites, CRM, automation, and reporting don&apos;t
+                connect, everything gets harder to run and harder to trust. I fix the
+                gaps between strategy, systems, and execution — directly with you.
+                No agencies. No hand-offs.
               </motion.p>
 
               {/* CTAs — primary to work, secondary to contact */}

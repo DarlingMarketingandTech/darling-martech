@@ -1,14 +1,16 @@
 import { notFound, redirect } from 'next/navigation'
 import type { Metadata } from 'next'
-import workData, { getWorkBySlug, generateWorkStaticParams } from '@/data/work/work-data'
+import { getWorkBySlug, generateWorkStaticParams } from '@/data/work/work-data'
 import { getServicePageBySlug } from '@/data/services'
 import { WorkDetailContent } from '@/components/sections/WorkDetail/WorkDetailContent'
 import { WorkCaseStudyJsonLd } from '@/components/JsonLd'
 import type { CaseStudy } from '@/lib/work'
 import { getCanonicalWorkPath, isWorkSlugAlias, resolveWorkSlug } from '@/lib/work'
 
-function buildWorkServiceBacklink(cs: CaseStudy): { href: string; label: string } | null {
-  const id = cs.primaryServicePageSlug
+function buildWorkServiceBacklink(cs: CaseStudy, parent: CaseStudy | null): { href: string; label: string } | null {
+  // Child builds may not have their own proof->service pairing set directly.
+  // In those cases, inherit from the parent engagement.
+  const id = cs.primaryServicePageSlug ?? parent?.primaryServicePageSlug
   if (!id) return null
   const page = getServicePageBySlug(id)
   if (!page) return null
@@ -51,15 +53,6 @@ export async function generateMetadata({
   }
 }
 
-function getAdjacentWork(slug: string): { prev: CaseStudy | null; next: CaseStudy | null } {
-  const index = workData.findIndex((cs) => cs.slug === slug)
-  if (index === -1) return { prev: null, next: null }
-  return {
-    prev: index > 0 ? workData[index - 1] : null,
-    next: index < workData.length - 1 ? workData[index + 1] : null,
-  }
-}
-
 export default async function WorkDetailPage({
   params,
 }: {
@@ -74,20 +67,17 @@ export default async function WorkDetailPage({
   const cs = getWorkBySlug(slug)
   if (!cs) notFound()
 
-  const { prev, next } = getAdjacentWork(slug)
   const parent = cs.parentProjectSlug ? getWorkBySlug(cs.parentProjectSlug) ?? null : null
   const related = (cs.relatedProjectSlugs ?? [])
     .map((slug) => getWorkBySlug(slug))
     .filter((study): study is CaseStudy => Boolean(study))
-  const serviceBacklink = buildWorkServiceBacklink(cs)
+  const serviceBacklink = buildWorkServiceBacklink(cs, parent)
 
   return (
     <>
       <WorkCaseStudyJsonLd cs={cs} />
       <WorkDetailContent
         cs={cs}
-        prev={prev}
-        next={next}
         parent={parent}
         related={related}
         serviceBacklink={serviceBacklink}

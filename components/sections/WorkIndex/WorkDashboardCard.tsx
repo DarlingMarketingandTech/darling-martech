@@ -41,7 +41,6 @@ function WorkDashboardMedia({ study, tier }: { study: CaseStudy; tier: WorkDashb
           className={styles.dashboardArtworkImage}
           sizes={tier === 'flagship' ? '(min-width: 1180px) 44vw, 100vw' : '(min-width: 1180px) 24vw, 100vw'}
         />
-        <span className={styles.dashboardMediaBadge}>{study.category}</span>
       </div>
     )
   }
@@ -60,7 +59,6 @@ function WorkDashboardMedia({ study, tier }: { study: CaseStudy; tier: WorkDashb
           sizes={tier === 'flagship' ? '(min-width: 1180px) 44vw, 100vw' : '(min-width: 1180px) 24vw, 100vw'}
         />
         <div className={styles.dashboardMediaShade} />
-        <span className={styles.dashboardMediaBadge}>{study.category}</span>
       </div>
     )
   }
@@ -70,7 +68,6 @@ function WorkDashboardMedia({ study, tier }: { study: CaseStudy; tier: WorkDashb
       <div className={styles.dashboardBackdropGrid} />
       <div className={styles.dashboardFallbackBeam} />
       <div className={styles.dashboardFallbackWordmark}>{study.client}</div>
-      <span className={styles.dashboardMediaBadge}>{study.category}</span>
     </div>
   )
 }
@@ -83,8 +80,8 @@ export function WorkDashboardCard({
   readonly layoutRole?: 'flagship' | 'supporting'
 }) {
   const tier = study.dashboardTier ?? 'standard'
-  const metricLimit =
-    layoutRole === 'supporting' ? 1 : tier === 'flagship' ? 3 : 2
+  // One dominant proof metric only (reduce dashboard-like density)
+  const metricLimit = 1
   const metrics = study.metrics.slice(0, metricLimit)
   const mediaPublicId = study.cardPublicId ?? study.heroPublicId ?? study.logoPublicId
   const hasArtworkMedia = Boolean(mediaPublicId && isLogoArtwork(mediaPublicId))
@@ -120,15 +117,6 @@ export function WorkDashboardCard({
         <div className={styles.dashboardCardBody}>
           <div className={styles.dashboardCardTop}>
             <p className={styles.dashboardEyebrow}>{study.label}</p>
-            {!isSupporting && (
-              <span className={styles.dashboardTierTag}>
-                {tier === 'flagship'
-                  ? 'Flagship study'
-                  : tier === 'system'
-                    ? 'System build'
-                    : study.category}
-              </span>
-            )}
           </div>
 
           <div className={styles.dashboardCardCopy}>
@@ -150,11 +138,6 @@ export function WorkDashboardCard({
           )}
 
           <div className={styles.dashboardFooter}>
-            {!isSupporting && (
-              <span className={styles.dashboardFooterMeta}>
-                {study.parentProjectSlug ? 'Connected to parent system' : study.category}
-              </span>
-            )}
             <span className={styles.dashboardCta}>
               {isSupporting ? 'View case' : 'Open case study'}
               <ArrowRight weight="light" className={styles.dashboardCtaIcon} />

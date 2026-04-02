@@ -28,6 +28,57 @@ export type WorkTheme = {
   density?: 'calm' | 'balanced' | 'kinetic'
 }
 
+export type WorkDetailTemplate = 'flagship-longform' | 'supporting-standard' | 'system-compact' | 'system-expanded'
+
+// Proof-type template selection for `/work/[slug]`.
+// This is intentionally slug-driven (not just dashboardTier), so we can honor
+// the work-proof priority map where template weight differs from tier.
+export function getWorkDetailTemplate(slug: string): WorkDetailTemplate {
+  const flagshipLongform = new Set([
+    'graston-technique',
+    'pike-medical-consultants',
+    '317-bbq',
+    'hoosier-boy-barbershop',
+    // High-value supporting but treated as longform template weight.
+    'russell-painting',
+  ])
+
+  const supportingStandard = new Set([
+    'riley-bennett-egloff',
+    'tuohy-bailey-moore',
+    'behr-pet-essentials',
+    'circle-city-kicks',
+    'black-letter',
+    'clean-aesthetic',
+    'perpetual-movement-fitness',
+    'primary-colours',
+  ])
+
+  const systemCompact = new Set([
+    'the-launchpad',
+    'the-closer',
+    'the-compass',
+    'the-fortress',
+    'smart-sales-pricing',
+    'investment-roi-planner',
+    'clinical-compass',
+    'license-requirements',
+    'primarycare-indy',
+    'urgentcare-indy',
+  ])
+
+  const systemExpanded = new Set(['graston-growth-engine', 'barbershop-command-center'])
+
+  if (systemExpanded.has(slug)) return 'system-expanded'
+  if (systemCompact.has(slug)) return 'system-compact'
+  if (flagshipLongform.has(slug)) return 'flagship-longform'
+  if (supportingStandard.has(slug)) return 'supporting-standard'
+
+  // Safe fallback: if content isn't in our explicit proof map, prefer a
+  // normal “supporting” weight unless runtime logic overrides it.
+  return 'supporting-standard'
+}
+
 export type WorkCard = {
   slug: string
   label: string         // e.g. "Hospitality · Brand Identity & Web"

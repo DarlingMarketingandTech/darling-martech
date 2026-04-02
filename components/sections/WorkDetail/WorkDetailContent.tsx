@@ -10,6 +10,7 @@ import { FloatingCard } from '@/components/3d/FloatingCard'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import type { CaseStudy, CloudinaryAsset, Deliverable, ProcessPhase } from '@/lib/work'
+import { getWorkDetailTemplate } from '@/lib/work'
 import { containerVariants, itemVariants, springEntrance } from '@/lib/motion'
 import styles from './WorkDetail.module.css'
 
@@ -69,8 +70,16 @@ function BodyCopy({ text }: { text: string }) {
   )
 }
 
-function MetricBand({ cs, emphasizeFirst = false }: { cs: CaseStudy; emphasizeFirst?: boolean }) {
-  const metrics = cs.metrics.slice(0, 4)
+function MetricBand({
+  cs,
+  emphasizeFirst = false,
+  maxMetrics = 4,
+}: {
+  cs: CaseStudy
+  emphasizeFirst?: boolean
+  maxMetrics?: number
+}) {
+  const metrics = cs.metrics.slice(0, maxMetrics)
   const metricClassName =
     cs.theme?.metricStyle === 'ticker'
       ? styles.metricsTicker
@@ -78,7 +87,7 @@ function MetricBand({ cs, emphasizeFirst = false }: { cs: CaseStudy; emphasizeFi
         ? styles.metricsPill
         : styles.metricsPanel
   const impactCountClassName =
-    metrics.length === 4 ? styles.metricsImpactFour : styles.metricsImpactThree
+    metrics.length === 4 ? styles.metricsImpactFour : metrics.length === 3 ? styles.metricsImpactThree : ''
 
   return (
     <FadeUp>
@@ -106,11 +115,13 @@ function MetricBand({ cs, emphasizeFirst = false }: { cs: CaseStudy; emphasizeFi
 function AssetStrip({
   assets,
   mediaStyle,
+  maxAssets = 3,
 }: {
   assets: NonNullable<CaseStudy['cloudinaryAssets']>
   mediaStyle: NonNullable<CaseStudy['theme']>['mediaStyle'] | undefined
+  maxAssets?: number
 }) {
-  const displayAssets = assets.slice(0, 3)
+  const displayAssets = assets.slice(0, maxAssets)
 
   return (
     <div className={`${styles.assetStrip} ${mediaStyle === 'stack' ? styles.assetStripStack : ''}`}>
@@ -207,11 +218,16 @@ function ProblemSystemSection({
   cs,
   parent,
   heroImage,
+  compact = false,
 }: {
   cs: CaseStudy
   parent: CaseStudy | null
   heroImage?: string
+  compact?: boolean
 }) {
+  const challengeText = compact ? getLeadSentence(cs.challenge) : cs.challenge
+  const approachText = compact ? getLeadSentence(cs.approach) : cs.approach
+
   return (
     <FadeUp>
       <section className={`${styles.section} ${styles.problemSystemSection}`}>
@@ -234,12 +250,12 @@ function ProblemSystemSection({
           <div className={styles.problemContent}>
             <div className={styles.problemCopyBlock}>
               <p className={styles.sectionEyebrow}>The Challenge</p>
-              <BodyCopy text={cs.challenge} />
+              <BodyCopy text={challengeText} />
             </div>
 
             <div className={styles.problemCopyBlock}>
               <p className={styles.sectionEyebrow}>The Approach</p>
-              <BodyCopy text={cs.approach} />
+              <BodyCopy text={approachText} />
             </div>
           </div>
         </div>
@@ -338,6 +354,82 @@ function RelatedProjects({
   )
 }
 
+function RouteOutLinks({
+  cs,
+  template,
+  parent,
+  related,
+  serviceBacklink,
+}: {
+  cs: CaseStudy
+  template: ReturnType<typeof getWorkDetailTemplate>
+  parent: CaseStudy | null
+  related: CaseStudy[]
+  serviceBacklink?: { href: string; label: string } | null
+}) {
+  const addUnique = (list: CaseStudy[], next: CaseStudy, max: number) => {
+    if (list.some((s) => s.slug === next.slug)) return list
+    if (list.length >= max) return list
+    return [...list, next]
+  }
+
+  let picks: CaseStudy[] = []
+
+  if (template === 'system-compact' || template === 'system-expanded') {
+    const max = 3
+    if (parent) picks = addUnique(picks, parent, max)
+    for (const r of related) {
+      picks = addUnique(picks, r, max)
+      if (picks.length >= max) break
+    }
+  } else if (cs.slug === 'graston-technique') {
+    // Keep breadth, but don’t dump the whole system catalog.
+    const max = 2
+    const growthEngine = related.find((r) => r.slug === 'graston-growth-engine')
+    const compass = related.find((r) => r.slug === 'the-compass')
+    if (growthEngine) picks = addUnique(picks, growthEngine, max)
+    if (compass) picks = addUnique(picks, compass, max)
+    if (picks.length < max) picks = related.slice(0, max)
+  } else {
+    // Flagship + supporting: 1–2 related proof links.
+    const max = 2
+    picks = related.slice(0, max)
+  }
+
+  return (
+    <section className={styles.routeOutSection}>
+      <div className={styles.routeOutInner}>
+        {serviceBacklink ? (
+          <p className={styles.routeOutService}>
+            <span className={styles.routeOutLabel}>This build supports</span>{' '}
+            <Link href={serviceBacklink.href} className={styles.routeOutServiceLink}>
+              {serviceBacklink.label}
+            </Link>
+          </p>
+        ) : (
+          <p className={styles.routeOutServiceFallback}>
+            <span className={styles.routeOutLabel}>Primary proof route</span> {cs.client}
+          </p>
+        )}
+
+        {picks.length > 0 && (
+          <div className={styles.routeOutRelated}>
+            <p className={styles.routeOutRelatedLabel}>Related proof</p>
+            <div className={styles.routeOutRelatedList}>
+              {picks.map((study) => (
+                <Link key={study.slug} href={`/work/${study.slug}`} className={styles.routeOutRelatedLink}>
+                  <span>{study.client}</span>
+                  <ArrowRight weight="light" size={14} aria-hidden />
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
 function ContactCta({ cs }: { cs: CaseStudy }) {
   return (
     <FadeUp>
@@ -408,27 +500,48 @@ function PrevNextNav({
 
 export function WorkDetailContent({
   cs,
-  prev,
-  next,
   parent,
   related,
   serviceBacklink,
 }: {
   cs: CaseStudy
-  prev: CaseStudy | null
-  next: CaseStudy | null
   parent: CaseStudy | null
   related: CaseStudy[]
   serviceBacklink?: { href: string; label: string } | null
 }) {
-  const heroImage = cs.heroPublicId ?? cs.cloudinaryAssets?.[1]?.publicId ?? cs.logoPublicId
+  const heroImage =
+    cs.heroPublicId ??
+    cs.cloudinaryAssets?.find((asset) => asset.publicId !== cs.logoPublicId)?.publicId ??
+    cs.cloudinaryAssets?.[0]?.publicId ??
+    cs.logoPublicId
   const layoutClassName =
     cs.theme?.layout === 'stacked'
       ? styles.layoutStacked
       : cs.theme?.layout === 'editorial'
         ? styles.layoutEditorial
         : styles.layoutSplit
-  const isSystemPage = Boolean(cs.parentProjectSlug)
+  const derivedSystemChild = Boolean(cs.parentProjectSlug)
+  let detailTemplate = getWorkDetailTemplate(cs.slug)
+  // Runtime fallback: if the slug isn't explicitly mapped but it’s clearly a child,
+  // it should still use compact system-child weight.
+  if (derivedSystemChild && detailTemplate === 'supporting-standard') detailTemplate = 'system-compact'
+
+  const isFlagshipLongform = detailTemplate === 'flagship-longform'
+  const isSupportingStandard = detailTemplate === 'supporting-standard'
+  const isSystemCompact = detailTemplate === 'system-compact'
+  const isSystemExpanded = detailTemplate === 'system-expanded'
+  const isSystemChildTemplate = isSystemCompact || isSystemExpanded
+  const primaryProofSignal = cs.metrics[0] ?? ''
+  const signalText = primaryProofSignal ? `Signal: ${primaryProofSignal}` : ''
+
+  // Hero openings should lead with business framing:
+  // problem → intervention → proof signal (system-child: system role + outcome).
+  const heroHeadlineText = isSystemChildTemplate ? getLeadSentence(cs.approach) : getLeadSentence(cs.challenge)
+  const heroSubheadText = isSystemChildTemplate
+    ? `${getLeadSentence(cs.challenge)} ${signalText}`.trim()
+    : `${getLeadSentence(cs.approach)} ${signalText}`.trim()
+
+  const assetStripMaxAssets = isSystemCompact ? 1 : 2
 
   return (
     <article className={`${styles.article} ${layoutClassName}`}>
@@ -490,7 +603,7 @@ export function WorkDetailContent({
                 transition={{ ...springEntrance, delay: 0.18 }}
                 className={styles.heroHeadline}
               >
-                {cs.headline}
+                {heroHeadlineText}
               </motion.p>
 
               <motion.p
@@ -499,21 +612,23 @@ export function WorkDetailContent({
                 transition={{ ...springEntrance, delay: 0.24 }}
                 className={styles.heroSubhead}
               >
-                {cs.subhead}
+                {heroSubheadText}
               </motion.p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ ...springEntrance, delay: 0.28 }}
-                className={styles.heroChips}
-              >
-                {cs.label.split('·').map((chip) => (
-                  <span key={chip} className={styles.heroChip}>
-                    {chip.trim()}
-                  </span>
-                ))}
-              </motion.div>
+              {!isSystemCompact && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ ...springEntrance, delay: 0.28 }}
+                  className={styles.heroChips}
+                >
+                  {cs.label.split('·').map((chip) => (
+                    <span key={chip} className={styles.heroChip}>
+                      {chip.trim()}
+                    </span>
+                  ))}
+                </motion.div>
+              )}
             </div>
 
             <motion.div
@@ -544,15 +659,23 @@ export function WorkDetailContent({
                     </div>
                   )}
 
-                  {cs.cloudinaryAssets && cs.cloudinaryAssets.length > 1 && (
-                    <AssetStrip assets={cs.cloudinaryAssets} mediaStyle={cs.theme?.mediaStyle} />
+                  {cs.cloudinaryAssets && cs.cloudinaryAssets.length > 0 && (
+                    <AssetStrip
+                      assets={cs.cloudinaryAssets}
+                      mediaStyle={cs.theme?.mediaStyle}
+                      maxAssets={assetStripMaxAssets}
+                    />
                   )}
                 </div>
               </FloatingCard>
             </motion.div>
           </div>
 
-          <MetricBand cs={cs} emphasizeFirst={isSystemPage} />
+          <MetricBand
+            cs={cs}
+            emphasizeFirst={isSystemExpanded}
+            maxMetrics={isFlagshipLongform ? 3 : isSupportingStandard ? 2 : isSystemExpanded ? 3 : 1}
+          />
 
           {serviceBacklink ? (
             <FadeUp>
@@ -567,56 +690,62 @@ export function WorkDetailContent({
           ) : null}
         </section>
 
-        {isSystemPage ? (
+        {isSystemCompact || isSystemExpanded ? (
           <>
-            <ProblemSystemSection cs={cs} parent={parent} heroImage={heroImage} />
+            <ProblemSystemSection
+              cs={cs}
+              parent={parent}
+              heroImage={heroImage}
+              compact={isSystemCompact}
+            />
 
-            <SectionBlock eyebrow="The Work" title="What got rebuilt">
-              <DeliverableGrid deliverables={cs.deliverables} isSystemPage />
+            <SectionBlock eyebrow={isSystemCompact ? 'The Build' : 'What got rebuilt'}>
+              <DeliverableGrid
+                deliverables={isSystemCompact ? cs.deliverables.slice(0, 3) : cs.deliverables}
+                isSystemPage={isSystemExpanded}
+              />
             </SectionBlock>
 
-            {cs.process && cs.process.length > 0 && <ProcessTimeline process={cs.process} />}
+            {isSystemExpanded && cs.process && cs.process.length > 0 && (
+              <ProcessTimeline process={cs.process} />
+            )}
 
             <SectionBlock eyebrow="The Outcome">
               <BodyCopy text={cs.outcome} />
             </SectionBlock>
 
-            <SectionBlock eyebrow="What This Means For You">
-              <BodyCopy text={cs.whatThisMeansForYou} />
-            </SectionBlock>
-
-            <RelatedProjects related={related} parent={parent} />
+            {isSystemExpanded && (
+              <SectionBlock eyebrow="What This Means For You">
+                <BodyCopy text={cs.whatThisMeansForYou} />
+              </SectionBlock>
+            )}
           </>
         ) : (
           <>
-            <SectionBlock eyebrow="The Challenge">
+            <SectionBlock eyebrow="Why this mattered">
               <BodyCopy text={cs.challenge} />
             </SectionBlock>
 
-            <SectionBlock eyebrow="The Approach">
-              <BodyCopy text={cs.approach} />
-            </SectionBlock>
-
-            <SectionBlock eyebrow="The Work">
+            <SectionBlock eyebrow="What got rebuilt">
               <DeliverableGrid deliverables={cs.deliverables} isSystemPage={false} />
             </SectionBlock>
 
-            <RelatedProjects related={related} parent={parent} />
-
-            {cs.process && cs.process.length > 0 && <ProcessTimeline process={cs.process} />}
-
-            <SectionBlock eyebrow="The Outcome">
+            <SectionBlock eyebrow={isFlagshipLongform ? 'Results and operating impact' : 'The Outcome'}>
               <BodyCopy text={cs.outcome} />
-            </SectionBlock>
-
-            <SectionBlock eyebrow="What This Means For You">
-              <BodyCopy text={cs.whatThisMeansForYou} />
+              {isFlagshipLongform && <BodyCopy text={cs.whatThisMeansForYou} />}
             </SectionBlock>
           </>
         )}
 
+        <RouteOutLinks
+          cs={cs}
+          template={detailTemplate}
+          parent={parent}
+          related={related}
+          serviceBacklink={serviceBacklink}
+        />
+
         <ContactCta cs={cs} />
-        <PrevNextNav prev={prev} next={next} />
       </div>
     </article>
   )

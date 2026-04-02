@@ -17,6 +17,94 @@ import {
   viewport,
 } from '@/lib/motion'
 import styles from './CaseStudies.module.css'
+import workProofPriorityMap from '@/docs/context/project/work-pages/work-proof-priority-map.json'
+
+function normalizeForMetricMatch(input: string) {
+  return input
+    .toLowerCase()
+    .replace(/×/g, 'x')
+    .replace(/[’']/g, '')
+    .replace(/[^a-z0-9%+.\- ]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function extractDominantKeyTokens(dominantMetric: string) {
+  const stop = new Set([
+    'more',
+    'increase',
+    'lift',
+    'reduction',
+    'saved',
+    'over',
+    'average',
+    'info',
+    'purchase',
+    'order',
+    'online',
+    'internal',
+    'lead',
+    'leads',
+    'patient',
+    'growth',
+  ])
+
+  const dominantNorm = normalizeForMetricMatch(dominantMetric)
+  // Remove leading quantity token like "40%" or "3x"
+  const noQty = dominantNorm.replace(/([+\-]?\d+(?:\.\d+)?)(%|x)\b/g, ' ').trim()
+  const tokens = noQty
+    .split(/\s+/g)
+    .map((t) => t.trim())
+    .filter(Boolean)
+    .filter((t) => !stop.has(t))
+    .filter((t) => t.length >= 3)
+
+  return tokens
+}
+
+function pickDominantHomepageMetric(slug: string, metrics: string[]) {
+  const entry =
+    workProofPriorityMap.flagshipWork.find((e) => e.slug === slug) ??
+    workProofPriorityMap.highValueSupporting.find((e) => e.slug === slug)
+
+  const dominantMetric = entry?.dominantMetric
+  if (!dominantMetric) return metrics[0] ?? ''
+  if (metrics.length === 0) return ''
+
+  const dominantNorm = normalizeForMetricMatch(dominantMetric)
+  const qtyMatch = dominantNorm.match(/([+\-]?\d+(?:\.\d+)?)(%|x)\b/)
+  const dominantQty = qtyMatch ? `${qtyMatch[1]}${qtyMatch[2]}` : null
+  const keyTokens = extractDominantKeyTokens(dominantMetric)
+
+  let best = metrics[0]
+  let bestScore = -1
+
+  for (const metric of metrics) {
+    const metricNorm = normalizeForMetricMatch(metric)
+    let score = 0
+
+    if (dominantQty) {
+      score += metricNorm.includes(dominantQty) ? 60 : 0
+    }
+
+    if (keyTokens.length) {
+      for (const token of keyTokens) {
+        score += metricNorm.includes(token) ? 10 : 0
+      }
+    } else if (metricNorm === dominantNorm) {
+      score += 50
+    }
+
+    // Exact match always wins.
+    if (metricNorm === dominantNorm) return metric
+    if (score > bestScore) {
+      bestScore = score
+      best = metric
+    }
+  }
+
+  return best
+}
 
 const showcaseSlugs = [
   '317-bbq',
@@ -52,7 +140,7 @@ function scrollSlideIntoRail(
 
 function HomeWorkCard({ study }: { study: CaseStudy }) {
   const mediaPublicId = study.cardPublicId ?? study.heroPublicId ?? study.logoPublicId
-  const metrics = study.metrics.slice(0, 2)
+  const dominantMetric = pickDominantHomepageMetric(study.slug, study.metrics)
 
   return (
     <motion.article
@@ -108,11 +196,9 @@ function HomeWorkCard({ study }: { study: CaseStudy }) {
           <p className={styles.cardSummary}>{study.headline}</p>
 
           <div className={styles.cardMetrics}>
-            {metrics.map((metric, index) => (
-              <span key={metric} className={cn(styles.cardMetric, index === 0 && styles.cardMetricAccent)}>
-                {metric}
-              </span>
-            ))}
+            {dominantMetric ? (
+              <span className={cn(styles.cardMetric, styles.cardMetricAccent)}>{dominantMetric}</span>
+            ) : null}
           </div>
 
           <span className={styles.cardCta}>
@@ -205,8 +291,7 @@ export function CaseStudies() {
               A tight edit of the work.
             </motion.h2>
             <motion.p variants={itemVariants} className={styles.subheading}>
-              Five case studies — same rigor as the work index, less surface area. Open any card for
-              the full story; everything else lives on{' '}
+              Five selected proof builds. Open any card for the full story; everything else lives on{' '}
               <Link href="/work" className={styles.subheadingLink}>
                 /work
               </Link>

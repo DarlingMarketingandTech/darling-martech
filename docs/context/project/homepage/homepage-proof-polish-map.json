@@ -71,6 +71,7 @@
     ],
     "improve": [
       "make the active proof item feel more meaningful and easier to scan",
+      "show one dominant metric per card (faster scannability, less dashboard feel)",
       "reduce any sense of carousel mechanics competing with the work itself",
       "bias toward commercially varied proof, not just visually varied proof"
     ]
