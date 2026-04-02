@@ -69,19 +69,20 @@ const cabinetGrotesk = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL('https://darlingmartech.com'),
   title: {
-    default: 'Darling MarTech — Marketing Strategy & Technology',
+    default: 'Darling MarTech — Strategy, Systems & Growth Infrastructure',
     template: '%s | Darling MarTech',
   },
   description:
-    'Jacob Darling builds the marketing infrastructure that makes small businesses and startups grow — strategy, technology, automation, and execution. Based in Indianapolis, IN.',
+    'Strategy, systems, and execution for SMBs and startups. Jacob Darling builds the marketing infrastructure that drives measurable growth — websites, CRM, automation, and performance systems.',
   keywords: [
-    'marketing strategy',
-    'marketing technology',
-    'MarTech',
-    'CRM',
+    'marketing strategy consultant',
+    'marketing systems',
+    'CRM architecture',
     'marketing automation',
-    'web development',
-    'Indianapolis',
+    'conversion optimization',
+    'local SEO',
+    'MarTech consultant',
+    'Indianapolis marketing consultant',
     'Jacob Darling',
   ],
   authors: [{ name: 'Jacob Darling' }],
@@ -91,9 +92,9 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://darlingmartech.com',
     siteName: 'Darling MarTech',
-    title: 'Darling MarTech — Marketing Strategy & Technology',
+    title: 'Strategy, Systems & Growth Infrastructure',
     description:
-      'Jacob Darling builds the marketing infrastructure that makes small businesses and startups grow — strategy, technology, automation, and execution.',
+      'Strategy + implementation + measurement — built into one system. Marketing infrastructure for SMBs and startups.',
     images: [
       {
         url: '/images/og-image.jpg',
@@ -105,9 +106,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Darling MarTech — Marketing Strategy & Technology',
+    title: 'Strategy, Systems & Growth Infrastructure',
     description:
-      'Jacob Darling builds the marketing infrastructure that makes small businesses and startups grow.',
+      'Marketing systems that actually drive growth — not disconnected tactics.',
     images: ['/images/og-image.jpg'],
   },
   robots: {
