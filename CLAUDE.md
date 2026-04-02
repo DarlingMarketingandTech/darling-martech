@@ -1090,6 +1090,8 @@ The old layer-selector cards (`serviceLayerMeta`), "Productized offers" section 
 
 **`/services` page role:** explains problem clusters, routes users to child-service pages, supports each cluster with one proof anchor. It does not sell every sub-service in depth — that is child-service pages' job.
 
+**`/services` child links:** In each cluster card, child-service destinations are **secondary pill links** (clear affordance and focus ring, not loud CTAs) so visitors read them as navigation to dedicated pages, not body copy bullets.
+
 **Data exports still in `data/services.ts` (not all are used by the index page):**
 - `serviceOverview` — 4 summary cards (used by homepage `Services` component)
 - `serviceDetails` — 6 full service entries with deliverables + proof (used by `/services/[slug]`)

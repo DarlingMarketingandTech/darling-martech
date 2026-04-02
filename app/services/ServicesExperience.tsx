@@ -153,17 +153,20 @@ export function ServicesExperience() {
                 {/* Body */}
                 <p className={styles.clusterBody}>{cluster.body}</p>
 
-                {/* Child-service links */}
-                <ul className={styles.clusterLinks}>
-                  {cluster.links.map((link) => (
-                    <li key={link.href}>
-                      <Link href={link.href} className={styles.clusterLink}>
-                        <ArrowRightIcon size={13} weight="regular" className={styles.clusterLinkArrow} />
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                {/* Child-service links — secondary pills; each opens a dedicated service page */}
+                <div className={styles.clusterLinksBlock}>
+                  <p className={styles.clusterLinksIntro}>Explore dedicated service pages</p>
+                  <ul className={styles.clusterLinks}>
+                    {cluster.links.map((link) => (
+                      <li key={link.href}>
+                        <Link href={link.href} className={styles.clusterLink}>
+                          <ArrowRightIcon size={13} weight="light" className={styles.clusterLinkArrow} />
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
                 {/* Proof anchor */}
                 <Link href={cluster.proof.href} className={styles.clusterProof}>
