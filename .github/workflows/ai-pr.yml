@@ -1,0 +1,46 @@
+name: AI PR Creator
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: "Branch name"
+        required: true
+      commit_message:
+        description: "Commit message"
+        required: true
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Create branch
+        run: |
+          git checkout -b ${{ github.event.inputs.branch_name }}
+
+      - name: Make placeholder change
+        run: |
+          echo "// AI change placeholder" >> ai-change.log
+
+      - name: Commit changes
+        run: |
+          git config user.name "AI Bot"
+          git config user.email "ai@darlingmartech.dev"
+          git add .
+          git commit -m "${{ github.event.inputs.commit_message }}"
+
+      - name: Push branch
+        run: |
+          git push origin ${{ github.event.inputs.branch_name }}
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          branch: ${{ github.event.inputs.branch_name }}
+          title: ${{ github.event.inputs.commit_message }}
+          body: "Automated PR created by AI workflow"
