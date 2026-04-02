@@ -414,7 +414,9 @@ function RouteOutLinks({
 
         {picks.length > 0 && (
           <div className={styles.routeOutRelated}>
-            <p className={styles.routeOutRelatedLabel}>Related proof</p>
+            <p className={styles.routeOutRelatedLabel}>
+              {cs.category === 'Healthcare' && !parent ? 'Division engagements' : 'Related proof'}
+            </p>
             <div className={styles.routeOutRelatedList}>
               {picks.map((study) => (
                 <Link key={study.slug} href={`/work/${study.slug}`} className={styles.routeOutRelatedLink}>

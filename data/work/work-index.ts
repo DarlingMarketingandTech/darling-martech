@@ -31,6 +31,7 @@ export const workIndex: WorkCard[] = [
     industryIds: ['healthcare', 'saas'],
     outcomeIds: ['lead-gen', 'time-saved', 'conversion-lift'],
     primaryServicePageSlug: 'fractional-cmo',
+    editorialRank: 1,
   },
   {
     slug: 'the-launchpad',
@@ -204,6 +205,7 @@ export const workIndex: WorkCard[] = [
     industryIds: ['healthcare'],
     outcomeIds: ['lead-gen', 'booking-growth'],
     primaryServicePageSlug: 'website-strategy',
+    editorialRank: 3,
   },
   {
     slug: 'primarycare-indy',
@@ -222,6 +224,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['local-seo', 'seo-content', 'analytics-reporting'],
     industryIds: ['healthcare', 'local-service'],
     outcomeIds: ['traffic-growth', 'booking-growth', 'revenue-attribution'],
+    primaryServicePageSlug: 'local-seo',
   },
   {
     slug: 'urgentcare-indy',
@@ -239,6 +242,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['local-seo', 'paid-acquisition', 'brand-identity'],
     industryIds: ['healthcare', 'local-service'],
     outcomeIds: ['booking-growth', 'traffic-growth'],
+    primaryServicePageSlug: 'local-seo',
   },
   // ── Legal & Professional ───────────────────────────────────────────────────
   {
@@ -269,6 +273,10 @@ export const workIndex: WorkCard[] = [
     heroPublicId: 'law-firm-18',
     visualMode: 'beacon',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'portrait', density: 'calm' },
+    serviceIds: ['brand-identity', 'web-development', 'conversion-design'],
+    industryIds: ['legal', 'b2b'],
+    outcomeIds: ['conversion-lift', 'brand-awareness'],
+    primaryServicePageSlug: 'website-strategy',
   },
   // ── Hospitality & Local ────────────────────────────────────────────────────
   {
@@ -288,6 +296,7 @@ export const workIndex: WorkCard[] = [
     industryIds: ['hospitality', 'local-service'],
     outcomeIds: ['conversion-lift', 'booking-growth'],
     primaryServicePageSlug: 'conversion-optimization',
+    editorialRank: 2,
   },
   {
     slug: 'hoosier-boy-barbershop',
@@ -308,6 +317,7 @@ export const workIndex: WorkCard[] = [
     industryIds: ['local-service'],
     outcomeIds: ['booking-growth', 'traffic-growth', 'brand-awareness'],
     relatedProjectSlugs: ['barbershop-command-center'],
+    editorialRank: 4,
   },
   {
     slug: 'barbershop-command-center',
@@ -339,6 +349,9 @@ export const workIndex: WorkCard[] = [
     cardPublicId: 'russell-painting-website',
     visualMode: 'beacon',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'portrait', density: 'calm' },
+    serviceIds: ['local-seo', 'seo-content'],
+    industryIds: ['local-service'],
+    outcomeIds: ['traffic-growth', 'lead-gen'],
     primaryServicePageSlug: 'local-seo',
   },
   // ── E-Commerce ─────────────────────────────────────────────────────────────
@@ -354,6 +367,7 @@ export const workIndex: WorkCard[] = [
     heroPublicId: 'Complete_Solution_Cats',
     visualMode: 'mesh',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'stack', density: 'balanced' },
+    primaryServicePageSlug: 'conversion-optimization',
   },
   {
     slug: 'circle-city-kicks',

@@ -24,6 +24,13 @@
 ### Ordering rules (prefer data-layer logic)
 - Ordering should be controlled by the data layer (tiers + stable ranking), not component-local heuristics.
 - **Flagship first**, then supporting. System-children are excluded from the main supporting grid and only appear via the connected strip under their parent.
+- Within the flagship tier, use `editorialRank` on `WorkCard` entries in `work-index.ts` to lock the editorial display order (lower number = higher position). Current ranks: Graston Technique (1), 317 BBQ (2), Pike Medical (3), Hoosier Boy (4). Unranked flagships fall after all ranked ones.
+- **Do not re-order flagships in the component** — set `editorialRank` in the data instead.
+
+### Connected-system strip — label rules
+- Strip label varies by parent category: `Healthcare` parents → "Divisions inside this engagement"; all others → "Systems built inside this engagement".
+- Each child pill shows one compact proof signal (the child's first metric) as a secondary label beside the client name.
+- Keep pills single-line where possible. Avoid adding more than one metric per pill.
 
 ### Anti-patterns to avoid
 - Promoting system-child entries into the primary grid “to fill space”

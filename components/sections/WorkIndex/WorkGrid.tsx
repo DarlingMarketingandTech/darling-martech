@@ -55,7 +55,14 @@ function getTierRank(tier: WorkDashboardTier | undefined) {
 }
 
 function sortStudies(studies: CaseStudy[]) {
-  return [...studies].sort((left, right) => getTierRank(left.dashboardTier) - getTierRank(right.dashboardTier))
+  return [...studies].sort((left, right) => {
+    const tierDiff = getTierRank(left.dashboardTier) - getTierRank(right.dashboardTier)
+    if (tierDiff !== 0) return tierDiff
+    // Within the same tier, honor editorialRank (unranked falls after ranked)
+    const lr = left.editorialRank ?? Infinity
+    const rr = right.editorialRank ?? Infinity
+    return lr - rr
+  })
 }
 
 // ── Hero entry ────────────────────────────────────────────────────────────────
@@ -125,22 +132,39 @@ function WorkSubNav({
 // ── Sub-project strip ─────────────────────────────────────────────────────────
 // Compact linked row beneath a flagship parent — never in the main grid.
 
-function SubProjectStrip({ children }: { readonly children: CaseStudy[] }) {
+function SubProjectStrip({
+  children,
+  parentCategory,
+}: {
+  readonly children: CaseStudy[]
+  readonly parentCategory?: string
+}) {
   if (children.length === 0) return null
+  // Division-brand parents (Healthcare) use a different label than system-build parents
+  const stripLabel =
+    parentCategory === 'Healthcare'
+      ? 'Divisions inside this engagement'
+      : 'Systems built inside this engagement'
   return (
     <div className={styles.subProjectStrip}>
-      <span className={styles.subProjectLabel}>Systems behind this work</span>
+      <span className={styles.subProjectLabel}>{stripLabel}</span>
       <div className={styles.subProjectList}>
-        {children.map((child) => (
-          <Link
-            key={child.slug}
-            href={`/work/${child.slug}`}
-            className={styles.subProjectItem}
-          >
-            <span className={styles.subProjectName}>{child.client}</span>
-            <ArrowRight weight="light" className={styles.subProjectArrow} />
-          </Link>
-        ))}
+        {children.map((child) => {
+          const primaryMetric = child.metrics[0]
+          return (
+            <Link
+              key={child.slug}
+              href={`/work/${child.slug}`}
+              className={styles.subProjectItem}
+            >
+              <span className={styles.subProjectName}>{child.client}</span>
+              {primaryMetric && (
+                <span className={styles.subProjectMetric}>{primaryMetric}</span>
+              )}
+              <ArrowRight weight="light" className={styles.subProjectArrow} />
+            </Link>
+          )
+        })}
       </div>
     </div>
   )
@@ -166,7 +190,7 @@ function FlagshipUnit({
   return (
     <motion.div className={styles.flagshipUnit} variants={CARD_ITEM}>
       <WorkDashboardCard study={study} />
-      <SubProjectStrip>{children}</SubProjectStrip>
+      <SubProjectStrip parentCategory={study.category}>{children}</SubProjectStrip>
     </motion.div>
   )
 }

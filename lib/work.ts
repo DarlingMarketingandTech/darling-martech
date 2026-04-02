@@ -102,6 +102,8 @@ export type WorkCard = {
   outcomeIds?: OutcomeTag[]
   /** When set, work detail links to this `/services/[slug]` page as the primary Batch 1 (or other) offering this study proves */
   primaryServicePageSlug?: string
+  /** Editorial sort rank within the flagship tier — lower number surfaces first. Unset entries fall after ranked ones. */
+  editorialRank?: number
 }
 
 export type Deliverable = {
