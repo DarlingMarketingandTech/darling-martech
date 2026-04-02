@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "purpose": "Compact polish map for improving homepage proof and trust without redesigning the homepage or changing its core section order.",
+  "lastUpdated": "2026-04-02",
+  "referenceBias": {
+    "heroClarity": "c42d-directness",
+    "trustPattern": "focus-lab-credibility",
+    "proofPresentation": "instrument-restraint",
+    "serviceCategoryCue": "clay-clarity",
+    "notes": "Borrow clarity and restraint, not enterprise bulk or portfolio theater."
+  },
+  "pageRole": {
+    "route": "/",
+    "job": "Orient the right buyer quickly, establish trust, and route them toward services, work, tools, or contact.",
+    "currentFlowToPreserve": [
+      "Hero",
+      "Services",
+      "FeaturedTool",
+      "CaseStudies",
+      "Testimonials",
+      "ContactCTA"
+    ]
+  },
+  "doNotChange": [
+    "Do not redesign the homepage layout system.",
+    "Do not recreate AboutTeaser on the homepage.",
+    "Do not replace the services problem-cluster model.",
+    "Do not turn the homepage into a long FAQ or pricing page.",
+    "Do not add new major sections in this pass."
+  ],
+  "polishGoals": [
+    "Sharpen the hero so the commercial model is clearer faster.",
+    "Bring trust and proof closer to the top through tighter copy and section handoff, not more UI.",
+    "Make the homepage proof teaser feel more selected and less mechanical.",
+    "Keep CTA routing consistent and calm."
+  ],
+  "heroGuidance": {
+    "shouldCommunicate": [
+      "strategy + systems + websites + growth under one accountable operator",
+      "the business problems this model solves",
+      "that this is senior, direct, outcomes-oriented work"
+    ],
+    "keep": [
+      "primary CTA to /work",
+      "secondary CTA to /contact?intent=unsure",
+      "the hero as the main positioning surface"
+    ],
+    "improve": [
+      "headline precision",
+      "subhead clarity around the operating model",
+      "micro-proof or trust line if it can be added without clutter"
+    ]
+  },
+  "servicesSectionGuidance": {
+    "keep": [
+      "problem-cluster framing",
+      "routing role rather than deep selling",
+      "problem-led summaries"
+    ],
+    "improve": [
+      "make clusters read more like buyer diagnosis than category labels",
+      "tighten supporting copy so it points more clearly toward the right next click"
+    ]
+  },
+  "caseStudiesSectionGuidance": {
+    "role": "selected proof teaser, not a mini-version of the full /work index",
+    "keep": [
+      "link to /work",
+      "small, curated set",
+      "editorial feel over dashboard feel"
+    ],
+    "improve": [
+      "make the active proof item feel more meaningful and easier to scan",
+      "reduce any sense of carousel mechanics competing with the work itself",
+      "bias toward commercially varied proof, not just visually varied proof"
+    ]
+  },
+  "trustSignals": {
+    "bestPlaces": [
+      "hero micro-proof line",
+      "case studies intro or card framing",
+      "testimonial handoff into contact CTA"
+    ],
+    "avoid": [
+      "large logo walls",
+      "dense stats bands that repeat what /work already proves",
+      "agency-style credibility clutter"
+    ]
+  },
+  "likelyRuntimeFiles": [
+    "app/page.tsx",
+    "components/sections/Hero.tsx",
+    "components/sections/Services.tsx",
+    "components/sections/CaseStudies.tsx",
+    "components/sections/Testimonials.tsx",
+    "components/sections/ContactCTA.tsx",
+    "related CSS Modules directly tied to those sections"
+  ],
+  "antiPatterns": [
+    "adding a new homepage architecture because proof needs polishing",
+    "making the homepage read like a portfolio archive",
+    "stuffing more trust modules near the top instead of tightening existing ones",
+    "using hype language to compensate for unclear structure",
+    "letting the featured tool or proof teaser dilute the hero's core positioning job"
+  ],
+  "successCriteria": [
+    "The homepage explains the business model faster.",
+    "Trust feels stronger without adding clutter.",
+    "The proof teaser feels more curated and commercially relevant.",
+    "Section-to-section handoff is calmer and clearer.",
+    "The page still feels like the same site, just more decisive."
+  ]
+}
