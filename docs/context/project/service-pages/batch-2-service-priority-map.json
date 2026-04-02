@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "purpose": "Compact decision map for post-Batch-1 service-system consolidation and Batch 2 planning. Use this to decide what to keep, de-emphasize, merge, or build next without rereading the full planning stack.",
+  "currentState": {
+    "batch1Status": "implemented",
+    "nextStrategicStep": "service-system-consolidation",
+    "nextAfterThat": "lightweight-visual-support"
+  },
+  "decisionRules": {
+    "keepIf": [
+      "the page maps cleanly to a current runtime cluster",
+      "the page represents a commercially clear offer",
+      "the slug is buyer-readable and aligned with current strategy",
+      "the page adds specificity that Batch 1 pages do not already cover"
+    ],
+    "deemphasizeIf": [
+      "the page overlaps heavily with a stronger Batch 1 page",
+      "the naming is legacy or less buyer-readable than the new system",
+      "the page is still valid but should not be surfaced as a featured child right now"
+    ],
+    "mergeOrRetireIf": [
+      "the page duplicates another page's core job",
+      "the slug reflects an older architecture no longer used in runtime",
+      "the offer is real but better expressed as part of a stronger parent or sibling page"
+    ]
+  },
+  "candidates": [
+    {
+      "slug": "agentic-marketing-systems",
+      "cluster": "crm-automation-ai",
+      "status": "candidate",
+      "recommendation": "build-next-tier",
+      "priority": "high",
+      "why": "Strong differentiator for the current brand and fits the systems/AI direction without overlapping too heavily with crm-architecture.",
+      "bestProofDirection": [
+        "graston-growth-engine",
+        "barbershop-command-center"
+      ],
+      "notes": "Should be framed as applied internal systems and automation, not vague AI language."
+    },
+    {
+      "slug": "martech-audit",
+      "cluster": "strategy-leadership",
+      "status": "candidate",
+      "recommendation": "build-next-tier",
+      "priority": "high",
+      "why": "Commercially clear entry service that supports consulting-led engagement and pairs well with the contact flow.",
+      "bestProofDirection": [
+        "graston-technique",
+        "graston-growth-engine"
+      ],
+      "notes": "Should stay diagnostic and practical, not read like a generic audit checklist."
+    },
+    {
+      "slug": "geo-optimization",
+      "cluster": "growth-seo-demand",
+      "status": "candidate",
+      "recommendation": "keep-nested-or-specialty",
+      "priority": "medium",
+      "why": "Strategically relevant, but currently more specialty and less essential than the Batch 1 pages or agentic systems / martech audit.",
+      "bestProofDirection": [
+        "russell-painting",
+        "pike-medical-consultants"
+      ],
+      "notes": "Likely better as a specialty page or nested growth page after visual support and core system cleanup."
+    },
+    {
+      "slug": "the-conductor",
+      "cluster": "growth-seo-demand",
+      "status": "legacy-candidate",
+      "recommendation": "deemphasize-and-reassess",
+      "priority": "low",
+      "why": "Still conceptually relevant, but naming is more branded/internal than buyer-readable compared with the current service system.",
+      "bestProofDirection": [
+        "graston-technique",
+        "317-bbq"
+      ],
+      "notes": "May survive as a branded framework inside another page rather than as a front-facing child page."
+    },
+    {
+      "slug": "brand-strategy",
+      "cluster": "websites-ux-brand",
+      "status": "legacy-candidate",
+      "recommendation": "deemphasize",
+      "priority": "medium",
+      "why": "Still a real service, but currently overlaps with website-strategy and older architecture. Not the best next commercial page to emphasize.",
+      "bestProofDirection": [
+        "tuohy-bailey-moore",
+        "riley-bennett-egloff"
+      ],
+      "notes": "Could later return as a narrower messaging/brand layer if the system needs it."
+    },
+    {
+      "slug": "website-redesign-conversion-ux",
+      "cluster": "websites-ux-brand",
+      "status": "legacy-candidate",
+      "recommendation": "merge-into-website-strategy",
+      "priority": "low",
+      "why": "Too close to website-strategy and conversion-optimization. The new service system already expresses this more cleanly through two stronger pages.",
+      "bestProofDirection": [
+        "pike-medical-consultants",
+        "317-bbq"
+      ],
+      "notes": "Should not be re-elevated as a featured child while the new system is stabilizing."
+    }
+  ],
+  "suggestedBuildOrder": [
+    "martech-audit",
+    "agentic-marketing-systems",
+    "geo-optimization"
+  ],
+  "suggestedDeemphasisOrder": [
+    "website-redesign-conversion-ux",
+    "the-conductor",
+    "brand-strategy"
+  ]
+}
