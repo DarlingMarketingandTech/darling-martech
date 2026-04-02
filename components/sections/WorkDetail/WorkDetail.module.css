@@ -69,6 +69,34 @@
   opacity: 0.45;
 }
 
+.serviceBacklink {
+  margin-top: 1.35rem;
+  max-width: 52ch;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+.serviceBacklinkLabel {
+  opacity: 0.88;
+}
+
+.serviceBacklinkLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--color-text);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.35s cubic-bezier(0.32, 0.72, 0, 1), color 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.serviceBacklinkLink:hover {
+  color: var(--color-accent);
+  border-bottom-color: rgba(255, 77, 0, 0.35);
+}
+
 .parentBadge {
   display: inline-flex;
   align-items: center;

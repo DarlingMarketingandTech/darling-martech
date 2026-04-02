@@ -49,6 +49,8 @@ export type WorkCard = {
   serviceIds?: ServiceTag[]
   industryIds?: IndustryTag[]
   outcomeIds?: OutcomeTag[]
+  /** When set, work detail links to this `/services/[slug]` page as the primary Batch 1 (or other) offering this study proves */
+  primaryServicePageSlug?: string
 }
 
 export type Deliverable = {

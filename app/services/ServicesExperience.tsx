@@ -23,8 +23,8 @@ const clusters = [
     body: 'When marketing activity exists but no one is truly steering the strategy, systems, and priorities underneath it, growth gets harder to trust. This is for businesses that need clearer direction before they need more activity.',
     links: [
       { label: 'Fractional CMO / Strategic Leadership', href: '/services/fractional-cmo' },
-      { label: 'Positioning & Messaging Strategy', href: '/services/positioning-messaging' },
-      { label: 'Marketing Audit & Growth Roadmap', href: '/services/marketing-audit' },
+      { label: 'Positioning & Messaging Strategy', href: '/services/brand-strategy' },
+      { label: 'Marketing Audit & Growth Roadmap', href: '/services/martech-audit' },
     ],
     proof: {
       client: 'Graston Technique',
@@ -41,7 +41,7 @@ const clusters = [
     links: [
       { label: 'Website Strategy & Rebuilds', href: '/services/website-strategy' },
       { label: 'Conversion UX & Lead Flow', href: '/services/conversion-optimization' },
-      { label: 'Brand Identity Systems', href: '/services/brand-identity' },
+      { label: 'Brand Identity Systems', href: '/services/brand-strategy' },
     ],
     proof: {
       client: 'Pike Medical Consultants',
@@ -57,8 +57,8 @@ const clusters = [
     body: 'When leads, follow-up, and reporting live in disconnected tools, growth becomes manual and unreliable. This cluster fixes the structure behind how the business actually runs.',
     links: [
       { label: 'CRM Architecture', href: '/services/crm-architecture' },
-      { label: 'Workflow Automation', href: '/services/workflow-automation' },
-      { label: 'Internal Tools & AI Workflows', href: '/services/internal-tools-ai-workflows' },
+      { label: 'Workflow Automation', href: '/services/agentic-marketing-systems' },
+      { label: 'MarTech audit & stack review', href: '/services/martech-audit' },
     ],
     proof: {
       client: 'Graston Growth Engine',
@@ -75,7 +75,7 @@ const clusters = [
     links: [
       { label: 'Local SEO', href: '/services/local-seo' },
       { label: 'Conversion Optimization', href: '/services/conversion-optimization' },
-      { label: 'GEO / AI Search Readiness', href: '/services/geo-readiness' },
+      { label: 'GEO / AI Search Readiness', href: '/services/geo-optimization' },
     ],
     proof: {
       client: 'Russell Painting',

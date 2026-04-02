@@ -412,12 +412,14 @@ export function WorkDetailContent({
   next,
   parent,
   related,
+  serviceBacklink,
 }: {
   cs: CaseStudy
   prev: CaseStudy | null
   next: CaseStudy | null
   parent: CaseStudy | null
   related: CaseStudy[]
+  serviceBacklink?: { href: string; label: string } | null
 }) {
   const heroImage = cs.heroPublicId ?? cs.cloudinaryAssets?.[1]?.publicId ?? cs.logoPublicId
   const layoutClassName =
@@ -551,6 +553,18 @@ export function WorkDetailContent({
           </div>
 
           <MetricBand cs={cs} emphasizeFirst={isSystemPage} />
+
+          {serviceBacklink ? (
+            <FadeUp>
+              <p className={styles.serviceBacklink}>
+                <span className={styles.serviceBacklinkLabel}>This build supports</span>{' '}
+                <Link href={serviceBacklink.href} className={styles.serviceBacklinkLink}>
+                  {serviceBacklink.label}
+                  <ArrowUpRight weight="regular" size={12} aria-hidden />
+                </Link>
+              </p>
+            </FadeUp>
+          ) : null}
         </section>
 
         {isSystemPage ? (

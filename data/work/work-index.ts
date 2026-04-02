@@ -30,6 +30,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['crm-automation', 'agentic-systems', 'analytics-reporting', 'martech-audit'],
     industryIds: ['healthcare', 'saas'],
     outcomeIds: ['lead-gen', 'time-saved', 'conversion-lift'],
+    primaryServicePageSlug: 'fractional-cmo',
   },
   {
     slug: 'the-launchpad',
@@ -115,6 +116,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['crm-automation', 'agentic-systems', 'analytics-reporting'],
     industryIds: ['healthcare', 'saas'],
     outcomeIds: ['lead-gen', 'retention', 'revenue-attribution'],
+    primaryServicePageSlug: 'crm-architecture',
   },
   {
     slug: 'smart-sales-pricing',
@@ -201,6 +203,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['fractional-cmo', 'brand-strategy', 'paid-acquisition'],
     industryIds: ['healthcare'],
     outcomeIds: ['lead-gen', 'booking-growth'],
+    primaryServicePageSlug: 'website-strategy',
   },
   {
     slug: 'primarycare-indy',
@@ -284,6 +287,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['brand-identity', 'web-development', 'conversion-design'],
     industryIds: ['hospitality', 'local-service'],
     outcomeIds: ['conversion-lift', 'booking-growth'],
+    primaryServicePageSlug: 'conversion-optimization',
   },
   {
     slug: 'hoosier-boy-barbershop',
@@ -335,6 +339,7 @@ export const workIndex: WorkCard[] = [
     cardPublicId: 'russell-painting-website',
     visualMode: 'beacon',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'portrait', density: 'calm' },
+    primaryServicePageSlug: 'local-seo',
   },
   // ── E-Commerce ─────────────────────────────────────────────────────────────
   {

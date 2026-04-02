@@ -2,8 +2,22 @@
 # Use for huge or noisy trees that slow indexing but you still want the AI to open on demand.
 # Syntax matches .gitignore. See: https://cursor.com/docs/context/ignore-files
 
-# Example: skip indexing a massive fixture or vendor snapshot folder
-# fixtures/large-datasets/
+# Legacy route tree kept for compatibility; low value for semantic indexing.
+app/lab/
+
+# Legacy or static tool artifacts if present.
+public/labs/
+
+# Binary/media assets rarely help semantic code search, but may still be useful on demand.
+public/**/*.png
+public/**/*.jpg
+public/**/*.jpeg
+public/**/*.webp
+public/**/*.avif
+public/**/*.gif
+public/**/*.mp4
+public/**/*.mov
+public/**/*.pdf
 
 # Example: generated API clients you rarely edit by hand
 # src/generated/

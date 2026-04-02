@@ -25,10 +25,9 @@ Service-system rules:
 
 Current project state:
 - Batch 1 child-service implementation is complete.
-- The next likely phases are:
-  1. parent/child service linking cleanup
-  2. proof alignment and backlinks
-  3. lightweight visual support
+- Parent/child linking cleanup is complete (2026-04-01).
+- Proof alignment and work→service backlinks are complete (2026-04-01).
+- The next likely phase is lightweight visual support for service/work proof surfaces.
 
 Use Cursor for:
 - linking cleanup

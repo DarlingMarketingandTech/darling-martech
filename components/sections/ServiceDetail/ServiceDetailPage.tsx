@@ -107,13 +107,13 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
     [service]
   )
 
-  const parentService = useMemo(
-    () =>
-      service.kind === 'standalone'
-        ? serviceDetails.find((p) => p.childServiceSlugs?.includes(service.id)) ?? null
-        : null,
-    [service.id, service.kind]
-  )
+  const parentService = useMemo(() => {
+    if (service.kind !== 'standalone') return null
+    const candidates = serviceDetails.filter((p) => p.childServiceSlugs?.includes(service.id))
+    if (!candidates.length) return null
+    const byLayer = candidates.find((p) => p.layer === service.layer)
+    return byLayer ?? candidates[0]
+  }, [service.id, service.kind, service.layer])
 
   return (
     <main className={styles.page}>

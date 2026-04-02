@@ -116,7 +116,7 @@ Conflict rule:
 - Sub-service routes: plain-English slugs under `/services/[slug]`. See `service-route-and-slug-conventions.md`.
 - Internal linking minimums:
   - Every service page: link to `/contact` + at least 2 relevant work pages.
-  - Every work page: link to the service page it proves.
+  - Every work page: link to the service page it proves (Batch 1 flagship pairings use `primaryServicePageSlug` on `work-index` entries → one contextual link on the work detail hero from `WorkDetailContent`).
   - Every tools page: exactly 1 primary service link + 1 supporting work link.
 - Homepage/services alignment rule:
   - Hero carries the core positioning load (problem + promise + model).
@@ -273,6 +273,7 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
   - `proofWorkSlugs`: `['graston-technique', 'pike-medical-consultants']`
   - `secondaryCtaHref`: `/work/graston-technique`
   - CMO Simulator remains as `proofTools` — supporting tool, not primary CTA
+  - `relatedServiceSlugs` (linking pass): `['website-strategy', 'crm-architecture']`
 - ✅ `/services/website-strategy` copywriting pass complete (2026-04-01) — Batch 1, page 2
   - Summary rewritten following layered writing rule (buyer problem → strategic model → how it works)
   - 7 `signsYouNeedIt` bullets added (symptom-led, buyer-recognizable)
@@ -281,16 +282,16 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
   - Proof reordered: **Pike Medical Consultants is primary** (trust + healthcare rebuild), Tuohy Bailey & Moore supporting (trust-led redesign), Riley Bennett Egloff supporting (long-term stewardship)
   - `proofWorkSlugs`: `['pike-medical-consultants', 'tuohy-bailey-moore', 'riley-bennett-egloff']`
   - `secondaryCtaHref`: `/work/pike-medical-consultants`
-  - `relatedServiceSlugs`: `['conversion-optimization', 'fractional-cmo', 'crm-architecture', 'local-seo']`
+  - `relatedServiceSlugs` (linking pass): `['conversion-optimization', 'fractional-cmo']`
 - ✅ `/services/crm-architecture` copywriting pass complete (2026-04-01) — Batch 1, page 3
   - Summary rewritten following layered writing rule (CRM is live but not trusted → structure problem → systems model)
   - 7 `signsYouNeedIt` bullets added (symptom-led: trust, stages, manual follow-up, reporting, ownership, data quality, usability)
   - 5 `faqItems` added (what is CRM architecture, current platform, build vs recommend, CRM vs sales-process, team size)
   - Deliverables tightened — 6 items: audit, lifecycle/pipeline design, routing/handoff, field cleanup, automation logic, dashboard visibility
   - Tagline updated to be more buyer-direct ("Having a CRM is not the same as having a system you can actually run from.")
-  - Proof hierarchy: **Graston Growth Engine is primary** (full-stack systems proof), Barbershop Command Center supporting (operational integration), Graston Technique supporting (automation scale)
+  - Proof hierarchy: **Graston Growth Engine is primary** (full-stack systems proof), Barbershop Command Center supporting (operational integration); redundant Graston Technique parent card removed in proof-alignment pass so the CRM story stays centered on the Growth Engine + ops proof.
   - `proofWorkSlugs` updated: `['graston-growth-engine', 'barbershop-command-center']`
-  - `relatedServiceSlugs` reordered: `['fractional-cmo', 'conversion-optimization', 'website-strategy', 'local-seo']`
+  - `relatedServiceSlugs` (linking pass): `['fractional-cmo', 'conversion-optimization']`
   - `proofTools` retained (Graston Growth Engine live demo card)
 - ✅ `/services/local-seo` copywriting pass complete (2026-04-01) — Batch 1, page 4
   - Summary rewritten following layered writing rule (local visibility underperforms → trust + structure problem → strategic model)
@@ -300,7 +301,7 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
   - Deliverables tightened — 6 items: audit, page direction, Google Business/local signals, internal linking/content priorities, review/trust strategy, measurement
   - Proof hierarchy: **Russell Painting is primary** (trust + local search lead engine), Hoosier Boy Barbershop supporting (#1 local search), Pike Medical supporting (multi-location)
   - `proofWorkSlugs` updated: `['russell-painting', 'hoosier-boy-barbershop', 'pike-medical-consultants']`
-  - `relatedServiceSlugs` reordered: `website-strategy` first (closest sibling per build kit)
+  - `relatedServiceSlugs` (linking pass): `['website-strategy', 'conversion-optimization']`
 - ✅ `/services/conversion-optimization` copywriting pass complete (2026-04-01) — Batch 1, page 5 (final)
   - Summary rewritten following layered writing rule (buyer gap → friction/trust/path diagnosis → structural operating model)
   - Tagline updated to be more buyer-direct ("The right people are already arriving. The question is why they are leaving without acting.")
@@ -310,10 +311,17 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
   - Proof hierarchy: **317 BBQ is primary** (40% conversion lift — direct conversion-path proof), Pike Medical supporting (trust + patient acquisition), Hoosier Boy Barbershop supporting (booking flow rebuild)
   - `proofWorkSlugs`: `['317-bbq', 'hoosier-boy-barbershop', 'pike-medical-consultants']`
   - `secondaryCtaHref`: `/work/317-bbq`
-  - `relatedServiceSlugs`: `['website-strategy', 'local-seo', 'fractional-cmo', 'crm-architecture']`
+  - `relatedServiceSlugs` (linking pass): `['website-strategy', 'local-seo', 'crm-architecture']`
 - **Batch 1 child-service build is now complete.** All 5 pages have been implemented with full copywriting passes.
-- **Next likely phase:** parent/child service linking cleanup, related-service cross-link audit, and services index cluster copy alignment (if needed)
-- Then: Batch 2 pages
+- ✅ **Parent/child linking pass complete (2026-04-01)** — `data/services.ts` + `ServicesExperience.tsx` + `ServiceDetailPage.tsx`
+  - Parent `childServiceSlugs` now surface Batch 1 children per `parent-child-linking-kit.json` (`brand-web` → `website-strategy` + `conversion-optimization`; `systems` leads with `crm-architecture`; `growth` → `local-seo` + `conversion-optimization` + `geo-optimization`; `strategy` unchanged → `fractional-cmo`).
+  - Batch 1 `relatedServiceSlugs` trimmed to 2–3 strategic siblings per kit (no parent-id noise in related lists).
+  - Standalone breadcrumb parent: when a slug appears under more than one parent `childServiceSlugs`, the UI prefers the parent whose `layer` matches the page (`conversion-optimization` → `growth`, not `brand-web`).
+  - `/services` cluster links: broken placeholder slugs now target real routes (`brand-strategy`, `martech-audit`, `geo-optimization`, `agentic-marketing-systems`).
+- ✅ **Proof alignment + work→service backlinks (2026-04-01)** — `data/services.ts`, `data/work/work-index.ts`, `lib/work.ts`, `app/work/[slug]/page.tsx`, `WorkDetailContent.tsx`
+  - Batch 1 service proof stacks checked against `service-proof-snippets.json`: **CRM Architecture** dropped a redundant third proof card (Graston Technique parent) so supporting proof stays subordinate to **Graston Growth Engine** + Barbershop Command Center; `secondaryCtaLabel` clarified for the Growth Engine URL.
+  - Flagship work cards set `primaryServicePageSlug` for the strongest pairings: Graston Technique → `fractional-cmo`, Pike Medical → `website-strategy`, Graston Growth Engine → `crm-architecture`, Russell Painting → `local-seo`, 317 BBQ → `conversion-optimization`. Work detail renders a single “This build supports …” link to the resolved service route (respects `routePath` when present).
+- **Next likely phase:** lightweight visual support for service/work proof surfaces; then Batch 2 service pages when planned.
 
 ### Consolidated Proof / Taxonomy Snapshot
 - Top reusable proof assets: Graston Technique, Pike Medical, PrimaryCare Indy,
@@ -1055,10 +1063,10 @@ Runtime structure of `ServicesExperience.tsx`:
 The old layer-selector cards (`serviceLayerMeta`), "Productized offers" section (`standaloneServicePages`), and flat proof strip have been removed. `ServicesExperience.tsx` no longer imports `serviceLayerMeta` or `standaloneServicePages`.
 
 **4 runtime clusters:**
-- Strategy & Leadership — routes to: `fractional-cmo`, `positioning-messaging`, `marketing-audit`
-- Websites, UX & Brand — routes to: `website-strategy`, `conversion-optimization`, `brand-identity`
-- CRM, Automation & AI — routes to: `crm-architecture`, `workflow-automation`, `internal-tools-ai-workflows`
-- Growth, SEO & Demand — routes to: `local-seo`, `conversion-optimization`, `geo-readiness`
+- Strategy & Leadership — routes to: `fractional-cmo`, `brand-strategy` (positioning/messaging), `martech-audit` (audit & roadmap)
+- Websites, UX & Brand — routes to: `website-strategy`, `conversion-optimization`, `brand-strategy` (brand identity systems)
+- CRM, Automation & AI — routes to: `crm-architecture`, `agentic-marketing-systems`, `martech-audit`
+- Growth, SEO & Demand — routes to: `local-seo`, `conversion-optimization`, `geo-optimization` (canonical service slug; resolves to nested `/services/growth/geo-optimization`)
 
 **`/services` page role:** explains problem clusters, routes users to child-service pages, supports each cluster with one proof anchor. It does not sell every sub-service in depth — that is child-service pages' job.
 

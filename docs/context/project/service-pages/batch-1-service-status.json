@@ -11,9 +11,9 @@
       "faqDone": true,
       "proofLocked": true,
       "relatedServicesReviewed": true,
-      "linkingPassDone": false,
+      "linkingPassDone": true,
       "visualSupportDone": false,
-      "nextRecommendedAction": "Include in parent/child linking pass and later visual support pass."
+      "nextRecommendedAction": "Lightweight visual support when running that pass."
     },
     "website-strategy": {
       "implemented": true,
@@ -23,9 +23,9 @@
       "faqDone": true,
       "proofLocked": true,
       "relatedServicesReviewed": true,
-      "linkingPassDone": false,
+      "linkingPassDone": true,
       "visualSupportDone": false,
-      "nextRecommendedAction": "Include in parent/child linking pass and later visual support pass."
+      "nextRecommendedAction": "Lightweight visual support when running that pass."
     },
     "crm-architecture": {
       "implemented": true,
@@ -35,9 +35,9 @@
       "faqDone": true,
       "proofLocked": true,
       "relatedServicesReviewed": true,
-      "linkingPassDone": false,
+      "linkingPassDone": true,
       "visualSupportDone": false,
-      "nextRecommendedAction": "Include in parent/child linking pass and later visual support pass."
+      "nextRecommendedAction": "Lightweight visual support when running that pass."
     },
     "local-seo": {
       "implemented": true,
@@ -47,9 +47,9 @@
       "faqDone": true,
       "proofLocked": true,
       "relatedServicesReviewed": true,
-      "linkingPassDone": false,
+      "linkingPassDone": true,
       "visualSupportDone": false,
-      "nextRecommendedAction": "Include in parent/child linking pass and later visual support pass."
+      "nextRecommendedAction": "Lightweight visual support when running that pass."
     },
     "conversion-optimization": {
       "implemented": true,
@@ -59,16 +59,16 @@
       "faqDone": true,
       "proofLocked": true,
       "relatedServicesReviewed": true,
-      "linkingPassDone": false,
+      "linkingPassDone": true,
       "visualSupportDone": false,
-      "nextRecommendedAction": "Include in parent/child linking pass and later visual support pass."
+      "nextRecommendedAction": "Lightweight visual support when running that pass."
     }
   },
-  "nextPhase": "parent-child-service-linking",
-  "nextAfterThat": "proof-alignment-and-backlinks",
+  "nextPhase": "lightweight-visual-support",
+  "nextAfterThat": "batch-2-service-pages",
   "notes": [
     "Batch 1 page-copy implementation is complete.",
-    "The next highest-value work is service linking cleanup, not another major copy pass.",
-    "Visual support should come after linking and proof alignment."
+    "Parent/child linking pass complete (2026-04-01) — see CLAUDE.md.",
+    "Proof alignment + work→service backlinks complete (2026-04-01) — see CLAUDE.md service-system section."
   ]
 }

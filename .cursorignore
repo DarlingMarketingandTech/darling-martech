@@ -12,7 +12,14 @@ out/
 build/
 dist/
 coverage/
+.turbo/
+.cache/
 *.tsbuildinfo
+.eslintcache
+
+# test artifacts
+playwright-report/
+test-results/
 
 # local env and secrets
 .env
@@ -22,6 +29,11 @@ coverage/
 # tooling / deploy artifacts
 .vercel/
 .worktrees/
+
+# local machine clutter
+.DS_Store
+Thumbs.db
+*.log
 
 # optional: lockfiles if you prefer the agent not to read them
 # package-lock.json

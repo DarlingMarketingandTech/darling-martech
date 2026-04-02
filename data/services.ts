@@ -280,7 +280,7 @@ export const serviceDetails: ParentServiceDetail[] = [
     secondaryCtaLabel: 'See brand and website proof',
     secondaryCtaHref: '/work?service=web-development',
     relatedServiceSlugs: ['strategy', 'growth', 'commerce', 'martech-audit'],
-    childServiceSlugs: ['brand-strategy', 'website-redesign-conversion-ux'],
+    childServiceSlugs: ['website-strategy', 'conversion-optimization'],
   },
   {
     id: 'systems',
@@ -331,7 +331,7 @@ export const serviceDetails: ParentServiceDetail[] = [
     primaryCtaLabel: 'Start a systems conversation',
     secondaryCtaLabel: 'See systems proof',
     relatedServiceSlugs: ['martech-audit', 'strategy', 'growth', 'commerce'],
-    childServiceSlugs: ['martech-audit', 'agentic-marketing-systems', 'the-fortress'],
+    childServiceSlugs: ['crm-architecture', 'agentic-marketing-systems', 'the-fortress'],
     proofTools: [
       {
         labSlug: 'graston-growth-engine',
@@ -396,7 +396,7 @@ export const serviceDetails: ParentServiceDetail[] = [
     secondaryCtaLabel: 'See growth proof',
     secondaryCtaHref: '/work?service=local-seo',
     relatedServiceSlugs: ['brand-web', 'systems', 'strategy', 'martech-audit'],
-    childServiceSlugs: ['geo-optimization', 'the-conductor'],
+    childServiceSlugs: ['local-seo', 'conversion-optimization', 'geo-optimization'],
   },
   {
     id: 'commerce',
@@ -703,7 +703,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaLabel: 'See the Graston build',
     secondaryCtaHref: '/work/graston-technique',
     pricingSignal: '$3.5K–$12K/month · Audit-first onboarding, then monthly retainer',
-    relatedServiceSlugs: ['strategy', 'martech-audit', 'website-strategy', 'crm-architecture'],
+    relatedServiceSlugs: ['website-strategy', 'crm-architecture'],
     proofTools: [
       {
         labSlug: 'cmo-simulator',
@@ -1047,7 +1047,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaLabel: 'See the Pike Medical rebuild',
     secondaryCtaHref: '/work/pike-medical-consultants',
     pricingSignal: '$4K–$20K · Project-based, scoped by site size and complexity',
-    relatedServiceSlugs: ['conversion-optimization', 'fractional-cmo', 'crm-architecture', 'local-seo'],
+    relatedServiceSlugs: ['conversion-optimization', 'fractional-cmo'],
   },
   {
     id: 'crm-architecture',
@@ -1112,13 +1112,6 @@ export const standaloneServicePages: StandaloneServicePage[] = [
         signalLabel: 'Operations integration',
         metric: '90% more bookings',
       },
-      {
-        label: 'Graston Technique',
-        href: '/work/graston-technique',
-        result: '400+ automations across LMS, CRM, e-commerce, and provider directory. 95% reduction in manual overhead.',
-        signalLabel: 'Automation engine',
-        metric: '48 hrs/wk saved',
-      },
     ],
     proofStats: [
       { value: '95%', label: 'reduction in manual overhead at Graston Technique after the full CRM and automation stack' },
@@ -1130,10 +1123,10 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     industryIds: ['healthcare', 'saas', 'ecommerce', 'b2b'],
     outcomeIds: ['time-saved', 'lead-gen', 'cost-reduction'],
     primaryCtaLabel: 'Start a CRM architecture conversation',
-    secondaryCtaLabel: 'See the Graston build',
+    secondaryCtaLabel: 'See the Graston Growth Engine build',
     secondaryCtaHref: '/work/graston-growth-engine',
     pricingSignal: '$4K–$30K+ · Scoped by stack size and integration depth',
-    relatedServiceSlugs: ['fractional-cmo', 'conversion-optimization', 'website-strategy', 'local-seo'],
+    relatedServiceSlugs: ['fractional-cmo', 'conversion-optimization'],
     proofTools: [
       {
         labSlug: 'graston-growth-engine',
@@ -1232,7 +1225,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaLabel: 'See the Russell Painting build',
     secondaryCtaHref: '/work/russell-painting',
     pricingSignal: '$2K–$8K/month · Project or retainer depending on scope',
-    relatedServiceSlugs: ['website-strategy', 'conversion-optimization', 'fractional-cmo'],
+    relatedServiceSlugs: ['website-strategy', 'conversion-optimization'],
   },
   {
     id: 'conversion-optimization',
@@ -1318,7 +1311,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaLabel: 'See the 317 BBQ build',
     secondaryCtaHref: '/work/317-bbq',
     pricingSignal: '$2K–$8K · Audit or project-based depending on scope',
-    relatedServiceSlugs: ['website-strategy', 'local-seo', 'fractional-cmo', 'crm-architecture'],
+    relatedServiceSlugs: ['website-strategy', 'local-seo', 'crm-architecture'],
   },
   // ── End Batch 1 canonical entries ──────────────────────────────────────────
 

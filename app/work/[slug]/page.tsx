@@ -1,10 +1,22 @@
 import { notFound, redirect } from 'next/navigation'
 import type { Metadata } from 'next'
 import workData, { getWorkBySlug, generateWorkStaticParams } from '@/data/work/work-data'
+import { getServicePageBySlug } from '@/data/services'
 import { WorkDetailContent } from '@/components/sections/WorkDetail/WorkDetailContent'
 import { WorkCaseStudyJsonLd } from '@/components/JsonLd'
 import type { CaseStudy } from '@/lib/work'
 import { getCanonicalWorkPath, isWorkSlugAlias, resolveWorkSlug } from '@/lib/work'
+
+function buildWorkServiceBacklink(cs: CaseStudy): { href: string; label: string } | null {
+  const id = cs.primaryServicePageSlug
+  if (!id) return null
+  const page = getServicePageBySlug(id)
+  if (!page) return null
+  return {
+    href: page.routePath ?? `/services/${page.id}`,
+    label: page.title,
+  }
+}
 
 export function generateStaticParams() {
   return generateWorkStaticParams()
@@ -67,11 +79,19 @@ export default async function WorkDetailPage({
   const related = (cs.relatedProjectSlugs ?? [])
     .map((slug) => getWorkBySlug(slug))
     .filter((study): study is CaseStudy => Boolean(study))
+  const serviceBacklink = buildWorkServiceBacklink(cs)
 
   return (
     <>
       <WorkCaseStudyJsonLd cs={cs} />
-      <WorkDetailContent cs={cs} prev={prev} next={next} parent={parent} related={related} />
+      <WorkDetailContent
+        cs={cs}
+        prev={prev}
+        next={next}
+        parent={parent}
+        related={related}
+        serviceBacklink={serviceBacklink}
+      />
     </>
   )
 }
