@@ -20,28 +20,31 @@ function getTierClassName(tier: WorkDashboardTier) {
   return styles.tierStandard
 }
 
-function WorkDashboardMedia({ study, tier }: { study: CaseStudy; tier: WorkDashboardTier }) {
+function WorkDashboardMedia({ study }: { study: CaseStudy }) {
   const mediaPublicId = study.cardPublicId ?? study.heroPublicId ?? study.logoPublicId
 
-  if (mediaPublicId && isLogoArtwork(mediaPublicId)) {
+  if (!mediaPublicId) {
     return (
-      <div className={styles.dashboardMediaWrap}>
-        <CldImage src={mediaPublicId} alt={study.client} fill sizes="(max-width: 768px) 100vw, 50vw" />
+      <div className={styles.dashboardMediaFallback}>
+        {study.client}
       </div>
     )
   }
 
-  if (mediaPublicId) {
-    return (
-      <div className={styles.dashboardMediaWrap}>
-        <CldImage src={mediaPublicId} alt={study.client} fill sizes="(max-width: 768px) 100vw, 50vw" />
-      </div>
-    )
-  }
+  const isLogo = isLogoArtwork(mediaPublicId)
 
   return (
-    <div className={styles.dashboardMediaFallback}>
-      {study.client}
+    <div className={styles.dashboardMediaWrap}>
+      <CldImage
+        src={mediaPublicId}
+        alt={study.client}
+        fill
+        sizes="(max-width: 768px) 100vw, 50vw"
+        style={{
+          objectFit: isLogo ? 'contain' : 'cover',
+          objectPosition: 'center',
+        }}
+      />
     </div>
   )
 }
@@ -56,10 +59,7 @@ export function WorkDashboardCard({
   const tier = study.dashboardTier ?? 'standard'
   const isSupporting = layoutRole === 'supporting'
 
-  // One dominant proof metric only
   const metrics = study.metrics.slice(0, 1)
-
-  // Supporting cards use simplified category eyebrow (less taxonomy noise)
   const eyebrow = isSupporting ? study.category : study.label
 
   return (
@@ -69,7 +69,7 @@ export function WorkDashboardCard({
         whileHover={{ scale: 1.02 }}
         transition={CARD_TRANSITION}
       >
-        <WorkDashboardMedia study={study} tier={tier} />
+        <WorkDashboardMedia study={study} />
 
         <div className={styles.dashboardCardBody}>
           <div className={styles.dashboardCardTop}>
@@ -79,7 +79,6 @@ export function WorkDashboardCard({
           <div className={styles.dashboardCardCopy}>
             <h3 className={styles.dashboardTitle}>{study.client}</h3>
 
-            {/* Supporting cards: metric first for faster proof scanning */}
             {isSupporting && metrics.length > 0 && (
               <div className={styles.dashboardMetrics}>
                 {metrics.map((metric, index) => (
@@ -95,7 +94,6 @@ export function WorkDashboardCard({
 
             <p className={styles.dashboardSummary}>{study.headline}</p>
 
-            {/* Flagship cards: metric after summary (more narrative space) */}
             {!isSupporting && metrics.length > 0 && (
               <div className={styles.dashboardMetrics}>
                 {metrics.map((metric, index) => (
@@ -110,7 +108,6 @@ export function WorkDashboardCard({
             )}
           </div>
 
-          {/* Remove footer for supporting cards → calmer, more editorial */}
           {!isSupporting && (
             <div className={styles.dashboardFooter}>
               <span className={styles.dashboardCta}>Read case study</span>
