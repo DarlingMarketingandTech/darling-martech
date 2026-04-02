@@ -113,3 +113,19 @@
 .emailLink:hover {
   color: var(--color-muted);
 }
+
+
+.legalLinkRow {
+  margin-top: 0.35rem !important;
+}
+
+.legalLink {
+  display: inline-block;
+  font-size: 0.6875rem;
+  color: rgba(136, 136, 136, 0.6);
+  text-decoration: none;
+}
+
+.legalLink:hover {
+  color: var(--color-text);
+}

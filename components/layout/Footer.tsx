@@ -46,6 +46,11 @@ export function Footer() {
               jacob@jacobdarling.com
             </a>
           </p>
+          <p className={styles.legalLinkRow}>
+            <Link href="/privacy-policy" className={styles.legalLink}>
+              Privacy Policy
+            </Link>
+          </p>
         </div>
       </div>
     </motion.footer>
