@@ -1,16 +1,14 @@
 import type { Metadata } from 'next'
 import { Inter, Instrument_Serif } from 'next/font/google'
 import localFont from 'next/font/local'
+
 import './globals.css'
 import { Nav } from '@/components/layout/Nav'
 import { Footer } from '@/components/layout/Footer'
 import { LocalBusinessJsonLd } from '@/components/JsonLd'
 import { LenisProvider } from '@/components/providers/LenisProvider'
 import { GoogleAnalytics } from '@/components/providers/Analytics'
-import { ScrollProgress } from '@/components/ui/ScrollProgress'
-import { BackToTop } from '@/components/ui/BackToTop'
-import { CookieConsent } from '@/components/ui/CookieConsent'
-import { CursorSpotlight } from '@/components/interactive/CursorSpotlight'
+import { ClientCosmetics } from '@/components/layout/ClientCosmetics'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,21 +24,9 @@ const instrumentSerif = Instrument_Serif({
   display: 'swap',
 })
 
-// Cabinet Grotesk — all weights for optimal performance
+// Cabinet Grotesk — keep only commonly used weights to reduce font payload.
 const cabinetGrotesk = localFont({
   src: [
-    {
-      path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Thin.woff2',
-      weight: '100',
-    },
-    {
-      path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Extralight.woff2',
-      weight: '200',
-    },
-    {
-      path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Light.woff2',
-      weight: '300',
-    },
     {
       path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Regular.woff2',
       weight: '400',
@@ -56,10 +42,6 @@ const cabinetGrotesk = localFont({
     {
       path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Extrabold.woff2',
       weight: '800',
-    },
-    {
-      path: '../public/fonts/cabinet-grotesk/CabinetGrotesk-Black.woff2',
-      weight: '900',
     },
   ],
   variable: '--font-cabinet-grotesk',
@@ -130,18 +112,20 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${cabinetGrotesk.variable} ${instrumentSerif.variable}`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${cabinetGrotesk.variable} ${instrumentSerif.variable}`}
+    >
       <body>
         <GoogleAnalytics />
         <LenisProvider>
-          <CursorSpotlight />
+          {/* Cosmetic UI is deferred in a Client Component to avoid Server Component build constraints. */}
+          <ClientCosmetics position="top" />
           <LocalBusinessJsonLd />
-          <ScrollProgress />
           <Nav />
           <main>{children}</main>
           <Footer />
-          <BackToTop />
-          <CookieConsent />
+          <ClientCosmetics position="bottom" />
         </LenisProvider>
       </body>
     </html>
