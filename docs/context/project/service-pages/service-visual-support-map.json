@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "purpose": "Compact visual-support map for Batch 1 service pages. Use this to plan one strong visual moment per service page without redesigning the service system.",
+  "globalRules": {
+    "visualStrategy": "Cloudinary-first for real proof. Pexels/stock only for light supporting atmosphere where no real proof image exists.",
+    "maxPrimaryVisualsPerServicePage": 1,
+    "maxSupportingThumbsPerServicePage": 3,
+    "antiPatterns": [
+      "generic stock hero imagery replacing real proof",
+      "multiple competing galleries on one service page",
+      "using logos as the main proof image if a real screen or deliverable exists",
+      "pixelated raster logos as hero media",
+      "autoplay carousels or motion-heavy proof sections"
+    ]
+  },
+  "services": {
+    "fractional-cmo": {
+      "primaryProofSlug": "graston-technique",
+      "preferredVisualType": "real-proof-system",
+      "primaryVisualSource": "cloudinary",
+      "recommendedAssets": [
+        "dashboard or system screenshot from Graston engagement",
+        "clean presentation/system board artifact",
+        "high-resolution product or site screen only if it clearly represents strategic oversight"
+      ],
+      "fallbackAllowed": "minimal-atmospheric-stock",
+      "captionDirection": "Strategic leadership is visible in how the whole system is structured, not just in one campaign output.",
+      "thumbnailPriority": [
+        "graston-technique",
+        "pike-medical-consultants"
+      ]
+    },
+    "website-strategy": {
+      "primaryProofSlug": "pike-medical-consultants",
+      "preferredVisualType": "real-proof-website",
+      "primaryVisualSource": "cloudinary",
+      "recommendedAssets": [
+        "homepage or service-page screen from Pike Medical",
+        "device-framed site screen with clear UI hierarchy",
+        "before/after crop only if both sides are high quality and aligned"
+      ],
+      "fallbackAllowed": "minimal-atmospheric-stock",
+      "captionDirection": "The issue is not only how the site looks, but how clearly it earns trust and moves the right visitor forward.",
+      "thumbnailPriority": [
+        "pike-medical-consultants",
+        "tuohy-bailey-moore",
+        "riley-bennett-egloff"
+      ]
+    },
+    "crm-architecture": {
+      "primaryProofSlug": "graston-growth-engine",
+      "preferredVisualType": "real-proof-dashboard",
+      "primaryVisualSource": "cloudinary",
+      "recommendedAssets": [
+        "dashboard screenshot",
+        "workflow/system screen",
+        "clean UI screen that shows operational structure rather than marketing fluff"
+      ],
+      "fallbackAllowed": "none-preferred",
+      "captionDirection": "A CRM should be a system you can run from, not just software you happen to have.",
+      "thumbnailPriority": [
+        "graston-growth-engine",
+        "barbershop-command-center"
+      ]
+    },
+    "local-seo": {
+      "primaryProofSlug": "russell-painting",
+      "preferredVisualType": "real-proof-local-presence",
+      "primaryVisualSource": "cloudinary",
+      "recommendedAssets": [
+        "service page or local landing screen",
+        "map/GBP-supporting screen only if visually clean",
+        "trust-signal or review-led screen if it represents real local proof"
+      ],
+      "fallbackAllowed": "light-atmospheric-stock",
+      "captionDirection": "Local visibility only matters when it leads to trust and action, not just rankings.",
+      "thumbnailPriority": [
+        "russell-painting",
+        "hoosier-boy-barbershop",
+        "pike-medical-consultants"
+      ]
+    },
+    "conversion-optimization": {
+      "primaryProofSlug": "317-bbq",
+      "preferredVisualType": "real-proof-conversion-path",
+      "primaryVisualSource": "cloudinary",
+      "recommendedAssets": [
+        "ordering or booking flow screen",
+        "high-clarity UI state showing action path",
+        "mobile-first crop if conversion behavior is strongest there"
+      ],
+      "fallbackAllowed": "minimal-atmospheric-stock",
+      "captionDirection": "The goal is not more activity on the page — it is a clearer path to action.",
+      "thumbnailPriority": [
+        "317-bbq",
+        "pike-medical-consultants",
+        "hoosier-boy-barbershop"
+      ]
+    }
+  }
+}

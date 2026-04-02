@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "purpose": "Compact proof-media priority map for service pages and flagship work pages. Use this to choose the strongest visual asset first and avoid low-value image selection.",
+  "servicePages": {
+    "fractional-cmo": {
+      "primaryWorkSlug": "graston-technique",
+      "preferredMediaType": "dashboard-or-system",
+      "avoid": [
+        "low-resolution logo-only image",
+        "generic office stock image"
+      ]
+    },
+    "website-strategy": {
+      "primaryWorkSlug": "pike-medical-consultants",
+      "preferredMediaType": "website-screen",
+      "avoid": [
+        "logo-only hero",
+        "generic browser mockup without real page detail"
+      ]
+    },
+    "crm-architecture": {
+      "primaryWorkSlug": "graston-growth-engine",
+      "preferredMediaType": "dashboard-or-workflow-screen",
+      "avoid": [
+        "text-only diagram as main image",
+        "generic SaaS stock image"
+      ]
+    },
+    "local-seo": {
+      "primaryWorkSlug": "russell-painting",
+      "preferredMediaType": "local-page-or-trust-screen",
+      "avoid": [
+        "map screenshot with unreadable details",
+        "generic search icon graphics"
+      ]
+    },
+    "conversion-optimization": {
+      "primaryWorkSlug": "317-bbq",
+      "preferredMediaType": "conversion-path-screen",
+      "avoid": [
+        "food photo with no interface relevance",
+        "abstract chart as primary proof"
+      ]
+    }
+  },
+  "flagshipWorkPages": {
+    "graston-technique": {
+      "preferredHeroMedia": "real product/site/system screen",
+      "logoUsage": "support-only if high resolution"
+    },
+    "pike-medical-consultants": {
+      "preferredHeroMedia": "real website screen",
+      "logoUsage": "support-only if high resolution"
+    },
+    "graston-growth-engine": {
+      "preferredHeroMedia": "dashboard/workflow screen",
+      "logoUsage": "support-only if high resolution"
+    },
+    "russell-painting": {
+      "preferredHeroMedia": "service page or trust-led screen",
+      "logoUsage": "support-only if high resolution"
+    },
+    "317-bbq": {
+      "preferredHeroMedia": "ordering or conversion-flow screen",
+      "logoUsage": "support-only if high resolution"
+    }
+  },
+  "qualityRules": {
+    "minimumPrinciple": "Prefer a real proof screen over a logo whenever one exists.",
+    "logoRule": "Only use logos if they are crisp, high-resolution, and secondary to the actual work.",
+    "cropRule": "Use derived Cloudinary crops rather than stretching small originals.",
+    "formatRule": "Prefer PNG/WebP for UI/screens and SVG/transparent PNG for brand marks when available."
+  }
+}
