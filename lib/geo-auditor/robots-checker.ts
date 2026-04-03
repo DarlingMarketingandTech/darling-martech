@@ -1,9 +1,9 @@
 import { z } from 'zod'
-import type { CheckResult } from './auditor'
+import type { AuditCheckResult as CheckResult } from './types'
 
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 // Types & constants
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 
 const RobotsEntrySchema = z.object({
   userAgent: z.string(),
@@ -22,9 +22,9 @@ const AI_BOTS: Record<string, string[]> = {
 
 const CANONICAL_NAMES = Object.keys(AI_BOTS) // display order
 
-// ---------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Parser
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 
 function parseRobotsTxt(text: string): RobotsEntry[] {
   const entries: RobotsEntry[] = []
@@ -51,7 +51,7 @@ function parseRobotsTxt(text: string): RobotsEntry[] {
         current = { userAgent: value.toLowerCase(), disallows: [], allows: [] }
       } else {
         // multiple User-agent lines in one block → keep a composite key
-        current.userAgent += `|${value.toLowerCase()}`
+        current.userAgent += `|_{value.toLowerCase()}`
       }
     } else if (directive === 'disallow' && current) {
       current.disallows.push(value)
@@ -66,9 +66,9 @@ function parseRobotsTxt(text: string): RobotsEntry[] {
   return entries
 }
 
-// ---------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Bot access resolver
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 
 type BotAccess = 'allowed' | 'blocked' | 'not-mentioned'
 
@@ -100,9 +100,9 @@ function resolveBotAccess(entries: RobotsEntry[], botAliases: string[]): BotAcce
   return 'allowed'
 }
 
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 // Main export
-// ---------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 
 export async function checkRobots(url: string): Promise<CheckResult> {
   let robotsText: string
