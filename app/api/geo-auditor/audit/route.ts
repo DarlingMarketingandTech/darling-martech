@@ -21,9 +21,13 @@ export const dynamic = 'force-dynamic'
 
 const RequestSchema = z.object({
   url: z
-    .preprocess(
-      val => (typeof val === 'string' ? val.trim() : val),
-      z
+    .preprocess(val => {
+      if (typeof val !== 'string') return val
+      const trimmed = val.trim()
+      if (!trimmed) return trimmed
+      if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return trimmed
+      return `https://${trimmed}`
+    }, z
         .string()
         .min(1, 'url cannot be empty')
         .refine(
@@ -35,9 +39,8 @@ const RequestSchema = z.object({
               return false
             }
           },
-          { message: 'Please enter a valid URL starting with http:// or https://' }
-        )
-    ),
+          { message: 'Please enter a valid URL' }
+        )),
 })
 
 type AuditRequest = z.infer<typeof RequestSchema>
@@ -87,72 +90,76 @@ function classifyError(err: unknown): { code: AuditErrorCode; message: string } 
 // -----------------------------------------------------------------------------
 
 export async function POST(req: NextRequest) {
-  // 1. Rate limiting
-  const ip = getClientIp(req)
-  const rl = await checkRateLimit(ip, 'audit')
+  try {
+    // 1. Rate limiting
+    const ip = getClientIp(req)
+    const rl = await checkRateLimit(ip, 'audit')
 
-  if (!rl.allowed) {
-    return NextResponse.json(
-      {
-        error: `Rate limit exceeded. You can run ${10} audits per hour. Please try again in ${Math.ceil(rl.resetIn / 60)} minute(s).`,
-        code: 'RATE_LIMITED',
-        resetIn: rl.resetIn,
-      },
-      {
-        status: 429,
+    if (!rl.allowed) {
+      return NextResponse.json(
+        {
+          error: `Rate limit exceeded. You can run ${10} audits per hour. Please try again in ${Math.ceil(rl.resetIn / 60)} minute(s).`,
+          code: 'RATE_LIMITED',
+          resetIn: rl.resetIn,
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '10',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': String(Math.floor(Date.now() / 1000) + rl.resetIn),
+            'Retry-After': String(rl.resetIn),
+          },
+        }
+      )
+    }
+
+    // 2. Parse + validate body
+    let body: unknown
+    try {
+      body = await req.json()
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid JSON body', code: 'INVALID_REQUEST' },
+        { status: 400 }
+      )
+    }
+
+    const parsed = RequestSchema.safeParse(body)
+    if (!parsed.success) {
+      const firstIssue = parsed.error.issues[0]
+      return NextResponse.json(
+        {
+          error: firstIssue?.message ?? 'Invalid request',
+          code: 'INVALID_REQUEST',
+          details: parsed.error.issues.map(i => ({ path: i.path.join('.'), message: i.message })),
+        },
+        { status: 400 }
+      )
+    }
+
+    const { url } = parsed.data as AuditRequest
+
+    // 3. Run the audit
+    try {
+      const result = await runAudit(url)
+
+      return NextResponse.json(result, {
+        status: 200,
         headers: {
           'X-RateLimit-Limit': '10',
-          'X-RateLimit-Remaining': '0',
+          'X-RateLimit-Remaining': String(rl.remaining),
           'X-RateLimit-Reset': String(Math.floor(Date.now() / 1000) + rl.resetIn),
-          'Retry-After': String(rl.resetIn),
+          'Cache-Control': 'private, max-age=60',
         },
-      }
-    )
-  }
-
-  // 2. Parse + validate body
-  let body: unknown
-  try {
-    body = await req.json()
-  } catch {
-
-    return NextResponse.json(
-      { error: 'Invalid JSON body', code: 'INVALID_REQUEST' },
-      { status: 400 }
-    )
-  }
-
-  const parsed = RequestSchema.safeParse(body)
-  if (!parsed.success) {
-    const firstIssue = parsed.error.issues[0]
-    return NextResponse.json(
-      {
-        error: firstIssue?.message ?? 'Invalid request',
-        code: 'INVALID_REQUEST',
-        details: parsed.error.issues.map(i => ({ path: i.path.join('.'), message: i.message })),
-      },
-      { status: 400 }
-    )
-  }
-
-  const { url } = parsed.data as AuditRequest
-
-  // 3. Run the audit
-  try {
-    const result = await runAudit(url)
-
-    return NextResponse.json(result, {
-      status: 200,
-      headers: {
-        'X-RateLimit-Limit': '10',
-        'X-RateLimit-Remaining': String(rl.remaining),
-        'X-RateLimit-Reset': String(Math.floor(Date.now() / 1000) + rl.resetIn),
-        'Cache-Control': 'private, max-age=60',
-      },
-    })
-  } catch (err: unknown) {
-    const { code, message } = classifyError(err)
-    const httpStatus = code === 'TIMEOUT' ? 504 : code === 'FETCH_FAILED' ? 502 : 500
-    return NextResponse.json({ error: message, code }, { status: httpStatus })
+      })
+    } catch (err: unknown) {
+      const { code, message } = classifyError(err)
+      const httpStatus = code === 'TIMEOUT' ? 504 : code === 'FETCH_FAILED' ? 502 : 500
+      return NextResponse.json({ error: message, code }, { status: httpStatus })
+    }
+  } catch (err) {
+    console.error('GEO Audit error:', err)
+    return NextResponse.json({ error: 'Audit failed' }, { status: 500 })
   }
 }

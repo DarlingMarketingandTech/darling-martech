@@ -97,6 +97,26 @@
   font-size: 0.9rem;
 }
 
+.errorTitle {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.errorBody {
+  margin: 0 0 1rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.errorMeta {
+  margin: 0 0 1.25rem;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  opacity: 0.85;
+}
+
 .modalOverlay {
   position: fixed;
   inset: 0;

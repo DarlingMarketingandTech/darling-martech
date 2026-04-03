@@ -14,19 +14,40 @@ export default function AuditForm({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!url) return
+    const trimmed = url.trim()
+    if (!trimmed) return
+
+    const normalized =
+      trimmed.startsWith('http://') || trimmed.startsWith('https://')
+        ? trimmed
+        : `https://${trimmed}`
 
     setLoading(true)
+    try {
+      const res = await fetch('/api/geo-auditor/audit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: normalized }),
+      })
 
-    const res = await fetch('/api/geo-auditor/audit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url }),
-    })
+      if (!res.ok) {
+        const text = await res.text()
+        throw new Error(text)
+      }
 
-    const data = await res.json()
-    setLoading(false)
-    onResult(data)
+      const data = await res.json()
+      setLoading(false)
+      onResult(data)
+    } catch (err) {
+      setLoading(false)
+      onResult({
+        error:
+          err instanceof Error
+            ? err.message
+            : 'Network error — check your connection and try again.',
+        code: 'INTERNAL_ERROR',
+      })
+    }
   }
 
   return (

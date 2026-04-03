@@ -37,16 +37,39 @@ export default function GeoAuditorPage() {
 
       {state === 'results' && result && (
         <div className={styles.gridTwo}>
-          <div className={styles.card}>
-            <ScoreGauge score={result.score} />
-          </div>
+          {result.error ? (
+            <div className={styles.card}>
+              <p className={styles.errorTitle}>Could not complete audit</p>
+              <p className={styles.errorBody}>{result.error}</p>
+              {result.code && (
+                <p className={styles.errorMeta}>Code: {result.code}</p>
+              )}
+              <button
+                type="button"
+                className={styles.buttonPrimary}
+                onClick={() => {
+                  setResult(null)
+                  setState('idle')
+                }}
+              >
+                Try again
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className={styles.card}>
+                <ScoreGauge score={result.score} />
+              </div>
 
-          <div className={styles.grid}>
-            {result.checks.map((c: any) => (
-              <CheckItem key={c.id} check={c} />
-            ))}
-            <EmailGate auditData={result} />
-          </div>
+              <div className={styles.grid}>
+                {Array.isArray(result.checks) &&
+                  result.checks.map((c: { id: string }) => (
+                    <CheckItem key={c.id} check={c} />
+                  ))}
+                <EmailGate auditData={result} />
+              </div>
+            </>
+          )}
         </div>
       )}
     </motion.div>

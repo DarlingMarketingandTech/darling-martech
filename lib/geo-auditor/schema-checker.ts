@@ -20,10 +20,13 @@ const SMB_TYPE_REQUIREMENTS: Record<string, string[]> = {
 /** SMB-critical types that should appear on an SMB site */
 const SMB_PRIORITY_TYPES = ['LocalBusiness', 'Organization', 'Service', 'FAQPage']
 
-const JsonLdItemSchema = z.looseObject({
-  '@type': z.union([z.string(), z.array(z.string())]).optional(),
-  '@context': z.string().optional(),
-})
+/** Zod 3: passthrough allows arbitrary JSON-LD fields (Zod 4 uses z.looseObject). */
+const JsonLdItemSchema = z
+  .object({
+    '@type': z.union([z.string(), z.array(z.string())]).optional(),
+    '@context': z.string().optional(),
+  })
+  .passthrough()
 
 type JsonLdItem = z.infer<typeof JsonLdItemSchema>
 

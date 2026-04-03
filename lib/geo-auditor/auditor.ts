@@ -1,14 +1,7 @@
 import * as cheerio from 'cheerio'
 import { checkRobots } from './robots-checker'
 import { checkSchema } from './schema-checker'
-import {
-  checkHeadingHierarchy,
-  checkFAQContent,
-  checkParagraphLength,
-  checkDefinitionPatterns,
-  checkEEAT,
-  checkMetaTags,
-} from './content-checker'
+import { checkHeadingHierarchy } from './content-checker'
 import { calculateScore, buildSummary } from './scoring'
 import { SITE_ORIGIN } from './site'
 
@@ -71,10 +64,7 @@ export async function runAudit(url: string): Promise<AuditResult> {
 
   // 3. Schema.org structured data — SMB-focused validation
   checks.push(checkSchema($))
-  // 4. Heading hierarchy x  checks.push(checkHeadingHierarchy($))  // 5. FAQ   checks.push(checkFAQContent($))  // 6. E-E-A-T signals   checks.push(checkEEAT($))  // 7. Meta tags   checks.push(checkMetaTags($))
-  
-  // 8. Paragraph length   checks.push(checkParagraphLength($))
-  // 9. Definition patterns  checks.push(checkDefinitionPatterns($))
+  checks.push(checkHeadingHierarchy($))
 
   const score = calculateScore(checks)
 
