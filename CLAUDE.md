@@ -115,10 +115,11 @@ Work index layout: flagship studies first, supporting grid, connected-system str
 - Tool access model (Phase 3D):
   - CMO Simulator: dedicated route `/tools/cmo-simulator` with detail page + launch modal.
     This is the target pattern for any future tool requiring SEO or explanation.
-  - GEO Readiness Auditor + CMO Roadmap Generator: modal/iframe launch from `/tools` index.
-    No dynamic `/tools/[slug]` route. If detail pages are warranted later, add them as
-    hand-crafted static routes — not a generic dynamic route.
-  - No `app/tools/[slug]/` dynamic route. Tools are too few and too different to template.
+  - GEO Readiness Auditor: dedicated route `/tools/geo-readiness-auditor` with detail page + direct audit flow.
+  - CMO Roadmap Generator: modal/iframe launch from `/tools` index.
+    Static routes remain the preferred pattern while tool count is small and heterogeneous.
+  - `app/tools/[slug]/` is intentionally not used today. Re-evaluate only if tool inventory
+    grows enough to justify a shared schema and templated UX.
 - Planned priority pages/routes:
   - child-service money pages under current service parents
   - `/industries/[slug]` after child service pages
@@ -185,7 +186,8 @@ on intent:
 
 **Page structure:** Short positioning line → intent tiles → minimal form →
 trust micro-copy under submit ("No pitch. Just a real conversation.") →
-email escape valve at bottom. No hero, no 3D scene. Contact page closes;
+email escape valve at bottom. No full marketing hero or heavy 3D scene by default.
+Contact page closes;
 other pages sell.
 
 **Implementation scope:** ✅ Fully implemented via `ContactForm.tsx` + `app/contact/page.tsx`
@@ -341,7 +343,7 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
 - **Batch 1 child-service build is now complete.** All 5 pages have been implemented with full copywriting passes.
 - ✅ **Batch 2 — `/services/martech-audit` (2026-04-01)** — Full copy pass: title `MarTech Audit & Stack Diagnostic`, layered summary, 7 signs, 6 deliverables, 5 FAQs, proof **Graston Technique** (primary) + **Graston Growth Engine** + **The Compass**, `proofWorkSlugs` trimmed to those three; `secondaryCtaHref` → `/work/graston-technique`; `layer` → `strategy`; strategy parent `childServiceSlugs` → `martech-audit` then `fractional-cmo`; related links `crm-architecture`, `fractional-cmo`, `website-strategy`; CMO Simulator `proofTools` (optional self-diagnostic). No `ServiceDetailPage` template changes.
 - ✅ **Batch 2 — `/services/systems/agentic-marketing-systems` (2026-04-01)** — Full copy pass: applied workflow / internal-leverage framing (not hype-led); 7 signs, 6 deliverables, 5 FAQs; proof **Graston Growth Engine** (primary) + **Barbershop Command Center** + **The Launchpad**; `secondaryCtaHref` → `/work/graston-growth-engine`; related `crm-architecture`, `martech-audit`, `fractional-cmo`; live Growth Engine `proofTools` retained. No `ServiceDetailPage` template changes.
-- ✅ **Batch 2 — `/services/growth/geo-optimization` (2026-04-01)** — Full copy pass: discoverability / future-facing search readiness without hype; 7 signs, 6 deliverables, 5 FAQs; proof grid **Russell Painting** (primary) + **Pike Medical Consultants** (supporting) only; `secondaryCtaHref` → `/work/russell-painting`; related `local-seo`, `website-strategy`, `martech-audit`; GEO Readiness Auditor `proofTools` (optional); removed broken `internalCtaLabel` to non-existent `/tools/geo-readiness-auditor`. No `ServiceDetailPage` template changes.
+- ✅ **Batch 2 — `/services/growth/geo-optimization` (2026-04-01)** — Full copy pass: discoverability / future-facing search readiness without hype; 7 signs, 6 deliverables, 5 FAQs; proof grid **Russell Painting** (primary) + **Pike Medical Consultants** (supporting) only; `secondaryCtaHref` → `/work/russell-painting`; related `local-seo`, `website-strategy`, `martech-audit`; GEO Readiness Auditor `proofTools` (optional). No `ServiceDetailPage` template changes.
 - ✅ **Parent/child linking pass complete (2026-04-01)** — `data/services.ts` + `ServicesExperience.tsx` + `ServiceDetailPage.tsx`
   - Parent `childServiceSlugs` now surface Batch 1 children per `parent-child-linking-kit.json` (`brand-web` → `website-strategy` + `conversion-optimization`; `systems` leads with `crm-architecture`; `growth` → `local-seo` + `conversion-optimization` + `geo-optimization`; `strategy` → `martech-audit` + `fractional-cmo` after Batch 2 page 1 — diagnostic entry before embedded leadership).
   - Batch 1 `relatedServiceSlugs` trimmed to 2–3 strategic siblings per kit (no parent-id noise in related lists).
@@ -399,6 +401,50 @@ Use `service-proof-matrix.md` first when assigning proof to a service page:
   - Tier 2 weekly/bi-weekly
   - Tier 3 weekly/monthly
   - Tier 4 monthly/as needed
+
+### Operational Hardening Policy (Phase 4F)
+
+#### 1) SEO trust-breaker closure
+- **Default:** Close documented trust-breakers before new UX/features when they affect indexability, credibility, or conversion intent.
+- **Allowed exception:** Defer only if there is an active production incident or dependency blocker with a dated follow-up owner.
+- **Approval trigger:** Placeholder terms are removed, base URL is environment-driven, `robots.ts` + `sitemap.ts` generation is verified, AI crawler allow/deny intent is explicit, and CTA copy is specific (not generic filler).
+- **Why this exists:** Small trust defects compound quickly and can undercut strong strategy, proof, and SEO performance.
+
+#### 2) `/lab` vs `/tools` route authority
+- **Default:** `/tools` is the canonical utility surface; `/lab` remains legacy redirects only.
+- **Allowed exception:** Temporary dual-route behavior is allowed only during an active migration with a documented sunset.
+- **Approval trigger:** Specs/docs/redirects all point to one canonical destination per tool, and no new planning docs target `/lab/*` as primary.
+- **Why this exists:** Route ambiguity creates duplicate logic, redirect debt, and content-model drift.
+
+#### 3) Governance automation in CI
+- **Default:** Convert high-value repo rules into automated checks (lint/CI/scripts) rather than relying on manual compliance.
+- **Allowed exception:** Temporary manual checks are acceptable for short-lived prototype branches that are not production-bound.
+- **Approval trigger:** CI covers banned imports/patterns, required page metadata presence, unresolved service/work/tool references, placeholder text detection, and duplicate content mirrors outside `data/`.
+- **Why this exists:** Written policy decays without automation; lightweight enforcement preserves quality at speed.
+
+#### 4) Migration standardization for tools and side repos
+- **Default:** Consolidate durable business logic into `darling-martech`, rebuild UI natively where possible, and minimize long-term iframe dependence.
+- **Allowed exception:** Keep an iframe bridge only as a transitional step with explicit exit criteria and timeline.
+- **Approval trigger:** Each migration uses a checklist covering source-of-truth, data ownership, route semantics, redirect plan, and post-migration cleanup.
+- **Why this exists:** Standardized migrations prevent fragmentation and recurring multi-repo operational debt.
+
+#### 5) Content graph integrity checks
+- **Default:** Run a graph integrity validation whenever structured content relationships are changed.
+- **Allowed exception:** Skip for docs-only changes with no `app/`, `data/`, `components/`, `lib/`, or redirect edits.
+- **Approval trigger:** Validator confirms service slug existence, proof-work slug resolution, valid parent/child mappings, valid related-service references, and legacy route redirect coverage.
+- **Why this exists:** This site depends on relationship-driven routing and proof mapping; broken graph links are functional defects.
+
+#### 6) Documentation lifecycle discipline
+- **Default:** Collapse overlapping guidance and retire stale migration notes as soon as they stop changing implementation decisions.
+- **Allowed exception:** Temporary overlap is acceptable during active transitions when canonical precedence is explicit.
+- **Approval trigger:** `CLAUDE.md` remains aligned with runtime behavior, stale route/model instructions are removed, and conflict-prone duplicate guidance is reduced.
+- **Why this exists:** Excess semi-live documentation slows decisions and increases contradiction risk.
+
+#### 7) Performance budget and boundary audit cadence
+- **Default:** Treat client/server boundaries and animation/3D budgets as recurring quality checks, especially after major visual or tooling additions.
+- **Allowed exception:** Defer full audits only when scope is truly content-only and no runtime behavior changed.
+- **Approval trigger:** No obvious hydration regressions, heavy scenes stay lazily loaded, and measured hotspots are documented with next actions.
+- **Why this exists:** Framer Motion + GSAP + Lenis + R3F + Three can stay high quality only with periodic, measured guardrails.
 
 ## Tools and Skills Map
 Last updated: 2026-03-28
@@ -601,7 +647,7 @@ For `/work` and `/tools` mapping:
 4. `darling-martech-services`
 
 For live verification:
-- use Vercel or Chrome only when user explicitly asks for live-state confirmation
+- default to local validation first; use one bounded Vercel/Chrome verification pass when runtime behavior cannot be confidently validated from local context alone
 
 ### Operating Rule Summary
 - Local repo first
@@ -638,7 +684,7 @@ converts visitors into clients.
 | Layer | Technology | Notes |
 |---|---|---|
 | Framework | Next.js 16+ App Router | RSC default. `"use client"` only for interactive/animated/3D components |
-| Styling | **CSS Modules + CSS custom properties only** | Zero Tailwind colors/typography. Tailwind removed entirely for visual styling |
+| Styling | **CSS Modules + CSS custom properties first** | Brand-token visual styling stays in CSS Modules. Tailwind is allowed for layout plus specific structural/functional utilities only |
 | 2D Animation | **Framer Motion 11** | All UI motion. Spring physics only — presets in `lib/motion.ts` |
 | 3D / WebGL | **@react-three/fiber v9 + @react-three/drei v10 + Three.js 0.183** | Hero background, floating geometry, GPU-accelerated 3D |
 | Scroll animation | **GSAP 3.14** | Timeline-based scroll sequences via `hooks/useScrollAnimation.ts` |
@@ -657,19 +703,28 @@ converts visitors into clients.
 | Cookie consent | `components/ui/CookieConsent.tsx` | |
 | SEO | `app/robots.ts` + `app/sitemap.ts` + `components/JsonLd.tsx` | |
 
-### Styling rule — CSS Modules ONLY for visual properties
-Tailwind is **removed** from all visual styling. Every color, typography,
-surface, animation, and visual property uses CSS Modules + CSS custom properties.
+### Styling rule — CSS Modules for brand visuals, Tailwind for structure only
+Use CSS Modules + CSS custom properties for all brand-defining visual decisions.
+Tailwind can be used where it improves structure or accessibility semantics,
+but not to encode the visual identity of the site.
 
 ```
-✅ Allowed (layout only):  grid  flex  col-span-2  container  mx-auto
-❌ Never use:              bg-*  text-*  border-*  shadow-*  rounded-*
-                           font-*  tracking-*  transition-*  animate-*
+✅ Allowed (layout/structure):
+  grid  flex  col-span-*  container  mx-auto  w-*  h-*  min-h-*  max-w-*  aspect-*
+
+✅ Allowed (functional/utility):
+  truncate  line-clamp-*  sr-only  not-sr-only  pointer-events-none  select-none
+  whitespace-nowrap  break-words
+
+❌ Never use for brand visuals:
+  bg-*  text-{color}  border-{color}  shadow-*  rounded-*  font-*  tracking-*
+  transition-*  animate-*  ring-*  backdrop-*
 ```
 
 > **Gotcha:** `tailwind.config.ts` remains for shadcn token infrastructure. Rule:
-> no Tailwind for visual styling (colors, typography, shadows). Layout utilities
-> and shadcn plumbing are still Tailwind-backed.
+> Tailwind is still valid for layout and structural/functional helpers. Brand tokens
+> (color, typography, shadow language, surface treatment, motion feel) remain in
+> CSS Modules and project variables.
 
 ### 3D components rule
 
@@ -768,7 +823,7 @@ export const itemVariants = {
 ### Rules
 - All sections use `whileInView` with `viewport={{ once: true, margin: "-80px" }}`
 - Every `motion.*` component that animates must be a `"use client"` component
-- No `transition: all 0.3s ease` anywhere in CSS — use Framer Motion instead
+- Avoid `transition: all 0.3s ease`; prefer Framer Motion for brand-significant interactions and section choreography
 - Stagger delay: 60–100ms (tighter feels mechanical)
 - Only animate `transform` and `opacity` — never layout properties
 - Hover: `whileHover={{ scale: 1.02 }}` on cards; `whileTap={{ scale: 0.98 }}` on buttons
@@ -799,7 +854,7 @@ npx shadcn@latest add "https://21st.dev/r/[component-url]"
 2. **Icons** — Swap `lucide-react` → `@phosphor-icons/react` with `weight="light"`
 3. **Fonts** — Replace any font-family with `var(--font-display)` for headings,
    `var(--font-body)` for paragraphs
-4. **Tailwind colors** — Move to CSS Modules; keep only layout utilities
+4. **Tailwind visual tokens** — Move brand-defining color/typography/surface styles to CSS Modules; Tailwind can remain for layout + structural/functional utilities
 5. **Motion** — If component uses CSS transitions, upgrade to Framer Motion
    spring physics using the presets in `lib/motion.ts`
 
@@ -819,8 +874,8 @@ it's the default.
 - Strong typographic scale — huge display text + small refined body text
 - **Asymmetric layouts** — break the grid deliberately; never equal columns
   as the primary feature layout
-- Hero is always left-aligned (or split-screen) — never centered text
-  over a dark background
+- Hero is left-aligned (or split-screen) by default; centered hero treatments are
+  allowed when a single-message campaign narrative is stronger and proof remains prominent
 - Generous whitespace — let content breathe
 - `min-height: 100dvh` on full-height sections — never `height: 100vh`
 - `max-width: 1400px` container on all pages
@@ -834,17 +889,66 @@ it's the default.
 - No instant state changes — all transitions spring-interpolated
 - No animations on layout properties (width, height, top, left)
 
-### Strictly avoid
+### Strictly avoid (hard bans)
 - Purple-to-blue gradients on any element
 - Glowing orbs or blob background shapes
 - Glassmorphism / frosted blur cards
 - Floating particle or confetti animations
 - Generic symmetrical 3-column card grids as primary feature layout
 - Overly rounded "bubbly" UI (`border-radius` max 16px for cards)
-- Centered hero text over dark background
 - `text-gradient` CSS on headings
 - Generic white card + gray border + drop shadow pattern
 - Any aesthetic that reads as AI-generated or template-built
+
+### Creativity policy refactor (guardrails, not hard bans)
+
+#### 1) Hero composition flexibility
+- **Default:** Use left-aligned or split-screen hero composition.
+- **Allowed exception:** Use centered hero composition for focused campaign moments where one message and one CTA carry the section.
+- **Approval trigger:** The section still preserves proof visibility and does not regress into generic centered-template design.
+- **Why this exists:** Maintains brand differentiation while allowing intentional narrative variety.
+
+#### 2) Visual-pattern flexibility
+- **Default:** Follow hard bans in the "Strictly avoid" list and core card/layout patterns.
+- **Allowed exception:** Introduce atypical treatments only when they have a clear strategic reason and still map to brand tokens.
+- **Approval trigger:** The treatment avoids known AI-template signatures and can be defended in one sentence by conversion or clarity benefit.
+- **Why this exists:** Encourages originality without sacrificing brand coherence.
+
+#### 3) Motion implementation flexibility
+- **Default:** Framer Motion handles brand-significant motion; animate transform/opacity, not layout properties.
+- **Allowed exception:** Use lightweight CSS transitions for utility-state changes when Framer Motion adds unnecessary complexity.
+- **Approval trigger:** No `transition: all`, no layout-property animation, and no mismatch with the established spring feel.
+- **Why this exists:** Preserves interaction quality while reducing implementation overhead in non-critical UI states.
+
+#### 4) Theme-mode flexibility
+- **Default:** Dark mode is the primary runtime theme and design baseline.
+- **Allowed exception:** Add scoped light variants for specific editorial or campaign contexts when they improve readability or trust.
+- **Approval trigger:** The variant is page-scoped, token-driven, and justified by content or conversion intent.
+- **Why this exists:** Expands creative range without fragmenting the core visual system.
+
+#### 5) Tool CTA flexibility
+- **Default:** Use one relevant tool CTA per page section.
+- **Allowed exception:** Add a second tool CTA only when it serves a distinct user intent and does not compete with the primary conversion path.
+- **Approval trigger:** CTA hierarchy remains clear (one primary action), and both CTAs map to different outcomes.
+- **Why this exists:** Supports utility-led journeys without introducing CTA sprawl.
+
+#### 6) Tool routing model flexibility
+- **Default:** Use static/specific tool routes and modal launches for the current small tool set.
+- **Allowed exception:** Introduce a dynamic tool route model when tool count and schema uniformity justify templating.
+- **Approval trigger:** At least several tools share a stable data model, template sections, and SEO needs.
+- **Why this exists:** Avoids premature abstraction while keeping future scale paths open.
+
+#### 7) Contact page presentation flexibility
+- **Default:** Keep `/contact` focused, minimal, and conversion-oriented.
+- **Allowed exception:** Add a lightweight contextual intro treatment for intent-specific entries when it reduces ambiguity.
+- **Approval trigger:** No heavy hero choreography, no decorative 3D scene, and no dilution of form completion focus.
+- **Why this exists:** Improves contextual clarity while preserving the page's closing role.
+
+#### 8) Connector verification flexibility
+- **Default:** Local repo and docs are the first source of truth; connectors remain secondary.
+- **Allowed exception:** Run a bounded live verification pass for rendering, redirects, or runtime behavior that local context cannot fully validate.
+- **Approval trigger:** One focused pass, clear validation objective, and no connector-chaining to reconstruct local code truth.
+- **Why this exists:** Prevents overreach while enabling pragmatic end-to-end confidence checks.
 
 ### Card pattern (required)
 ```css
@@ -978,7 +1082,7 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 | Slug | Name | Category | Live URL |
 |---|---|---|---|
 | `cmo-simulator` | CMO Simulator | Marketing | (gated — email access) |
-| `geo-readiness-auditor` | GEO Readiness Auditor | Marketing | /lab/geo-auditor |
+| `geo-readiness-auditor` | GEO Readiness Auditor | Marketing | /tools/geo-readiness-auditor |
 | `cmo-roadmap-generator` | CMO Roadmap Generator | Marketing | https://cmo-roadmap-generator.vercel.app/intake |
 
 ### `/data/services.ts` — 6 service categories in `serviceDetails`
@@ -1085,7 +1189,7 @@ Each lab entry includes `screenshots[]` with Cloudinary URLs for the detail page
 Same-tab modal launch from `/tools` where strategically appropriate; dedicated static tool pages are used only when they improve explanation, SEO, or onboarding.
 
 ### CTA-discipline note for tool placement
-Do not overuse tool CTAs; one relevant tool CTA per page max; use tools only where they fit naturally.
+Do not overuse tool CTAs; one relevant tool CTA per page by default; a second is acceptable only when it serves a distinct intent and preserves clear primary CTA hierarchy.
 
 ---
 
@@ -1316,7 +1420,7 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
 - **`next/image` is `unoptimized: true`** — this is the current project setting in `next.config.js`.
   Don't assume server-side Next image transforms are active.
 - Full mobile responsiveness — mobile-first approach
-- Dark mode is the default and only mode — no toggle, ever
+- Dark mode is the default runtime mode; scoped light variants are allowed when strategically justified and token-driven
 - Target Lighthouse score: 95+ all metrics
 - Vercel deployment via GitHub auto-deploy
 - `robots.ts` and `sitemap.ts` auto-generated
@@ -1476,7 +1580,7 @@ __NEXT_PRIVATE_STANDALONE_CONFIG="" npm run build
 
 ## Gotchas & Known Issues
 
-- **Tailwind NOT fully removed** — `tailwind.config.ts` remains for shadcn token infrastructure. Visual styling must use CSS Modules.
+- **Tailwind policy is constrained, not banned** — `tailwind.config.ts` remains for shadcn token infrastructure. Keep brand visuals in CSS Modules; use Tailwind for layout and approved structural/functional utilities.
 - **`next/image` is `unoptimized: true`** — current project setting; do not assume Next.js image optimization is enabled.
 - **Slug renames** — Canonical slugs: `riley-bennett-egloff`, `primarycare-indy`, `urgentcare-indy`. Redirects in `next.config.js`.
 - **`lucide-react` in package.json** — Still listed but unused. Use `@phosphor-icons/react` only.

@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "check:metadata": "node scripts/check-page-metadata.mjs",
+    "check:banned-imports": "node scripts/check-banned-imports.mjs",
+    "check:links": "node scripts/check-internal-links.mjs",
+    "check:graph": "node scripts/check-content-graph.mjs",
+    "check:governance": "npm run check:metadata && npm run check:banned-imports && npm run check:links && npm run check:graph"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

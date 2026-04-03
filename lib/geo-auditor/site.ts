@@ -9,6 +9,6 @@ export const SITE_ORIGIN = (
 /** Hostname only, for visible labels (e.g. footer, OG badge). */
 export const SITE_HOSTNAME = new URL(SITE_ORIGIN).hostname
 
-export const GEO_OPTIMIZATION_PATH = '/services/website-ux/geo-optimization'
+export const GEO_OPTIMIZATION_PATH = '/services/growth/geo-optimization'
 
 export const geoOptimizationUrl = () => `${SITE_ORIGIN}${GEO_OPTIMIZATION_PATH}`
