@@ -2,7 +2,7 @@
 // Set NEXT_PUBLIC_GA_ID in your environment to activate tracking.
 // This utility is safe to include in builds — it no-ops when the ID is absent.
 
-export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || ''
+export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-EMZLXRH6EN'
 
 export const isAnalyticsEnabled = (): boolean => !!GA_ID
 
@@ -38,6 +38,32 @@ export const analytics = {
 
   scrollDepth: (depth: number) =>
     trackEvent('scroll_depth', { depth_percent: depth }),
+
+  toolView: (tool: string, source?: string) =>
+    trackEvent('tool_view', { tool_name: tool, ...(source ? { source } : {}) }),
+
+  toolInteraction: (
+    tool: string,
+    interaction: string,
+    params?: Record<string, string | number | boolean>,
+  ) => trackEvent('tool_interaction', { tool_name: tool, interaction, ...params }),
+
+  attributionSnapshotTemplateDownload: (platform: string) =>
+    trackEvent('attribution_snapshot_template_download', { platform }),
+
+  attributionSnapshotUpload: (platform: string, touchpointCount: number, journeyCount: number) =>
+    trackEvent('attribution_snapshot_upload', {
+      platform,
+      touchpoint_count: touchpointCount,
+      journey_count: journeyCount,
+    }),
+
+  attributionSnapshotResults: (source: string, journeyCount: number, channelCount: number) =>
+    trackEvent('attribution_snapshot_results', {
+      source,
+      journey_count: journeyCount,
+      channel_count: channelCount,
+    }),
 }
 
 // Type augmentation for gtag

@@ -83,12 +83,12 @@ Conflict rule:
 
 ### Consolidated IA / Page Strategy Snapshot
 - Live core pages: `/`, `/services`, `/services/[slug]`, `/work`,
-  `/work/[slug]`, `/tools`, `/tools/[slug]`, `/tools/cmo-simulator`, `/about`,
+  `/work/[slug]`, `/tools`, `/tools/[slug]`, `/tools/cmo-simulator`, `/tools/attribution-snapshot`, `/about`,
   `/contact`, `/studio`, `/process`.
 - `/lab` is legacy — permanent redirects to `/tools/*` are in place. `/lab` is
   not a public concept. Do not reference `/lab` routes in new work.
-- `/tools` role: self-serve strategy layer. Three visitor utilities — CMO Simulator,
-  GEO Readiness Auditor, CMO Roadmap Generator — that deliver immediate value and
+- `/tools` role: self-serve strategy layer. Four visitor utilities — CMO Simulator,
+  GEO Readiness Auditor, CMO Roadmap Generator, Attribution Snapshot — that deliver immediate value and
   qualify prospects in the process. Not a portfolio. Not a build archive. Not proof.
   `/tools` is where a prospect runs their own strategy session and walks out with both
   an artifact and a reason to call.
@@ -103,7 +103,7 @@ Work index layout: flagship studies first, supporting grid, connected-system str
  `scrollIntoView`) so smooth scroll (Lenis) is not hijacked.
 - Phase 3D classification decisions (2026-03-28):
   - Core tools (permanent, primary): CMO Simulator, GEO Readiness Auditor,
-    CMO Roadmap Generator. These are the only entries on `/tools`.
+    CMO Roadmap Generator, Attribution Snapshot. These are the current entries on `/tools`.
   - Removed from `/tools` index: Graston Growth Engine, Barbershop Command Center,
     Smart Sales & Pricing Tool, Investment ROI Planner, Clinical Compass,
     License Requirements Navigator. These are `/work` entries — client builds, not
@@ -117,6 +117,7 @@ Work index layout: flagship studies first, supporting grid, connected-system str
     This is the target pattern for any future tool requiring SEO or explanation.
   - GEO Readiness Auditor: dedicated route `/tools/geo-readiness-auditor` with detail page + direct audit flow.
   - CMO Roadmap Generator: modal/iframe launch from `/tools` index.
+  - Attribution Snapshot: dedicated route `/tools/attribution-snapshot` with in-page client-side CSV analysis and model comparison. Phase 1 is intentionally directional — no GA4 auth or persisted attribution store yet.
     Static routes remain the preferred pattern while tool count is small and heterogeneous.
   - `app/tools/[slug]/` is intentionally not used today. Re-evaluate only if tool inventory
     grows enough to justify a shared schema and templated UX.
@@ -1053,8 +1054,9 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 - `/contact` — Contact form page (React Hook Form + Zod + Resend)
 - `/work` — Case studies index (masonry/staggered grid — Live)
 - `/work/[slug]` — Individual case study pages (data-driven from `data/work/`)
-- `/tools` — Tools index (3 live utilities — CMO Simulator, GEO Readiness Auditor, CMO Roadmap Generator)
+- `/tools` — Tools index (4 live utilities — CMO Simulator, GEO Readiness Auditor, CMO Roadmap Generator, Attribution Snapshot)
 - `/tools/cmo-simulator` — Special: gated access via `CmoAccessModal`
+- `/tools/attribution-snapshot` — Lightweight attribution model comparison tool (client-side CSV analysis) ✅
 
 > Note: `/lab` is legacy-only redirect surface. Do not design new UX/content around `/lab`; use `/tools` and `/work`.
 
@@ -1077,13 +1079,14 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 
 **All content lives in `/data/` as typed TypeScript files. Never hardcode content in components.**
 
-### `/data/labs.ts` — 3 tool entries in `LAB_DETAIL_DATA` (internal source)
-> Note: public interaction is now on `/tools` with three primary utilities; `/lab` routes redirect to `/tools` or `/work` as appropriate.
+### `/data/labs.ts` — 4 tool entries in `LAB_DETAIL_DATA` (internal source)
+> Note: public interaction is now on `/tools` with four primary utilities; `/lab` routes redirect to `/tools` or `/work` as appropriate.
 | Slug | Name | Category | Live URL |
 |---|---|---|---|
 | `cmo-simulator` | CMO Simulator | Marketing | (gated — email access) |
 | `geo-readiness-auditor` | GEO Readiness Auditor | Marketing | /tools/geo-readiness-auditor |
 | `cmo-roadmap-generator` | CMO Roadmap Generator | Marketing | https://cmo-roadmap-generator.vercel.app/intake |
+| `attribution-snapshot` | Attribution Snapshot | Marketing | /tools/attribution-snapshot |
 
 ### `/data/services.ts` — 6 service categories in `serviceDetails`
 | ID | Title | Layer |
@@ -1514,8 +1517,8 @@ Display order: Jesse Wey → Andrew Bastnagel → Kevin Martin See → Ben Worre
 ## Current State and Priorities
 
 ### Current state
-- Core production surface is live on `darlingmartech.com`: `/`, `/services`, `/services/[slug]`, `/work`, `/work/[slug]`, `/tools`, `/tools/cmo-simulator`, `/about`, `/contact`, `/studio`.
-- Tools surface is intentionally constrained to three visitor utilities: CMO Simulator, GEO Readiness Auditor, CMO Roadmap Generator.
+- Core production surface is live on `darlingmartech.com`: `/`, `/services`, `/services/[slug]`, `/work`, `/work/[slug]`, `/tools`, `/tools/cmo-simulator`, `/tools/attribution-snapshot`, `/about`, `/contact`, `/studio`.
+- Tools surface is intentionally constrained to four visitor utilities: CMO Simulator, GEO Readiness Auditor, CMO Roadmap Generator, Attribution Snapshot.
 - `/lab` remains legacy redirect behavior only; it is not a user-facing IA concept.
 - Service architecture is parent/child and problem-cluster driven with proof routing and intent-aware CTAs.
 - Content/data source-of-truth remains typed files in `data/`; avoid hardcoding narrative content in components.

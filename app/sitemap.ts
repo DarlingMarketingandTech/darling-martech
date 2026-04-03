@@ -26,6 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/services`, priority: 0.8 },
     { url: `${baseUrl}/tools`, priority: 0.75 },
     { url: `${baseUrl}/tools/cmo-simulator`, priority: 0.8 },
+    { url: `${baseUrl}/tools/attribution-snapshot`, priority: 0.8 },
     { url: `${baseUrl}/process`, priority: 0.7 },
     { url: `${baseUrl}/studio`, priority: 0.5 },
     { url: `${baseUrl}/contact`, priority: 0.7 },

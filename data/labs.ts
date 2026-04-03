@@ -172,4 +172,46 @@ export const LAB_DETAIL_DATA: Record<string, LabDetailProps> = {
       },
     ],
   },
+
+  'attribution-snapshot': {
+    slug: 'attribution-snapshot',
+    name: 'Attribution Snapshot',
+    category: 'Marketing',
+    year: '2026',
+    tagline:
+      'A lightweight attribution comparison tool for SMB operators who need a directional answer fast: which channels stay closest to revenue across multiple models, and which ones only look good under one story.',
+    metrics: [
+      { value: '4', label: 'attribution models compared' },
+      { value: 'CSV', label: 'Google Ads, Meta, or demo input' },
+      { value: 'Fast', label: 'directional read before a deeper measurement build' },
+    ],
+    problemBody: [
+      'Most SMB reporting conversations break down at the same point: everyone has channel dashboards, but no one trusts the story they tell together. Paid, email, organic, and direct all appear in the picture, but the team still cannot say with confidence which channels create demand, which ones assist, and which ones only appear near the end of the path.',
+      'That ambiguity creates bad decisions. Teams over-credit the last click, under-value assists, or keep debating channel performance because the measurement layer is too thin to support the operating decisions they need to make.',
+      'I built Attribution Snapshot as a practical middle layer. It does not pretend to be a warehouse or a full attribution platform. It gives you a fast model comparison so you can see where the channel story stays consistent, where it changes, and whether the next move is budget reallocation or better reporting architecture.',
+    ],
+    buildStack: [
+      { layer: 'Framework', choice: 'Next.js App Router', why: 'Keeps the tool native to Darling MarTech with a route that can be indexed, linked, and evolved without a sidecar repo.' },
+      { layer: 'Import', choice: 'Client-side CSV parsing', why: 'Fast first-pass ingestion for lightweight exports without adding backend storage or external dependencies for Phase 1.' },
+      { layer: 'Modeling', choice: 'Four attribution models', why: 'First-touch, last-touch, linear, and time-decay make the spread visible enough to guide better questions.' },
+      { layer: 'Presentation', choice: 'Darling-native comparison UI', why: 'The output needs to read like a consulting artifact, not a generic dashboard template.' },
+      { layer: 'CTA path', choice: 'Tool → service/work/contact routing', why: 'The tool should create immediate value, then route the deeper measurement problem into the right conversation.' },
+    ],
+    buildBody: [
+      'This first version is intentionally constrained. It handles lightweight CSV imports and demo journeys so the useful part happens immediately: compare the models, inspect the spread, and decide whether the story is stable enough to act on.',
+      'That constraint is strategic. Most SMBs do not need another bloated reporting layer as the first step. They need an honest read on whether the reporting they already have is directionally trustworthy or whether attribution confidence is still too weak to support budget decisions.',
+    ],
+    impactBody: [
+      'For operators, the tool creates a fast path from vague reporting frustration to a more precise diagnosis: either the channel story is holding up, or the measurement setup needs to improve before anyone should make bigger spend calls.',
+      'For Darling MarTech, it serves as productized proof for measurement, reporting, and stack-audit work. Instead of claiming analytics depth in copy alone, the site now demonstrates part of that thinking directly in the tools layer.',
+    ],
+    proofStatement:
+      'That a useful attribution tool does not need to overpromise. Even a lightweight model comparison can expose where the story is strong, where it is unstable, and where better architecture matters more than louder dashboards.',
+    ctaLine: 'Want to turn a directional read into reporting you can actually make decisions from?',
+    toolSrc: '/tools/attribution-snapshot',
+    serviceIds: ['data-analytics', 'the-conductor', 'martech-audit'],
+    industryIds: ['b2b', 'saas', 'local-service', 'ecommerce'],
+    outcomeIds: ['revenue-attribution', 'cost-reduction', 'lead-gen'],
+    screenshots: [],
+  },
 };

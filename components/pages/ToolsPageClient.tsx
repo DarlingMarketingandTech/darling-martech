@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic'
 import { Fragment, useCallback, useState } from 'react'
 import { PlanetIcon } from '@phosphor-icons/react'
 import LabModal from '@/components/lab/LabModal'
+import { analytics } from '@/lib/analytics'
 import { containerVariants, itemVariants, fadeVariants } from '@/lib/motion'
 import styles from '@/app/tools/Tools.module.css'
 
@@ -39,6 +40,7 @@ type FeaturedLab = {
   stats?: { value: string; label: string }[]
   /** Short label in the hero pill — distinguishes visitor utilities from the grid below. */
   pill?: string
+  onClick?: () => void
 }
 
 const featuredLabs: FeaturedLab[] = [
@@ -54,6 +56,7 @@ const featuredLabs: FeaturedLab[] = [
       src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_900,f_auto,q_auto/CMO_Simulator.jpg',
       alt: 'CMO Simulator interface preview',
     },
+    onClick: () => analytics.ctaClick('tools_index', 'cmo_simulator'),
   },
   {
     name: 'GEO Readiness Auditor',
@@ -67,6 +70,7 @@ const featuredLabs: FeaturedLab[] = [
       src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1200,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png',
       alt: 'GEO Readiness Auditor interface preview',
     },
+    onClick: () => analytics.ctaClick('tools_index', 'geo_readiness_auditor'),
   },
   {
     name: 'CMO Roadmap Generator',
@@ -83,6 +87,22 @@ const featuredLabs: FeaturedLab[] = [
       src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_900,f_auto,q_auto/v1774736805/cmo-roadmap-generator-home.png',
       alt: 'CMO Roadmap Generator intake preview',
     },
+    onClick: () => analytics.ctaClick('tools_index', 'cmo_roadmap_generator'),
+  },
+  {
+    name: 'Attribution Snapshot',
+    pill: 'Visitor utility',
+    description:
+      'Upload a lightweight Google Ads or Meta export, compare four attribution models, and see where channel credit stays stable versus where your reporting setup still leaves too much ambiguity.',
+    href: '/tools/attribution-snapshot',
+    ctaLabel: 'Analyze channel credit →',
+    stack: ['Client-side analysis', 'CSV import', 'Attribution modeling'],
+    stats: [
+      { value: '4', label: 'models compared' },
+      { value: 'CSV', label: 'template-driven import' },
+      { value: 'Fast', label: 'directional read' },
+    ],
+    onClick: () => analytics.ctaClick('tools_index', 'attribution_snapshot'),
   },
 ]
 
@@ -124,7 +144,10 @@ function LabFeaturedCard({
           <button
             type="button"
             className={styles.featuredCta}
-            onClick={() => onOpenIframe({ src: launch.src, slug: launch.slug, name: lab.name })}
+            onClick={() => {
+              lab.onClick?.()
+              onOpenIframe({ src: launch.src, slug: launch.slug, name: lab.name })
+            }}
           >
             {lab.ctaLabel}
           </button>
@@ -132,6 +155,7 @@ function LabFeaturedCard({
           <Link
             href={lab.href!}
             className={styles.featuredCta}
+            onClick={lab.onClick}
             {...(lab.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
           >
             {lab.ctaLabel}
@@ -206,7 +230,7 @@ export default function LabPage() {
             self-serve strategy that scales.
           </motion.h1>
           <motion.p variants={itemVariants} className={styles.subheadline}>
-            Three practical utilities to diagnose, prioritize, and lock in your next marketing move. Run the tool, capture your output, and skip directly to the right conversation.
+            Four practical utilities to diagnose, prioritize, and lock in your next marketing move. Run the tool, capture your output, and skip directly to the right conversation.
             </motion.p>
           </motion.div>
         </section>

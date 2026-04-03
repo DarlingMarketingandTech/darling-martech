@@ -1120,6 +1120,17 @@ export const standaloneServicePages: StandaloneServicePage[] = [
     secondaryCtaHref: '/work/the-compass',
     pricingSignal: '$2K–$8K · Project-based audit and setup, optional retainer for ongoing reporting',
     relatedServiceSlugs: ['conversion-optimization', 'local-seo', 'martech-audit'],
+    proofTools: [
+      {
+        labSlug: 'attribution-snapshot',
+        eyebrow: 'Directional diagnostic',
+        title: 'Run Attribution Snapshot first.',
+        body: 'A quick model comparison for channel credit. Useful when the team has dashboards but still does not trust the story enough to make budget decisions.',
+        externalCtaLabel: 'Run the tool',
+        externalCtaHref: '/tools/attribution-snapshot',
+        internalCtaLabel: 'See how it fits measurement work',
+      },
+    ],
   },
   {
     id: 'brand-strategy',
