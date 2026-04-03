@@ -43,6 +43,9 @@ export async function generateMetadata({
 
   if (!cs) return {}
 
+  const media = getProjectMedia(resolvedSlug)
+  const ogImagePublicId = media?.hero?.publicId ?? cs.heroPublicId ?? cs.logoPublicId
+
   return {
     title: cs.titleTag,
     description: cs.metaDescription,
@@ -52,10 +55,10 @@ export async function generateMetadata({
     openGraph: {
       title: cs.titleTag,
       description: cs.metaDescription,
-      ...(cs.logoPublicId && {
+      ...(ogImagePublicId && {
         images: [
           {
-            url: `https://res.cloudinary.com/djhqowk67/image/upload/${cs.logoPublicId}`,
+            url: `https://res.cloudinary.com/djhqowk67/image/upload/${ogImagePublicId}`,
           },
         ],
       }),
