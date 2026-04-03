@@ -11,6 +11,8 @@ import { MagneticButton } from '@/components/interactive/MagneticButton'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import type { CaseStudy, CloudinaryAsset, Deliverable, ProcessPhase } from '@/lib/work'
 import { getWorkDetailTemplate } from '@/lib/work'
+import { getProjectMedia } from '@/lib/media/getProjectMedia'
+import type { MediaAsset } from '@/data/assets/types'
 import { containerVariants, itemVariants, springEntrance } from '@/lib/motion'
 import styles from './WorkDetail.module.css'
 
@@ -139,6 +141,74 @@ function AssetStrip({
         </div>
       ))}
     </div>
+  )
+}
+
+function MappedMediaGrid({
+  assets,
+  maxAssets = 4,
+  portrait = false,
+}: {
+  assets: MediaAsset[]
+  maxAssets?: number
+  portrait?: boolean
+}) {
+  const displayAssets = assets.slice(0, maxAssets)
+  if (displayAssets.length === 0) return null
+
+  return (
+    <div className={`${styles.narrativeMediaGrid} ${portrait ? styles.narrativeMediaGridPortrait : ''}`}>
+      {displayAssets.map((asset) => (
+        <figure key={asset.publicId} className={styles.narrativeMediaCard}>
+          <div className={styles.narrativeMediaImageFrame}>
+            <CldImage
+              src={asset.publicId}
+              alt={asset.alt}
+              width={960}
+              height={portrait ? 1080 : 640}
+              crop="fill"
+              gravity="auto"
+              className={styles.narrativeMediaImage}
+            />
+          </div>
+          {asset.caption && <figcaption className={styles.narrativeMediaCaption}>{asset.caption}</figcaption>}
+        </figure>
+      ))}
+    </div>
+  )
+}
+
+function NarrativeMediaSections({ cs }: { cs: CaseStudy }) {
+  const projectMedia = getProjectMedia(cs.slug)
+
+  if (!projectMedia) return null
+
+  return (
+    <>
+      {projectMedia.screens && projectMedia.screens.length > 0 && (
+        <SectionBlock eyebrow="Website and results" title="Interface surfaces that carried conversion and clarity">
+          <MappedMediaGrid assets={projectMedia.screens} maxAssets={3} />
+        </SectionBlock>
+      )}
+
+      {projectMedia.productInUse && projectMedia.productInUse.length > 0 && (
+        <SectionBlock eyebrow="Product craftsmanship and treatment precision" title="Proof of clinical and operational precision">
+          <MappedMediaGrid assets={projectMedia.productInUse} maxAssets={2} portrait />
+        </SectionBlock>
+      )}
+
+      {projectMedia.campaign && projectMedia.campaign.length > 0 && (
+        <SectionBlock eyebrow="Campaign and proof" title="Supporting campaign creative tied to outcomes">
+          <MappedMediaGrid assets={projectMedia.campaign} maxAssets={4} />
+        </SectionBlock>
+      )}
+
+      {projectMedia.logos && projectMedia.logos.length > 0 && (
+        <SectionBlock eyebrow="Trust and brand" title="Identity assets that anchor authority and recall">
+          <MappedMediaGrid assets={projectMedia.logos} maxAssets={4} />
+        </SectionBlock>
+      )}
+    </>
   )
 }
 
@@ -511,11 +581,14 @@ export function WorkDetailContent({
   related: CaseStudy[]
   serviceBacklink?: { href: string; label: string } | null
 }) {
+  const projectMedia = getProjectMedia(cs.slug)
   const heroImage =
+    projectMedia?.hero?.publicId ??
     cs.heroPublicId ??
     cs.cloudinaryAssets?.find((asset) => asset.publicId !== cs.logoPublicId)?.publicId ??
     cs.cloudinaryAssets?.[0]?.publicId ??
     cs.logoPublicId
+  const heroAlt = projectMedia?.hero?.alt ?? cs.client
   const layoutClassName =
     cs.theme?.layout === 'stacked'
       ? styles.layoutStacked
@@ -645,7 +718,7 @@ export function WorkDetailContent({
                     <div className={styles.heroMediaPrimary}>
                       <CldImage
                         src={heroImage}
-                        alt={cs.client}
+                        alt={heroAlt}
                         width={960}
                         height={720}
                         crop="fill"
@@ -661,7 +734,7 @@ export function WorkDetailContent({
                     </div>
                   )}
 
-                  {cs.cloudinaryAssets && cs.cloudinaryAssets.length > 0 && (
+                  {!projectMedia && cs.cloudinaryAssets && cs.cloudinaryAssets.length > 0 && (
                     <AssetStrip
                       assets={cs.cloudinaryAssets}
                       mediaStyle={cs.theme?.mediaStyle}
@@ -708,6 +781,8 @@ export function WorkDetailContent({
               />
             </SectionBlock>
 
+            <NarrativeMediaSections cs={cs} />
+
             {isSystemExpanded && cs.process && cs.process.length > 0 && (
               <ProcessTimeline process={cs.process} />
             )}
@@ -731,6 +806,8 @@ export function WorkDetailContent({
             <SectionBlock eyebrow="What got rebuilt">
               <DeliverableGrid deliverables={cs.deliverables} isSystemPage={false} />
             </SectionBlock>
+
+            <NarrativeMediaSections cs={cs} />
 
             <SectionBlock eyebrow={isFlagshipLongform ? 'Results and operating impact' : 'The Outcome'}>
               <BodyCopy text={cs.outcome} />

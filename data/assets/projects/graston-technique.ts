@@ -2,6 +2,7 @@ import type { ProjectMediaMap } from "../types";
 
 export const projectMedia_grastonTechnique: ProjectMediaMap = {
   projectSlug: "graston-technique",
+  excludedPublicIds: ["graston-technique-badgeo"],
 
   hero: {
     publicId: "graston-website",

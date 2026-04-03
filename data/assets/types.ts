@@ -42,4 +42,5 @@ export type ProjectMediaMap = {
   productInUse?: MediaAsset[];
   campaign?: MediaAsset[];
   logos?: MediaAsset[];
+  excludedPublicIds?: string[];
 };
