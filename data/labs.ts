@@ -108,7 +108,7 @@ export const LAB_DETAIL_DATA: Record<string, LabDetailProps> = {
     ],
     proofStatement: 'That AI visibility can be audited, scored, and operationalized for SMBs without enterprise tooling overhead - and that useful diagnostics are the most credible form of marketing.',
     ctaLine: 'Want the full GEO fix roadmap in your inbox and help prioritizing what to do next?',
-    toolSrc: '/lab/geo-auditor',
+    toolSrc: '/tools/geo-readiness-auditor',
     serviceIds: ['geo-optimization', 'technical-seo', 'web-development'],
     industryIds: ['b2b', 'local-service', 'saas'],
     outcomeIds: ['traffic-growth', 'lead-gen', 'conversion-lift'],

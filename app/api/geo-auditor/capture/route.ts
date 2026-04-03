@@ -14,25 +14,52 @@ import { Resend } from 'resend'
 import { checkRateLimit, getClientIp } from '@/lib/geo-auditor/rate-limiter'
 import { SITE_ORIGIN, SITE_HOSTNAME, geoOptimizationUrl } from '@/lib/geo-auditor/site'
 
+export const runtime = 'nodejs'
+
 // ---------------------------------------------------------------------------
 // Validation schemas
 // ---------------------------------------------------------------------------
 
-const CheckResultSchema = z.object({
+const AuditCheckResultSchema = z.object({
   id: z.string(),
   label: z.string(),
   status: z.enum(['pass', 'warn', 'fail']),
+  score: z.number().min(0),
+  maxScore: z.number().min(0),
   weight: z.number().min(0).max(100),
-  message: z.string(),
-  fix: z.string().optional(),
+  priority: z.enum(['high', 'medium', 'low']),
+  summary: z.string(),
+  whyItMatters: z.string(),
+  recommendation: z.string(),
+  evidence: z.array(z.string()),
 })
 
-const AuditResultSchema = z.object({
+const TopActionSchema = z.object({
+  title: z.string(),
+  priority: z.enum(['high', 'medium', 'low']),
+  effort: z.enum(['low', 'medium', 'high']),
+  impact: z.enum(['low', 'medium', 'high']),
+  recommendation: z.string(),
+})
+
+const GeoAuditReportSchema = z.object({
   url: z.string().url(),
-  score: z.number().min(0).max(100),
-  checks: z.array(CheckResultSchema).min(1),
-  summary: z.string(),
+  normalizedUrl: z.string(),
   fetchedAt: z.string(),
+  score: z.number().min(0).max(100),
+  band: z.enum(['strong', 'workable', 'fragile', 'invisible']),
+  summary: z.object({
+    headline: z.string(),
+    overview: z.string(),
+    topPriority: z.string(),
+  }),
+  topActions: z.array(TopActionSchema),
+  checks: z.array(AuditCheckResultSchema).min(1),
+  crawl: z.object({
+    robotsUrlChecked: z.boolean(),
+    homepageFetched: z.boolean(),
+    responseTimeMs: z.number().optional(),
+  }),
 })
 
 const RequestSchema = z.object({
@@ -44,11 +71,11 @@ const RequestSchema = z.object({
     val => (typeof val === 'string' ? val.trim().toLowerCase() : val),
     z.string().email('Please enter a valid email address')
   ),
-  auditData: AuditResultSchema,
+  auditData: GeoAuditReportSchema,
 })
 
 type CaptureRequest = z.infer<typeof RequestSchema>
-type CheckResult = z.infer<typeof CheckResultSchema>
+type AuditCheck = z.infer<typeof AuditCheckResultSchema>
 
 // ---------------------------------------------------------------------------
 // Email template
@@ -88,14 +115,9 @@ function statusBorder(status: string): string {
 }
 
 /** Returns checks sorted: fail first, then warn, then pass */
-function sortedChecks(checks: CheckResult[]): CheckResult[] {
+function sortedChecks(checks: AuditCheck[]): AuditCheck[] {
   const order = { fail: 0, warn: 1, pass: 2 }
   return [...checks].sort((a, b) => order[a.status] - order[b.status])
-}
-
-/** Prioritised fix list — fails first, then warns, skipping passes */
-function prioritizedFixes(checks: CheckResult[]): CheckResult[] {
-  return sortedChecks(checks).filter(c => c.fix)
 }
 
 function domainFromUrl(url: string): string {
@@ -108,11 +130,10 @@ function domainFromUrl(url: string): string {
 
 function buildEmailHtml(data: CaptureRequest): string {
   const { name, email, auditData } = data
-  const { url, score, checks, summary, fetchedAt } = auditData
+  const { url, score, checks, summary, fetchedAt, topActions } = auditData
   const domain = domainFromUrl(url)
   const color = scoreColor(score)
   const label = scoreLabel(score)
-  const fixes = prioritizedFixes(checks)
   const sorted = sortedChecks(checks)
   const auditDate = new Date(fetchedAt).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -131,7 +152,7 @@ function buildEmailHtml(data: CaptureRequest): string {
           </div>
         </td>
         <td style="padding:12px 16px;border-bottom:1px solid #f3f4f6;font-size:13px;color:#374151;vertical-align:top">
-          ${c.message}
+          ${c.summary}
         </td>
         <td style="padding:12px 16px;border-bottom:1px solid #f3f4f6;font-size:12px;color:#6b7280;vertical-align:top">
           ${c.weight}
@@ -140,21 +161,21 @@ function buildEmailHtml(data: CaptureRequest): string {
     )
     .join('')
 
-  const fixItems = fixes.length > 0
-    ? fixes
+  const fixItems = topActions.length > 0
+    ? topActions
         .map(
-          (c, i) => `
-        <div style="display:flex;gap:12px;margin-bottom:${i < fixes.length - 1 ? '16' : '0'}px">
+          (action, i) => `
+        <div style="display:flex;gap:12px;margin-bottom:${i < topActions.length - 1 ? '16' : '0'}px">
           <div style="flex-shrink:0;width:24px;height:24px;border-radius:50%;
-                      background:${statusBg(c.status)};border:1px solid ${statusBorder(c.status)};
+                      background:#eef2ff;border:1px solid #c7d2fe;
                       display:flex;align-items:center;justify-content:center;
-                      font-size:11px;font-weight:700;color:${c.status === 'fail' ? '#dc2626' : '#d97706'};
+                      font-size:11px;font-weight:700;color:#3730a3;
                       line-height:24px;text-align:center">
             ${i + 1}
           </div>
           <div style="flex:1">
-            <div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:2px">${c.label}</div>
-            <div style="font-size:13px;color:#374151">${c.fix}</div>
+            <div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:2px">${action.title}</div>
+            <div style="font-size:13px;color:#374151">${action.recommendation}</div>
           </div>
         </div>`
         )
@@ -210,7 +231,7 @@ function buildEmailHtml(data: CaptureRequest): string {
 
             <p style="font-size:15px;color:#374151;margin:24px 0 0;line-height:1.6;padding:16px 20px;
                        background:#f1f5f9;border-left:4px solid #2563eb;border-radius:0 8px 8px 0">
-              ${summary}
+              ${summary.overview}
             </p>
           </td>
         </tr>
@@ -219,7 +240,7 @@ function buildEmailHtml(data: CaptureRequest): string {
         <tr>
           <td style="padding:32px 40px 0">
             <h2 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 20px">
-              🔧 Prioritized Fixes (${fixes.length} action${fixes.length !== 1 ? 's' : ''})
+              🔧 Prioritized Fixes (${topActions.length} action${topActions.length !== 1 ? 's' : ''})
             </h2>
             ${fixItems}
           </td>
@@ -386,11 +407,11 @@ export async function POST(req: NextRequest) {
         `Your GEO Readiness Report for ${domain}`,
         `Score: ${data.auditData.score}/100 — ${scoreLabel(data.auditData.score)}`,
         '',
-        data.auditData.summary,
+        data.auditData.summary.overview,
         '',
         '=== AUDIT FINDINGS ===',
         ...sortedChecks(data.auditData.checks).map(
-          c => `${statusIcon(c.status)} ${c.label}: ${c.message}${c.fix ? `\n   → Fix: ${c.fix}` : ''}`
+          c => `${statusIcon(c.status)} ${c.label}: ${c.summary}\n   → ${c.recommendation}`
         ),
         '',
         'Ready to fix these issues?',

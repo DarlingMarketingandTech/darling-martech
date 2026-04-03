@@ -1,13 +1,9 @@
-import type { CheckResult } from './auditor'
+import type { AuditCheckResult, ScoreBand } from './types'
 
-export function calculateScore(checks: CheckResult[]): number {
+export function calculateScore(checks: AuditCheckResult[]): number {
   const totalWeight = checks.reduce((sum, c) => sum + c.weight, 0)
   if (totalWeight === 0) return 0
-  const earned = checks.reduce((sum, c) => {
-    if (c.status === 'pass') return sum + c.weight
-    if (c.status === 'warn') return sum + c.weight * 0.5
-    return sum
-  }, 0)
+  const earned = checks.reduce((sum, c) => sum + c.score, 0)
   return Math.round((earned / totalWeight) * 100)
 }
 
@@ -30,4 +26,31 @@ export function getScoreLabel(score: number): string {
   if (score >= 60) return 'Good'
   if (score >= 40) return 'Needs Work'
   return 'Critical'
+}
+
+export function getScoreBand(score: number): ScoreBand {
+  if (score >= 75) return 'strong'
+  if (score >= 50) return 'workable'
+  if (score >= 25) return 'fragile'
+  return 'invisible'
+}
+
+export function getBandLabel(band: ScoreBand): string {
+  const labels: Record<ScoreBand, string> = {
+    strong: 'Strong',
+    workable: 'Workable',
+    fragile: 'Fragile',
+    invisible: 'Invisible',
+  }
+  return labels[band]
+}
+
+export function getBandColor(band: ScoreBand): string {
+  const colors: Record<ScoreBand, string> = {
+    strong: '#22c55e',
+    workable: '#f59e0b',
+    fragile: '#f97316',
+    invisible: '#ef4444',
+  }
+  return colors[band]
 }
