@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
@@ -12,6 +13,7 @@ import { useReducedMotion } from '@/hooks/useReducedMotion'
 import type { CaseStudy, CloudinaryAsset, Deliverable, ProcessPhase } from '@/lib/work'
 import { getWorkDetailTemplate } from '@/lib/work'
 import { getProjectMedia } from '@/lib/media/getProjectMedia'
+import { getBrandDnaProfile } from '@/data/work/brand-dna'
 import type { MediaAsset } from '@/data/assets/types'
 import { containerVariants, itemVariants, springEntrance } from '@/lib/motion'
 import { analytics } from '@/lib/analytics'
@@ -210,6 +212,139 @@ function NarrativeMediaSections({ cs }: { cs: CaseStudy }) {
         </SectionBlock>
       )}
     </>
+  )
+}
+
+function BrandIdentitySnapshot({ cs }: { cs: CaseStudy }) {
+  const profile = getBrandDnaProfile(cs.slug)
+
+  if (!profile) return null
+
+  const previewImages = profile.featuredImageFiles.slice(0, 4)
+
+  return (
+    <SectionBlock eyebrow="Brand identity snapshot" title="The visual language and brand signals behind this project">
+      <div className={styles.brandIdentityShell}>
+        <div className={styles.brandIdentityContent}>
+          {(profile.name || profile.tagline) && (
+            <div className={styles.brandIdentityHeader}>
+              {profile.name && <h3 className={styles.brandIdentityName}>{profile.name}</h3>}
+              {profile.tagline && <p className={styles.brandIdentityTagline}>{profile.tagline}</p>}
+              {profile.websiteUrl && (
+                <a
+                  href={profile.websiteUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.brandIdentityWebsite}
+                >
+                  Visit brand site
+                  <ArrowUpRight weight="regular" size={12} aria-hidden />
+                </a>
+              )}
+            </div>
+          )}
+
+          {profile.overview && <p className={styles.brandIdentityOverview}>{profile.overview}</p>}
+
+          <div className={styles.brandIdentityMetaGrid}>
+            {profile.brandValues.length > 0 && (
+              <div className={styles.brandMetaCard}>
+                <p className={styles.brandMetaLabel}>Values</p>
+                <div className={styles.brandTokenList}>
+                  {profile.brandValues.slice(0, 5).map((value) => (
+                    <span key={value} className={styles.brandToken}>
+                      {value}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {profile.visualAesthetics.length > 0 && (
+              <div className={styles.brandMetaCard}>
+                <p className={styles.brandMetaLabel}>Aesthetic direction</p>
+                <div className={styles.brandTokenList}>
+                  {profile.visualAesthetics.slice(0, 5).map((value) => (
+                    <span key={value} className={styles.brandToken}>
+                      {value}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {profile.toneOfVoice.length > 0 && (
+              <div className={styles.brandMetaCard}>
+                <p className={styles.brandMetaLabel}>Voice</p>
+                <div className={styles.brandTokenList}>
+                  {profile.toneOfVoice.slice(0, 5).map((value) => (
+                    <span key={value} className={styles.brandToken}>
+                      {value}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {profile.fonts.length > 0 && (
+              <div className={styles.brandMetaCard}>
+                <p className={styles.brandMetaLabel}>Fonts</p>
+                <div className={styles.brandTokenList}>
+                  {profile.fonts.slice(0, 4).map((font) => (
+                    <span key={font} className={styles.brandToken}>
+                      {font}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {profile.colors.length > 0 && (
+              <div className={styles.brandMetaCard}>
+                <p className={styles.brandMetaLabel}>Palette</p>
+                <div className={styles.brandColorList}>
+                  {profile.colors.slice(0, 6).map((color) => (
+                    <span key={color} className={styles.brandColorSwatch}>
+                      <span className={styles.brandColorChip} style={{ backgroundColor: color }} aria-hidden />
+                      <span>{color}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {profile.campaignCreativeTitles.length > 0 && (
+            <div className={styles.brandCampaigns}>
+              <p className={styles.brandMetaLabel}>Campaign hooks</p>
+              <div className={styles.brandTokenList}>
+                {profile.campaignCreativeTitles.slice(0, 6).map((title) => (
+                  <span key={title} className={styles.brandToken}>
+                    {title}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {previewImages.length > 0 && (
+          <div className={styles.brandImageGrid}>
+            {previewImages.map((imageFile) => (
+              <figure key={imageFile} className={styles.brandImageFrame}>
+                <Image
+                  src={`/images/work-brand-dna/${cs.slug}/${imageFile}`}
+                  alt={`${cs.client} brand creative`}
+                  width={840}
+                  height={840}
+                  className={styles.brandImage}
+                />
+              </figure>
+            ))}
+          </div>
+        )}
+      </div>
+    </SectionBlock>
   )
 }
 
@@ -876,6 +1011,8 @@ export function WorkDetailContent({
 
             <NarrativeMediaSections cs={cs} />
 
+            <BrandIdentitySnapshot cs={cs} />
+
             {isSystemExpanded && cs.process && cs.process.length > 0 && (
               <ProcessTimeline process={cs.process} />
             )}
@@ -901,6 +1038,8 @@ export function WorkDetailContent({
             </SectionBlock>
 
             <NarrativeMediaSections cs={cs} />
+
+            <BrandIdentitySnapshot cs={cs} />
 
             <SectionBlock eyebrow={isFlagshipLongform ? 'Results and operating impact' : 'The Outcome'}>
               <BodyCopy text={cs.outcome} />

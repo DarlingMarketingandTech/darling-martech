@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "sync:brand-dna": "node scripts/sync-brand-dna-assets.mjs",
     "check:metadata": "node scripts/check-page-metadata.mjs",
     "check:banned-imports": "node scripts/check-banned-imports.mjs",
     "check:links": "node scripts/check-internal-links.mjs",
