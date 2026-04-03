@@ -1,432 +1,236 @@
-/**
- * POST /api/capture
- *
- * Body:  { email: string, auditData: AuditResult }
- * Returns: { success: boolean, message: string }
- *
- * Sends a full GEO Readiness Report to the user via Resend.
- * Rate limit: 5 emails / hour per IP.
- */
-
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { Resend } from 'resend'
 import { checkRateLimit, getClientIp } from '@/lib/geo-auditor/rate-limiter'
-import { SITE_ORIGIN, SITE_HOSTNAME, geoOptimizationUrl } from '@/lib/geo-auditor/site'
+import { SITE_HOSTNAME, SITE_ORIGIN, geoOptimizationUrl } from '@/lib/geo-auditor/site'
+import { GeoAuditReportSchema } from '@/lib/geo-auditor/types'
 
-// ---------------------------------------------------------------------------
-// Validation schemas
-// ---------------------------------------------------------------------------
-
-const CheckResultSchema = z.object({
-  id: z.string(),
-  label: z.string(),
-  status: z.enum(['pass', 'warn', 'fail']),
-  weight: z.number().min(0).max(100),
-  message: z.string(),
-  fix: z.string().optional(),
+const BaseSchema = z.object({
+  name: z.preprocess(value => (typeof value === 'string' ? value.trim() : value), z.string().min(1).max(100)),
+  email: z.preprocess(value => (typeof value === 'string' ? value.trim().toLowerCase() : value), z.string().email()),
+  company: z.preprocess(value => (typeof value === 'string' ? value.trim() : value), z.string().max(120).optional()),
 })
 
-const AuditResultSchema = z.object({
-  url: z.string().url(),
-  score: z.number().min(0).max(100),
-  checks: z.array(CheckResultSchema).min(1),
-  summary: z.string(),
-  fetchedAt: z.string(),
-})
+const ModernSchema = BaseSchema.extend({ audit: GeoAuditReportSchema })
+const LegacySchema = BaseSchema.extend({ auditData: GeoAuditReportSchema })
 
-const RequestSchema = z.object({
-  name: z.preprocess(
-    val => (typeof val === 'string' ? val.trim() : val),
-    z.string().min(1, 'Please enter your name').max(100)
-  ),
-  email: z.preprocess(
-    val => (typeof val === 'string' ? val.trim().toLowerCase() : val),
-    z.string().email('Please enter a valid email address')
-  ),
-  auditData: AuditResultSchema,
-})
+type CaptureRequest = z.infer<typeof BaseSchema> & { audit: z.infer<typeof GeoAuditReportSchema> }
 
-type CaptureRequest = z.infer<typeof RequestSchema>
-type CheckResult = z.infer<typeof CheckResultSchema>
+function normalizeRequest(body: unknown): { success: true; data: CaptureRequest } | { success: false; message: string; details?: unknown } {
+  const modern = ModernSchema.safeParse(body)
+  if (modern.success) {
+    return { success: true, data: modern.data }
+  }
 
-// ---------------------------------------------------------------------------
-// Email template
-// ---------------------------------------------------------------------------
+  const legacy = LegacySchema.safeParse(body)
+  if (legacy.success) {
+    return {
+      success: true,
+      data: {
+        name: legacy.data.name,
+        email: legacy.data.email,
+        company: legacy.data.company,
+        audit: legacy.data.auditData,
+      },
+    }
+  }
 
-const SCORE_COLORS: Record<string, string> = {
-  excellent: '#22c55e',
-  good: '#f59e0b',
-  needs_work: '#f97316',
-  critical: '#ef4444',
-}
-
-function scoreColor(score: number): string {
-  if (score >= 80) return SCORE_COLORS.excellent
-  if (score >= 60) return SCORE_COLORS.good
-  if (score >= 40) return SCORE_COLORS.needs_work
-  return SCORE_COLORS.critical
-}
-
-function scoreLabel(score: number): string {
-  if (score >= 80) return 'Excellent GEO Readiness'
-  if (score >= 60) return 'Good Foundation'
-  if (score >= 40) return 'Needs Improvement'
-  return 'Critical Issues Found'
-}
-
-function statusIcon(status: string): string {
-  return status === 'pass' ? '✅' : status === 'warn' ? '⚠️' : '❌'
-}
-
-function statusBg(status: string): string {
-  return status === 'pass' ? '#f0fdf4' : status === 'warn' ? '#fffbeb' : '#fef2f2'
-}
-
-function statusBorder(status: string): string {
-  return status === 'pass' ? '#bbf7d0' : status === 'warn' ? '#fde68a' : '#fecaca'
-}
-
-/** Returns checks sorted: fail first, then warn, then pass */
-function sortedChecks(checks: CheckResult[]): CheckResult[] {
-  const order = { fail: 0, warn: 1, pass: 2 }
-  return [...checks].sort((a, b) => order[a.status] - order[b.status])
-}
-
-/** Prioritised fix list — fails first, then warns, skipping passes */
-function prioritizedFixes(checks: CheckResult[]): CheckResult[] {
-  return sortedChecks(checks).filter(c => c.fix)
-}
-
-function domainFromUrl(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, '')
-  } catch {
-    return url
+  const firstIssue = modern.error.issues[0] ?? legacy.error.issues[0]
+  return {
+    success: false,
+    message: firstIssue?.message ?? 'Invalid request payload.',
+    details: modern.error.issues,
   }
 }
 
-function buildEmailHtml(data: CaptureRequest): string {
-  const { name, email, auditData } = data
-  const { url, score, checks, summary, fetchedAt } = auditData
-  const domain = domainFromUrl(url)
-  const color = scoreColor(score)
-  const label = scoreLabel(score)
-  const fixes = prioritizedFixes(checks)
-  const sorted = sortedChecks(checks)
-  const auditDate = new Date(fetchedAt).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
+function renderActions(report: CaptureRequest['audit']): string {
+  const actions = report.topActions.slice(0, 5)
+  if (!actions.length) {
+    return '<p style="margin:0;color:#d9e2f2;">No urgent actions were identified in the audited checks.</p>'
+  }
 
-  const checkRows = sorted
+  return actions
     .map(
-      c => `
-      <tr>
-        <td style="padding:12px 16px;border-bottom:1px solid #f3f4f6;vertical-align:top">
-          <div style="display:inline-flex;align-items:center;gap:6px">
-            <span style="font-size:16px;line-height:1">${statusIcon(c.status)}</span>
-            <strong style="font-size:13px;color:#111827">${c.label}</strong>
-          </div>
-        </td>
-        <td style="padding:12px 16px;border-bottom:1px solid #f3f4f6;font-size:13px;color:#374151;vertical-align:top">
-          ${c.message}
-        </td>
-        <td style="padding:12px 16px;border-bottom:1px solid #f3f4f6;font-size:12px;color:#6b7280;vertical-align:top">
-          ${c.weight}
-        </td>
-      </tr>`
+      action => `
+        <li style="margin:0 0 12px;">
+          <strong style="color:#f5f0e8;">${action.title}</strong><br />
+          <span style="color:#c7ced9;">${action.recommendation}</span>
+        </li>
+      `,
     )
     .join('')
-
-  const fixItems = fixes.length > 0
-    ? fixes
-        .map(
-          (c, i) => `
-        <div style="display:flex;gap:12px;margin-bottom:${i < fixes.length - 1 ? '16' : '0'}px">
-          <div style="flex-shrink:0;width:24px;height:24px;border-radius:50%;
-                      background:${statusBg(c.status)};border:1px solid ${statusBorder(c.status)};
-                      display:flex;align-items:center;justify-content:center;
-                      font-size:11px;font-weight:700;color:${c.status === 'fail' ? '#dc2626' : '#d97706'};
-                      line-height:24px;text-align:center">
-            ${i + 1}
-          </div>
-          <div style="flex:1">
-            <div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:2px">${c.label}</div>
-            <div style="font-size:13px;color:#374151">${c.fix}</div>
-          </div>
-        </div>`
-        )
-        .join('')
-    : '<p style="color:#6b7280;font-size:13px;margin:0">No critical fixes needed — great work!</p>'
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Your GEO Readiness Report for ${domain}</title>
-</head>
-<body style="margin:0;padding:0;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
-
-  <!-- Wrapper -->
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;padding:32px 16px">
-    <tr><td align="center">
-
-      <!-- Card -->
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1)">
-
-        <!-- Header -->
-        <tr>
-          <td style="background:linear-gradient(135deg,#1e3a5f 0%,#1d4ed8 100%);padding:32px 40px">
-            <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:2px;color:#93c5fd;text-transform:uppercase">
-              Darling Marketing &amp; Tech
-            </p>
-            <h1 style="margin:0 0 8px;font-size:24px;font-weight:700;color:#ffffff;line-height:1.2">
-              Your GEO Readiness Report${name ? `, ${name}` : ''}
-            </h1>
-            <p style="margin:0;font-size:14px;color:#bfdbfe">
-              ${domain} &nbsp;·&nbsp; Audited ${auditDate}
-            </p>
-          </td>
-        </tr>
-
-        <!-- Score block -->
-        <tr>
-          <td style="padding:40px 40px 0">
-            <table width="100%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td style="background:#f8fafc;border-radius:12px;padding:32px;text-align:center;border:2px solid ${color}22">
-                  <div style="font-size:72px;font-weight:800;color:${color};line-height:1">${score}</div>
-                  <div style="font-size:14px;color:#6b7280;margin:4px 0 12px">out of 100</div>
-                  <div style="display:inline-block;background:${color}18;border:1px solid ${color}44;
-                               border-radius:20px;padding:4px 16px;font-size:13px;font-weight:600;color:${color}">
-                    ${label}
-                  </div>
-                </td>
-              </tr>
-            </table>
-
-            <p style="font-size:15px;color:#374151;margin:24px 0 0;line-height:1.6;padding:16px 20px;
-                       background:#f1f5f9;border-left:4px solid #2563eb;border-radius:0 8px 8px 0">
-              ${summary}
-            </p>
-          </td>
-        </tr>
-
-        <!-- Prioritized Fixes -->
-        <tr>
-          <td style="padding:32px 40px 0">
-            <h2 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 20px">
-              🔧 Prioritized Fixes (${fixes.length} action${fixes.length !== 1 ? 's' : ''})
-            </h2>
-            ${fixItems}
-          </td>
-        </tr>
-
-        <!-- Full check breakdown -->
-        <tr>
-          <td style="padding:32px 40px 0">
-            <h2 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 16px">
-              📊 Full Audit Breakdown
-            </h2>
-            <table width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;border-radius:8px;overflow:hidden;border:1px solid #f3f4f6">
-              <thead>
-                <tr style="background:#f9fafb">
-                  <th style="text-align:left;padding:10px 16px;font-size:11px;font-weight:700;color:#6b7280;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid #f3f4f6">
-                    Check
-                  </th>
-                  <th style="text-align:left;padding:10px 16px;font-size:11px;font-weight:700;color:#6b7280;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid #f3f4f6">
-                    Finding
-                  </th>
-                  <th style="text-align:left;padding:10px 16px;font-size:11px;font-weight:700;color:#6b7280;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid #f3f4f6">
-                    Weight
-                  </th>
-                </tr>
-              </thead>
-              <tbody>${checkRows}</tbody>
-            </table>
-          </td>
-        </tr>
-
-        <!-- CTA -->
-        <tr>
-          <td style="padding:32px 40px">
-            <table width="100%" cellpadding="0" cellspacing="0"
-                   style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;border-radius:12px;padding:0">
-              <tr>
-                <td style="padding:28px 32px">
-                  <h3 style="margin:0 0 8px;font-size:18px;font-weight:700;color:#1d4ed8">
-                    Ready to fix every issue above?
-                  </h3>
-                  <p style="margin:0 0 20px;font-size:14px;color:#374151;line-height:1.6">
-                    Our GEO Optimization service implements every fix in this report — plus advanced
-                    AI visibility techniques your competitors haven&rsquo;t discovered yet. Most clients
-                    see measurable improvements in AI citation rates within 30 days.
-                  </p>
-                  <a href="${geoOptimizationUrl()}"
-                     style="display:inline-block;background:#2563eb;color:#ffffff;padding:14px 28px;
-                            border-radius:8px;text-decoration:none;font-weight:700;font-size:14px">
-                    Get Your Free GEO Optimization Consultation →
-                  </a>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-
-        <!-- Footer -->
-        <tr>
-          <td style="border-top:1px solid #f3f4f6;padding:20px 40px;background:#f9fafb">
-            <p style="margin:0 0 4px;font-size:12px;color:#9ca3af">
-              You requested this report at
-              <a href="${SITE_ORIGIN}" style="color:#6b7280">${SITE_HOSTNAME}</a>
-              using <strong>${email}</strong>.
-            </p>
-            <p style="margin:0;font-size:12px;color:#9ca3af">
-              Darling Marketing &amp; Tech &middot;
-              <a href="${SITE_ORIGIN}" style="color:#6b7280">${SITE_HOSTNAME}</a>
-            </p>
-          </td>
-        </tr>
-
-      </table><!-- /Card -->
-
-    </td></tr>
-  </table><!-- /Wrapper -->
-
-</body>
-</html>`
 }
 
-// ---------------------------------------------------------------------------
-// Route handler
-// ---------------------------------------------------------------------------
+function renderChecks(report: CaptureRequest['audit']): string {
+  return report.checks
+    .map(
+      check => `
+        <tr>
+          <td style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.08);color:#f5f0e8;font-weight:600;vertical-align:top;">${check.label}</td>
+          <td style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.08);color:#c7ced9;vertical-align:top;">${check.summary}</td>
+          <td style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.08);color:#c7ced9;vertical-align:top;text-transform:capitalize;">${check.status}</td>
+        </tr>
+      `,
+    )
+    .join('')
+}
+
+function buildHtml({ name, company, audit }: CaptureRequest): string {
+  const companyLine = company ? `<p style="margin:0 0 4px;color:#c7ced9;">Company: ${company}</p>` : ''
+
+  return `
+    <!doctype html>
+    <html lang="en">
+      <body style="margin:0;padding:32px 16px;background:#090909;font-family:Inter,Arial,sans-serif;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td align="center">
+              <table role="presentation" width="640" cellpadding="0" cellspacing="0" style="background:#121212;border:1px solid rgba(255,255,255,0.08);border-radius:20px;overflow:hidden;">
+                <tr>
+                  <td style="padding:32px 32px 24px;background:linear-gradient(135deg, rgba(255,77,0,0.18), rgba(255,77,0,0.04));border-bottom:1px solid rgba(255,255,255,0.08);">
+                    <p style="margin:0 0 10px;color:#ffb089;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;font-weight:700;">Darling MarTech · GEO Readiness Auditor</p>
+                    <h1 style="margin:0 0 8px;color:#f5f0e8;font-size:28px;line-height:1.2;">Your full GEO report is ready, ${name}.</h1>
+                    <p style="margin:0;color:#c7ced9;font-size:15px;line-height:1.6;">This is the deeper version of the audit: stronger diagnosis, clearer priorities, and a cleaner path into implementation.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:28px 32px 8px;">
+                    <div style="display:inline-block;padding:10px 14px;border-radius:999px;background:rgba(255,77,0,0.12);color:#ffb089;font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;">${audit.band} · ${audit.score}/100</div>
+                    <h2 style="margin:18px 0 10px;color:#f5f0e8;font-size:22px;line-height:1.3;">${audit.summary.headline}</h2>
+                    <p style="margin:0 0 14px;color:#c7ced9;font-size:15px;line-height:1.7;">${audit.summary.overview}</p>
+                    <p style="margin:0 0 18px;color:#f5f0e8;font-size:15px;line-height:1.7;"><strong>What I would fix first:</strong> ${audit.summary.topPriority}</p>
+                    <p style="margin:0 0 6px;color:#c7ced9;">Audited URL: <a href="${audit.url}" style="color:#ffb089;">${audit.url}</a></p>
+                    ${companyLine}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 32px 8px;">
+                    <h3 style="margin:0 0 12px;color:#f5f0e8;font-size:18px;">Top actions</h3>
+                    <ol style="margin:0;padding-left:20px;color:#c7ced9;line-height:1.7;">
+                      ${renderActions(audit)}
+                    </ol>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:24px 32px 8px;">
+                    <h3 style="margin:0 0 12px;color:#f5f0e8;font-size:18px;">Check-by-check breakdown</h3>
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;">
+                      <thead>
+                        <tr style="background:#171717;">
+                          <th align="left" style="padding:12px 16px;color:#8e97a5;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;">Check</th>
+                          <th align="left" style="padding:12px 16px;color:#8e97a5;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;">Finding</th>
+                          <th align="left" style="padding:12px 16px;color:#8e97a5;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${renderChecks(audit)}
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:24px 32px 32px;">
+                    <div style="padding:22px;border-radius:18px;background:rgba(255,77,0,0.08);border:1px solid rgba(255,77,0,0.22);">
+                      <h3 style="margin:0 0 10px;color:#f5f0e8;font-size:18px;">Want help fixing this?</h3>
+                      <p style="margin:0 0 18px;color:#c7ced9;font-size:15px;line-height:1.7;">The audit tells you what is weak. The GEO optimization service is where I turn that diagnosis into structure, implementation, and measurable discoverability improvements.</p>
+                      <a href="${geoOptimizationUrl()}" style="display:inline-block;padding:12px 18px;border-radius:999px;background:#ff4d00;color:#090909;font-weight:700;text-decoration:none;">Review the GEO optimization service</a>
+                    </div>
+                    <p style="margin:24px 0 0;color:#8e97a5;font-size:12px;line-height:1.6;">Requested from <a href="${SITE_ORIGIN}" style="color:#ffb089;">${SITE_HOSTNAME}</a>.</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </body>
+    </html>
+  `
+}
+
+function buildText({ name, company, audit }: CaptureRequest): string {
+  const actions = audit.topActions.map(action => `- ${action.title}: ${action.recommendation}`).join('\n')
+  const checks = audit.checks.map(check => `- ${check.label} [${check.status}]: ${check.summary}`).join('\n')
+
+  return [
+    `Hi ${name},`,
+    '',
+    `Your full GEO report is ready for ${audit.url}.`,
+    `Score: ${audit.score}/100 (${audit.band})`,
+    company ? `Company: ${company}` : '',
+    '',
+    audit.summary.headline,
+    audit.summary.overview,
+    '',
+    `What I would fix first: ${audit.summary.topPriority}`,
+    '',
+    'Top actions:',
+    actions || '- No urgent actions identified.',
+    '',
+    'Check-by-check breakdown:',
+    checks,
+    '',
+    `Review the GEO optimization service: ${geoOptimizationUrl()}`,
+    `Requested from ${SITE_HOSTNAME}`,
+  ].filter(Boolean).join('\n')
+}
 
 export async function POST(req: NextRequest) {
-  // 1. Rate limit
   const ip = getClientIp(req)
-  const rl = await checkRateLimit(ip, 'capture')
+  const rateLimit = await checkRateLimit(ip, 'capture')
 
-  if (!rl.allowed) {
+  if (!rateLimit.allowed) {
     return NextResponse.json(
       {
         success: false,
-        message: `Too many email requests. Please wait ${Math.ceil(rl.resetIn / 60)} minute(s) before requesting another report.`,
-        resetIn: rl.resetIn,
+        message: `Too many report requests. Please try again in ${Math.ceil(rateLimit.resetIn / 60)} minute(s).`,
       },
-      {
-        status: 429,
-        headers: {
-          'Retry-After': String(rl.resetIn),
-          'X-RateLimit-Remaining': '0',
-          'X-RateLimit-Reset': String(Math.floor(Date.now() / 1000) + rl.resetIn),
-        },
-      }
+      { status: 429, headers: { 'Retry-After': String(rateLimit.resetIn) } },
     )
   }
 
-  // 2. Parse body
   let body: unknown
   try {
     body = await req.json()
   } catch {
-    return NextResponse.json(
-      { success: false, message: 'Invalid JSON body' },
-      { status: 400 }
-    )
+    return NextResponse.json({ success: false, message: 'Invalid JSON body.' }, { status: 400 })
   }
 
-  const parsed = RequestSchema.safeParse(body)
-  if (!parsed.success) {
-    const firstIssue = parsed.error.issues[0]
-    return NextResponse.json(
-      {
-        success: false,
-        message: firstIssue?.message ?? 'Invalid request',
-        details: parsed.error.issues.map(i => ({
-          path: i.path.join('.'),
-          message: i.message,
-        })),
-      },
-      { status: 400 }
-    )
+  const normalized = normalizeRequest(body)
+  if (!normalized.success) {
+    return NextResponse.json({ success: false, message: normalized.message, details: normalized.details }, { status: 400 })
   }
 
-  const data = parsed.data as CaptureRequest
-
-  // 3. Check Resend is configured
-  const apiKey = process.env.RESEND_API_KEY
-  if (!apiKey || apiKey === 're_your_key_here') {
-    console.error('[capture] RESEND_API_KEY not configured')
-    return NextResponse.json(
-      { success: false, message: 'Email service is not configured. Please contact us directly.' },
-      { status: 503 }
-    )
+  const resendKey = process.env.RESEND_API_KEY
+  if (!resendKey) {
+    return NextResponse.json({ success: false, message: 'Email service is not configured.' }, { status: 503 })
   }
 
-  // 4. Send email
   try {
-    const resend = new Resend(apiKey)
-    const domain = domainFromUrl(data.auditData.url)
+    const resend = new Resend(resendKey)
+    const from = process.env.RESEND_FROM ?? 'GEO Auditor <onboarding@resend.dev>'
+    const html = buildHtml(normalized.data)
+    const text = buildText(normalized.data)
 
-    const resendFrom =
-      process.env.RESEND_FROM ?? 'GEO Auditor <onboarding@resend.dev>'
-
-    const { data: emailData, error } = await resend.emails.send({
-      from: resendFrom,
-      to: data.email,
-      subject: `Your GEO Readiness Report for ${domain} — Score: ${data.auditData.score}/100`,
-      html: buildEmailHtml(data),
-      // Plain-text fallback
-      text: [
-        `Hi ${data.name},`,
-        '',
-        `Your GEO Readiness Report for ${domain}`,
-        `Score: ${data.auditData.score}/100 — ${scoreLabel(data.auditData.score)}`,
-        '',
-        data.auditData.summary,
-        '',
-        '=== AUDIT FINDINGS ===',
-        ...sortedChecks(data.auditData.checks).map(
-          c => `${statusIcon(c.status)} ${c.label}: ${c.message}${c.fix ? `\n   → Fix: ${c.fix}` : ''}`
-        ),
-        '',
-        'Ready to fix these issues?',
-        geoOptimizationUrl(),
-        '',
-        '---',
-        `Darling Marketing & Tech · ${SITE_HOSTNAME}`,
-      ].join('\n'),
+    const { error } = await resend.emails.send({
+      from,
+      to: normalized.data.email,
+      subject: `Your GEO report for ${new URL(normalized.data.audit.url).hostname} — ${normalized.data.audit.score}/100`,
+      html,
+      text,
     })
 
     if (error) {
-      console.error('[capture] Resend error:', error)
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Failed to send the report email. Please try again or contact us directly.',
-        },
-        { status: 500 }
-      )
+      return NextResponse.json({ success: false, message: 'Failed to send the report email.' }, { status: 500 })
     }
 
-    return NextResponse.json({
-      success: true,
-      message: `Your GEO Readiness Report has been sent to ${data.email}.`,
-      name: data.name,
-      emailId: emailData?.id,
-    })
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Unknown error'
-    console.error('[capture] Unexpected error:', message)
+    return NextResponse.json({ success: true, message: `The full report has been sent to ${normalized.data.email}.` })
+  } catch (error) {
     return NextResponse.json(
       {
         success: false,
-        message: 'An unexpected error occurred while sending your report. Please try again.',
+        message: error instanceof Error ? error.message : 'Unexpected email delivery failure.',
       },
-      { status: 500 }
+      { status: 500 },
     )
   }
 }
