@@ -1,75 +1,59 @@
 import type { ProjectMediaMap } from "../types";
 
 export const projectMedia_pikeMedicalConsultants: ProjectMediaMap = {
-  projectSlug: "pike-medical-consultants",
+  projectSlug: "pike-medical",
 
   hero: {
     publicId: "pmc-webheader-med",
-    alt: "Pike Medical Consultants website header visual",
-    kind: "screen",
+    alt: "Website header graphic used for Pike Medical Consultants",
+    kind: "graphic",
     role: "hero",
-    caption: "Pike Medical digital platform hero frame",
-    theme: "clinical-precision",
-    audience: "patients-and-employers",
+    caption: "Website header graphic support asset",
+    theme: "digital-experience",
+    audience: "healthcare-patients-and-referral-partners",
     tags: [
-      "client-pike-medical-consultants",
+      "client-pike-medical",
       "surface-work",
-      "kind-screen",
-      "priority-hero",
+      "kind-graphic",
+      "priority-support",
       "status-canonical",
     ],
   },
 
-  screens: [
+  screens: [],
+
+  productInUse: [],
+
+  campaign: [
     {
       publicId: "pmc-welcome",
-      alt: "Pike Medical welcome interface and messaging surface",
-      kind: "screen",
-      role: "gallery",
-      caption: "Welcome and routing surface",
-      theme: "educational-authority",
-      audience: "patients-and-employers",
+      alt: "Welcome graphic used on the Pike Medical Consultants website",
+      kind: "graphic",
+      role: "support",
+      caption: "Welcome graphic support asset",
+      theme: "patient-welcome",
+      audience: "healthcare-patients-and-referral-partners",
       tags: [
-        "client-pike-medical-consultants",
+        "client-pike-medical",
         "surface-work",
-        "kind-screen",
+        "kind-graphic",
         "priority-support",
         "status-canonical",
       ],
     },
-  ],
-
-  productInUse: [
-    {
-      publicId: "635889083997282366-Dr.-James-Pike",
-      alt: "Dr. James Pike portrait used in parent-brand trust and care leadership contexts",
-      kind: "photo",
-      role: "support",
-      caption: "Physician leadership and care credibility proof",
-      theme: "professional-excellence",
-      audience: "patients-and-employers",
-      tags: [
-        "client-pike-medical-consultants",
-        "surface-work",
-        "kind-photo",
-        "status-canonical",
-      ],
-    },
-  ],
-
-  campaign: [
     {
       publicId: "download",
-      alt: "Pike Medical branded campaign and awareness graphic",
-      kind: "campaign",
-      role: "proof-secondary",
-      caption: "Parent-brand campaign support creative",
-      theme: "patient-outcomes",
-      audience: "patients-and-employers",
+      alt: "Support graphic used in the Pike Medical Consultants project materials",
+      kind: "graphic",
+      role: "support",
+      caption: "Supporting graphic asset",
+      theme: "professional-trust",
+      audience: "healthcare-patients-and-referral-partners",
       tags: [
-        "client-pike-medical-consultants",
+        "client-pike-medical",
         "surface-work",
-        "kind-campaign",
+        "kind-graphic",
+        "priority-support",
         "status-secondary",
       ],
     },
@@ -77,14 +61,20 @@ export const projectMedia_pikeMedicalConsultants: ProjectMediaMap = {
 
   logos: [
     {
-      publicId: "download",
-      alt: "Pike Medical brand mark used as trust anchor",
-      kind: "logo",
+      publicId: "635889083997282366-Dr.-James-Pike",
+      alt: "Portrait of Dr. James Pike used to support the Pike Medical Consultants case study",
+      kind: "photo",
       role: "support",
-      caption: "Pike Medical identity anchor",
-      theme: "brand-authority",
-      audience: "patients-and-employers",
-      tags: ["client-pike-medical-consultants", "kind-logo", "status-secondary"],
+      caption: "Founder portrait support image",
+      theme: "founder-authority",
+      audience: "healthcare-patients-and-referral-partners",
+      tags: [
+        "client-pike-medical",
+        "surface-work",
+        "kind-photo",
+        "priority-support",
+        "status-canonical",
+      ],
     },
   ],
 };

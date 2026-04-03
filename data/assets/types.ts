@@ -22,7 +22,13 @@ export type MediaTheme =
   | "patient-outcomes"
   | "educational-authority"
   | "brand-authority"
-  | "professional-excellence";
+  | "professional-excellence"
+  | "craftsmanship"
+  | "local-identity"
+  | "digital-experience"
+  | "patient-welcome"
+  | "professional-trust"
+  | "founder-authority";
 
 export type MediaAsset = {
   publicId: string;
@@ -33,6 +39,7 @@ export type MediaAsset = {
   tags?: string[];
   theme?: MediaTheme;
   audience?: string;
+  excluded?: boolean;
 };
 
 export type ProjectMediaMap = {
