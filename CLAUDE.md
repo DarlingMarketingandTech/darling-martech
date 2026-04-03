@@ -144,7 +144,7 @@ Work index layout: flagship studies first, supporting grid, connected-system str
   - Services section frames problem clusters and routes to child pages — not a repeat of the hero.
   - `<AboutTeaser />` is removed from the homepage (`app/page.tsx`). Do not recreate it or its
     job in any other homepage section. The hero now carries the full positioning load.
-  - Homepage flow (implemented): Hero → Services → FeaturedTool → CaseStudies → Testimonials → ContactCTA.
+  - Homepage flow (implemented): Hero → Services → ToolPathRail ("Choose your starting point") → CaseStudies → Testimonials → ContactCTA.
   - Hero primary CTA routes to `/work`. Secondary CTA routes to `/contact?intent=unsure`.
   - Services section headline and card summaries are problem-led (updated 2026-03-29).
   - Homepage proof polish: hero copy tightened for operator clarity; the case studies rail is now a selected-teaser format with a single dominant metric per card for faster scanning.

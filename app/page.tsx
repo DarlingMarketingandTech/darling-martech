@@ -1,7 +1,6 @@
 import { Hero } from '@/components/sections/Hero'
 import { Services } from '@/components/sections/Services'
 import { ToolPathRail } from '@/components/sections/ToolPathRail/ToolPathRail'
-import { FeaturedTool } from '@/components/sections/FeaturedTool'
 import { CaseStudies } from '@/components/sections/CaseStudies'
 import { Testimonials } from '@/components/sections/Testimonials'
 import { ContactCTA } from '@/components/sections/ContactCTA'
@@ -25,7 +24,6 @@ export default function Home() {
         title="Choose your starting point."
         description="Run one of four practical tools to diagnose the real issue, prioritize the next move, and walk into a strategy conversation with context instead of guesswork."
       />
-      <FeaturedTool />
       <CaseStudies />
       <Testimonials />
       <ContactCTA />
