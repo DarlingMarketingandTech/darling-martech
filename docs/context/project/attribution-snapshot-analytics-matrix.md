@@ -61,6 +61,34 @@ Use this to:
   - geo_readiness_auditor
   - cmo_roadmap_generator
   - attribution_snapshot
+- home_tool_starting_points:
+  - cmo-simulator
+  - geo-readiness-auditor
+  - cmo-roadmap-generator
+  - attribution-snapshot
+- process_tool_path:
+  - cmo-simulator
+  - geo-readiness-auditor
+  - cmo-roadmap-generator
+  - tool_contact
+- services_cluster_strategy:
+  - cmo-simulator
+- services_cluster_brand-web:
+  - cmo-roadmap-generator
+- services_cluster_systems:
+  - attribution-snapshot
+- services_cluster_growth:
+  - geo-readiness-auditor
+- service_detail_[slug]:
+  - cmo-simulator
+  - cmo-roadmap-generator
+  - attribution-snapshot
+  - geo-readiness-auditor
+- work_detail_[slug]:
+  - cmo-simulator
+  - cmo-roadmap-generator
+  - attribution-snapshot
+  - geo-readiness-auditor
 - attribution_snapshot:
   - measurement_plan
   - measurement_service

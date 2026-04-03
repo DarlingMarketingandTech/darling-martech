@@ -14,6 +14,7 @@ import { getWorkDetailTemplate } from '@/lib/work'
 import { getProjectMedia } from '@/lib/media/getProjectMedia'
 import type { MediaAsset } from '@/data/assets/types'
 import { containerVariants, itemVariants, springEntrance } from '@/lib/motion'
+import { analytics } from '@/lib/analytics'
 import styles from './WorkDetail.module.css'
 
 const WorkAmbient = dynamic(
@@ -570,6 +571,98 @@ function PrevNextNav({
   )
 }
 
+type WorkToolRecommendation = {
+  label: string
+  slug: string
+  href: string
+  body: string
+}
+
+function getWorkToolRecommendation(cs: CaseStudy): WorkToolRecommendation {
+  const bySlug: Record<string, WorkToolRecommendation> = {
+    'russell-painting': {
+      label: 'GEO Readiness Auditor',
+      slug: 'geo-readiness-auditor',
+      href: '/tools/geo-readiness-auditor',
+      body: 'Check whether your site is visible to AI-assisted search before scaling more SEO execution.',
+    },
+    'hoosier-boy-barbershop': {
+      label: 'GEO Readiness Auditor',
+      slug: 'geo-readiness-auditor',
+      href: '/tools/geo-readiness-auditor',
+      body: 'Use this to surface local discoverability gaps before expanding demand channels.',
+    },
+    'graston-growth-engine': {
+      label: 'Attribution Snapshot',
+      slug: 'attribution-snapshot',
+      href: '/tools/attribution-snapshot',
+      body: 'Compare attribution models quickly before rebuilding reporting or CRM workflows.',
+    },
+    '317-bbq': {
+      label: 'Attribution Snapshot',
+      slug: 'attribution-snapshot',
+      href: '/tools/attribution-snapshot',
+      body: 'Validate where conversion credit is stable before changing campaign allocation.',
+    },
+    'graston-technique': {
+      label: 'CMO Simulator',
+      slug: 'cmo-simulator',
+      href: '/tools/cmo-simulator?launch=1',
+      body: 'Run the same CMO-level decision framework that shaped this engagement architecture.',
+    },
+    'pike-medical-consultants': {
+      label: 'CMO Simulator',
+      slug: 'cmo-simulator',
+      href: '/tools/cmo-simulator?launch=1',
+      body: 'Use this to pressure-test priorities and sequencing before choosing a growth path.',
+    },
+  }
+
+  if (bySlug[cs.slug]) return bySlug[cs.slug]
+
+  if (cs.category === 'Healthcare' || cs.category === 'Legal') {
+    return {
+      label: 'CMO Roadmap Generator',
+      slug: 'cmo-roadmap-generator',
+      href: '/tools',
+      body: 'Turn strategy constraints into a practical 90-day roadmap you can execute or refine.',
+    }
+  }
+
+  return {
+    label: 'CMO Roadmap Generator',
+    slug: 'cmo-roadmap-generator',
+    href: '/tools',
+    body: 'Build a prioritized roadmap from your current constraints before starting a new build.',
+  }
+}
+
+function ToolPromptPanel({ cs }: { cs: CaseStudy }) {
+  const recommendedTool = getWorkToolRecommendation(cs)
+
+  return (
+    <FadeUp>
+      <section className={styles.toolPromptSection} aria-label="Try the framework">
+        <div className={styles.toolPromptCard}>
+          <div>
+            <p className={styles.toolPromptLabel}>Try the framework</p>
+            <h2 className={styles.toolPromptTitle}>Run {recommendedTool.label} on your version.</h2>
+            <p className={styles.toolPromptBody}>{recommendedTool.body}</p>
+          </div>
+          <Link
+            href={recommendedTool.href}
+            className={styles.toolPromptLink}
+            onClick={() => analytics.ctaClick(`work_detail_${cs.slug}`, recommendedTool.slug)}
+          >
+            Open tool
+            <ArrowRight weight="regular" size={14} />
+          </Link>
+        </div>
+      </section>
+    </FadeUp>
+  )
+}
+
 export function WorkDetailContent({
   cs,
   parent,
@@ -823,6 +916,8 @@ export function WorkDetailContent({
           related={related}
           serviceBacklink={serviceBacklink}
         />
+
+        <ToolPromptPanel cs={cs} />
 
         <ContactCta cs={cs} />
       </div>

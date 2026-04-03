@@ -9,6 +9,7 @@ import {
   PaletteIcon,
   RocketLaunchIcon,
 } from '@phosphor-icons/react'
+import { analytics } from '@/lib/analytics'
 import { containerVariants, itemVariants, viewport } from '@/lib/motion'
 import styles from './ServicesPage.module.css'
 
@@ -89,6 +90,33 @@ const clusters = [
   },
 ]
 
+const clusterToolMap: Record<string, { label: string; description: string; href: string; slug: string }> = {
+  strategy: {
+    label: 'CMO Simulator',
+    description: 'Run a CMO-level decision session before committing to service scope.',
+    href: '/tools/cmo-simulator?launch=1',
+    slug: 'cmo-simulator',
+  },
+  'brand-web': {
+    label: 'CMO Roadmap Generator',
+    description: 'Turn goals and constraints into a practical 90-day execution draft.',
+    href: '/tools',
+    slug: 'cmo-roadmap-generator',
+  },
+  systems: {
+    label: 'Attribution Snapshot',
+    description: 'Check measurement confidence before changing systems or channel budgets.',
+    href: '/tools/attribution-snapshot',
+    slug: 'attribution-snapshot',
+  },
+  growth: {
+    label: 'GEO Readiness Auditor',
+    description: 'Get a visibility score and prioritized GEO fixes in minutes.',
+    href: '/tools/geo-readiness-auditor',
+    slug: 'geo-readiness-auditor',
+  },
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export function ServicesExperience() {
@@ -130,7 +158,10 @@ export function ServicesExperience() {
       <section className={styles.clustersSection}>
         <div className={styles.sectionContainer}>
           <div className={styles.clustersGrid}>
-            {clusters.map((cluster, i) => (
+            {clusters.map((cluster, i) => {
+              const recommendedTool = clusterToolMap[cluster.id]
+
+              return (
               <motion.div
                 key={cluster.id}
                 className={styles.clusterCard}
@@ -173,8 +204,23 @@ export function ServicesExperience() {
                   <span className={styles.clusterProofMetric}>{cluster.proof.metric}</span>
                   <span className={styles.clusterProofClient}>{cluster.proof.client} →</span>
                 </Link>
+
+                {/* Contextual tool recommendation */}
+                <div className={styles.clusterToolBlock}>
+                  <p className={styles.clusterToolLabel}>Diagnose before engagement</p>
+                  <p className={styles.clusterToolBody}>{recommendedTool.description}</p>
+                  <Link
+                    href={recommendedTool.href}
+                    className={styles.clusterToolLink}
+                    onClick={() => analytics.ctaClick(`services_cluster_${cluster.id}`, recommendedTool.slug)}
+                  >
+                    Try {recommendedTool.label}
+                    <ArrowRightIcon size={13} weight="light" />
+                  </Link>
+                </div>
               </motion.div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>

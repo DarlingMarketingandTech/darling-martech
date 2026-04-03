@@ -333,6 +333,54 @@
   white-space: nowrap;
 }
 
+.clusterToolBlock {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 0.25rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed rgba(245, 240, 232, 0.12);
+}
+
+.clusterToolLabel {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.45);
+}
+
+.clusterToolBody {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: rgba(245, 240, 232, 0.58);
+}
+
+.clusterToolLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: fit-content;
+  min-height: 2rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 77, 0, 0.28);
+  background: rgba(255, 77, 0, 0.07);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(245, 240, 232, 0.9);
+  text-decoration: none;
+  transition: border-color 0.2s ease;
+}
+
+.clusterToolLink:hover {
+  border-color: rgba(255, 77, 0, 0.5);
+}
+
 /* ── Final CTA ── */
 .ctaBlock {
   display: grid;

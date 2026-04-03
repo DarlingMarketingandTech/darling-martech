@@ -11,6 +11,7 @@ import {
 } from '@phosphor-icons/react'
 import { engagementModels } from '@/data/services'
 import { containerVariants, itemVariants, viewport } from '@/lib/motion'
+import { ToolPathRail } from '@/components/sections/ToolPathRail/ToolPathRail'
 import styles from './ProcessPage.module.css'
 
 const STEPS = [
@@ -108,6 +109,14 @@ export function ProcessExperience() {
           </motion.div>
         </motion.div>
       </section>
+
+      <ToolPathRail
+        mode="path"
+        location="process_tool_path"
+        eyebrow="Guided tool path"
+        title="Assess, prioritize, and plan before you buy."
+        description="If you are not sure which engagement model fits yet, run the sequence below. Each step sharpens the next conversation."
+      />
 
       {/* ── 4-step operating model ── */}
       <section className={styles.stepsSection}>

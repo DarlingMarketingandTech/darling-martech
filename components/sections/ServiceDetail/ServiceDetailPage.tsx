@@ -8,6 +8,7 @@ import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle, Warning, Plus, Minus } from '@phosphor-icons/react'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
+import { analytics } from '@/lib/analytics'
 import { containerVariants, itemVariants, springEntrance, viewport } from '@/lib/motion'
 import { SERVICE_TAGS, INDUSTRY_TAGS } from '@/data/taxonomy'
 import { workIndex } from '@/data/work/work-index'
@@ -69,6 +70,64 @@ function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   )
 }
 
+type DiagnosticToolRecommendation = {
+  label: string
+  description: string
+  href: string
+  slug: string
+}
+
+const diagnosticToolByServiceId: Record<string, DiagnosticToolRecommendation> = {
+  strategy: {
+    label: 'CMO Simulator',
+    description: 'Run a CMO-level decision session before committing to scope.',
+    href: '/tools/cmo-simulator?launch=1',
+    slug: 'cmo-simulator',
+  },
+  'fractional-cmo': {
+    label: 'CMO Simulator',
+    description: 'Pressure-test priorities, budget, and channel focus in one session.',
+    href: '/tools/cmo-simulator?launch=1',
+    slug: 'cmo-simulator',
+  },
+  'martech-audit': {
+    label: 'CMO Roadmap Generator',
+    description: 'Turn strategic inputs into a practical 90-day plan draft.',
+    href: '/tools',
+    slug: 'cmo-roadmap-generator',
+  },
+  systems: {
+    label: 'Attribution Snapshot',
+    description: 'See where measurement confidence breaks before systems work starts.',
+    href: '/tools/attribution-snapshot',
+    slug: 'attribution-snapshot',
+  },
+  'crm-architecture': {
+    label: 'Attribution Snapshot',
+    description: 'Validate model spread and reporting confidence before CRM changes.',
+    href: '/tools/attribution-snapshot',
+    slug: 'attribution-snapshot',
+  },
+  growth: {
+    label: 'GEO Readiness Auditor',
+    description: 'Get a visibility score and prioritized GEO fixes in minutes.',
+    href: '/tools/geo-readiness-auditor',
+    slug: 'geo-readiness-auditor',
+  },
+  'local-seo': {
+    label: 'GEO Readiness Auditor',
+    description: 'Check discoverability issues before investing in more SEO execution.',
+    href: '/tools/geo-readiness-auditor',
+    slug: 'geo-readiness-auditor',
+  },
+  'geo-optimization': {
+    label: 'GEO Readiness Auditor',
+    description: 'See AI visibility gaps and route fixes into your roadmap quickly.',
+    href: '/tools/geo-readiness-auditor',
+    slug: 'geo-readiness-auditor',
+  },
+}
+
 export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
   const primaryCtaLabel = service.primaryCtaLabel ?? 'Request a MarTech Audit'
   const secondaryCtaLabel = service.secondaryCtaLabel ?? 'See the work'
@@ -115,6 +174,31 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
     const byLayer = candidates.find((p) => p.layer === service.layer)
     return byLayer ?? candidates[0]
   }, [service.id, service.kind, service.layer])
+
+  const diagnosticTool = useMemo<DiagnosticToolRecommendation>(() => {
+    if (diagnosticToolByServiceId[service.id]) return diagnosticToolByServiceId[service.id]
+    const fallbackByLayer: Record<ServicePageEntry['layer'], DiagnosticToolRecommendation> = {
+      strategy: {
+        label: 'CMO Simulator',
+        description: 'Run a strategic decision session to sharpen priorities before scope.',
+        href: '/tools/cmo-simulator?launch=1',
+        slug: 'cmo-simulator',
+      },
+      build: {
+        label: 'CMO Roadmap Generator',
+        description: 'Build a practical plan you can execute or bring into engagement.',
+        href: '/tools',
+        slug: 'cmo-roadmap-generator',
+      },
+      growth: {
+        label: 'GEO Readiness Auditor',
+        description: 'Start with a visibility diagnostic before investing in channel expansion.',
+        href: '/tools/geo-readiness-auditor',
+        slug: 'geo-readiness-auditor',
+      },
+    }
+    return fallbackByLayer[service.layer]
+  }, [service.id, service.layer])
 
   return (
     <main className={styles.page}>
@@ -164,6 +248,26 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
           </div>
         </FadeUp>
       )}
+
+      <section className={styles.section} aria-label="Diagnose before engagement">
+        <FadeUp delay={0.27}>
+          <div className={styles.diagnosticCard}>
+            <div>
+              <p className={styles.diagnosticLabel}>Diagnose before engagement</p>
+              <h2 className={styles.diagnosticTitle}>Try {diagnosticTool.label} first.</h2>
+              <p className={styles.diagnosticBody}>{diagnosticTool.description}</p>
+            </div>
+            <Link
+              href={diagnosticTool.href}
+              className={styles.diagnosticCta}
+              onClick={() => analytics.ctaClick(`service_detail_${service.id}`, diagnosticTool.slug)}
+            >
+              Launch tool
+              <ArrowRight weight="regular" size={14} />
+            </Link>
+          </div>
+        </FadeUp>
+      </section>
 
       {service.supportImagePublicId && service.supportImageAlt ? (
         <section className={styles.section} aria-label="Proof preview">

@@ -147,6 +147,75 @@
   background: #e64400;
 }
 
+.diagnosticCard {
+  display: grid;
+  gap: 0.95rem;
+  align-items: center;
+  padding: 1.3rem 1.45rem;
+  border: 1px solid rgba(255, 77, 0, 0.24);
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(255, 77, 0, 0.08), transparent 38%),
+    var(--color-surface);
+}
+
+@media (min-width: 920px) {
+  .diagnosticCard {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1.5rem;
+  }
+}
+
+.diagnosticLabel {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.48);
+}
+
+.diagnosticTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.diagnosticBody {
+  margin: 0.55rem 0 0;
+  max-width: 58ch;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--color-muted);
+}
+
+.diagnosticCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  width: fit-content;
+  min-height: 2.2rem;
+  padding: 0.48rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 77, 0, 0.38);
+  background: rgba(255, 77, 0, 0.1);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.diagnosticCta:hover {
+  border-color: rgba(255, 77, 0, 0.62);
+}
+
 /* ── Proof visual support (single image, Batch 1) ── */
 .proofVisual {
   margin: 0;
