@@ -1,0 +1,76 @@
+.gallery {
+  padding: clamp(4rem, 8vw, 7rem) 0;
+}
+
+.inner {
+  width: min(1200px, calc(100vw - 3rem));
+  margin: 0 auto;
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4rem);
+}
+
+.block {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+
+.heroGrid,
+.assetGrid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.heroGrid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.assetGrid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+}
+
+.figure {
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.figureHero {
+  gap: 1rem;
+}
+
+.imageFrame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.caption {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 900px) {
+  .assetGrid {
+    gap: 1.5rem;
+  }
+}
