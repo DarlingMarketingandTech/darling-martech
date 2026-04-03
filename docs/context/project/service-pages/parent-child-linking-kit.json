@@ -121,7 +121,7 @@
       ],
       "primaryProof": "russell-painting",
       "secondaryCta": "/work/russell-painting",
-      "tool": "https://darling-martech-geo-audit-tool.vercel.app/"
+      "tool": "/lab/geo-auditor"
     },
     "custom-tools-workflow-products": {
       "parent": "crm-automation-ai",

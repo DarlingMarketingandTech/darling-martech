@@ -55,7 +55,7 @@ const featuredLabs: FeaturedLab[] = [
     body:
       'Run a free GEO readiness audit, see your 0-100 visibility score, and unlock a prioritized roadmap of technical fixes by email. Built for SMB teams, not enterprise budgets.',
     primaryLabel: 'Run GEO Audit',
-    primaryHref: '/tools/geo-readiness-auditor',
+    primaryHref: '/lab/geo-auditor',
     secondaryLabel: 'Browse all tools',
     secondaryHref: '/tools',
     cardLabel: 'GEO Readiness Auditor',

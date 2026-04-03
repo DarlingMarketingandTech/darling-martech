@@ -978,7 +978,7 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 | Slug | Name | Category | Live URL |
 |---|---|---|---|
 | `cmo-simulator` | CMO Simulator | Marketing | (gated — email access) |
-| `geo-readiness-auditor` | GEO Readiness Auditor | Marketing | https://darling-martech-geo-audit-tool.vercel.app/ |
+| `geo-readiness-auditor` | GEO Readiness Auditor | Marketing | /lab/geo-auditor |
 | `cmo-roadmap-generator` | CMO Roadmap Generator | Marketing | https://cmo-roadmap-generator.vercel.app/intake |
 
 ### `/data/services.ts` — 6 service categories in `serviceDetails`

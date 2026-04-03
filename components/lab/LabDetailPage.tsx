@@ -71,19 +71,27 @@ export default function LabDetailPage({
         <span className={styles.sectionLabel}>Try It Now</span>
         <h2 className={styles.sectionH2}>Launch the tool below.</h2>
         <p className={styles.sectionBody}>
-          This is the actual tool — not a screenshot, not a video. Click Launch to open it
-          in a full panel and use it yourself.
+          {toolSrc.startsWith('/')
+            ? 'The tool runs on this site — open it in place for the full experience.'
+            : 'This is the actual tool — not a screenshot, not a video. Click Launch to open it in a full panel and use it yourself.'}
         </p>
-        <motion.button
-          className={styles.launchBtn}
-          onClick={() => setModalOpen(true)}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          transition={{ type: 'spring', stiffness: 120, damping: 20 }}
-        >
-          <PlayCircle weight="fill" size={20} />
-          Launch {name}
-        </motion.button>
+        {toolSrc.startsWith('/') ? (
+          <Link href={toolSrc} className={styles.launchBtn}>
+            <PlayCircle weight="fill" size={20} />
+            Open {name}
+          </Link>
+        ) : (
+          <motion.button
+            className={styles.launchBtn}
+            onClick={() => setModalOpen(true)}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: 'spring', stiffness: 120, damping: 20 }}
+          >
+            <PlayCircle weight="fill" size={20} />
+            Launch {name}
+          </motion.button>
+        )}
       </motion.section>
 
       {/* The Problem */}
@@ -202,14 +210,16 @@ export default function LabDetailPage({
         </Link>
       </motion.section>
 
-      {/* Modal */}
-      <LabModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        toolSrc={toolSrc}
-        toolName={name}
-        toolSlug={slug}
-      />
+      {/* Modal — external tools only; native labs use same-origin routes */}
+      {!toolSrc.startsWith('/') && (
+        <LabModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          toolSrc={toolSrc}
+          toolName={name}
+          toolSlug={slug}
+        />
+      )}
     </main>
   )
 }

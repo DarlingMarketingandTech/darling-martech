@@ -704,7 +704,7 @@ export const standaloneServicePages: StandaloneServicePage[] = [
         title: 'Run the GEO Readiness Auditor if you want a quick baseline.',
         body: 'A short, free pass on visibility-oriented checks — useful context before we prioritize what actually deserves implementation on your site.',
         externalCtaLabel: 'Open the auditor',
-        externalCtaHref: 'https://darling-martech-geo-audit-tool.vercel.app/',
+        externalCtaHref: '/lab/geo-auditor',
         imagePublicId: 'v1774692217/GEO_Readiness_Auditor',
         imageAlt: 'GEO Readiness Auditor preview',
       },

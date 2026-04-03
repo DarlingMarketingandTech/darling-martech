@@ -60,10 +60,7 @@ const featuredLabs: FeaturedLab[] = [
     pill: 'Visitor utility',
     description:
       'Is your site visible to AI? Run a fast 0-100 GEO audit, see top issues instantly, then unlock the full prioritized fix report by email.',
-    iframeLaunch: {
-      src: 'https://darling-martech-geo-audit-tool.vercel.app/',
-      slug: 'geo-readiness-auditor',
-    },
+    href: '/lab/geo-auditor',
     ctaLabel: 'Run free GEO audit →',
     stack: ['Next.js', 'TypeScript', 'Cheerio', 'Resend'],
     screenshot: {

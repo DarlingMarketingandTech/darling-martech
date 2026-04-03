@@ -77,7 +77,12 @@ const nextConfig = {
       },
       {
         source: '/lab/geo-readiness-auditor',
-        destination: '/tools',
+        destination: '/lab/geo-auditor',
+        permanent: true,
+      },
+      {
+        source: '/tools/geo-readiness-auditor',
+        destination: '/lab/geo-auditor',
         permanent: true,
       },
       {
