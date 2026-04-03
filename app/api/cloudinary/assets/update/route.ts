@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { assertActionAuth } from '@/lib/actionAuth'
-import cloudinary from '@/lib/cloudinary'
+import { cloudinaryAdminFetch } from '@/lib/cloudinaryAdminFetch'
 
 function toPipeString(obj?: Record<string, unknown>) {
   if (!obj) return undefined
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const result = await cloudinary.api.update_by_asset_id(asset_id, {
+    const result = await cloudinaryAdminFetch(`/resources/${encodeURIComponent(asset_id)}`, 'PUT', {
       display_name,
       asset_folder,
       tags: Array.isArray(tags) ? tags.join(',') : undefined,

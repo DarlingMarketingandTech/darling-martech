@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { assertActionAuth } from '@/lib/actionAuth'
-import cloudinary from '@/lib/cloudinary'
+import cloudinary from '@/lib/cloudinary.server'
 
 export async function GET(req: NextRequest) {
   if (!assertActionAuth(req)) {

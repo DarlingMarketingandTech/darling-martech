@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import { assertActionAuth } from '@/lib/actionAuth'
-import cloudinary from '@/lib/cloudinary'
+import cloudinary from '@/lib/cloudinary.server'
 
 type PreferredOrientation = 'landscape' | 'portrait' | 'square' | 'any'
 
@@ -13,6 +13,11 @@ type RecommendableAsset = {
   context?: Record<string, unknown>
   width?: number
   height?: number
+}
+
+type ScoredRecommendableAsset = RecommendableAsset & {
+  _score: number
+  score_reason: string
 }
 
 function matchesOrientation(
@@ -115,15 +120,17 @@ export async function POST(req: NextRequest) {
       .with_field('context')
       .execute()
 
-    const recommended = (result.resources || [])
-      .filter((asset) =>
+    const resources = (result.resources || []) as RecommendableAsset[]
+
+    const recommended = resources
+      .filter((asset: RecommendableAsset) =>
         matchesOrientation(
           preferred_orientation as PreferredOrientation,
           asset.width,
           asset.height,
         ),
       )
-      .map((asset) => {
+      .map((asset: RecommendableAsset): ScoredRecommendableAsset => {
         const score = scoreAsset(asset, page_name, brand_keywords as string[])
 
         return {
@@ -134,9 +141,9 @@ export async function POST(req: NextRequest) {
             'tag/context match, and usable image dimensions.',
         }
       })
-      .sort((a, b) => b._score - a._score)
+          .sort((a: ScoredRecommendableAsset, b: ScoredRecommendableAsset) => b._score - a._score)
       .slice(0, limit)
-      .map(({ _score, ...rest }) => rest)
+          .map(({ _score, ...rest }: ScoredRecommendableAsset) => rest)
 
     return NextResponse.json({ recommended, expression })
   } catch (error) {
