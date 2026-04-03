@@ -620,7 +620,7 @@ function getWorkToolRecommendation(cs: CaseStudy): WorkToolRecommendation {
 
   if (bySlug[cs.slug]) return bySlug[cs.slug]
 
-  if (cs.category === 'Healthcare' || cs.category === 'Legal') {
+  if (cs.category === 'Healthcare' || cs.category === 'Legal & Professional') {
     return {
       label: 'CMO Roadmap Generator',
       slug: 'cmo-roadmap-generator',
