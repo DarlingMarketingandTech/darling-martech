@@ -95,12 +95,14 @@ Conflict rule:
 - `/work` role: proof of capability — client builds with measurable outcomes.
   A prospect evaluates these; they do not use them. Curated, not exhaustive.
 Work index layout: flagship studies first, supporting grid, connected-system strips
- under parents, then a restrained studio strip (horizontal track). Flagship block
+ under parents, then a restrained studio evidence explorer (selected feature +
+ thumbnail track). Flagship block
  includes a short editorial intro label; both flagship and supporting cards use a
  compact layout (one primary metric) with tier/category badges and extra footer meta
- removed to keep the grid calmer and more proof-led. Studio carousel does not
- auto-advance; horizontal scroll is confined to the track (no document
- `scrollIntoView`) so smooth scroll (Lenis) is not hijacked.
+ removed to keep the grid calmer and more proof-led. The studio explorer does not
+ auto-advance; category tabs and item selection remain keyboard-accessible; horizontal
+ thumb scrolling is confined to the track (no document `scrollIntoView`) so smooth
+ scroll (Lenis) is not hijacked.
 - Phase 3D classification decisions (2026-03-28):
   - Core tools (permanent, primary): CMO Simulator, GEO Readiness Auditor,
     CMO Roadmap Generator, Attribution Snapshot. These are the current entries on `/tools`.
@@ -1277,10 +1279,11 @@ These tie to the `ServicesAmbient` 3D scene component on individual service deta
   `region` with Arrow Left/Right and Home/End to change slides; prev/next icons
   are `aria-hidden` (labels on buttons).
 - Work index `WorkStudioCarousel`: studio filter uses tab ids + `tabpanel` wiring,
-  arrow keys move between tabs; lightbox is `role="dialog"` with initial focus
-  on close, `Escape` and overlay click dismiss, body scroll locked while open,
-  focus returns to the thumb that opened it; close control has a visible
-  `:focus-visible` ring.
+  arrow keys move between tabs; selected item renders as a featured proof panel with
+  evidence metadata and a thumbnail rail (`aria-pressed` state on item buttons);
+  lightbox is `role="dialog"` with initial focus on close, `Escape` and overlay click
+  dismiss, body scroll locked while open, focus returns to the control that opened
+  it; close control has a visible `:focus-visible` ring.
 - Work index `WorkGrid` / `WorkSubNav`: same tablist pattern as the studio strip —
   stable tab `id`s, `aria-controls` on each tab pointing at the filtered results
   `tabpanel`, roving `tabIndex`, Arrow Left/Right to change segment; panel uses

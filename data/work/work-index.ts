@@ -303,6 +303,7 @@ export const workIndex: WorkCard[] = [
     metrics: ['120% increase in time on site', '40% order conversion lift', '2× catering inquiries'],
     category: 'Hospitality & Local',
     logoPublicId: 'GC_Photography_317-81_1',
+    cardPublicId: '317_bbq_home_page_-_desktop_website_view',
     heroPublicId: 'DSC_8684',
     featured: true,
     dashboardTier: 'flagship',
