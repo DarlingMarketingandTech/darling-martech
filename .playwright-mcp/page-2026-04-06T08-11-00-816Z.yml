@@ -1,0 +1,87 @@
+- generic [active] [ref=e1]:
+  - banner:
+    - navigation "Site navigation" [ref=e2]:
+      - link "Darling MarTech" [ref=e3] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e4]: Darling
+        - generic [ref=e5]: MarTech
+      - list [ref=e6]:
+        - listitem [ref=e7]:
+          - link "Work" [ref=e8] [cursor=pointer]:
+            - /url: /work
+            - generic [ref=e9]: Work
+        - listitem [ref=e11]:
+          - link "Services" [ref=e12] [cursor=pointer]:
+            - /url: /services
+            - generic [ref=e13]: Services
+        - listitem [ref=e15]:
+          - link "Tools" [ref=e16] [cursor=pointer]:
+            - /url: /tools
+            - generic [ref=e17]: Tools
+        - listitem [ref=e19]:
+          - link "About" [ref=e20] [cursor=pointer]:
+            - /url: /about
+            - generic [ref=e21]: About
+      - link "Let's talk →" [ref=e25] [cursor=pointer]:
+        - /url: /contact
+  - main [ref=e26]:
+    - main [ref=e27]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - paragraph [ref=e30]: Start a Project
+          - heading "Tell me what you're dealing with." [level=1] [ref=e31]
+          - paragraph [ref=e32]: I work with a small number of clients at a time. No junior hand-offs, no account managers — just me, directly. Here's where it starts.
+          - generic [ref=e33]:
+            - paragraph [ref=e34]: Prefer to reach out directly?
+            - generic [ref=e35]:
+              - link "jacob@darlingmartech.com" [ref=e38] [cursor=pointer]:
+                - /url: mailto:jacob@darlingmartech.com
+              - link "LinkedIn — Jacob Darling" [ref=e41] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/jacobdarling/
+              - generic [ref=e44]: Indianapolis, IN
+          - paragraph [ref=e46]: I reply to every message within 1 business day — usually faster.
+        - generic [ref=e110]:
+          - paragraph [ref=e112]: Got it.
+          - paragraph [ref=e113]: Jacob will review this and follow up within 1 business day — usually faster. If it's a fit, you'll hear back with a direct response, not a calendar link.
+          - link "See how I run these conversations →" [ref=e114] [cursor=pointer]:
+            - /url: /process
+  - contentinfo [ref=e55]:
+    - generic [ref=e56]:
+      - generic [ref=e57]:
+        - link "Darling MarTech" [ref=e58] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e59]: Darling
+          - generic [ref=e60]: MarTech
+        - paragraph [ref=e61]: Marketing strategy and technology for small businesses and startups.
+      - navigation "Footer navigation" [ref=e62]:
+        - link "Work" [ref=e63] [cursor=pointer]:
+          - /url: /work
+        - link "Services" [ref=e64] [cursor=pointer]:
+          - /url: /services
+        - link "Process" [ref=e65] [cursor=pointer]:
+          - /url: /process
+        - link "Tools" [ref=e66] [cursor=pointer]:
+          - /url: /tools
+        - link "Studio" [ref=e67] [cursor=pointer]:
+          - /url: /studio
+        - link "About" [ref=e68] [cursor=pointer]:
+          - /url: /about
+        - link "Contact" [ref=e69] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=e70]:
+        - paragraph [ref=e71]: © 2026 Marketing and Technology LLC
+        - paragraph [ref=e72]:
+          - text: Indianapolis, IN ·
+          - link "jacob@darlingmartech.com" [ref=e73] [cursor=pointer]:
+            - /url: mailto:jacob@darlingmartech.com
+        - paragraph [ref=e74]:
+          - link "Privacy Policy" [ref=e75] [cursor=pointer]:
+            - /url: /privacy-policy
+  - button "Open Next.js Dev Tools" [ref=e81] [cursor=pointer]:
+    - img [ref=e82]
+  - alert [ref=e86]
+  - generic [ref=e87]:
+    - paragraph [ref=e88]: This site uses cookies to improve your experience and analyze site traffic.
+    - generic [ref=e89]:
+      - button "Accept" [ref=e90] [cursor=pointer]
+      - button "Decline" [ref=e91] [cursor=pointer]
