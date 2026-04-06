@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 
 import { WorkCaseStudyJsonLd } from '@/components/JsonLd'
 import { WorkDetailContent } from '@/components/sections/WorkDetail/WorkDetailContent'
-import { ProjectMediaGallery } from '@/components/work/ProjectMediaGallery/ProjectMediaGallery'
 import { getServicePageBySlug } from '@/data/services'
 import { generateWorkStaticParams, getWorkBySlug } from '@/data/work/work-data'
 import { getProjectMedia } from '@/lib/media/getProjectMedia'
@@ -97,9 +96,6 @@ export default async function WorkDetailPage({
         related={related}
         serviceBacklink={serviceBacklink}
       />
-      {caseStudy.slug === 'graston-technique' && media ? (
-        <ProjectMediaGallery media={media} sections={['screens']} />
-      ) : null}
     </>
   )
 }

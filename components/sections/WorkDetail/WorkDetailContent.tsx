@@ -238,10 +238,10 @@ function BrandIdentitySnapshot({ cs }: { cs: CaseStudy }) {
 
   if (!profile) return null
 
-  const previewImages = profile.featuredImageFiles.slice(0, 4)
+  const previewImages = profile.featuredImageFiles.slice(0, 3)
 
   return (
-    <SectionBlock eyebrow="Brand identity snapshot" title="The visual language and brand signals behind this project">
+    <SectionBlock eyebrow="Supporting brand and campaign proof" title="Supporting brand and campaign material from the engagement">
       <div className={styles.brandIdentityShell}>
         <div className={styles.brandIdentityContent}>
           {(profile.name || profile.tagline) && (
@@ -336,7 +336,7 @@ function BrandIdentitySnapshot({ cs }: { cs: CaseStudy }) {
             <div className={styles.brandCampaigns}>
               <p className={styles.brandMetaLabel}>Campaign hooks</p>
               <div className={styles.brandTokenList}>
-                {profile.campaignCreativeTitles.slice(0, 6).map((title) => (
+                {profile.campaignCreativeTitles.slice(0, 4).map((title) => (
                   <span key={title} className={styles.brandToken}>
                     {title}
                   </span>
@@ -389,6 +389,24 @@ function SectionBlock({
 }
 
 function FlagshipProofModulesSection({ modules }: { modules: FlagshipProofModule[] }) {
+  const groupedModules =
+    modules.length >= 6
+      ? [
+          {
+            heading: 'Acquisition and conversion systems',
+            items: modules.slice(0, 2),
+          },
+          {
+            heading: 'Retention, visibility, and operating intelligence',
+            items: modules.slice(2, 5),
+          },
+          {
+            heading: 'Platform stability and infrastructure',
+            items: modules.slice(5),
+          },
+        ]
+      : [{ heading: '', items: modules }]
+
   return (
     <FadeUp>
       <section className={styles.section}>
@@ -397,33 +415,38 @@ function FlagshipProofModulesSection({ modules }: { modules: FlagshipProofModule
           <h2 className={styles.sectionHeadline}>The systems behind the results</h2>
         </div>
         <div className={styles.flagshipModuleStack}>
-          {modules.map((module) => (
-            <article key={module.title} className={styles.flagshipModule}>
-              <div className={styles.flagshipModuleCopy}>
-                <h3 className={styles.flagshipModuleTitle}>{module.title}</h3>
-                {module.body.split('\n\n').filter(Boolean).map((paragraph, i) => (
-                  <p key={i} className={styles.flagshipModuleBody}>{paragraph}</p>
-                ))}
-              </div>
-              {module.imagePublicId && (
-                <figure className={styles.flagshipModuleFigure}>
-                  <div className={styles.flagshipModuleImageFrame}>
-                    <CldImage
-                      src={module.imagePublicId}
-                      alt={module.imageAlt ?? module.title}
-                      width={960}
-                      height={640}
-                      crop="fill"
-                      gravity="auto"
-                      className={styles.flagshipModuleImage}
-                    />
+          {groupedModules.map((group) => (
+            <section key={group.heading || 'default'} className={styles.flagshipModuleGroup}>
+              {group.heading && <h3 className={styles.flagshipGroupHeading}>{group.heading}</h3>}
+              {group.items.map((module) => (
+                <article key={module.title} className={styles.flagshipModule}>
+                  <div className={styles.flagshipModuleCopy}>
+                    <h3 className={styles.flagshipModuleTitle}>{module.title}</h3>
+                    {module.body.split('\n\n').filter(Boolean).map((paragraph, i) => (
+                      <p key={i} className={styles.flagshipModuleBody}>{paragraph}</p>
+                    ))}
                   </div>
-                  {module.imageCaption && (
-                    <figcaption className={styles.flagshipModuleCaption}>{module.imageCaption}</figcaption>
+                  {module.imagePublicId && (
+                    <figure className={styles.flagshipModuleFigure}>
+                      <div className={styles.flagshipModuleImageFrame}>
+                        <CldImage
+                          src={module.imagePublicId}
+                          alt={module.imageAlt ?? module.title}
+                          width={960}
+                          height={640}
+                          crop="fill"
+                          gravity="auto"
+                          className={styles.flagshipModuleImage}
+                        />
+                      </div>
+                      {module.imageCaption && (
+                        <figcaption className={styles.flagshipModuleCaption}>{module.imageCaption}</figcaption>
+                      )}
+                    </figure>
                   )}
-                </figure>
-              )}
-            </article>
+                </article>
+              ))}
+            </section>
           ))}
         </div>
       </section>
@@ -1133,6 +1156,12 @@ export function WorkDetailContent({
             )}
 
             <NarrativeMediaSections cs={cs} isFlagship={isFlagshipLongform} />
+
+            {isFlagshipLongform && cs.systemsSynthesis && (
+              <SectionBlock eyebrow="How the platform was rebuilt" title="What sat underneath the visible work">
+                <BodyCopy text={cs.systemsSynthesis} />
+              </SectionBlock>
+            )}
 
             <BrandIdentitySnapshot cs={cs} />
 

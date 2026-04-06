@@ -155,6 +155,8 @@ export type CaseStudy = WorkCard & {
   cloudinaryAssets?: CloudinaryAsset[]
   /** Flagship-longform only: structured proof modules replacing the generic deliverable grid */
   flagshipProofModules?: FlagshipProofModule[]
+  /** Flagship-longform only: synthesis bridging the detailed modules to the brand/support materials */
+  systemsSynthesis?: string
   /** Flagship-longform only: synthesis paragraph before route-out — what this build proves about the offer */
   closingStatement?: string
 }
