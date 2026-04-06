@@ -2,6 +2,7 @@ import type { CheerioAPI } from 'cheerio'
 import type { AuditCheckResult } from '../types'
 
 export function checkTrustSignals($: CheerioAPI, _pageUrl: string): AuditCheckResult {
+  void _pageUrl
   const weight = 20
   const signals: string[] = []
   const missing: string[] = []

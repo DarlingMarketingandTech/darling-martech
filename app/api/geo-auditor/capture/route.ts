@@ -106,14 +106,6 @@ function statusIcon(status: string): string {
   return status === 'pass' ? '✅' : status === 'warn' ? '⚠️' : '❌'
 }
 
-function statusBg(status: string): string {
-  return status === 'pass' ? '#f0fdf4' : status === 'warn' ? '#fffbeb' : '#fef2f2'
-}
-
-function statusBorder(status: string): string {
-  return status === 'pass' ? '#bbf7d0' : status === 'warn' ? '#fde68a' : '#fecaca'
-}
-
 /** Returns checks sorted: fail first, then warn, then pass */
 function sortedChecks(checks: AuditCheck[]): AuditCheck[] {
   const order = { fail: 0, warn: 1, pass: 2 }

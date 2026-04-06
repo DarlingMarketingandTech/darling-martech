@@ -532,34 +532,6 @@ function ProcessTimeline({ process }: { process: ProcessPhase[] }) {
   )
 }
 
-function RelatedProjects({
-  related,
-  parent,
-}: {
-  related: CaseStudy[]
-  parent: CaseStudy | null
-}) {
-  if (related.length === 0) return null
-
-  return (
-    <SectionBlock eyebrow={parent ? 'Related Projects' : 'Systems Built'}>
-      <div className={styles.relatedGrid}>
-        {related.map((study) => (
-          <Link key={study.slug} href={`/work/${study.slug}`} className={styles.relatedCard}>
-            <p className={styles.relatedLabel}>{study.label}</p>
-            <p className={styles.relatedClient}>{study.client}</p>
-            <p className={styles.relatedHeadline}>{study.headline}</p>
-            <span className={styles.relatedArrow}>
-              View case study
-              <ArrowRight weight="regular" size={13} />
-            </span>
-          </Link>
-        ))}
-      </div>
-    </SectionBlock>
-  )
-}
-
 function RouteOutLinks({
   cs,
   template,
@@ -668,40 +640,6 @@ function ContactCta({ cs }: { cs: CaseStudy }) {
           </Link>
         </div>
       </section>
-    </FadeUp>
-  )
-}
-
-function PrevNextNav({
-  prev,
-  next,
-}: {
-  prev: CaseStudy | null
-  next: CaseStudy | null
-}) {
-  if (!prev && !next) return null
-
-  return (
-    <FadeUp>
-      <div className={styles.prevNext}>
-        {prev ? (
-          <Link href={`/work/${prev.slug}`} className={styles.prevNextCell}>
-            <p className={styles.prevNextLabel}>Previous</p>
-            <p className={styles.prevNextTitle}>← {prev.client}</p>
-          </Link>
-        ) : (
-          <div />
-        )}
-
-        {next ? (
-          <Link href={`/work/${next.slug}`} className={`${styles.prevNextCell} ${styles.prevNextRight}`}>
-            <p className={styles.prevNextLabel}>Next</p>
-            <p className={styles.prevNextTitle}>{next.client} →</p>
-          </Link>
-        ) : (
-          <div />
-        )}
-      </div>
     </FadeUp>
   )
 }

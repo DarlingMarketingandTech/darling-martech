@@ -244,6 +244,22 @@ export const workIndex: WorkCard[] = [
     outcomeIds: ['booking-growth', 'traffic-growth'],
     primaryServicePageSlug: 'local-seo',
   },
+  {
+    slug: 'blazing-star-therapy',
+    label: 'Healthcare · Website Strategy · Trust-Led Launch',
+    client: 'Blazing Star Therapy',
+    headline: 'A newly formed therapy practice launched with a calm, credible site that makes booking a consultation feel clear and safe.',
+    metrics: ['Launch-ready website foundation', 'Therapist credibility visible in the first scroll', 'Mobile-first consultation path with low friction'],
+    category: 'Healthcare',
+    heroPublicId: 'blazing-star-therapy-hero-desktop',
+    cardPublicId: 'blazing-star-therapy-hero-desktop',
+    visualMode: 'beacon',
+    theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'portrait', density: 'calm' },
+    relatedProjectSlugs: ['pike-medical-consultants', 'primarycare-indy'],
+    industryIds: ['healthcare', 'local-service'],
+    outcomeIds: ['lead-gen', 'brand-awareness'],
+    primaryServicePageSlug: 'website-strategy',
+  },
   // ── Legal & Professional ───────────────────────────────────────────────────
   {
     slug: 'riley-bennett-egloff',

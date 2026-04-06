@@ -113,8 +113,8 @@ function WorkSubNav({ active, onChange }: { readonly active: WorkSegment; readon
   )
 }
 
-function SubProjectStrip({ children, parentCategory }: { readonly children: CaseStudy[]; readonly parentCategory?: string }) {
-  if (children.length === 0) return null
+function SubProjectStrip({ childStudies, parentCategory }: { readonly childStudies: CaseStudy[]; readonly parentCategory?: string }) {
+  if (childStudies.length === 0) return null
 
   const stripLabel = parentCategory === 'Healthcare'
     ? 'Divisions inside this engagement'
@@ -125,7 +125,7 @@ function SubProjectStrip({ children, parentCategory }: { readonly children: Case
       <span className={styles.subProjectLabel}>{stripLabel}</span>
 
       <div className={styles.subProjectList}>
-        {children.map((child) => {
+        {childStudies.map((child) => {
           const primaryMetric = child.metrics[0]
 
           return (
@@ -170,7 +170,7 @@ function FlagshipUnit({ study, allStudies }: { readonly study: CaseStudy; readon
   return (
     <div className={styles.flagshipUnit}>
       <WorkDashboardCard study={study} layoutRole="flagship" />
-      <SubProjectStrip children={children} parentCategory={study.category} />
+      <SubProjectStrip childStudies={children} parentCategory={study.category} />
       {children.length === 0 && <FlagshipContextStrip slug={study.slug} />}
     </div>
   )

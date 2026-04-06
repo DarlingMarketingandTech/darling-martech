@@ -141,9 +141,12 @@ export async function POST(req: NextRequest) {
             'tag/context match, and usable image dimensions.',
         }
       })
-          .sort((a: ScoredRecommendableAsset, b: ScoredRecommendableAsset) => b._score - a._score)
+      .sort((a: ScoredRecommendableAsset, b: ScoredRecommendableAsset) => b._score - a._score)
       .slice(0, limit)
-          .map(({ _score, ...rest }: ScoredRecommendableAsset) => rest)
+      .map(({ _score, ...rest }: ScoredRecommendableAsset) => {
+        void _score
+        return rest
+      })
 
     return NextResponse.json({ recommended, expression })
   } catch (error) {
