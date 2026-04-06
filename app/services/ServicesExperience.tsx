@@ -168,7 +168,8 @@ export function ServicesExperience() {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={viewport}
-                transition={{ duration: 0.45, delay: i * 0.07, ease: [0.32, 0.72, 0, 1] }}
+                transition={{ duration: 0.5, delay: i * 0.09, ease: [0.32, 0.72, 0, 1] }}
+                whileHover={{ y: -6, transition: { type: 'spring', stiffness: 260, damping: 22 } }}
               >
                 {/* Cluster header */}
                 <div className={styles.clusterHeader}>

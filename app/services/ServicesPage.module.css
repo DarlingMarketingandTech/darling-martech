@@ -1,6 +1,47 @@
 /* ── Layout shell ── */
 .main {
+  position: relative;
   padding: 7rem 1.5rem 6rem;
+  overflow: hidden;
+}
+
+/* ── Page-level atmospheric depth ── */
+.main::before,
+.main::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ember pulse — top-left warmth bleeding in from brand accent */
+.main::before {
+  top: -8vh;
+  left: -10vw;
+  width: 60vw;
+  height: 60vh;
+  background: radial-gradient(
+    ellipse at 30% 30%,
+    rgba(255, 77, 0, 0.07) 0%,
+    rgba(255, 77, 0, 0.03) 40%,
+    transparent 70%
+  );
+  filter: blur(60px);
+}
+
+/* Deep violet undertone — bottom-right counter-balance */
+.main::after {
+  bottom: 0;
+  right: -8vw;
+  width: 55vw;
+  height: 55vh;
+  background: radial-gradient(
+    ellipse at 70% 70%,
+    rgba(60, 40, 80, 0.12) 0%,
+    rgba(20, 20, 40, 0.06) 50%,
+    transparent 75%
+  );
+  filter: blur(80px);
 }
 
 @media (min-width: 768px) {
@@ -14,6 +55,8 @@
 .sectionContainer {
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Shared typography ── */
@@ -21,13 +64,15 @@
 .sectionEyebrow,
 .offerEyebrow {
   font-family: var(--font-body);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--color-accent);
   margin: 0 0 1rem;
   display: block;
+  /* Subtle glow on eyebrow to anchor the accent presence */
+  text-shadow: 0 0 12px rgba(255, 77, 0, 0.35);
 }
 
 .offerEyebrow {
@@ -47,9 +92,10 @@
 }
 
 .headline {
-  font-size: clamp(2.8rem, 6vw, 5.4rem);
-  line-height: 0.93;
-  max-width: 10ch;
+  font-size: clamp(2.6rem, 5.5vw, 4.8rem);
+  line-height: 0.94;
+  max-width: 12ch;
+  /* Tighter leading for authority */
 }
 
 .sectionHeadline {
@@ -66,11 +112,11 @@
 
 .lead {
   font-family: var(--font-body);
-  color: rgba(245, 240, 232, 0.72);
+  color: rgba(245, 240, 232, 0.68);
   line-height: 1.72;
-  font-size: 1.04rem;
-  max-width: 54ch;
-  margin: 1.4rem 0 0;
+  font-size: 1.05rem;
+  max-width: 52ch;
+  margin: 1.5rem 0 0;
 }
 
 /* ── CTA buttons ── */
@@ -81,71 +127,104 @@
   gap: 0.4rem;
   justify-content: center;
   min-height: 2.9rem;
-  padding: 0.8rem 1.35rem;
+  padding: 0.8rem 1.5rem;
   border-radius: 999px;
   text-decoration: none;
   font-family: var(--font-body);
   font-size: 0.9rem;
   font-weight: 700;
+  position: relative;
+  overflow: hidden;
   transition:
-    transform 0.25s ease,
+    transform 0.25s cubic-bezier(0.32, 0.72, 0, 1),
     border-color 0.25s ease,
     color 0.25s ease,
-    background-color 0.25s ease;
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .primaryCta {
   background: var(--color-accent);
   color: var(--color-base);
+  box-shadow: 0 0 0 rgba(255, 77, 0, 0);
+}
+
+/* Shimmer sweep on primary CTA */
+.primaryCta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.primaryCta:hover::after {
+  transform: translateX(100%);
+}
+
+.primaryCta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(255, 77, 0, 0.38);
 }
 
 .secondaryCta {
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(245, 240, 232, 0.1);
+  border: 1px solid rgba(245, 240, 232, 0.12);
   color: var(--color-text);
 }
 
-.primaryCta:hover,
 .secondaryCta:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  border-color: rgba(245, 240, 232, 0.24);
+  background: rgba(255, 255, 255, 0.045);
 }
 
 /* ── Hero ── */
 .hero {
   position: relative;
+  z-index: 1;
 }
 
+/* Warm radial bloom behind the headline */
 .hero::before {
   content: '';
   position: absolute;
-  inset: 0 auto auto -1.2rem;
-  width: min(20rem, 52vw);
-  height: min(20rem, 40vw);
+  inset: -2rem auto auto -2.5rem;
+  width: min(28rem, 65vw);
+  height: min(24rem, 45vw);
   background:
-    radial-gradient(circle at 24% 24%, rgba(255, 77, 0, 0.18), transparent 62%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 100%);
-  filter: blur(24px);
+    radial-gradient(ellipse at 25% 25%, rgba(255, 77, 0, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 60%, rgba(80, 40, 20, 0.08) 0%, transparent 55%);
+  filter: blur(32px);
   pointer-events: none;
-  opacity: 0.9;
+  z-index: 0;
 }
 
 .heroInner {
   position: relative;
   z-index: 1;
-  padding: 1rem 0 2rem;
+  padding: 1rem 0 2.5rem;
 }
 
 .heroActions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.85rem;
-  margin-top: 1.8rem;
+  margin-top: 2rem;
 }
 
 /* ── Section spacing ── */
 .clustersSection,
 .ctaSection {
-  margin-top: 5rem;
+  margin-top: 5.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Clusters grid ── */
@@ -160,25 +239,46 @@
   }
 }
 
+/* ── Premium cluster card — glassmorphism layer ── */
 .clusterCard {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 1.75rem;
+  padding: 1.85rem;
   border-radius: 24px;
-  border: 1px solid rgba(245, 240, 232, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   background:
-    linear-gradient(180deg, rgba(255, 77, 0, 0.04), transparent 22%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)),
-    rgba(16, 16, 16, 0.96);
+    linear-gradient(160deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 50%),
+    rgba(255, 255, 255, 0.028);
+  /* Backdrop blur for glass depth — CPU-friendly single layer */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 18px 44px rgba(0, 0, 0, 0.12);
-  transition: border-color 0.25s ease;
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 24px 56px rgba(0, 0, 0, 0.22),
+    0 4px 16px rgba(0, 0, 0, 0.14);
+  /* Spring-feel transition — border, shadow, and background */
+  transition:
+    border-color 0.38s cubic-bezier(0.32, 0.72, 0, 1),
+    box-shadow 0.38s cubic-bezier(0.32, 0.72, 0, 1),
+    background-color 0.38s ease;
+  /* translateY handled by Framer Motion whileHover */
 }
 
 .clusterCard:hover {
-  border-color: rgba(255, 77, 0, 0.2);
+  border-color: rgba(255, 77, 0, 0.28);
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0) 50%),
+    rgba(255, 255, 255, 0.04);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 77, 0, 0.08),
+    0 32px 72px rgba(0, 0, 0, 0.32),
+    0 8px 24px rgba(0, 0, 0, 0.18),
+    /* Accent edge glow */
+    0 0 0 1px rgba(255, 77, 0, 0.12),
+    0 0 32px rgba(255, 77, 0, 0.06);
 }
 
 /* Cluster header */
@@ -188,36 +288,50 @@
   gap: 0.9rem;
 }
 
+/* Icon wrap — glow activates on card hover via parent selector */
 .clusterIconWrap {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 2.4rem;
+  height: 2.4rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 77, 0, 0.22);
   background: rgba(255, 77, 0, 0.08);
   color: var(--color-accent);
   flex-shrink: 0;
   margin-top: 0.1rem;
+  transition:
+    border-color 0.35s ease,
+    background-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.clusterCard:hover .clusterIconWrap {
+  border-color: rgba(255, 77, 0, 0.45);
+  background: rgba(255, 77, 0, 0.14);
+  box-shadow:
+    0 0 0 4px rgba(255, 77, 0, 0.08),
+    0 0 16px rgba(255, 77, 0, 0.18);
 }
 
 .clusterLabel {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   color: var(--color-text);
   margin: 0 0 0.2rem;
 }
 
 .clusterProblem {
   font-family: var(--font-body);
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: 0.73rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-accent);
+  opacity: 0.85;
   margin: 0;
 }
 
@@ -225,8 +339,8 @@
 .clusterBody {
   font-family: var(--font-body);
   font-size: 0.92rem;
-  line-height: 1.7;
-  color: rgba(245, 240, 232, 0.65);
+  line-height: 1.72;
+  color: rgba(245, 240, 232, 0.62);
   margin: 0;
   max-width: 52ch;
 }
@@ -240,11 +354,11 @@
 
 .clusterLinksIntro {
   font-family: var(--font-body);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.42);
+  color: rgba(245, 240, 232, 0.38);
   margin: 0;
   line-height: 1.3;
 }
@@ -270,25 +384,29 @@
   padding: 0.45rem 0.95rem;
   border-radius: 999px;
   font-family: var(--font-body);
-  font-size: 0.84rem;
+  font-size: 0.83rem;
   font-weight: 500;
   line-height: 1.25;
-  color: rgba(245, 240, 232, 0.82);
+  color: rgba(245, 240, 232, 0.78);
   text-decoration: none;
   text-align: left;
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(245, 240, 232, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   transition:
     border-color 0.22s ease,
     color 0.22s ease,
-    background-color 0.22s ease;
+    background-color 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
 .clusterLink:hover {
   color: var(--color-text);
-  border-color: rgba(255, 77, 0, 0.32);
-  background: rgba(255, 255, 255, 0.055);
+  border-color: rgba(255, 77, 0, 0.36);
+  background: rgba(255, 77, 0, 0.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 0 12px rgba(255, 77, 0, 0.08);
 }
 
 .clusterLink:focus-visible {
@@ -299,7 +417,7 @@
 .clusterLinkArrow {
   flex-shrink: 0;
   color: var(--color-accent);
-  opacity: 0.8;
+  opacity: 0.75;
 }
 
 /* Proof anchor */
@@ -311,17 +429,21 @@
   padding-top: 1rem;
   border-top: 1px solid rgba(245, 240, 232, 0.07);
   text-decoration: none;
-  transition: opacity 0.22s ease;
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
 }
 
 .clusterProof:hover {
-  opacity: 0.8;
+  opacity: 0.85;
+  transform: translateX(2px);
 }
 
 .clusterProofMetric {
   font-family: var(--font-display);
-  font-size: 0.95rem;
-  letter-spacing: -0.02em;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
   color: var(--color-accent);
   white-space: nowrap;
 }
@@ -329,7 +451,7 @@
 .clusterProofClient {
   font-family: var(--font-body);
   font-size: 0.8rem;
-  color: rgba(245, 240, 232, 0.45);
+  color: rgba(245, 240, 232, 0.42);
   white-space: nowrap;
 }
 
@@ -338,17 +460,17 @@
   gap: 0.45rem;
   margin-top: 0.25rem;
   padding-top: 0.9rem;
-  border-top: 1px dashed rgba(245, 240, 232, 0.12);
+  border-top: 1px dashed rgba(245, 240, 232, 0.1);
 }
 
 .clusterToolLabel {
   margin: 0;
   font-family: var(--font-body);
-  font-size: 0.66rem;
+  font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 0.11em;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.45);
+  color: rgba(245, 240, 232, 0.4);
 }
 
 .clusterToolBody {
@@ -356,7 +478,7 @@
   font-family: var(--font-body);
   font-size: 0.82rem;
   line-height: 1.6;
-  color: rgba(245, 240, 232, 0.58);
+  color: rgba(245, 240, 232, 0.55);
 }
 
 .clusterToolLink {
@@ -365,20 +487,25 @@
   gap: 0.3rem;
   width: fit-content;
   min-height: 2rem;
-  padding: 0.35rem 0.75rem;
+  padding: 0.35rem 0.8rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 77, 0, 0.28);
+  border: 1px solid rgba(255, 77, 0, 0.3);
   background: rgba(255, 77, 0, 0.07);
   font-family: var(--font-body);
   font-size: 0.78rem;
   font-weight: 700;
-  color: rgba(245, 240, 232, 0.9);
+  color: rgba(245, 240, 232, 0.88);
   text-decoration: none;
-  transition: border-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .clusterToolLink:hover {
-  border-color: rgba(255, 77, 0, 0.5);
+  border-color: rgba(255, 77, 0, 0.55);
+  background: rgba(255, 77, 0, 0.12);
+  box-shadow: 0 0 14px rgba(255, 77, 0, 0.12);
 }
 
 /* ── Final CTA ── */
@@ -386,16 +513,19 @@
   display: grid;
   gap: 1.5rem;
   align-items: center;
-  padding: 2rem 2.2rem;
+  padding: 2.2rem 2.4rem;
   border-radius: 28px;
-  border: 1px solid rgba(245, 240, 232, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   background:
-    linear-gradient(180deg, rgba(255, 77, 0, 0.06), transparent 28%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)),
-    rgba(16, 16, 16, 0.96);
+    linear-gradient(160deg, rgba(255, 77, 0, 0.05) 0%, transparent 35%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 50%),
+    rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04),
-    0 22px 52px rgba(0, 0, 0, 0.18);
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 28px 64px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 77, 0, 0.06);
 }
 
 @media (min-width: 900px) {
@@ -421,7 +551,7 @@
   font-family: var(--font-body);
   font-size: 0.9rem;
   line-height: 1.7;
-  color: rgba(245, 240, 232, 0.55);
+  color: rgba(245, 240, 232, 0.52);
   margin: 0.5rem 0 0;
   max-width: 50ch;
 }
@@ -448,13 +578,19 @@
   }
 }
 
-/* ── Reduced motion ── */
+/* ── Reduced motion — disable all transitions and keep layout stable ── */
 @media (prefers-reduced-motion: reduce) {
   .primaryCta,
   .secondaryCta,
-  .layerCard,
-  .proofItem,
-  .clusterLink {
+  .clusterCard,
+  .clusterLink,
+  .clusterProof,
+  .clusterToolLink,
+  .clusterIconWrap {
     transition: none;
+  }
+
+  .primaryCta::after {
+    display: none;
   }
 }
