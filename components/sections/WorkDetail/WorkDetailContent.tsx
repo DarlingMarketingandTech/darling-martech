@@ -10,7 +10,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
 import { FloatingCard } from '@/components/3d/FloatingCard'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
-import type { CaseStudy, CloudinaryAsset, Deliverable, ProcessPhase } from '@/lib/work'
+import type { CaseStudy, CloudinaryAsset, Deliverable, FlagshipProofModule, ProcessPhase } from '@/lib/work'
 import { getWorkDetailTemplate } from '@/lib/work'
 import { getProjectMedia } from '@/lib/media/getProjectMedia'
 import { getBrandDnaProfile } from '@/data/work/brand-dna'
@@ -181,10 +181,28 @@ function MappedMediaGrid({
   )
 }
 
-function NarrativeMediaSections({ cs }: { cs: CaseStudy }) {
+function NarrativeMediaSections({ cs, isFlagship = false }: { cs: CaseStudy; isFlagship?: boolean }) {
   const projectMedia = getProjectMedia(cs.slug)
 
   if (!projectMedia) return null
+
+  // Flagship pages: proof modules carry the image story — suppress campaign/logo dumps
+  // to avoid turning the page into a random media gallery.
+  if (isFlagship) {
+    // Only render screens when the flagship page does NOT already have flagshipProofModules
+    // (modules render their own supporting images inline).
+    if (cs.flagshipProofModules && cs.flagshipProofModules.length > 0) return null
+
+    return (
+      <>
+        {projectMedia.screens && projectMedia.screens.length > 0 && (
+          <SectionBlock eyebrow="Interface surfaces" title="Website and platform screens">
+            <MappedMediaGrid assets={projectMedia.screens} maxAssets={2} />
+          </SectionBlock>
+        )}
+      </>
+    )
+  }
 
   return (
     <>
@@ -365,6 +383,60 @@ function SectionBlock({
           {title && <h2 className={styles.sectionHeadline}>{title}</h2>}
         </div>
         {children}
+      </section>
+    </FadeUp>
+  )
+}
+
+function FlagshipProofModulesSection({ modules }: { modules: FlagshipProofModule[] }) {
+  return (
+    <FadeUp>
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>
+          <p className={styles.sectionEyebrow}>What changed</p>
+          <h2 className={styles.sectionHeadline}>The systems behind the results</h2>
+        </div>
+        <div className={styles.flagshipModuleStack}>
+          {modules.map((module) => (
+            <article key={module.title} className={styles.flagshipModule}>
+              <div className={styles.flagshipModuleCopy}>
+                <h3 className={styles.flagshipModuleTitle}>{module.title}</h3>
+                {module.body.split('\n\n').filter(Boolean).map((paragraph, i) => (
+                  <p key={i} className={styles.flagshipModuleBody}>{paragraph}</p>
+                ))}
+              </div>
+              {module.imagePublicId && (
+                <figure className={styles.flagshipModuleFigure}>
+                  <div className={styles.flagshipModuleImageFrame}>
+                    <CldImage
+                      src={module.imagePublicId}
+                      alt={module.imageAlt ?? module.title}
+                      width={960}
+                      height={640}
+                      crop="fill"
+                      gravity="auto"
+                      className={styles.flagshipModuleImage}
+                    />
+                  </div>
+                  {module.imageCaption && (
+                    <figcaption className={styles.flagshipModuleCaption}>{module.imageCaption}</figcaption>
+                  )}
+                </figure>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    </FadeUp>
+  )
+}
+
+function ClosingStatement({ text }: { text: string }) {
+  return (
+    <FadeUp>
+      <section className={styles.closingStatementSection}>
+        <p className={styles.closingStatementEyebrow}>What this proves</p>
+        <blockquote className={styles.closingStatement}>{text}</blockquote>
       </section>
     </FadeUp>
   )
@@ -1052,18 +1124,26 @@ export function WorkDetailContent({
               <BodyCopy text={cs.challenge} />
             </SectionBlock>
 
-            <SectionBlock eyebrow="What got rebuilt">
-              <DeliverableGrid deliverables={cs.deliverables} isSystemPage={false} />
-            </SectionBlock>
+            {isFlagshipLongform && cs.flagshipProofModules && cs.flagshipProofModules.length > 0 ? (
+              <FlagshipProofModulesSection modules={cs.flagshipProofModules} />
+            ) : (
+              <SectionBlock eyebrow="What got rebuilt">
+                <DeliverableGrid deliverables={cs.deliverables} isSystemPage={false} />
+              </SectionBlock>
+            )}
 
-            <NarrativeMediaSections cs={cs} />
+            <NarrativeMediaSections cs={cs} isFlagship={isFlagshipLongform} />
 
             <BrandIdentitySnapshot cs={cs} />
 
             <SectionBlock eyebrow={isFlagshipLongform ? 'Results and operating impact' : 'The Outcome'}>
               <BodyCopy text={cs.outcome} />
-              {isFlagshipLongform && <BodyCopy text={cs.whatThisMeansForYou} />}
+              {isFlagshipLongform && !cs.closingStatement && <BodyCopy text={cs.whatThisMeansForYou} />}
             </SectionBlock>
+
+            {isFlagshipLongform && cs.closingStatement && (
+              <ClosingStatement text={cs.closingStatement} />
+            )}
           </>
         )}
 

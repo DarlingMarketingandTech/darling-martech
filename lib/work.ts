@@ -112,6 +112,23 @@ export type Deliverable = {
   emphasis?: 'feature' | 'standard'
 }
 
+/** A structured proof module for flagship longform case studies.
+ * Groups related work into a named bucket with a short narrative and
+ * one optional supporting image from the project media registry.
+ */
+export type FlagshipProofModule = {
+  /** Short heading — what this bucket did, not what it's named */
+  title: string
+  /** 1–2 short paragraphs (separated by \n\n) explaining the intervention */
+  body: string
+  /** Optional: Cloudinary publicId for a single supporting visual */
+  imagePublicId?: string
+  /** Alt text when imagePublicId is set */
+  imageAlt?: string
+  /** Caption tied to outcome, not decoration */
+  imageCaption?: string
+}
+
 export type ProcessPhase = {
   label: string
   description: string
@@ -136,6 +153,10 @@ export type CaseStudy = WorkCard & {
   ctaLine: string
   problemVisualPublicId?: string
   cloudinaryAssets?: CloudinaryAsset[]
+  /** Flagship-longform only: structured proof modules replacing the generic deliverable grid */
+  flagshipProofModules?: FlagshipProofModule[]
+  /** Flagship-longform only: synthesis paragraph before route-out — what this build proves about the offer */
+  closingStatement?: string
 }
 
 export const workSlugAliases: Record<string, string> = {
