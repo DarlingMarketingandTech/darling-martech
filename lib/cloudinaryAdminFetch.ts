@@ -19,7 +19,7 @@ export async function cloudinaryAdminFetch(
     method,
     headers: {
       Authorization: `Basic ${auth}`,
-      'Content-Type': 'application/json',
+      ...(body ? { 'Content-Type': 'application/json' } : {}),
     },
     body: body ? JSON.stringify(body) : undefined,
     cache: 'no-store',

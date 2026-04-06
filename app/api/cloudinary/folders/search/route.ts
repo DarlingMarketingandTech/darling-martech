@@ -1,3 +1,9 @@
+/**
+ * API Surface Classification:
+ * - exposure: internal
+ * - category: cloudinary
+ * - notes: Admin folder search passthrough; connector-first; not part of default GPT schema.
+ */
 import { NextRequest, NextResponse } from 'next/server'
 
 import { validateActionKey } from '@/lib/auth/validateActionKey'

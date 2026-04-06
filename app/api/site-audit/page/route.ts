@@ -1,9 +1,15 @@
+/**
+ * API Surface Classification:
+ * - exposure: gpt
+ * - category: site-audit
+ * - notes: Read-only HTML fetch+parse; no browser automation.
+ */
 import { NextResponse } from 'next/server'
 import * as cheerio from 'cheerio'
 
 import { validateActionKey } from '@/lib/auth/validateActionKey'
+import { AUDIT_USER_AGENT, getTimeoutSignal, parseAllowedUrlParam } from '@/lib/site-audit/shared'
 
-// Read-only endpoint for auditing page metadata/content quality signals.
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
@@ -86,25 +92,6 @@ function parseBooleanParam(value: string | null, defaultValue: boolean): boolean
   return defaultValue
 }
 
-function isAllowedAuditUrl(url: URL): boolean {
-  const host = url.hostname.toLowerCase()
-  const protocol = url.protocol.toLowerCase()
-
-  if (protocol === 'https:' && (host === 'www.darlingmartech.com' || host === 'darlingmartech.com')) {
-    return true
-  }
-
-  if (protocol === 'http:' && host === 'localhost' && url.port === '3000') {
-    return true
-  }
-
-  if (protocol === 'https:' && host.endsWith('.vercel.app') && host.includes('darling-martech')) {
-    return true
-  }
-
-  return false
-}
-
 function normalizeUrl(href: string, base: string): string | null {
   const input = href.trim()
   if (!input) return null
@@ -128,12 +115,6 @@ function parseOptionalNumber(value: string | undefined): number | null {
   if (!value) return null
   const n = Number.parseInt(value, 10)
   return Number.isFinite(n) ? n : null
-}
-
-function getTimeoutSignal(ms: number): AbortSignal {
-  const controller = new AbortController()
-  setTimeout(() => controller.abort(new Error('Request timeout')), ms)
-  return controller.signal
 }
 
 function buildChecks({
@@ -178,21 +159,11 @@ export async function GET(req: Request) {
 
   const requestUrl = new URL(req.url)
   const urlParam = requestUrl.searchParams.get('url')
-
-  if (!urlParam) {
-    return NextResponse.json({ ok: false, error: 'URL not allowed' }, { status: 400 })
+  const parsed = parseAllowedUrlParam(urlParam)
+  if (!parsed.ok) {
+    return NextResponse.json({ ok: false, error: parsed.error }, { status: 400 })
   }
-
-  let targetUrl: URL
-  try {
-    targetUrl = new URL(urlParam)
-  } catch {
-    return NextResponse.json({ ok: false, error: 'URL not allowed' }, { status: 400 })
-  }
-
-  if (!isAllowedAuditUrl(targetUrl)) {
-    return NextResponse.json({ ok: false, error: 'URL not allowed' }, { status: 400 })
-  }
+  const targetUrl = parsed.url
 
   const includeHtmlExcerpt = parseBooleanParam(requestUrl.searchParams.get('include_html_excerpt'), false)
   const includeMetaTags = parseBooleanParam(requestUrl.searchParams.get('include_meta_tags'), true)
@@ -204,7 +175,7 @@ export async function GET(req: Request) {
     response = await fetch(targetUrl.toString(), {
       method: 'GET',
       headers: {
-        'user-agent': 'DarlingMartechSiteAudit/1.0',
+        'user-agent': AUDIT_USER_AGENT,
         accept: 'text/html,application/xhtml+xml;q=0.9,*/*;q=0.8',
       },
       redirect: 'follow',

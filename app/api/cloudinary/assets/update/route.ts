@@ -1,15 +1,31 @@
+/**
+ * API Surface Classification:
+ * - exposure: optional
+ * - category: cloudinary
+ * - notes: Admin asset update with public_id→asset_id convenience; prefer native connector when sufficient.
+ */
 import { NextRequest, NextResponse } from 'next/server'
 
+import { buildAdminAssetPutBody } from '@/lib/cloudinary/assetUpdatePayload'
+import { resolvePublicIdToAssetId, type CloudinaryResourceType } from '@/lib/cloudinary/resolveAssetId'
 import { validateActionKey } from '@/lib/auth/validateActionKey'
 import { cloudinaryAdminFetch } from '@/lib/cloudinaryAdminFetch'
 
-function toPipeString(obj?: Record<string, unknown>) {
-  if (!obj) return undefined
-
-  return Object.entries(obj)
-    .map(([key, value]) => `${key}=${String(value)}`)
-    .join('|')
+type UpdateAssetBody = {
+  asset_id?: string
+  public_id?: string
+  resource_type?: CloudinaryResourceType
+  delivery_type?: string
+  display_name?: string
+  asset_folder?: string
+  tags?: string[]
+  context?: Record<string, unknown>
+  metadata?: Record<string, unknown>
+  visual_search?: boolean
 }
+
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 
 export async function POST(req: NextRequest) {
   if (!validateActionKey(req)) {
@@ -17,9 +33,12 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const body = await req.json()
+    const body = (await req.json()) as UpdateAssetBody
     const {
-      asset_id,
+      asset_id: bodyAssetId,
+      public_id,
+      resource_type = 'image',
+      delivery_type = 'upload',
       display_name,
       asset_folder,
       tags,
@@ -28,21 +47,39 @@ export async function POST(req: NextRequest) {
       visual_search,
     } = body
 
-    if (!asset_id) {
+    if (!bodyAssetId && !public_id) {
       return NextResponse.json(
-        { error: 'asset_id is required' },
+        { error: 'Either asset_id or public_id is required' },
         { status: 400 },
       )
     }
 
-    const result = await cloudinaryAdminFetch(`/resources/${encodeURIComponent(asset_id)}`, 'PUT', {
+    let asset_id = bodyAssetId?.trim() || undefined
+    if (!asset_id && public_id) {
+      const resolved = await resolvePublicIdToAssetId(public_id.trim(), resource_type, delivery_type)
+      if (!resolved) {
+        return NextResponse.json(
+          { error: 'Asset not found for provided public_id' },
+          { status: 404 },
+        )
+      }
+      asset_id = resolved
+    }
+
+    const payload = buildAdminAssetPutBody({
       display_name,
       asset_folder,
-      tags: Array.isArray(tags) ? tags.join(',') : undefined,
-      context: toPipeString(context as Record<string, unknown>),
-      metadata: toPipeString(metadata as Record<string, unknown>),
+      tags,
+      context,
+      metadata,
       visual_search,
     })
+
+    const result = await cloudinaryAdminFetch(
+      `/resources/${encodeURIComponent(asset_id!)}`,
+      'PUT',
+      payload,
+    )
 
     return NextResponse.json(result)
   } catch (error) {

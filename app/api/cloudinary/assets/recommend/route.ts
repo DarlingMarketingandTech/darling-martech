@@ -1,7 +1,16 @@
+/**
+ * API Surface Classification:
+ * - exposure: gpt
+ * - category: cloudinary
+ * - notes: Darling folder semantics: /studio/projects (work/proof), /studio/labs (tools), /studio/graphic-design, /studio/photography, /website images; /studio/archive not a default source; page-name search expressions + scoring.
+ */
 import { NextRequest, NextResponse } from 'next/server'
 
 import { validateActionKey } from '@/lib/auth/validateActionKey'
 import cloudinary from '@/lib/cloudinary.server'
+
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 
 type PreferredOrientation = 'landscape' | 'portrait' | 'square' | 'any'
 
