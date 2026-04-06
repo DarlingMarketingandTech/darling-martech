@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { assertActionAuth } from '@/lib/actionAuth'
+import { validateActionKey } from '@/lib/auth/validateActionKey'
 import { cloudinaryAdminFetch } from '@/lib/cloudinaryAdminFetch'
 
 export async function POST(req: NextRequest) {
-  if (!assertActionAuth(req)) {
+  if (!validateActionKey(req)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

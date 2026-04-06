@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { assertActionAuth } from '@/lib/actionAuth'
+import { validateActionKey } from '@/lib/auth/validateActionKey'
 import { cloudinaryAdminFetch } from '@/lib/cloudinaryAdminFetch'
 
 function toPipeString(obj?: Record<string, unknown>) {
@@ -12,7 +12,7 @@ function toPipeString(obj?: Record<string, unknown>) {
 }
 
 export async function POST(req: NextRequest) {
-  if (!assertActionAuth(req)) {
+  if (!validateActionKey(req)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import * as cheerio from 'cheerio'
 
+import { validateActionKey } from '@/lib/auth/validateActionKey'
+
 // Read-only endpoint for auditing page metadata/content quality signals.
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -74,12 +76,6 @@ type SiteAuditResponse = {
   images: ImageItem[]
   html_excerpt: string | null
   checks: Checks
-}
-
-function validateActionKey(req: Request): boolean {
-  const headerKey = req.headers.get('x-action-key')
-  const expected = process.env.SITE_AUDIT_ACTION_KEY
-  return Boolean(headerKey && expected && headerKey === expected)
 }
 
 function parseBooleanParam(value: string | null, defaultValue: boolean): boolean {
