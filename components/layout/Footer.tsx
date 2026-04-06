@@ -42,8 +42,8 @@ export function Footer() {
           <p>© {new Date().getFullYear()} Marketing and Technology LLC</p>
           <p className={styles.legalEmail}>
             Indianapolis, IN ·{' '}
-            <a href="mailto:jacob@jacobdarling.com" className={styles.emailLink}>
-              jacob@jacobdarling.com
+            <a href="mailto:jacob@darlingmartech.com" className={styles.emailLink}>
+              jacob@darlingmartech.com
             </a>
           </p>
           <p className={styles.legalLinkRow}>

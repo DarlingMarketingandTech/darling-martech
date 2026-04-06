@@ -29,7 +29,7 @@ export default function AboutPage() {
             name: 'Jacob Darling',
             jobTitle: 'Marketing Strategist & Systems Architect',
             url: 'https://darlingmartech.com',
-            email: 'jacob@jacobdarling.com',
+            email: 'jacob@darlingmartech.com',
             address: {
               '@type': 'PostalAddress',
               addressLocality: 'Indianapolis',

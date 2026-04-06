@@ -9,7 +9,7 @@ export function LocalBusinessJsonLd() {
     description:
       'Marketing strategy, technology, and automation consulting for small businesses and startups. Based in Indianapolis, IN.',
     url: 'https://darlingmartech.com',
-    email: 'jacob@jacobdarling.com',
+    email: 'jacob@darlingmartech.com',
     founder: {
       '@type': 'Person',
       name: 'Jacob Darling',

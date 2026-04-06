@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     await resend.emails.send({
       from:    'Darling MarTech <noreply@darlingmartech.com>',
-      to:      ['jacob@jacobdarling.com'],
+      to:      ['jacob@darlingmartech.com'],
       replyTo: data.email,
       subject: `New inquiry from ${data.name}${companyFragment} — ${subjectContext}`,
       text: `
