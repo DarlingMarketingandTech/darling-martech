@@ -3,22 +3,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import dynamic from 'next/dynamic'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { PlanetIcon } from '@phosphor-icons/react'
 import LabModal from '@/components/lab/LabModal'
+import { SectionHero } from '@/components/shared/SectionHero'
 import { analytics } from '@/lib/analytics'
-import { containerVariants, itemVariants, fadeVariants } from '@/lib/motion'
 import styles from '@/app/tools/Tools.module.css'
-
-const LabTelemetryScene = dynamic(
-  () => import('@/components/3d/LabTelemetryScene').then((module) => module.LabTelemetryScene),
-  {
-    ssr: false,
-    loading: () => null,
-  }
-)
 
 type IframeToolSession = {
   src: string
@@ -252,33 +243,34 @@ export default function LabPage() {
     const launchConfig = iframeToolBySlug[launchSlug]
     if (!launchConfig) return
 
-    openIframeTool(launchConfig)
+    const launchTimer = window.setTimeout(() => {
+      openIframeTool(launchConfig)
+    }, 0)
     router.replace('/tools', { scroll: false })
+    return () => window.clearTimeout(launchTimer)
   }, [openIframeTool, router, searchParams])
 
   return (
     <main className={styles.main}>
       <div className={styles.inner}>
-        <section className={styles.telemetryPanel}>
-          <LabTelemetryScene
-            activeCategory="All"
-            hoveredTool={null}
-            intensity="balanced"
-          />
-
-          <motion.div className={styles.headerWrap} variants={containerVariants} initial="hidden" animate="visible">
-          <motion.p variants={fadeVariants} className={styles.eyebrow}>Tools</motion.p>
-          <motion.h1 variants={itemVariants} className={styles.headline}>
-            self-serve strategy that scales.
-          </motion.h1>
-          <motion.p variants={itemVariants} className={styles.subheadline}>
-            Four practical utilities to diagnose, prioritize, and lock in your next marketing move. Run the tool, capture your output, and skip directly to the right conversation.
-            </motion.p>
-          </motion.div>
-        </section>
+        <SectionHero
+          variant="tools"
+          eyebrow="Tools"
+          title="Self-serve strategy that scales."
+          description="Four practical utilities to diagnose, prioritize, and lock in your next marketing move. Run the tool, capture your output, and skip directly to the right conversation."
+          primaryCta={{ label: 'Browse utilities', href: '/tools#visitor-utilities' }}
+          secondaryCta={{ label: 'Talk through your output', href: '/contact?intent=tool' }}
+          supportingContent={(
+            <div className={styles.heroSupport} aria-label="How to use these tools">
+              <span className={styles.heroChip}>Diagnose</span>
+              <span className={styles.heroChip}>Prioritize</span>
+              <span className={styles.heroChip}>Act</span>
+            </div>
+          )}
+        />
 
         {/* Primary visitor utilities */}
-        <section className={styles.featuredGrid} aria-label="Visitor utilities">
+        <section id="visitor-utilities" className={styles.featuredGrid} aria-label="Visitor utilities">
           {featuredLabs.map((lab, index) => (
             <LabFeaturedCard
               key={lab.name}

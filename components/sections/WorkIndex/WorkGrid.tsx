@@ -64,18 +64,6 @@ function sortStudies(studies: CaseStudy[]) {
   })
 }
 
-function WorkHeroEntry() {
-  return (
-    <div className={styles.heroEntry}>
-      <span className={styles.heroEyebrow}>Selected work</span>
-      <h1 className={styles.heroHeadline}>Proof beats promises.</h1>
-      <p className={styles.heroSubhead}>
-        Outcomes you can trace — strategy, systems, and execution — without the vendor runaround.
-      </p>
-    </div>
-  )
-}
-
 function WorkSubNav({ active, onChange }: { readonly active: WorkSegment; readonly onChange: (segment: WorkSegment) => void }) {
   const handleTabKeyDown = (event: ReactKeyboardEvent, seg: WorkSegment) => {
     if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
@@ -216,10 +204,10 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
 
   return (
     <>
-      <WorkHeroEntry />
       <WorkSubNav active={activeSegment} onChange={setActiveSegment} />
 
       <div id={WORK_INDEX_PANEL_ID} role="tabpanel" className={styles.flagshipSections}>
+        <span id="flagship-proof" className={styles.anchorTarget} aria-hidden="true" />
         {flagshipStudies.length > 0 && (
           <>
             <div className={styles.flagshipIntro}>

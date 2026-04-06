@@ -9,8 +9,9 @@ import {
   PaletteIcon,
   RocketLaunchIcon,
 } from '@phosphor-icons/react'
+import { SectionHero } from '@/components/shared/SectionHero'
 import { analytics } from '@/lib/analytics'
-import { containerVariants, itemVariants, viewport } from '@/lib/motion'
+import { viewport } from '@/lib/motion'
 import styles from './ServicesPage.module.css'
 
 // ── Cluster data ──────────────────────────────────────────────────────────────
@@ -122,37 +123,14 @@ const clusterToolMap: Record<string, { label: string; description: string; href:
 export function ServicesExperience() {
   return (
     <main className={styles.main}>
-
-      {/* ── Hero ── */}
-      <section className={styles.hero}>
-        <motion.div
-          className={styles.heroInner}
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.p variants={itemVariants} className={styles.eyebrow}>
-            Services
-          </motion.p>
-          <motion.h1 variants={itemVariants} className={styles.headline}>
-            The work usually starts in one of four places.
-          </motion.h1>
-          <motion.p variants={itemVariants} className={styles.lead}>
-            Most businesses don&apos;t need more activity. They need the right bottleneck fixed
-            first — whether that&apos;s strategy, website performance, CRM and automation, or
-            visibility and demand.
-          </motion.p>
-          <motion.div variants={itemVariants} className={styles.heroActions}>
-            <Link href="/contact?intent=service" className={styles.primaryCta}>
-              Start a conversation
-            </Link>
-            <Link href="/work" className={styles.secondaryCta}>
-              See the work
-              <ArrowRightIcon size={15} weight="light" />
-            </Link>
-          </motion.div>
-        </motion.div>
-      </section>
+      <SectionHero
+        variant="services"
+        eyebrow="Services"
+        title="The work usually starts in one of four places."
+        description="Most businesses do not need more activity. They need the right bottleneck fixed first, whether that is strategy, website performance, CRM and automation, or visibility and demand."
+        primaryCta={{ label: 'Start a conversation', href: '/contact?intent=service' }}
+        secondaryCta={{ label: 'See the work', href: '/work' }}
+      />
 
       {/* ── 4 Problem Clusters ── */}
       <section className={styles.clustersSection}>
@@ -252,7 +230,7 @@ export function ServicesExperience() {
               </Link>
               <Link href="/work" className={styles.secondaryCta}>
                 See the work
-                <ArrowRightIcon size={15} weight="light" />
+                <span aria-hidden="true">→</span>
               </Link>
             </div>
           </motion.div>

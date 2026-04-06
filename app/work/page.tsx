@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { getAllWork } from '@/data/work/work-data'
 import { WorkIndexExperience, WorkBottomCTA } from '@/components/sections/WorkIndex/WorkGrid'
-import { WorkStudioCarousel } from '@/components/sections/WorkIndex/WorkStudioCarousel'
+import { SectionHero } from '@/components/shared/SectionHero'
 import type { ServiceTag } from '@/data/taxonomy'
 import styles from './Work.module.css'
 
@@ -28,8 +28,22 @@ export default async function WorkPage({
   return (
     <main className={styles.main}>
       <div className={styles.inner}>
+        <SectionHero
+          variant="work"
+          eyebrow="Selected work"
+          title="Proof beats promises."
+          description="Outcomes you can trace across strategy, systems, and execution, without the vendor runaround."
+          primaryCta={{ label: 'Jump to flagship proof', href: '/work#flagship-proof' }}
+          secondaryCta={{ label: 'Explore services', href: '/services' }}
+          supportingContent={(
+            <div className={styles.heroSupport} aria-label="Proof themes">
+              <span className={styles.heroChip}>Strategy-to-execution continuity</span>
+              <span className={styles.heroChip}>Measured outcomes over vanity metrics</span>
+              <span className={styles.heroChip}>Flagship plus supporting proof depth</span>
+            </div>
+          )}
+        />
         <WorkIndexExperience studies={studies} initialServiceFilter={initialServiceFilter} />
-        <WorkStudioCarousel />
         <WorkBottomCTA />
       </div>
     </main>

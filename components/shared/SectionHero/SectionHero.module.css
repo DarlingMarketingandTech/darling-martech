@@ -1,0 +1,170 @@
+.section {
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before,
+.section::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.section::before {
+  top: -4rem;
+  left: -6rem;
+  width: min(38rem, 66vw);
+  height: min(30rem, 54vw);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 77, 0, 0.13), transparent 68%);
+  filter: blur(32px);
+}
+
+.section::after {
+  bottom: -8rem;
+  right: -10rem;
+  width: min(36rem, 62vw);
+  height: min(28rem, 48vw);
+  background: radial-gradient(circle at 50% 50%, rgba(245, 240, 232, 0.07), transparent 72%);
+  filter: blur(42px);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content {
+  max-width: 66ch;
+  padding: clamp(2.4rem, 4vw, 3.5rem) 0 clamp(2rem, 3.4vw, 2.8rem);
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.title {
+  margin: 0;
+  max-width: 16ch;
+  font-family: var(--font-display);
+  font-size: clamp(2.55rem, 5.6vw, 5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+  color: var(--color-text);
+}
+
+.description {
+  margin: 1.35rem 0 0;
+  max-width: 54ch;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.1vw, 1.1rem);
+  line-height: 1.7;
+  color: rgba(245, 240, 232, 0.67);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.78rem;
+  margin-top: 1.8rem;
+}
+
+.ctaPrimary,
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.9rem;
+  padding: 0.76rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 700;
+  transition:
+    transform 0.24s cubic-bezier(0.32, 0.72, 0, 1),
+    border-color 0.24s ease,
+    background-color 0.24s ease,
+    color 0.24s ease,
+    box-shadow 0.24s ease;
+}
+
+.ctaPrimary {
+  background: var(--color-accent);
+  color: var(--color-base);
+  border-color: rgba(255, 77, 0, 0.45);
+}
+
+.ctaSecondary {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(245, 240, 232, 0.14);
+  color: var(--color-text);
+}
+
+.ctaPrimary:hover,
+.ctaSecondary:hover {
+  transform: translateY(-2px);
+}
+
+.ctaPrimary:hover {
+  box-shadow: 0 12px 28px rgba(255, 77, 0, 0.28);
+}
+
+.ctaSecondary:hover {
+  border-color: rgba(245, 240, 232, 0.28);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.supportingContent {
+  margin-top: 1.15rem;
+}
+
+.services .title {
+  max-width: 14ch;
+}
+
+.work .title {
+  max-width: 11ch;
+}
+
+.tools .description {
+  max-width: 58ch;
+}
+
+@media (max-width: 767px) {
+  .content {
+    padding-top: 2rem;
+    padding-bottom: 1.85rem;
+  }
+
+  .title {
+    max-width: 18ch;
+  }
+
+  .actions {
+    width: 100%;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ctaPrimary,
+  .ctaSecondary {
+    transition: none;
+  }
+}
