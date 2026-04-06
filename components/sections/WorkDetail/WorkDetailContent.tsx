@@ -710,6 +710,83 @@ function getWorkToolRecommendation(cs: CaseStudy): WorkToolRecommendation {
   }
 }
 
+function DivisionProofBlock({ divisions }: { divisions: CaseStudy[] }) {
+  if (divisions.length === 0) return null
+
+  return (
+    <FadeUp>
+      <section className={styles.divisionProofBlock}>
+        <div className={styles.divisionProofHeader}>
+          <p className={styles.sectionEyebrow}>Where the platform strategy showed up in the field</p>
+          <h2 className={styles.divisionProofHeadline}>Division proof inside this healthcare platform</h2>
+        </div>
+        <div className={styles.divisionProofGrid}>
+          {divisions.map((division) => {
+            const divisionMedia = getProjectMedia(division.slug)
+            const thumbId =
+              divisionMedia?.hero?.publicId ??
+              division.cardPublicId ??
+              division.heroPublicId ??
+              division.logoPublicId
+            const primaryMetric = division.metrics[0] ?? ''
+            const context =
+              division.slug === 'primarycare-indy'
+                ? 'Independent primary care competing with health systems on SEO and patient acquisition.'
+                : 'Urgent care site rebuilt around speed-to-booking and transparent pricing — then wired to online check-in.'
+
+            const logoConfig =
+              division.slug === 'primarycare-indy'
+                ? { publicId: 'primarycare-logo-anchor', maxWidth: 220 }
+                : { publicId: 'urgentcare-logo-anchor', maxWidth: 190 }
+
+            return (
+              <Link key={division.slug} href={`/work/${division.slug}`} className={styles.divisionProofCard}>
+                <div className={styles.divisionProofLogoRow}>
+                  <div
+                    className={styles.divisionProofLogoWrap}
+                    style={{ maxWidth: logoConfig.maxWidth }}
+                  >
+                    <CldImage
+                      src={logoConfig.publicId}
+                      alt={`${division.client} logo`}
+                      width={440}
+                      height={96}
+                      crop="fit"
+                      className={styles.divisionProofLogo}
+                    />
+                  </div>
+                </div>
+                {thumbId && (
+                  <div className={styles.divisionProofThumb}>
+                    <CldImage
+                      src={thumbId}
+                      alt={division.client}
+                      width={640}
+                      height={400}
+                      crop="fill"
+                      gravity="auto"
+                      className={styles.divisionProofImage}
+                    />
+                  </div>
+                )}
+                <div className={styles.divisionProofMeta}>
+                  <p className={styles.divisionProofMetric}>{primaryMetric}</p>
+                  <p className={styles.divisionProofClient}>{division.client}</p>
+                  <p className={styles.divisionProofContext}>{context}</p>
+                  <span className={styles.divisionProofCta}>
+                    Full case study
+                    <ArrowRight weight="light" size={13} aria-hidden />
+                  </span>
+                </div>
+              </Link>
+            )
+          })}
+        </div>
+      </section>
+    </FadeUp>
+  )
+}
+
 function ToolPromptPanel({ cs }: { cs: CaseStudy }) {
   const recommendedTool = getWorkToolRecommendation(cs)
 
@@ -967,6 +1044,10 @@ export function WorkDetailContent({
           </>
         ) : (
           <>
+            {cs.slug === 'pike-medical-consultants' && related.length > 0 && (
+              <DivisionProofBlock divisions={related} />
+            )}
+
             <SectionBlock eyebrow="Why this mattered">
               <BodyCopy text={cs.challenge} />
             </SectionBlock>

@@ -1,7 +1,7 @@
 import type { ProjectMediaMap } from "../types";
 
 export const projectMedia_hoosierBoyBarbershop: ProjectMediaMap = {
-  projectSlug: "hoosierboy-barber-shop",
+  projectSlug: "hoosier-boy-barbershop",
 
   hero: {
     publicId: "Recording_2026-03-23_130641",
@@ -12,7 +12,7 @@ export const projectMedia_hoosierBoyBarbershop: ProjectMediaMap = {
     theme: "brand-authority",
     audience: "local-barbershop-customers",
     tags: [
-      "client-hoosierboy-barber-shop",
+      "client-hoosier-boy-barbershop",
       "surface-work",
       "kind-screen",
       "kind-motion",
@@ -33,7 +33,7 @@ export const projectMedia_hoosierBoyBarbershop: ProjectMediaMap = {
       theme: "craftsmanship",
       audience: "local-barbershop-customers",
       tags: [
-        "client-hoosierboy-barber-shop",
+        "client-hoosier-boy-barbershop",
         "surface-work",
         "kind-photo",
         "priority-support",
@@ -52,7 +52,7 @@ export const projectMedia_hoosierBoyBarbershop: ProjectMediaMap = {
       theme: "local-identity",
       audience: "local-barbershop-customers",
       tags: [
-        "client-hoosierboy-barber-shop",
+        "client-hoosier-boy-barbershop",
         "surface-work",
         "kind-photo",
         "priority-support",
@@ -71,7 +71,7 @@ export const projectMedia_hoosierBoyBarbershop: ProjectMediaMap = {
       theme: "brand-authority",
       audience: "local-barbershop-customers",
       tags: [
-        "client-hoosierboy-barber-shop",
+        "client-hoosier-boy-barbershop",
         "surface-work",
         "kind-logo",
         "priority-support",

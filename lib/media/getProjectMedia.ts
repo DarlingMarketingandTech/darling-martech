@@ -7,8 +7,8 @@ import { projectMedia_russellPainting } from "@/data/assets/projects/russell-pai
 
 const projectMediaRegistry: Record<string, ProjectMediaMap> = {
   "graston-technique": projectMedia_grastonTechnique,
-  "hoosierboy-barber-shop": projectMedia_hoosierBoyBarbershop,
-  "pike-medical": projectMedia_pikeMedicalConsultants,
+  "hoosier-boy-barbershop": projectMedia_hoosierBoyBarbershop,
+  "pike-medical-consultants": projectMedia_pikeMedicalConsultants,
   "primarycare-indy": projectMedia_primarycareIndy,
   "russell-painting": projectMedia_russellPainting,
 };

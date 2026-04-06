@@ -195,7 +195,7 @@ export const workIndex: WorkCard[] = [
     headline: 'One medical group. Five divisions. One person holding the digital strategy together.',
     metrics: ['45% patient growth over 3 years', 'Positive ROI maintained', 'Multi-division brand architecture built from scratch'],
     category: 'Healthcare',
-    cardPublicId: '635889083997282366-Dr.-James-Pike',
+    cardPublicId: 'pmc-webheader-med',
     featured: true,
     dashboardTier: 'flagship',
     visualMode: 'signal',
