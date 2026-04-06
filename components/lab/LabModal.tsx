@@ -13,9 +13,10 @@ interface LabModalProps {
   readonly toolSrc: string
   readonly toolName: string
   readonly toolSlug: string
+  readonly detailHref?: string
 }
 
-export default function LabModal({ isOpen, onClose, toolSrc, toolName, toolSlug }: LabModalProps) {
+export default function LabModal({ isOpen, onClose, toolSrc, toolName, toolSlug, detailHref }: LabModalProps) {
   const restoreFocusRef = useRef<HTMLElement | null>(null)
   const closeBtnRef = useRef<HTMLButtonElement | null>(null)
 
@@ -78,10 +79,12 @@ export default function LabModal({ isOpen, onClose, toolSrc, toolName, toolSlug 
                 <span className={styles.titleName}>{toolName}</span>
               </div>
               <div className={styles.titleActions}>
-                <Link href={`/tools/${toolSlug}`} className={styles.readLink}>
-                  <ArrowSquareOutIcon weight="regular" size={16} aria-hidden />
-                  Read the build
-                </Link>
+                {detailHref ? (
+                  <Link href={detailHref} className={styles.readLink}>
+                    <ArrowSquareOutIcon weight="regular" size={16} aria-hidden />
+                    Read the build
+                  </Link>
+                ) : null}
                 <button
                   ref={closeBtnRef}
                   type="button"

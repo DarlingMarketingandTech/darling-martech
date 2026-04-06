@@ -4,7 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { Fragment, useCallback, useState } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { PlanetIcon } from '@phosphor-icons/react'
 import LabModal from '@/components/lab/LabModal'
 import { analytics } from '@/lib/analytics'
@@ -23,104 +24,140 @@ type IframeToolSession = {
   src: string
   slug: string
   name: string
+  detailHref?: string
 }
 
 type FeaturedLab = {
+  slug: string
   name: string
+  eyebrow?: string
   description: string
-  ctaLabel: string
+  primaryHref: string
+  primaryLabel: string
+  primaryAriaLabel: string
+  aboutHref?: string
+  aboutLabel?: string
   stack: string[]
-  href?: string
-  external?: boolean
-  iframeLaunch?: { src: string; slug: string }
   screenshot?: {
     src: string
     alt: string
   }
   stats?: { value: string; label: string }[]
-  /** Short label in the hero pill — distinguishes visitor utilities from the grid below. */
-  pill?: string
-  onClick?: () => void
 }
 
 const featuredLabs: FeaturedLab[] = [
   {
+    slug: 'cmo-simulator',
     name: 'CMO Simulator',
-    pill: 'Visitor utility',
+    eyebrow: 'Visitor utility',
     description:
       'Walk through CMO-level decision-making — budget allocation, channel strategy, KPI selection, and execution priority. Same framework I use with clients. Takes about 10 minutes.',
-    href: '/tools/cmo-simulator?launch=1',
-    ctaLabel: 'Launch CMO Simulator →',
+    primaryHref: '/tools?launch=cmo-simulator',
+    primaryLabel: 'Launch simulator',
+    primaryAriaLabel: 'Launch CMO Simulator',
+    aboutHref: '/tools/cmo-simulator',
+    aboutLabel: 'How it works',
     stack: ['Next.js', 'React', 'Vercel', 'Marketing Strategy'],
     screenshot: {
       src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_900,f_auto,q_auto/CMO_Simulator.jpg',
       alt: 'CMO Simulator interface preview',
     },
-    onClick: () => analytics.ctaClick('tools_index', 'cmo_simulator'),
   },
   {
+    slug: 'geo-readiness-auditor',
     name: 'GEO Readiness Auditor',
-    pill: 'Visitor utility',
+    eyebrow: 'Visitor utility',
     description:
       'Is your site visible to AI? Run a fast 0-100 GEO audit, see top issues instantly, then unlock the full prioritized fix report by email.',
-    href: '/tools/geo-readiness-auditor',
-    ctaLabel: 'Run free GEO audit →',
+    primaryHref: '/tools/geo-readiness-auditor',
+    primaryLabel: 'Run audit',
+    primaryAriaLabel: 'Run GEO Readiness Auditor',
     stack: ['Next.js', 'TypeScript', 'Cheerio', 'Resend'],
     screenshot: {
       src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_1200,f_auto,q_auto/v1774692217/GEO_Readiness_Auditor.png',
       alt: 'GEO Readiness Auditor interface preview',
     },
-    onClick: () => analytics.ctaClick('tools_index', 'geo_readiness_auditor'),
   },
   {
+    slug: 'cmo-roadmap-generator',
     name: 'CMO Roadmap Generator',
-    pill: 'Visitor utility',
+    eyebrow: 'Visitor utility',
     description:
       'Structured intake: goals, constraints, and budget reality — then a prioritized roadmap you can execute or hand to a team. Free entry, same framing I use in live engagements.',
-    iframeLaunch: {
-      src: 'https://cmo-roadmap-generator.vercel.app/intake',
-      slug: 'cmo-roadmap-generator',
-    },
-    ctaLabel: 'Build your roadmap →',
+    primaryHref: '/tools?launch=cmo-roadmap-generator',
+    primaryLabel: 'Generate roadmap',
+    primaryAriaLabel: 'Open CMO Roadmap Generator',
     stack: ['Next.js', 'TypeScript', 'Vercel'],
     screenshot: {
       src: 'https://res.cloudinary.com/djhqowk67/image/upload/w_900,f_auto,q_auto/v1774736805/cmo-roadmap-generator-home.png',
       alt: 'CMO Roadmap Generator intake preview',
     },
-    onClick: () => analytics.ctaClick('tools_index', 'cmo_roadmap_generator'),
   },
   {
+    slug: 'attribution-snapshot',
     name: 'Attribution Snapshot',
-    pill: 'Visitor utility',
+    eyebrow: 'Visitor utility',
     description:
       'Upload a lightweight Google Ads or Meta export, compare four attribution models, and see where channel credit stays stable versus where your reporting setup still leaves too much ambiguity.',
-    href: '/tools/attribution-snapshot',
-    ctaLabel: 'Analyze channel credit →',
+    primaryHref: '/tools/attribution-snapshot',
+    primaryLabel: 'Open tool',
+    primaryAriaLabel: 'Open Attribution Snapshot',
     stack: ['Client-side analysis', 'CSV import', 'Attribution modeling'],
     stats: [
       { value: '4', label: 'models compared' },
       { value: 'CSV', label: 'template-driven import' },
       { value: 'Fast', label: 'directional read' },
     ],
-    onClick: () => analytics.ctaClick('tools_index', 'attribution_snapshot'),
   },
 ]
 
+const iframeToolBySlug: Record<string, IframeToolSession> = {
+  'cmo-simulator': {
+    src: '/tools/cmo-simulator?launch=1',
+    slug: 'cmo-simulator',
+    name: 'CMO Simulator',
+    detailHref: '/tools/cmo-simulator',
+  },
+  'cmo-roadmap-generator': {
+    src: 'https://cmo-roadmap-generator.vercel.app/intake',
+    slug: 'cmo-roadmap-generator',
+    name: 'CMO Roadmap Generator',
+  },
+}
+
+const analyticsEventBySlug: Record<string, string> = {
+  'cmo-simulator': 'cmo_simulator',
+  'geo-readiness-auditor': 'geo_readiness_auditor',
+  'cmo-roadmap-generator': 'cmo_roadmap_generator',
+  'attribution-snapshot': 'attribution_snapshot',
+}
+
 function LabFeaturedCard({
   lab,
-  onOpenIframe,
   screenshotPriority = false,
 }: {
   readonly lab: FeaturedLab
-  readonly onOpenIframe: (session: IframeToolSession) => void
   /** First featured card image is LCP on /tools — use Next.js priority loading. */
   readonly screenshotPriority?: boolean
 }) {
   const statsLength = lab.stats?.length ?? 0
-  const launch = lab.iframeLaunch
 
   return (
-    <div className={styles.featuredCard}>
+    <article className={styles.featuredCard}>
+      {/* Overlay link provides the primary full-card action without nesting interactive elements. */}
+      <Link
+        href={lab.primaryHref}
+        className={styles.cardLink}
+        aria-label={lab.primaryAriaLabel}
+        onClick={() => {
+          const event = analyticsEventBySlug[lab.slug]
+          if (event) analytics.ctaClick('tools_index', event)
+        }}
+      >
+        <span className={styles.srOnly}>{lab.name}</span>
+      </Link>
+
+      <div className={styles.featuredContent}>
       <div className={styles.featuredLeft}>
         <div>
           <div className={styles.featuredPill}>
@@ -130,7 +167,7 @@ function LabFeaturedCard({
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
               aria-hidden="true"
             />
-            {lab.pill ?? 'Production · Featured'}
+            {lab.eyebrow ?? 'Production · Featured'}
           </div>
           <h2 className={styles.featuredTitle}>{lab.name}</h2>
           <p className={styles.featuredDesc}>{lab.description}</p>
@@ -140,27 +177,18 @@ function LabFeaturedCard({
             ))}
           </div>
         </div>
-        {launch ? (
-          <button
-            type="button"
-            className={styles.featuredCta}
-            onClick={() => {
-              lab.onClick?.()
-              onOpenIframe({ src: launch.src, slug: launch.slug, name: lab.name })
-            }}
-          >
-            {lab.ctaLabel}
-          </button>
-        ) : (
-          <Link
-            href={lab.href!}
-            className={styles.featuredCta}
-            onClick={lab.onClick}
-            {...(lab.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-          >
-            {lab.ctaLabel}
-          </Link>
-        )}
+        <div className={styles.featuredFooter}>
+          <span className={styles.primaryCta} aria-hidden="true">{lab.primaryLabel}</span>
+          {lab.aboutHref ? (
+            <Link
+              href={lab.aboutHref}
+              className={styles.secondaryLink}
+              aria-label={`Learn how ${lab.name} works`}
+            >
+              {lab.aboutLabel ?? 'How it works'}
+            </Link>
+          ) : null}
+        </div>
       </div>
 
       <div className={styles.featuredRight}>
@@ -201,11 +229,14 @@ function LabFeaturedCard({
           )}
         </div>
       </div>
-    </div>
+      </div>
+    </article>
   )
 }
 
 export default function LabPage() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [iframeTool, setIframeTool] = useState<IframeToolSession | null>(null)
   const [iframePayload, setIframePayload] = useState<IframeToolSession | null>(null)
   const openIframeTool = useCallback((session: IframeToolSession) => {
@@ -213,6 +244,17 @@ export default function LabPage() {
     setIframeTool(session)
   }, [])
   const closeIframeTool = useCallback(() => setIframeTool(null), [])
+
+  useEffect(() => {
+    const launchSlug = searchParams.get('launch')
+    if (!launchSlug) return
+
+    const launchConfig = iframeToolBySlug[launchSlug]
+    if (!launchConfig) return
+
+    openIframeTool(launchConfig)
+    router.replace('/tools', { scroll: false })
+  }, [openIframeTool, router, searchParams])
 
   return (
     <main className={styles.main}>
@@ -241,7 +283,6 @@ export default function LabPage() {
             <LabFeaturedCard
               key={lab.name}
               lab={lab}
-              onOpenIframe={openIframeTool}
               screenshotPriority={index === 0}
             />
           ))}
@@ -262,6 +303,7 @@ export default function LabPage() {
           toolSrc={iframePayload.src}
           toolName={iframePayload.name}
           toolSlug={iframePayload.slug}
+          detailHref={iframePayload.detailHref}
         />
       )}
     </main>
