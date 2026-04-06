@@ -28,7 +28,9 @@ export type MediaTheme =
   | "digital-experience"
   | "patient-welcome"
   | "professional-trust"
-  | "founder-authority";
+  | "founder-authority"
+  | "patient-education"
+  | "analytics-and-reporting";
 
 export type MediaAsset = {
   publicId: string;

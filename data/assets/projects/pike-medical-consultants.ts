@@ -96,7 +96,7 @@ export const projectMedia_pikeMedicalConsultants: ProjectMediaMap = {
       kind: "graphic",
       role: "support",
       caption: "Outcomes – performance visibility and campaign reporting",
-      theme: "alytics-and-reporting",
+      theme: "analytics-and-reporting",
       audience: "healthcare-patients-and-referral-partners",
       tags: [
         "client-pike-medical-consultants",
