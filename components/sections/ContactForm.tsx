@@ -121,9 +121,10 @@ export function ContactForm({ defaultIntent }: ContactFormProps) {
         transition={springEntrance}
       >
         <div className={styles.successLine} />
-        <p className={styles.successTitle}>Sent.</p>
+        <p className={styles.successTitle}>Got it.</p>
         <p className={styles.successBody}>
-          I&apos;ll review this and get back to you within 1 business day — usually faster.
+          Jacob will review this and follow up within 1 business day — usually faster.
+          If it&apos;s a fit, you&apos;ll hear back with a direct response, not a calendar link.
         </p>
         <Link href={nextStep.href} className={styles.successNextStep}>
           {nextStep.label}
@@ -149,7 +150,10 @@ export function ContactForm({ defaultIntent }: ContactFormProps) {
               key={tile.id}
               type="button"
               className={`${styles.intentTile} ${intent === tile.id ? styles.intentTileActive : ''}`}
-              onClick={() => setIntent(tile.id)}
+              onClick={() => {
+                setIntent(tile.id)
+                setValue('intent', tile.id)
+              }}
             >
               {tile.label}
             </button>
@@ -262,15 +266,16 @@ export function ContactForm({ defaultIntent }: ContactFormProps) {
                 )}
               </button>
               <p className={styles.submitTrust}>
-                No pitch. Just a real conversation about whether this is a fit.
+                No pitch. Just a real conversation.
               </p>
 
               {status === 'error' && (
                 <p className={styles.submitError}>
-                  Something went wrong. Email me directly at{' '}
-                  <a href="mailto:jacob@jacobdarling.com" className={styles.emailLink}>
-                    jacob@jacobdarling.com
-                  </a>
+                  Submission failed. Try again or email{' '}
+                  <a href="mailto:jacob@darlingmartech.com" className={styles.emailLink}>
+                    jacob@darlingmartech.com
+                  </a>{' '}
+                  directly.
                 </p>
               )}
             </div>
