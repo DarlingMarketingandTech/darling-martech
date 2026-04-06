@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { motion, useMotionValueEvent, useScroll } from 'framer-motion'
+import { motion, useMotionValueEvent, useReducedMotion, useScroll } from 'framer-motion'
 import { ArrowRightIcon } from '@phosphor-icons/react'
 import { containerVariants, itemVariants, springEntrance } from '@/lib/motion'
 import { KineticHeadline } from '@/components/motion/KineticHeadline'
@@ -41,6 +41,16 @@ const statsBarVariants = {
   visible: { opacity: 1, y: 0, transition: { ...springEntrance, delay: 0.65 } },
 }
 
+const subheadlineVariants = {
+  hidden:  { opacity: 0, y: 14 },
+  visible: { opacity: 1, y: 0, transition: { ...springEntrance, delay: 0.22 } },
+}
+
+const ctaGroupVariants = {
+  hidden:  { opacity: 0, y: 14 },
+  visible: { opacity: 1, y: 0, transition: { ...springEntrance, delay: 0.34 } },
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export function Hero() {
@@ -50,6 +60,7 @@ export function Hero() {
   const scrollProgress = useRef(0)
   const [interactiveTarget, setInteractiveTarget] = useState<string | null>(null)
   const isFinePointer = useFinePointer()
+  const prefersReducedMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
@@ -96,8 +107,8 @@ export function Hero() {
             <motion.div
               className={styles.leftContent}
               variants={containerVariants}
-              initial="hidden"
-              animate="visible"
+                initial={prefersReducedMotion ? false : 'hidden'}
+                animate={prefersReducedMotion ? undefined : 'visible'}
             >
               {/* Eyebrow */}
               <motion.p variants={itemVariants} className={styles.eyebrow}>
@@ -115,7 +126,7 @@ export function Hero() {
               </motion.div>
 
               {/* Subheadline */}
-              <motion.p variants={itemVariants} className={styles.subheadline}>
+              <motion.p variants={subheadlineVariants} className={styles.subheadline}>
                 When marketing growth, websites, CRM, automation, and reporting don&apos;t
                 connect, everything gets harder to run and harder to trust. I fix the
                 gaps between strategy, systems, and execution — directly with you.
@@ -123,7 +134,7 @@ export function Hero() {
               </motion.p>
 
               {/* CTAs — primary to work, secondary to contact */}
-              <motion.div variants={itemVariants} className={styles.ctaGroup}>
+              <motion.div variants={ctaGroupVariants} className={styles.ctaGroup}>
                 <MagneticButton radius={120} maxPull={16}>
                   <motion.div
                     variants={ctaVariants}
@@ -158,8 +169,8 @@ export function Hero() {
             <motion.div
               className={styles.statsBar}
               variants={statsBarVariants}
-              initial="hidden"
-              animate="visible"
+              initial={prefersReducedMotion ? false : 'hidden'}
+              animate={prefersReducedMotion ? undefined : 'visible'}
               onMouseEnter={() => setInteractiveTarget('hero-stats')}
               onMouseLeave={() => setInteractiveTarget(null)}
             >
@@ -173,14 +184,14 @@ export function Hero() {
           {/* ── RIGHT COLUMN — animated paths (kept as visual accent) ────── */}
           <motion.div
             className={styles.rightCol}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, delay: 0.4 }}
+            initial={prefersReducedMotion ? false : { opacity: 0 }}
+            animate={prefersReducedMotion ? undefined : { opacity: 1 }}
+            transition={prefersReducedMotion ? undefined : { duration: 0.9, delay: 0.4 }}
             aria-hidden="true"
           >
             <div className={styles.pathsContainer}>
-              <HeroPaths position={1} />
-              <HeroPaths position={-1} />
+              <HeroPaths position={1} reduceMotion={Boolean(prefersReducedMotion)} />
+              <HeroPaths position={-1} reduceMotion={Boolean(prefersReducedMotion)} />
             </div>
             <div className={styles.pathsFade} />
           </motion.div>
@@ -193,7 +204,7 @@ export function Hero() {
 
 // ── SVG path accent (kept from original — now layered behind 3D) ──────────────
 
-function HeroPaths({ position }: Readonly<{ position: number }>) {
+function HeroPaths({ position, reduceMotion }: Readonly<{ position: number; reduceMotion: boolean }>) {
   const paths = Array.from({ length: 36 }, (_, i) => ({
     id: i,
     d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
@@ -216,24 +227,34 @@ function HeroPaths({ position }: Readonly<{ position: number }>) {
         preserveAspectRatio="xMidYMid slice"
       >
         {paths.map((path) => (
-          <motion.path
-            key={path.id}
-            d={path.d}
-            stroke="var(--color-accent)"
-            strokeWidth={path.width}
-            strokeOpacity={0.06 + path.id * 0.0022}
-            initial={{ pathLength: 0.3, opacity: 0.5 }}
-            animate={{
-              pathLength: 1,
-              opacity: [0.2, 0.45, 0.2],
-              pathOffset: [0, 1, 0],
-            }}
-            transition={{
-              duration: path.duration,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
-          />
+          reduceMotion ? (
+            <path
+              key={path.id}
+              d={path.d}
+              stroke="var(--color-accent)"
+              strokeWidth={path.width}
+              strokeOpacity={0.1 + path.id * 0.0018}
+            />
+          ) : (
+            <motion.path
+              key={path.id}
+              d={path.d}
+              stroke="var(--color-accent)"
+              strokeWidth={path.width}
+              strokeOpacity={0.06 + path.id * 0.0022}
+              initial={{ pathLength: 0.3, opacity: 0.5 }}
+              animate={{
+                pathLength: 1,
+                opacity: [0.2, 0.45, 0.2],
+                pathOffset: [0, 1, 0],
+              }}
+              transition={{
+                duration: path.duration,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            />
+          )
         ))}
       </svg>
     </div>

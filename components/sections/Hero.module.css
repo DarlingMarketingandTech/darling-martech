@@ -11,10 +11,11 @@
 /* ─── heroHeadline — overrides KineticHeadline defaults ───────────────── */
 /* KineticHeadline renders its own .headline class; this extends it via className */
 .heroHeadline {
+  --kinetic-headline-size: clamp(2.5rem, 8vw, 5rem);
+  --kinetic-headline-line-height: 1.1;
+  --kinetic-headline-letter-spacing: -0.02em;
+
   font-weight: 900;
-  font-size: clamp(2.8rem, 7vw, 6rem);
-  line-height: 0.95;
-  letter-spacing: -0.03em;
   margin: 0 0 2rem;
 }
 
@@ -109,11 +110,11 @@
 /* ─── Subheadline ─────────────────────────────────────────────────────── */
 .subheadline {
   font-family: var(--font-body), sans-serif;
-  font-size: clamp(1rem, 1.5vw, 1.125rem);
-  line-height: 1.7;
-  color: var(--color-muted);
-  max-width: 50ch;
-  margin: 0 0 2.75rem;
+  font-size: clamp(1.02rem, 1.35vw, 1.2rem);
+  line-height: 1.72;
+  color: color-mix(in srgb, var(--color-text) 76%, var(--color-muted));
+  max-width: 48ch;
+  margin: 0 0 clamp(2rem, 3.2vw, 3rem);
 }
 
 /* ─── CTA Button ──────────────────────────────────────────────────────── */
@@ -122,15 +123,39 @@
   align-items: center;
   gap: 0.75rem;
   background: var(--color-accent);
-  color: var(--color-text);
+  color: var(--color-base);
+  border: 1px solid color-mix(in srgb, var(--color-border) 92%, transparent);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
   font-family: var(--font-body), sans-serif;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   padding: 1rem 2.25rem;
   text-decoration: none;
   border-radius: 0;
   line-height: 1;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.005em;
+  transition:
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    color 0.22s ease;
+}
+
+.ctaButton:hover {
+  background: color-mix(in srgb, var(--color-accent) 90%, white 10%);
+  border-color: color-mix(in srgb, var(--color-accent) 44%, var(--color-border));
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.2),
+    0 0 0 1px color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+.ctaButton:focus-visible {
+  outline: none;
+  background: color-mix(in srgb, var(--color-accent) 90%, white 10%);
+  border-color: color-mix(in srgb, var(--color-accent) 52%, var(--color-border));
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.2),
+    0 0 0 3px color-mix(in srgb, var(--color-accent) 40%, transparent);
 }
 
 .ctaArrow {
@@ -143,37 +168,54 @@
 .ctaGroup {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: clamp(1rem, 2.2vw, 2rem);
   flex-wrap: wrap;
 }
 
 .ctaSecondary {
   font-family: var(--font-body), sans-serif;
-  font-size: 0.9rem;
-  font-weight: 400;
-  color: var(--color-muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--color-text) 70%, var(--color-muted));
   text-decoration: none;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.18em;
   letter-spacing: 0.01em;
-  transition: color 0.25s ease;
+  transition: color 0.25s ease, text-decoration-color 0.25s ease;
 }
 
 .ctaSecondary:hover {
   color: var(--color-text);
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 52%, transparent);
+}
+
+.ctaSecondary:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-accent) 62%, var(--color-text));
+  outline-offset: 4px;
+  color: var(--color-text);
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 62%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ctaButton,
+  .ctaSecondary {
+    transition: none;
+  }
 }
 
 /* ─── Stats bar ───────────────────────────────────────────────────────── */
 .statsBar {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  margin-top: 4.5rem;
+  margin-top: clamp(3rem, 5.2vw, 4.75rem);
   position: relative;
   overflow: hidden;
-  padding: 0.35rem;
-  border: 1px solid color-mix(in srgb, var(--color-border) 82%, transparent);
+  padding: 0.4rem;
+  border: 1px solid color-mix(in srgb, var(--color-border) 92%, transparent);
   border-radius: 1.5rem;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 7%, transparent), transparent 58%),
-    color-mix(in srgb, var(--color-surface) 82%, transparent);
+    linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 10%, transparent), transparent 62%),
+    color-mix(in srgb, var(--color-surface) 88%, transparent);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
 }
 
@@ -185,18 +227,18 @@
     linear-gradient(rgba(245, 240, 232, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(245, 240, 232, 0.035) 1px, transparent 1px);
   background-size: 24px 24px;
-  opacity: 0.24;
+  opacity: 0.2;
   pointer-events: none;
 }
 
 .statsBar > * {
   position: relative;
   z-index: 1;
-  padding: 1.35rem 1.5rem 1.2rem;
+  padding: clamp(1.05rem, 1.6vw, 1.35rem) clamp(1rem, 1.7vw, 1.5rem) clamp(0.95rem, 1.4vw, 1.2rem);
 }
 
 .statsBar > *:not(:first-child) {
-  border-left: 1px solid color-mix(in srgb, var(--color-border) 78%, transparent);
+  border-left: 1px solid color-mix(in srgb, var(--color-border) 86%, transparent);
 }
 
 .statItem {
@@ -211,20 +253,20 @@
 .statValue {
   font-family: var(--font-display), sans-serif;
   font-weight: 800;
-  font-size: clamp(2.25rem, 2.8vw, 3rem);
+  font-size: clamp(2.1rem, 2.7vw, 2.9rem);
   color: var(--color-text);
   font-variant-numeric: tabular-nums;
-  line-height: 1;
+  line-height: 0.98;
   letter-spacing: -0.02em;
 }
 
 .statLabel {
   font-family: var(--font-body), sans-serif;
-  font-size: 0.7rem;
-  color: var(--color-muted);
+  font-size: 0.72rem;
+  color: color-mix(in srgb, var(--color-text) 66%, var(--color-muted));
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-top: 0.4rem;
+  letter-spacing: 0.095em;
+  margin-top: 0.5rem;
 }
 
 /* ─── Right column ────────────────────────────────────────────────────── */
@@ -280,6 +322,20 @@
     order: 1;
   }
 
+  .subheadline {
+    max-width: 60ch;
+    line-height: 1.68;
+  }
+
+  .ctaGroup {
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .ctaSecondary {
+    font-size: 0.92rem;
+  }
+
   .rightCol {
     order: 2;
     height: 45vh;
@@ -289,13 +345,13 @@
 
   .statsBar {
     grid-template-columns: repeat(2, 1fr);
-    row-gap: 1.5rem;
-    margin-top: 3rem;
-    padding: 0.25rem;
+    row-gap: 1.1rem;
+    margin-top: 2.7rem;
+    padding: 0.32rem;
   }
 
   .statsBar > * {
-    padding: 1.15rem 1rem 1rem;
+    padding: 1.05rem 0.95rem 0.95rem;
   }
 
   .statsBar > *:not(:first-child) {

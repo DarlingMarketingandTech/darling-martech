@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import ToolsPageClient from '@/components/pages/ToolsPageClient'
 
 export const metadata: Metadata = {
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 }
 
 export default function ToolsPage() {
-  return <ToolsPageClient />
+  return (
+    <Suspense fallback={null}>
+      <ToolsPageClient />
+    </Suspense>
+  )
 }
