@@ -1,0 +1,286 @@
+# OpenAPI 3.1 schema for Custom GPT Actions — Darling MarTech admin proxy (GPT-facing surface only).
+# Matches lib/apiSurface.ts → GPT_API_SURFACE.
+# Auth: configure the GPT action with API key → header x-action-key = ACTIONS_API_KEY (same as app env).
+# Set servers[0].url to your deployment base (e.g. https://www.darlingmartech.com).
+
+openapi: 3.1.0
+info:
+  title: Darling MarTech Admin Proxy (GPT surface)
+  description: |
+    First-class GPT-facing routes only (matches lib/apiSurface.ts GPT_API_SURFACE).
+    Header x-action-key must equal ACTIONS_API_KEY.
+
+    Optional routes (search, update, bulk-update) are in OPTIONAL_API_SURFACE — not listed here;
+    add them manually to this file if you expose them in the same GPT.
+  version: "1.0.0"
+
+servers:
+  - url: https://www.darlingmartech.com
+    description: Production — replace with your deployment base URL
+
+security:
+  - ActionKeyAuth: []
+
+components:
+  securitySchemes:
+    ActionKeyAuth:
+      type: apiKey
+      in: header
+      name: x-action-key
+
+paths:
+  /api/cloudinary/assets/usage-check:
+    post:
+      operationId: cloudinaryUsageCheck
+      summary: Repo-aware Cloudinary usage check and rename-risk signal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Provide items[], or any of public_ids[], asset_ids[], secure_urls[].
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      public_id: { type: string }
+                      asset_id: { type: string }
+                      secure_url: { type: string }
+                public_ids:
+                  type: array
+                  items: { type: string }
+                asset_ids:
+                  type: array
+                  items: { type: string }
+                secure_urls:
+                  type: array
+                  items: { type: string }
+      responses:
+        "200":
+          description: Results per asset
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+  /api/cloudinary/assets/recommend:
+    post:
+      operationId: cloudinaryRecommend
+      summary: Darling folder-aware image recommendations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [page_name]
+              properties:
+                page_name:
+                  type: string
+                folder:
+                  type: string
+                  description: Optional Cloudinary asset_folder override
+                brand_keywords:
+                  type: array
+                  items: { type: string }
+                  default: []
+                preferred_orientation:
+                  type: string
+                  enum: [landscape, portrait, square, any]
+                  default: landscape
+                limit:
+                  type: integer
+                  default: 8
+      responses:
+        "200":
+          description: Recommended assets and search expression
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Server error
+
+  /api/site-audit/page:
+    get:
+      operationId: siteAuditPage
+      summary: Fetch and parse one HTML page (metadata, headings, links, images)
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+        - name: include_html_excerpt
+          in: query
+          schema:
+            type: boolean
+            default: false
+        - name: include_meta_tags
+          in: query
+          schema:
+            type: boolean
+            default: true
+        - name: include_links
+          in: query
+          schema:
+            type: boolean
+            default: true
+        - name: include_images
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        "200":
+          description: Audit payload or non-HTML summary
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "400":
+          description: URL not allowed or missing
+        "401":
+          description: Unauthorized
+        "502":
+          description: Upstream failure
+
+  /api/site-audit/robots:
+    get:
+      operationId: siteAuditRobots
+      summary: Fetch and parse robots.txt for the allowlisted site
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+          description: Site base or full robots.txt URL (allowlisted host)
+      responses:
+        "200":
+          description: raw_text, groups, sitemaps
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "400":
+          description: URL not allowed
+        "401":
+          description: Unauthorized
+        "502":
+          description: Upstream failure
+
+  /api/site-audit/sitemap:
+    get:
+      operationId: siteAuditSitemap
+      summary: Fetch and parse sitemap.xml (urlset or index)
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+          description: Site base (uses /sitemap.xml) or direct .xml URL (allowlisted)
+      responses:
+        "200":
+          description: urls and/or child_sitemaps
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "400":
+          description: URL not allowed
+        "401":
+          description: Unauthorized
+        "502":
+          description: Upstream failure
+
+  /api/site-audit/crawl:
+    post:
+      operationId: siteAuditCrawl
+      summary: Bounded same-host crawl (fetch+parse only, no browser automation)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [start_url]
+              properties:
+                start_url:
+                  type: string
+                  format: uri
+                max_pages:
+                  type: integer
+                  default: 10
+                  minimum: 1
+                  maximum: 25
+                max_depth:
+                  type: integer
+                  default: 1
+                  minimum: 0
+                  maximum: 3
+      responses:
+        "200":
+          description: Pages visited summary
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "400":
+          description: Invalid body or URL not allowed
+        "401":
+          description: Unauthorized
+
+  /api/site-audit/url-check:
+    post:
+      operationId: siteAuditUrlCheck
+      summary: Check URLs (redirects, status, title, canonical)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [urls]
+              properties:
+                urls:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+                  maxItems: 30
+      responses:
+        "200":
+          description: Per-URL results
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        "400":
+          description: Invalid body
+        "401":
+          description: Unauthorized

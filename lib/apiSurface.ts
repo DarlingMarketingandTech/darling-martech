@@ -1,6 +1,8 @@
 /**
  * Governance map for admin-proxy routes: what belongs in the Custom GPT action schema vs connector-only.
  * Not imported by route handlers yet; single source of truth for documentation and tooling.
+ *
+ * OpenAPI for Custom GPT (GPT surface only): docs/openapi-gpt-admin-proxy.yaml
  */
 export const GPT_API_SURFACE = {
   cloudinary: {
