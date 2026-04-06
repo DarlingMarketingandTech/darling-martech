@@ -1,7 +1,7 @@
 import type { WorkCard } from '@/lib/work'
 
 export const workIndex: WorkCard[] = [
-  // ── Automation & Platform Engineering ──────────────────────────────────────
+  // ── Automation & Platform Engineering ─────────────────────────────────────
   {
     slug: 'graston-technique',
     label: 'SaaS / Healthcare Training · Marketing Automation · Platform Engineering',
@@ -10,8 +10,8 @@ export const workIndex: WorkCard[] = [
     metrics: ['+212% qualified leads', '95% overhead reduction', '48 hrs/wk saved'],
     category: 'Automation & Systems',
     logoPublicId: 'graston_technique_logo',
-    heroPublicId: 'graston_technique_logo',
-    cardPublicId: 'graston-website',
+    heroPublicId: 'graston-growth-engine_-_admin_command_center',
+    cardPublicId: 'graston-growth-engine_-_ai_assistant',
     featured: true,
     dashboardTier: 'flagship',
     visualMode: 'mesh',
@@ -38,7 +38,7 @@ export const workIndex: WorkCard[] = [
     label: 'Marketing Automation · Membership Platform · CRM Integration',
     client: 'The Launchpad',
     headline: '95% of the manual work. Gone.',
-    metrics: ['95% reduction in manual overhead', '0 manual enrollment steps', '3× faster onboarding'],
+    metrics: ['95% reduction in manual overhead', '0 manual enrollment steps', '3× steps'],
     category: 'Automation & Systems',
     dashboardTier: 'system',
     cardPublicId: 'network-7042248_1920',
@@ -70,7 +70,7 @@ export const workIndex: WorkCard[] = [
     label: 'Analytics & Attribution · Marketing Intelligence',
     client: 'The Compass',
     headline: '94% of problems resolved before anyone gets paged.',
-    metrics: ['99.98% uptime SLA', '94% issues auto-resolved', '40% reduction in MTTR'],
+    metrics: ['99.98% uptime SLA', '94% issues auto-resolved', '40% reduction in MTTU'],
     category: 'Automation & Systems',
     dashboardTier: 'system',
     cardPublicId: 'network-6511448_1920',
@@ -105,7 +105,7 @@ export const workIndex: WorkCard[] = [
       'The provider directory rebuilt as a two-sided product — map-synced search, Premier ROI visibility, and AI-accelerated support.',
     metrics: [
       'Real-time viewport spatial search',
-      '$27k+ projected Premier provider revenue',
+      '$27k+projected Premier provider revenue',
       'Provider hub + admin command center',
     ],
     category: 'Automation & Systems',
@@ -187,7 +187,7 @@ export const workIndex: WorkCard[] = [
     industryIds: ['healthcare', 'saas'],
     outcomeIds: ['time-saved', 'cost-reduction'],
   },
-  // ── Healthcare ─────────────────────────────────────────────────────────────
+  // ── Healthcare ───────────────────────────────────────
   {
     slug: 'pike-medical-consultants',
     label: 'Healthcare · Fractional CMO · Brand Architecture · Multi-Division Platform',
@@ -260,7 +260,7 @@ export const workIndex: WorkCard[] = [
     outcomeIds: ['lead-gen', 'brand-awareness'],
     primaryServicePageSlug: 'website-strategy',
   },
-  // ── Legal & Professional ───────────────────────────────────────────────────
+  // ── Legal & Professional ────────────────────────────────────────
   {
     slug: 'riley-bennett-egloff',
     label: 'Legal · Embedded Marketing · Digital Transformation',
@@ -294,7 +294,7 @@ export const workIndex: WorkCard[] = [
     outcomeIds: ['conversion-lift', 'brand-awareness'],
     primaryServicePageSlug: 'website-strategy',
   },
-  // ── Hospitality & Local ────────────────────────────────────────────────────
+  // ── Hospitality & Local ────────────────────────────────────────
   {
     slug: '317-bbq',
     label: 'Hospitality · Brand Identity, Visual Storytelling & Web',
@@ -304,14 +304,14 @@ export const workIndex: WorkCard[] = [
     category: 'Hospitality & Local',
     logoPublicId: 'GC_Photography_317-81_1',
     cardPublicId: '317_bbq_home_page_-_desktop_website_view',
-    heroPublicId: 'DSC_8684',
+    heroPublicId: '317_bbq_menu_page_-_desktop_website_view',
     featured: true,
     dashboardTier: 'flagship',
     visualMode: 'signal',
     theme: { layout: 'editorial', metricStyle: 'ticker', mediaStyle: 'landscape', density: 'kinetic' },
     serviceIds: ['brand-identity', 'web-development', 'conversion-design'],
-    industryIds: ['hospitality', 'local-service'],
-    outcomeIds: ['conversion-lift', 'booking-growth'],
+    industryIds: ["hospitality", "local-service"],
+    outcomeIds: ["conversion-lift", "booking-growth"],
     primaryServicePageSlug: 'conversion-optimization',
     editorialRank: 2,
   },
@@ -323,17 +323,17 @@ export const workIndex: WorkCard[] = [
     metrics: ['90% more online bookings', '200% social engagement growth', '#1 local search rankings'],
     category: 'Hospitality & Local',
     logoPublicId: 'hoosierboy-logo-anchor',
-    heroPublicId: 'barbershop-4484297_1920',
+    heroPublicId: 'Recording_2026-03-23_130641',
     cardPreviewPublicId: 'hoosier-boy-barbershop-website-preview',
     cardPreviewType: 'video',
     featured: true,
     dashboardTier: 'flagship',
     visualMode: 'signal',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'stack', density: 'kinetic' },
-    serviceIds: ['brand-identity', 'web-development', 'local-seo'],
-    industryIds: ['local-service'],
-    outcomeIds: ['booking-growth', 'traffic-growth', 'brand-awareness'],
-    relatedProjectSlugs: ['barbershop-command-center'],
+    serviceIds: ["brand-identity", "web-development", "local-seo"],
+    industryIds: ["local-service"],
+    outcomeIds: ["booking-growth", "traffic-growth", "brand-awareness"],
+    relatedProjectSlugs: ["barbershop-command-center"],
     editorialRank: 4,
   },
   {
@@ -362,7 +362,7 @@ export const workIndex: WorkCard[] = [
     category: 'Hospitality & Local',
     dashboardTier: 'standard',
     logoPublicId: 'russell-painting-logo',
-    heroPublicId: 'russell-painting-logo',
+    heroPublicId: 'russell-painting-website',
     cardPublicId: 'russell-painting-website',
     visualMode: 'beacon',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'portrait', density: 'calm' },
@@ -371,7 +371,7 @@ export const workIndex: WorkCard[] = [
     outcomeIds: ['traffic-growth', 'lead-gen'],
     primaryServicePageSlug: 'local-seo',
   },
-  // ── E-Commerce ─────────────────────────────────────────────────────────────
+  // ── E-Commerce ─────────────────────────────────────────
   {
     slug: 'behr-pet-essentials',
     label: 'E-Commerce · Content Strategy · Direct Response',
@@ -399,7 +399,7 @@ export const workIndex: WorkCard[] = [
     visualMode: 'orbit',
     theme: { layout: 'split', metricStyle: 'pill', mediaStyle: 'portrait', density: 'balanced' },
   },
-  // ── Brand Identity ─────────────────────────────────────────────────────────
+  // ── Brand Identity ────────────────────────────────────────
   {
     slug: 'black-letter',
     label: 'Legal Advisory · Brand Identity · Professional Services',
@@ -431,28 +431,4 @@ export const workIndex: WorkCard[] = [
     label: 'Fitness & Coaching · Brand Identity · Kinetic Design',
     client: 'Perpetual Movement Fitness',
     headline: 'A fitness brand that communicates progress — not performance.',
-    metrics: ['Minimal kinetic mark built around a single concept', 'Coaching positioning vs. gym brand', 'Scales from social to signage'],
-    category: 'Brand Identity',
-    dashboardTier: 'standard',
-    logoPublicId: 'pmf-logo-anchor',
-    heroPublicId: 'pmf-logo-anchor',
-    cardPublicId: 'Perpetual_Movement_Coaching-_Secondary_Logo',
-    visualMode: 'signal',
-    theme: { layout: 'split', metricStyle: 'pill', mediaStyle: 'portrait', density: 'kinetic' },
-  },
-  // ── Non-Profit ─────────────────────────────────────────────────────────────
-  {
-    slug: 'primary-colours',
-    label: 'Non-Profit · Event Marketing · Sponsorship Strategy',
-    client: 'Primary Colours',
-    headline: '$46,000 raised for local artists. Zero corporate donors turned away.',
-    metrics: ['$46k+ revenue', '10,000+ audience', '200+ artists supported', '23-day fully funded exhibition'],
-    category: 'Non-Profit',
-    dashboardTier: 'standard',
-    industryIds: ['nonprofit'],
-    logoPublicId: 'primary-colours-logo-anchor',
-    heroPublicId: 'IMG_1884',
-    visualMode: 'orbit',
-    theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'stack', density: 'balanced' },
-  },
-]
+    metrics: ['Minimal k
