@@ -212,7 +212,7 @@ export default function CmoAccessModal({ isOpen, onClose }: CmoAccessModalProps)
                       {submitStatus === 'error' && (
                         <p className={styles.apiError}>
                           Something went wrong — try again or email{' '}
-                          <a href="mailto:jacob@jacobdarling.com">jacob@jacobdarling.com</a>
+                          <a href="mailto:jacob@darlingmartech.com">jacob@darlingmartech.com</a>
                         </p>
                       )}
                     </form>

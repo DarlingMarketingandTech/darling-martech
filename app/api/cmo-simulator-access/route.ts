@@ -19,14 +19,14 @@ export async function POST(request: NextRequest) {
 
     await resend.emails.send({
       from: 'Darling MarTech <noreply@darlingmartech.com>',
-      to: ['jacob@jacobdarling.com'],
+      to: ['jacob@darlingmartech.com'],
       subject: `New CMO Simulator signup — ${data.name}`,
       text: [
         `Name: ${data.name}`,
         `Email: ${data.email}`,
         `Time: ${new Date().toISOString()}`,
         '',
-        'Sent from darlingmartech.com/lab/cmo-simulator',
+        'Sent from darlingmartech.com/tools/cmo-simulator',
       ].join('\n'),
     })
 
