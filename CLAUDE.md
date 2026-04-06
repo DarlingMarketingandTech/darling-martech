@@ -150,6 +150,7 @@ Work index layout: flagship studies first, supporting grid, connected-system str
   - Hero primary CTA routes to `/work`. Secondary CTA routes to `/contact?intent=unsure`.
   - Services section headline and card summaries are problem-led (updated 2026-03-29).
   - Homepage proof polish: hero copy tightened for operator clarity; the case studies rail is now a selected-teaser format with a single dominant metric per card for faster scanning.
+  - Hero UX polish (2026-04-06): fluid headline scaling and tightened hierarchy updates are live in `components/sections/Hero.module.css` and `components/sections/Hero.tsx` (subheadline/CTA spacing + contrast tuning, stat-bar cadence alignment, and reduced-motion fallbacks that preserve readability while disabling non-essential motion).
   - Consult `docs/context/project/service-pages/homepage-hero-and-services-alignment.md` before
     changing the hero or services section.
 
@@ -1593,6 +1594,7 @@ __NEXT_PRIVATE_STANDALONE_CONFIG="" npm run build
 - **Lab content in `data/labs.ts`** — The three active tool entries are data-driven from `LAB_DETAIL_DATA`; legacy lab pages are now handled by redirects and work-case-study routes.
 - **CMO Simulator access** — Gated via `CmoAccessModal` + `/api/cmo-simulator-access`. SessionStorage bypass for returning visitors.
 - **WorkAmbient + ServicesAmbient** — Both use `dynamic(..., { ssr: false })`. If adding new 3D scenes, follow same pattern.
+- **`/tools` + `useSearchParams` build rule** — Next.js 16 requires a Suspense boundary when `useSearchParams` is used in the `/tools` client tree. Keep `ToolsPageClient` wrapped in `<Suspense fallback={null}>` from `app/tools/page.tsx` to avoid prerender build failures.
 - **`case-studies/` directory** — Contains raw markdown research files, NOT used by the app. App reads from `data/work/work-data.ts`.
 - **`.worktrees/`** — Keep this directory out of the repo root unless an active local worktree is intentionally being used.
 - **`docs/archive/outputs/marketing-strategy-service.md`** — Archived research artifact. Not used by app.
