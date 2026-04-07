@@ -6,11 +6,14 @@ import type { ServiceTag } from '@/data/taxonomy'
 import styles from './Work.module.css'
 
 export const metadata: Metadata = {
-  title: 'Work — Darling MarTech | Case Studies & Client Projects',
+  title: 'Work — Case Studies & Client Projects',
   description:
     'Real work. Real results. Case studies across brand identity, marketing strategy, automation, web development, and digital infrastructure — for businesses that needed more than a vendor.',
+  alternates: {
+    canonical: '/work',
+  },
   openGraph: {
-    title: 'Work — Darling MarTech | Case Studies & Client Projects',
+    title: 'Work — Case Studies & Client Projects',
     description:
       'Real work. Real results. Case studies across brand identity, marketing strategy, automation, web development, and digital infrastructure.',
   },

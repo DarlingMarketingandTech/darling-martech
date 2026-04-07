@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
-  title: 'Legacy GEO Auditor Route | Darling MarTech',
+  title: 'Legacy GEO Auditor Route',
   description: 'Legacy route for GEO Readiness Auditor links.',
   robots: {
     index: false,

@@ -1,9 +1,10 @@
 import type { MetadataRoute } from 'next'
 import { allServicePages } from '@/data/services'
 import { getAllWork } from '@/data/work/work-data'
+import { SITE_URL } from '@/lib/config'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://darlingmartech.com'
+  const baseUrl = SITE_URL
 
   const caseStudyUrls = getAllWork().map((cs) => ({
     url: `${baseUrl}/work/${cs.slug}`,
@@ -26,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/services`, priority: 0.8 },
     { url: `${baseUrl}/tools`, priority: 0.75 },
     { url: `${baseUrl}/tools/cmo-simulator`, priority: 0.8 },
+    { url: `${baseUrl}/tools/geo-readiness-auditor`, priority: 0.8 },
     { url: `${baseUrl}/tools/attribution-snapshot`, priority: 0.8 },
     { url: `${baseUrl}/process`, priority: 0.7 },
     { url: `${baseUrl}/studio`, priority: 0.5 },

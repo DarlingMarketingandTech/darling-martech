@@ -17,7 +17,11 @@ const industries = [
   'Nonprofit', 'B2B', 'B2C', 'Local Service',
 ]
 
-export default function AboutPage() {
+type AboutPageClientProps = {
+  siteUrl: string
+}
+
+export default function AboutPageClient({ siteUrl }: AboutPageClientProps) {
   return (
     <>
       <script
@@ -28,7 +32,7 @@ export default function AboutPage() {
             '@type': 'Person',
             name: 'Jacob Darling',
             jobTitle: 'Marketing Strategist & Systems Architect',
-            url: 'https://darlingmartech.com',
+            url: siteUrl,
             email: 'jacob@darlingmartech.com',
             address: {
               '@type': 'PostalAddress',

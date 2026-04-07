@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: 'Marketing Strategy, Systems & Execution for Growth',
   description:
     'If your marketing feels disconnected, underperforming, or hard to trust — this is where it gets fixed. Strategy, websites, CRM, automation, and measurement built into one system.',
+  alternates: {
+    canonical: '/',
+  },
 }
 
 export default function Home() {

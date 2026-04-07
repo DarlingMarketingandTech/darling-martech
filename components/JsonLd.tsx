@@ -1,4 +1,5 @@
 import type { CaseStudy } from '@/lib/work'
+import { SITE_URL } from '@/lib/config'
 
 export function LocalBusinessJsonLd() {
   const data = {
@@ -8,7 +9,7 @@ export function LocalBusinessJsonLd() {
     alternateName: 'Marketing and Technology LLC',
     description:
       'Marketing strategy, technology, and automation consulting for small businesses and startups. Based in Indianapolis, IN.',
-    url: 'https://darlingmartech.com',
+    url: SITE_URL,
     email: 'jacob@darlingmartech.com',
     founder: {
       '@type': 'Person',
@@ -57,9 +58,9 @@ export function WorkCaseStudyJsonLd({ cs }: { cs: CaseStudy }) {
     publisher: {
       '@type': 'Organization',
       name: 'Darling MarTech',
-      url: 'https://darlingmartech.com',
+      url: SITE_URL,
     },
-    mainEntityOfPage: `https://darlingmartech.com/work/${cs.slug}`,
+    mainEntityOfPage: `${SITE_URL}/work/${cs.slug}`,
     about: cs.client,
     image: image ? [`https://res.cloudinary.com/djhqowk67/image/upload/${image}`] : undefined,
   }

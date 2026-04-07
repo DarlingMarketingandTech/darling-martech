@@ -3,8 +3,10 @@ import { notFound } from 'next/navigation'
 import { allServicePages } from '@/data/services'
 import { ServiceDetailPage } from '@/components/sections/ServiceDetail/ServiceDetailPage'
 
+const service = allServicePages.find((s) => s.id === 'custom-tools-workflow-products')
+
 export const metadata: Metadata = {
-  title: 'Custom Tools & Workflow Products — Darling MarTech',
+  title: service?.title ?? 'Custom Tools & Workflow Products',
   description:
     'Customer- and staff-facing workflow products — configurators, dashboards, and operational surfaces — scoped to your stack and wired into CRM, site, and measurement.',
   alternates: {

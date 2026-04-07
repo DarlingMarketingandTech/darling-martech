@@ -3,8 +3,10 @@ import { notFound } from 'next/navigation'
 import { allServicePages } from '@/data/services'
 import { ServiceDetailPage } from '@/components/sections/ServiceDetail/ServiceDetailPage'
 
+const service = allServicePages.find((s) => s.id === 'the-fortress')
+
 export const metadata: Metadata = {
-  title: 'The Fortress — Infrastructure Hardening & Resilience Architecture — Darling MarTech',
+  title: service?.title ?? 'The Fortress',
   description:
     'Origin shielding, attack surface reduction, performance hardening, and monitoring infrastructure for business-critical marketing platforms.',
   alternates: {

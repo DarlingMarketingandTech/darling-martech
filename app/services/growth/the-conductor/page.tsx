@@ -3,8 +3,10 @@ import { notFound } from 'next/navigation'
 import { allServicePages } from '@/data/services'
 import { ServiceDetailPage } from '@/components/sections/ServiceDetail/ServiceDetailPage'
 
+const service = allServicePages.find((s) => s.id === 'the-conductor')
+
 export const metadata: Metadata = {
-  title: 'The Conductor — Reporting, Attribution & Decision-Ready Analytics — Darling MarTech',
+  title: service?.title ?? 'The Conductor',
   description:
     'KPI frameworks, attribution logic, GA4 cleanup, and dashboard infrastructure that turns disconnected data into a system your team can manage by.',
   alternates: {

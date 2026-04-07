@@ -2,9 +2,12 @@ import type { Metadata } from 'next'
 import styles from './PrivacyPolicy.module.css'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Darling MarTech',
+  title: 'Privacy Policy',
   description:
     'Privacy Policy for Darling Martech Dev — how data is handled when using the custom GPT and its GitHub integration.',
+  alternates: {
+    canonical: '/privacy-policy',
+  },
   robots: {
     index: true,
     follow: true,

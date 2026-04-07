@@ -46,7 +46,9 @@ export async function generateMetadata({
   const ogImagePublicId = media?.hero?.publicId ?? cs.heroPublicId ?? cs.logoPublicId
 
   return {
-    title: cs.titleTag,
+    title: {
+      absolute: cs.titleTag,
+    },
     description: cs.metaDescription,
     alternates: {
       canonical: getCanonicalWorkPath(cs.slug),

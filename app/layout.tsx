@@ -9,6 +9,7 @@ import { LocalBusinessJsonLd } from '@/components/JsonLd'
 import { LenisProvider } from '@/components/providers/LenisProvider'
 import { GoogleAnalytics } from '@/components/providers/Analytics'
 import { ClientCosmetics } from '@/components/layout/ClientCosmetics'
+import { SITE_URL } from '@/lib/config'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -49,7 +50,7 @@ const cabinetGrotesk = localFont({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://darlingmartech.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Darling MarTech — Strategy, Systems & Growth Infrastructure',
     template: '%s | Darling MarTech',
@@ -72,7 +73,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://darlingmartech.com',
+    url: SITE_URL,
     siteName: 'Darling MarTech',
     title: 'Strategy, Systems & Growth Infrastructure',
     description:

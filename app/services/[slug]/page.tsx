@@ -25,7 +25,7 @@ export async function generateMetadata({
     description: service.summary,
     keywords: [serviceLabels, industryLabels].filter(Boolean).join(', '),
     openGraph: {
-      title: `${service.title} — Darling MarTech`,
+      title: service.title,
       description: service.summary,
     },
     alternates: {

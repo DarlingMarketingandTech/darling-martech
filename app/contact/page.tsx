@@ -4,9 +4,12 @@ import { ContactForm } from '@/components/sections/ContactForm'
 import styles from './Contact.module.css'
 
 export const metadata: Metadata = {
-  title: 'Start a Project | Darling MarTech',
+  title: 'Start a Project',
   description:
     'Tell me what you\'re dealing with. I work with a small number of clients at a time — this is where it starts.',
+  alternates: {
+    canonical: '/contact',
+  },
 }
 
 export default function ContactPage() {

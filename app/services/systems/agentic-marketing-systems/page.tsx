@@ -3,8 +3,10 @@ import { notFound } from 'next/navigation'
 import { allServicePages } from '@/data/services'
 import { ServiceDetailPage } from '@/components/sections/ServiceDetail/ServiceDetailPage'
 
+const service = allServicePages.find((s) => s.id === 'agentic-marketing-systems')
+
 export const metadata: Metadata = {
-  title: 'Agentic Marketing Systems & Workflow Automation — Darling MarTech',
+  title: service?.title ?? 'Agentic Marketing Systems',
   description:
     'CRM-connected workflows, AI-assisted automations, and operational infrastructure that removes manual drag from marketing and sales.',
   alternates: {
