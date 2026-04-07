@@ -22,6 +22,22 @@ export const projectMedia_primarycareIndy: ProjectMediaMap = {
 
   screens: [
     {
+      publicId: "Gemini_Generated_Image_qn1c5kqn1c5kqn1c",
+      alt: "PrimaryCare Indy website proof mockup showing desktop website and device context",
+      kind: "screen",
+      role: "gallery",
+      caption: "PrimaryCare Indy website proof mockup",
+      theme: "patient-welcome",
+      audience: "patients-and-caregivers",
+      tags: [
+        "client-primarycare-indy",
+        "surface-work",
+        "kind-composite",
+        "priority-detail-candidate",
+        "status-review-ready",
+      ],
+    },
+    {
       publicId: "primary-care-indy-website-telehealth",
       alt: "Telehealth page screenshot from the PrimaryCare Indy website",
       kind: "screen",
