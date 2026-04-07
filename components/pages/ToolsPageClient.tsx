@@ -75,8 +75,8 @@ const featuredLabs: FeaturedLab[] = [
     eyebrow: 'Visitor utility',
     description:
       'Structured intake: goals, constraints, and budget reality — then a prioritized roadmap you can execute or hand to a team. Free entry, same framing I use in live engagements.',
-    primaryHref: '/tools?launch=cmo-roadmap-generator',
-    primaryLabel: 'Generate roadmap',
+    primaryHref: '/tools/cmo-roadmap-generator',
+    primaryLabel: 'View tool',
     primaryAriaLabel: 'Open CMO Roadmap Generator',
     stack: ['Next.js', 'TypeScript', 'Vercel'],
     screenshot: {
@@ -108,11 +108,6 @@ const iframeToolBySlug: Record<string, IframeToolSession> = {
     slug: 'cmo-simulator',
     name: 'CMO Simulator',
     detailHref: '/tools/cmo-simulator',
-  },
-  'cmo-roadmap-generator': {
-    src: 'https://cmo-roadmap-generator.vercel.app/intake',
-    slug: 'cmo-roadmap-generator',
-    name: 'CMO Roadmap Generator',
   },
 }
 

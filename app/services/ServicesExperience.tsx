@@ -101,7 +101,7 @@ const clusterToolMap: Record<string, { label: string; description: string; href:
   'brand-web': {
     label: 'CMO Roadmap Generator',
     description: 'Turn goals and constraints into a practical 90-day execution draft.',
-    href: '/tools',
+    href: '/tools/cmo-roadmap-generator',
     slug: 'cmo-roadmap-generator',
   },
   systems: {

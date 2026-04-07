@@ -118,7 +118,7 @@ Work index layout: flagship studies first, supporting grid, connected-system str
   - CMO Simulator: dedicated route `/tools/cmo-simulator` with detail page + launch modal.
     This is the target pattern for any future tool requiring SEO or explanation.
   - GEO Readiness Auditor: dedicated route `/tools/geo-readiness-auditor` with detail page + direct audit flow.
-  - CMO Roadmap Generator: modal/iframe launch from `/tools` index.
+  - CMO Roadmap Generator: dedicated route `/tools/cmo-roadmap-generator` with detail page; native intake/results ship in follow-on phases.
   - Attribution Snapshot: dedicated route `/tools/attribution-snapshot` with in-page client-side CSV analysis and model comparison. Phase 1 is intentionally directional — no GA4 auth or persisted attribution store yet.
     Static routes remain the preferred pattern while tool count is small and heterogeneous.
   - `app/tools/[slug]/` is intentionally not used today. Re-evaluate only if tool inventory
@@ -1088,7 +1088,7 @@ Serverless Development, WordPress, Figma, Adobe Creative Suite
 |---|---|---|---|
 | `cmo-simulator` | CMO Simulator | Marketing | (gated — email access) |
 | `geo-readiness-auditor` | GEO Readiness Auditor | Marketing | /tools/geo-readiness-auditor |
-| `cmo-roadmap-generator` | CMO Roadmap Generator | Marketing | https://cmo-roadmap-generator.vercel.app/intake |
+| `cmo-roadmap-generator` | CMO Roadmap Generator | Marketing | /tools/cmo-roadmap-generator |
 | `attribution-snapshot` | Attribution Snapshot | Marketing | /tools/attribution-snapshot |
 
 ### `/data/services.ts` — 6 service categories in `serviceDetails`

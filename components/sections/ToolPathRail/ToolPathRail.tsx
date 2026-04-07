@@ -42,7 +42,7 @@ const TOOL_ITEMS: ToolItem[] = [
     stage: 'Plan',
     promise: 'Turn constraints and goals into a practical 90-day plan.',
     output: 'Prioritized roadmap draft',
-    href: '/tools',
+    href: '/tools/cmo-roadmap-generator',
     ctaLabel: 'Build your roadmap',
   },
   {

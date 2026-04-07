@@ -79,18 +79,29 @@ function collectToolPaths() {
   const paths = new Set(["/tools"]);
   const toolsDir = path.join(repoRoot, "app", "tools");
 
-  if (exists(toolsDir)) {
-    const entries = fs.readdirSync(toolsDir, { withFileTypes: true });
+  function scanToolsDir(dir, urlPath) {
+    if (!exists(dir)) {
+      return;
+    }
+    const pagePath = path.join(dir, "page.tsx");
+    if (exists(pagePath)) {
+      paths.add(urlPath);
+    }
+    let entries;
+    try {
+      entries = fs.readdirSync(dir, { withFileTypes: true });
+    } catch {
+      return;
+    }
     for (const entry of entries) {
       if (!entry.isDirectory()) {
         continue;
       }
-      const pagePath = path.join(toolsDir, entry.name, "page.tsx");
-      if (exists(pagePath)) {
-        paths.add(`/tools/${entry.name}`);
-      }
+      scanToolsDir(path.join(dir, entry.name), `${urlPath}/${entry.name}`);
     }
   }
+
+  scanToolsDir(toolsDir, "/tools");
 
   const nextConfigPath = path.join(repoRoot, "next.config.js");
   const nextConfig = read(nextConfigPath);

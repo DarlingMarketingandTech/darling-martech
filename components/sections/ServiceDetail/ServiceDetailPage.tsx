@@ -93,7 +93,7 @@ const diagnosticToolByServiceId: Record<string, DiagnosticToolRecommendation> = 
   'martech-audit': {
     label: 'CMO Roadmap Generator',
     description: 'Turn strategic inputs into a practical 90-day plan draft.',
-    href: '/tools',
+    href: '/tools/cmo-roadmap-generator',
     slug: 'cmo-roadmap-generator',
   },
   systems: {
@@ -187,7 +187,7 @@ export function ServiceDetailPage({ service }: { service: ServicePageEntry }) {
       build: {
         label: 'CMO Roadmap Generator',
         description: 'Build a practical plan you can execute or bring into engagement.',
-        href: '/tools',
+        href: '/tools/cmo-roadmap-generator',
         slug: 'cmo-roadmap-generator',
       },
       growth: {

@@ -1,10 +1,11 @@
+import { SITE_URL } from '@/lib/config'
+
 /**
  * Canonical public origin for this app (no trailing slash).
- * Set NEXT_PUBLIC_BASE_URL in Vercel / .env when the deployment URL changes.
+ * Uses the shared site URL config so metadata, sitemap, robots,
+ * JSON-LD, and GEO audit helpers all agree on the same origin.
  */
-export const SITE_ORIGIN = (
-  process.env.NEXT_PUBLIC_BASE_URL ?? 'https://darling-martech.vercel.app'
-).replace(/\/$/, '')
+export const SITE_ORIGIN = SITE_URL.replace(/\/$/, '')
 
 /** Hostname only, for visible labels (e.g. footer, OG badge). */
 export const SITE_HOSTNAME = new URL(SITE_ORIGIN).hostname

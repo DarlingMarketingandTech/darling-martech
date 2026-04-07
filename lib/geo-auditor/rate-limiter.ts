@@ -17,11 +17,18 @@ import { Redis } from '@upstash/redis'
 // Config
 // ---------------------------------------------------------------------------
 
-export type LimiterKey = 'audit' | 'capture'
+export type LimiterKey = 'audit' | 'capture' | 'roadmap-send'
 
 const LIMITS: Record<LimiterKey, { requests: number; window: number }> = {
   audit:   { requests: 10, window: 60 * 60 }, // 10 req / hour
   capture: { requests: 5,  window: 60 * 60 }, // 5  req / hour (email gate)
+  'roadmap-send': { requests: 8, window: 60 * 60 }, // CMO Roadmap Generator email delivery
+}
+
+const LIMITER_PREFIX: Record<LimiterKey, string> = {
+  audit: 'geo-auditor:audit',
+  capture: 'geo-auditor:capture',
+  'roadmap-send': 'cmo-roadmap:send',
 }
 
 export interface RateLimitResult {
@@ -50,7 +57,7 @@ function getUpstashLimiter(key: LimiterKey): Ratelimit {
       new Ratelimit({
         redis,
         limiter: Ratelimit.slidingWindow(requests, `${window} s`),
-        prefix: `geo-auditor:${key}`,
+        prefix: LIMITER_PREFIX[key],
       })
     )
   }

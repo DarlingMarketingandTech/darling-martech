@@ -20,6 +20,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // NOTE: We intentionally omit `lastModified` unless we have real per-page timestamps.
   // Setting it to `new Date()` for every URL on every deploy is a low-signal sitemap pattern.
+  // CMO Roadmap Generator: only the public detail route is listed; /intake and /results are
+  // noindex utility surfaces and stay out of the sitemap to avoid noisy indexing signals.
   const staticRoutes = [
     { url: baseUrl, priority: 1 },
     { url: `${baseUrl}/about`, priority: 0.8 },
@@ -29,6 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/tools/cmo-simulator`, priority: 0.8 },
     { url: `${baseUrl}/tools/geo-readiness-auditor`, priority: 0.8 },
     { url: `${baseUrl}/tools/attribution-snapshot`, priority: 0.8 },
+    { url: `${baseUrl}/tools/cmo-roadmap-generator`, priority: 0.8 },
     { url: `${baseUrl}/process`, priority: 0.7 },
     { url: `${baseUrl}/studio`, priority: 0.5 },
     { url: `${baseUrl}/contact`, priority: 0.7 },

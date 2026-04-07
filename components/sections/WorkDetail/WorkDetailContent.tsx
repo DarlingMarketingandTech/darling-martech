@@ -792,7 +792,7 @@ function getWorkToolRecommendation(cs: CaseStudy): WorkToolRecommendation {
     return {
       label: 'CMO Roadmap Generator',
       slug: 'cmo-roadmap-generator',
-      href: '/tools',
+      href: '/tools/cmo-roadmap-generator',
       body: 'Turn strategy constraints into a practical 90-day roadmap you can execute or refine.',
     }
   }
@@ -800,7 +800,7 @@ function getWorkToolRecommendation(cs: CaseStudy): WorkToolRecommendation {
   return {
     label: 'CMO Roadmap Generator',
     slug: 'cmo-roadmap-generator',
-    href: '/tools',
+    href: '/tools/cmo-roadmap-generator',
     body: 'Build a prioritized roadmap from your current constraints before starting a new build.',
   }
 }
