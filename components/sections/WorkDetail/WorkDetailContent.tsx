@@ -233,6 +233,108 @@ function NarrativeMediaSections({ cs, isFlagship = false }: { cs: CaseStudy; isF
   )
 }
 
+// Supporting Evidence Strips: Lightweight visual support for flagship pages
+// Renders after systemsSynthesis as subordinate proof — smaller images, lighter headings
+function SupportEvidenceStrips({ cs }: { cs: CaseStudy }) {
+  const projectMedia = getProjectMedia(cs.slug)
+
+  if (!projectMedia) return null
+
+  const hasContent =
+    (projectMedia.screens && projectMedia.screens.length > 0) ||
+    (projectMedia.productInUse && projectMedia.productInUse.length > 0) ||
+    (projectMedia.campaign && projectMedia.campaign.length > 0)
+
+  if (!hasContent) return null
+
+  return (
+    <FadeUp>
+      <section className={styles.supportEvidenceSection}>
+        <div className={styles.supportEvidenceHeader}>
+          <p className={styles.sectionEyebrow}>Supporting evidence</p>
+          <p className={styles.supportEvidenceIntro}>
+            Interface surfaces, campaign creative, and product documentation from the engagement.
+          </p>
+        </div>
+
+        <div className={styles.supportEvidenceStrips}>
+          {projectMedia.screens && projectMedia.screens.length > 0 && (
+            <div className={styles.supportStrip}>
+              <h3 className={styles.supportStripHeading}>Website and platform screens</h3>
+              <div className={styles.supportStripGrid}>
+                {projectMedia.screens.slice(0, 2).map((asset) => (
+                  <figure key={asset.publicId} className={styles.supportStripCard}>
+                    <CldImage
+                      src={asset.publicId}
+                      alt={asset.alt}
+                      width={640}
+                      height={400}
+                      crop="fill"
+                      gravity="auto"
+                      className={styles.supportStripImage}
+                    />
+                    {asset.caption && (
+                      <figcaption className={styles.supportStripCaption}>{asset.caption}</figcaption>
+                    )}
+                  </figure>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {projectMedia.campaign && projectMedia.campaign.length > 0 && (
+            <div className={styles.supportStrip}>
+              <h3 className={styles.supportStripHeading}>Campaign creative</h3>
+              <div className={styles.supportStripGrid}>
+                {projectMedia.campaign.slice(0, 3).map((asset) => (
+                  <figure key={asset.publicId} className={styles.supportStripCard}>
+                    <CldImage
+                      src={asset.publicId}
+                      alt={asset.alt}
+                      width={640}
+                      height={800}
+                      crop="fill"
+                      gravity="auto"
+                      className={styles.supportStripImage}
+                    />
+                    {asset.caption && (
+                      <figcaption className={styles.supportStripCaption}>{asset.caption}</figcaption>
+                    )}
+                  </figure>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {projectMedia.productInUse && projectMedia.productInUse.length > 0 && (
+            <div className={styles.supportStrip}>
+              <h3 className={styles.supportStripHeading}>Product and precision</h3>
+              <div className={styles.supportStripGrid}>
+                {projectMedia.productInUse.slice(0, 2).map((asset) => (
+                  <figure key={asset.publicId} className={styles.supportStripCard}>
+                    <CldImage
+                      src={asset.publicId}
+                      alt={asset.alt}
+                      width={640}
+                      height={800}
+                      crop="fill"
+                      gravity="auto"
+                      className={styles.supportStripImage}
+                    />
+                    {asset.caption && (
+                      <figcaption className={styles.supportStripCaption}>{asset.caption}</figcaption>
+                    )}
+                  </figure>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    </FadeUp>
+  )
+}
+
 function BrandIdentitySnapshot({ cs }: { cs: CaseStudy }) {
   const profile = getBrandDnaProfile(cs.slug)
 
@@ -1162,6 +1264,8 @@ export function WorkDetailContent({
                 <BodyCopy text={cs.systemsSynthesis} />
               </SectionBlock>
             )}
+
+            {isFlagshipLongform && <SupportEvidenceStrips cs={cs} />}
 
             <BrandIdentitySnapshot cs={cs} />
 
