@@ -152,7 +152,7 @@ export function Hero() {
                       onFocus={() => setInteractiveTarget('hero-cta')}
                       onBlur={() => setInteractiveTarget(null)}
                     >
-                      <span>See the work</span>
+                      <span>See proof in action</span>
                       <motion.span variants={arrowVariants} className={styles.ctaArrow}>
                         <ArrowRightIcon weight="regular" size={18} />
                       </motion.span>
@@ -160,7 +160,7 @@ export function Hero() {
                   </motion.div>
                 </MagneticButton>
                 <Link href="/contact?intent=unsure" className={styles.ctaSecondary}>
-                  Request a consultation
+                  Not sure yet? Start a conversation
                 </Link>
               </motion.div>
             </motion.div>

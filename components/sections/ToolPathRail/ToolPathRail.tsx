@@ -128,6 +128,9 @@ export function ToolPathRail({ mode, location, eyebrow = 'Free tools', title, de
         <motion.p className={styles.description} variants={itemVariants} initial="hidden" whileInView="visible" viewport={viewport}>
           {description}
         </motion.p>
+        <motion.p className={styles.description} variants={itemVariants} initial="hidden" whileInView="visible" viewport={viewport}>
+          Choose this path when you need a fast diagnosis. Choose work when you need proof first. Choose contact when you want help deciding.
+        </motion.p>
 
         <div className={styles.grid}>
           {TOOL_ITEMS.map((tool, index) => (

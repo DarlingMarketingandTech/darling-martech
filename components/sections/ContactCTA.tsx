@@ -16,10 +16,11 @@ export function ContactCTA() {
         viewport={viewport}
       >
         <motion.h2 className={styles.headline} variants={itemVariants}>
-          Ready to build something that works?
+          Need help choosing the right next step?
         </motion.h2>
         <motion.p className={styles.body} variants={itemVariants}>
-          I work directly with a small number of clients at a time. Every engagement gets my full attention.
+          If you&apos;ve looked at the work, services, or tools and still need direction,
+          we can map the right path together.
         </motion.p>
         <motion.div variants={itemVariants}>
           <motion.div
@@ -28,8 +29,8 @@ export function ContactCTA() {
             transition={springEntrance}
             className="inline-block"
           >
-            <Link href="/contact?intent=service" className={styles.ctaButton}>
-              Request a MarTech Audit →
+            <Link href="/contact?intent=unsure" className={styles.ctaButton}>
+              Start a conversation →
             </Link>
           </motion.div>
         </motion.div>

@@ -51,15 +51,16 @@ export function Services() {
             <p className={styles.body}>
               Most businesses don&apos;t need more activity. They need one missing
               layer fixed first — strategy, website conversion, CRM automation, or
-              visibility and demand.
+              visibility and demand. If you already know where the bottleneck is,
+              go deeper in services. If you want outcome proof first, go to work.
             </p>
             <div className={styles.ctaRow}>
               <Link href="/services" className={styles.primaryCta}>
-                Explore services
+                Find your service path
                 <ArrowRightIcon size={18} weight="regular" />
               </Link>
               <Link href="/work" className={styles.secondaryCta}>
-                See the proof
+                See matching proof
               </Link>
             </div>
           </motion.div>
