@@ -1482,6 +1482,15 @@
   color: rgba(255, 77, 0, 0.52);
 }
 
+.dashboardParentContext {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: rgba(245, 240, 232, 0.5);
+}
+
 /* ── Supporting proof — category grouping ─────────────────────────────────── */
 
 /* Spacing before each category group (not applied to the first group) */

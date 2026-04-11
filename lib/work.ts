@@ -132,6 +132,7 @@ export type WorkCard = {
   cardPublicId?: string // Optional still image override for the /work index cards only
   cardPreviewPublicId?: string
   cardPreviewType?: 'image' | 'video'
+  cardTitle?: string
   featured?: boolean    // Pinned to top of grid
   visualMode?: WorkVisualMode
   theme?: WorkTheme
@@ -143,6 +144,10 @@ export type WorkCard = {
   outcomeIds?: OutcomeTag[]
   /** When set, work detail links to this `/services/[slug]` page as the primary Batch 1 (or other) offering this study proves */
   primaryServicePageSlug?: string
+  /** Narrow opt-in for selected system-children that should also appear in the supporting grid on `/work`. */
+  surfaceInSupportingGrid?: boolean
+  /** Plain-English parent context shown on supporting cards when surfaced outside the parent strip. */
+  parentContextLabel?: string
   /** Editorial sort rank within the flagship tier — lower number surfaces first. Unset entries fall after ranked ones. */
   editorialRank?: number
   /** Flat discovery tags for future /work filter/segment improvements. See WorkDiscoveryTags. */
