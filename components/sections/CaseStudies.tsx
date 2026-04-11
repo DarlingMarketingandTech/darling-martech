@@ -288,10 +288,10 @@ export function CaseStudies() {
               Selected proof
             </motion.p>
             <motion.h2 variants={itemVariants} className={styles.heading}>
-              A tight edit of the work.
+              Proof you can scan fast.
             </motion.h2>
             <motion.p variants={itemVariants} className={styles.subheading}>
-              Five selected proof builds. Open any card for the full story; everything else lives on{' '}
+              Start with five high-signal builds. Open any card for the full case; the full proof library lives on{' '}
               <Link href="/work" className={styles.subheadingLink}>
                 /work
               </Link>
@@ -321,7 +321,7 @@ export function CaseStudies() {
               </button>
             </div>
             <Link href="/work" className={styles.primaryCta}>
-              Full proof on /work
+              Go to full proof library
               <ArrowRight weight="light" className={styles.primaryCtaIcon} aria-hidden />
             </Link>
           </motion.div>
