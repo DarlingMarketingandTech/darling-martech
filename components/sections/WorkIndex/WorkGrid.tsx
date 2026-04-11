@@ -186,6 +186,15 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
 
   const orderedStudies = useMemo(() => sortStudies(studies), [studies])
 
+  const supportingGridSystemSlugs = useMemo(
+    () => new Set(
+      orderedStudies
+        .filter((s) => s.dashboardTier === 'system' && s.surfaceInSupportingGrid)
+        .map((s) => s.slug)
+    ),
+    [orderedStudies]
+  )
+
   const systemSlugs = useMemo(
     () => new Set(orderedStudies.filter((s) => s.dashboardTier === 'system').map((s) => s.slug)),
     [orderedStudies]
@@ -204,7 +213,9 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
   )
 
   const visibleStudies = useMemo(() => {
-    let result = orderedStudies.filter((s) => !systemSlugs.has(s.slug))
+    let result = orderedStudies.filter(
+      (s) => !systemSlugs.has(s.slug) || supportingGridSystemSlugs.has(s.slug)
+    )
 
     if (activeSegment === 'Systems') {
       // In Systems view: show all flagships that have system-children regardless of
@@ -222,7 +233,7 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
     }
 
     return result
-  }, [activeSegment, activeServiceFilter, flagshipsWithChildren, orderedStudies, systemSlugs])
+  }, [activeSegment, activeServiceFilter, flagshipsWithChildren, orderedStudies, supportingGridSystemSlugs, systemSlugs])
 
   const flagshipStudies = useMemo(
     () => visibleStudies.filter((s) => s.dashboardTier === 'flagship'),

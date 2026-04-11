@@ -76,9 +76,18 @@ export function WorkDashboardCard({
   const metrics = study.metrics.slice(0, 1)
   const eyebrow = isSupporting ? study.category : study.label
   const serviceLabel = study.primaryServicePageSlug ? SERVICE_LABELS[study.primaryServicePageSlug] ?? null : null
+  const parentContextLabel = isSupporting ? study.parentContextLabel ?? null : null
+  const title = isSupporting ? study.cardTitle ?? study.client : study.client
 
   return (
-    <Link href={`/work/${study.slug}`} className={cn(styles.dashboardCardShell, getTierClassName(tier))}>
+    <Link
+      href={`/work/${study.slug}`}
+      className={cn(
+        styles.dashboardCardShell,
+        getTierClassName(tier),
+        isSupporting && styles.cardSupporting
+      )}
+    >
       <motion.article
         className={styles.dashboardCard}
         whileHover={{ scale: 1.02 }}
@@ -93,7 +102,7 @@ export function WorkDashboardCard({
           </div>
 
           <div className={styles.dashboardCardCopy}>
-            <h3 className={styles.dashboardTitle}>{study.client}</h3>
+            <h3 className={styles.dashboardTitle}>{title}</h3>
 
             {isSupporting && metrics.length > 0 && (
               <div className={styles.dashboardMetrics}>
@@ -109,6 +118,10 @@ export function WorkDashboardCard({
             )}
 
             <p className={styles.dashboardSummary}>{study.headline}</p>
+
+            {parentContextLabel && (
+              <span className={styles.dashboardParentContext}>{parentContextLabel}</span>
+            )}
 
             {isSupporting && serviceLabel && (
               <span className={styles.dashboardServiceCue}>{serviceLabel}</span>
