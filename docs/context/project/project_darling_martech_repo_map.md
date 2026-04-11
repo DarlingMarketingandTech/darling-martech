@@ -68,10 +68,16 @@ Live top-level routes in `app/`:
 - `/services/[slug]` -> `app/services/[slug]/page.tsx`
 - `/work` -> `app/work/page.tsx`
 - `/work/[slug]` -> `app/work/[slug]/page.tsx`
-- `/lab` -> `app/lab/page.tsx`
-- `/lab/[slug]` -> `app/lab/[slug]/page.tsx`
-- `/lab/cmo-simulator` -> dedicated route under `app/lab/cmo-simulator/page.tsx`
+- `/tools` -> `app/tools/page.tsx`
+- `/tools/cmo-simulator` -> `app/tools/cmo-simulator/page.tsx`
+- `/tools/attribution-snapshot` -> `app/tools/attribution-snapshot/page.tsx`
 - `/studio` -> `app/studio/page.tsx`
+
+Legacy redirect-only routes:
+
+- `/lab` -> `app/lab/page.tsx` (permanent redirects to `/tools/*` or `/work/[slug]`)
+- `/lab/[slug]` -> `app/lab/[slug]/page.tsx` (permanent redirects)
+- `/lab/cmo-simulator` -> redirects to `/tools/cmo-simulator`
 
 Metadata / crawler routes:
 
@@ -98,10 +104,11 @@ Planned but not currently implemented as live routes:
 - Services Hub: entry point to parent services and productized audit offer
 - Service Detail Routes: current parent-service pages plus standalone `martech-audit`
 - Work Hub and Work Detail: proof architecture and case-study depth
-- Lab Hub and Lab Detail: strategic / technical proof tools
+- Tools Hub and Tool Detail Pages: self-serve utilities (CMO Simulator, GEO Readiness Auditor, CMO Roadmap Generator, Attribution Snapshot) that deliver immediate value and qualify prospects
 - About: credibility and company framing
 - Contact: conversion and lead capture
 - Studio: media / image exploration
+- `/lab` routes are legacy redirects only; not a primary surface
 
 ## 6. Content Source Locations
 

@@ -60,6 +60,8 @@ Diagnosis, challenge, and recommendation mode.
 - Identify migration logic and dependency order for a future implementation pass
 - Define risks, tradeoffs, and measurable success criteria for a proposed rethink
 
+**Boundary preference:** Always explore section-order and content-model improvements inside existing routes before proposing new route structures or IA families.
+
 ## Not allowed in Strategic Reframe Mode
 - Directly shipping broad redesigns or architectural rewrites
 - Inventing unsupported route systems or random route sprawl
@@ -80,6 +82,14 @@ Every Strategic Reframe pass must produce:
 5. Risks and tradeoffs
 6. Likely files/routes/systems affected
 7. Smallest testable next step
+
+**Problem type clarification** (helps scope future work):
+- **Page-role problem:** page is doing the right job but confusing in execution
+- **Section-order problem:** page job is clear but sequencing reduces comprehension/conversion
+- **Content-model problem:** proof/data relationships are inconsistent or undiscoverable
+- **Route-architecture problem:** IA family or navigation structure is misaligned with buyer journey
+
+Preference: Always exhaust page-role, section-order, and content-model improvements before proposing route-architecture changes.
 
 Optional but recommended:
 

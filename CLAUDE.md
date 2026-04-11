@@ -89,10 +89,10 @@ Conflict rule:
 
 ### Consolidated IA / Page Strategy Snapshot
 - Live core pages: `/`, `/services`, `/services/[slug]`, `/work`,
-  `/work/[slug]`, `/tools`, `/tools/[slug]`, `/tools/cmo-simulator`, `/tools/attribution-snapshot`, `/about`,
+  `/work/[slug]`, `/tools`, `/tools/cmo-simulator`, `/tools/attribution-snapshot`, `/about`,
   `/contact`, `/studio`, `/process`.
-- `/lab` is legacy — permanent redirects to `/tools/*` are in place. `/lab` is
-  not a public concept. Do not reference `/lab` routes in new work.
+- `/lab` is legacy redirect-only. Permanent redirects to `/tools/*` and `/work/[slug]` are in place. `/lab` is
+  not a public concept or live IA surface. Do not reference `/lab` routes in new work.
 - `/tools` role: self-serve strategy layer. Four visitor utilities — CMO Simulator,
   GEO Readiness Auditor, CMO Roadmap Generator, Attribution Snapshot — that deliver immediate value and
   qualify prospects in the process. Not a portfolio. Not a build archive. Not proof.
