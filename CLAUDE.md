@@ -57,6 +57,12 @@ Conflict rule:
 3. Archived/context docs are reference material unless this file explicitly
    elevates a rule from them.
 
+### Operating Modes (Implementation First)
+- Default mode remains Implementation Mode: repo-safe, low-churn, and drift-resistant.
+- For higher-order diagnosis or structural challenge work, consult `docs/context/project/strategic-reframe-mode.md`.
+- Strategic Reframe Mode is recommendation and scoped planning only, not direct broad implementation.
+- After scope approval, execution returns to normal implementation workflow under this file.
+
 ### Consolidated Strategy Snapshot
 - Positioning: **high strategic depth + high technical depth** for SMB buyers.
 - Core commercial frame: strategy + implementation + measurement under one

@@ -53,6 +53,10 @@ Important root docs:
 - `project_darling_martech_voice_and_messaging.md`
 - `project_darling_martech_page_briefs.md`
 
+Companion operating note:
+
+- `strategic-reframe-mode.md` defines recommendation-only Strategic Reframe Mode for controlled structural challenge work; normal implementation still follows `CLAUDE.md` and runtime/data truth.
+
 ## 4. Route Structure
 
 Live top-level routes in `app/`:
