@@ -1,6 +1,6 @@
 import type { ProjectMediaMap } from "../types";
 
-export const projectMedia_UrgentCareIndy: ProjectMediaMap = {
+export const projectMedia_urgentCareIndy: ProjectMediaMap = {
   projectSlug: "urgentcare-indy",
 
   hero: {
