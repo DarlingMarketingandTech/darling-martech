@@ -23,6 +23,22 @@ export const projectMedia_grastonTechnique: ProjectMediaMap = {
 
   screens: [
     {
+      publicId: "Gemini_Generated_Image_vq6jdjvq6jdjvq6j",
+      alt: "Graston Technique provider directory proof mockup showing multi-device interface context",
+      kind: "screen",
+      role: "gallery",
+      caption: "Provider directory proof mockup",
+      theme: "digital-experience",
+      audience: "licensed-healthcare-professionals",
+      tags: [
+        "client-graston-technique",
+        "surface-work",
+        "kind-composite",
+        "priority-card-candidate",
+        "status-review-ready",
+      ],
+    },
+    {
       publicId: "graston-website-training",
       alt: "Training page screenshot from the Graston Technique website",
       kind: "screen",
