@@ -46,10 +46,14 @@ export function LocalBusinessJsonLd() {
 
 export function WorkCaseStudyJsonLd({ cs }: { cs: CaseStudy }) {
   const image = cs.heroPublicId ?? cs.logoPublicId
+  const caseStudyUrl = `${SITE_URL}/work/${cs.slug}`
   const data = {
     '@context': 'https://schema.org',
     '@type': 'Article',
+    '@id': `${caseStudyUrl}#article`,
+    url: caseStudyUrl,
     headline: cs.titleTag,
+    name: cs.client,
     description: cs.metaDescription,
     author: {
       '@type': 'Person',
@@ -60,7 +64,16 @@ export function WorkCaseStudyJsonLd({ cs }: { cs: CaseStudy }) {
       name: 'Darling MarTech',
       url: SITE_URL,
     },
-    mainEntityOfPage: `${SITE_URL}/work/${cs.slug}`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': caseStudyUrl,
+      url: caseStudyUrl,
+    },
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'Darling MarTech',
+      url: SITE_URL,
+    },
     about: cs.client,
     image: image ? [`https://res.cloudinary.com/djhqowk67/image/upload/${image}`] : undefined,
   }
