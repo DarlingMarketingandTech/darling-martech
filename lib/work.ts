@@ -79,6 +79,47 @@ export function getWorkDetailTemplate(slug: string): WorkDetailTemplate {
   return 'supporting-standard'
 }
 
+// ── Discovery tag model ────────────────────────────────────────────────────
+// Flat, multi-dimensional tags for future /work discovery improvements.
+// Additive — does not replace dashboardTier, category, serviceIds, industryIds,
+// or any other existing field. See docs/context/project/work-discovery-model-spec.md.
+
+export type WorkServiceType =
+  | 'strategy'
+  | 'website-ux-brand'
+  | 'crm-automation-ai'
+  | 'growth-seo-demand'
+
+export type WorkBusinessType =
+  | 'local-service'
+  | 'healthcare'
+  | 'legal-professional'
+  | 'ecommerce'
+  | 'saas-tech'
+  | 'nonprofit'
+  | 'brand-identity'
+
+export type WorkProofRole = 'flagship' | 'supporting' | 'system-child'
+
+export type WorkDiscoveryTags = {
+  /**
+   * Which /services cluster(s) this proof supports. 1–2 values max.
+   * Maps to the four runtime clusters on /services.
+   */
+  serviceTypes?: WorkServiceType[]
+  /**
+   * Business type — how the client describes themselves. 1–2 values max.
+   * Prefer plain-English client-vocabulary terms.
+   */
+  businessTypes?: WorkBusinessType[]
+  /**
+   * Proof role — internal use for display/filter logic.
+   * Mirrors dashboardTier but uses stable, UI-friendly naming.
+   * Not exposed as a visitor-facing filter label.
+   */
+  proofRole: WorkProofRole
+}
+
 export type WorkCard = {
   slug: string
   label: string         // e.g. "Hospitality · Brand Identity & Web"
@@ -104,6 +145,8 @@ export type WorkCard = {
   primaryServicePageSlug?: string
   /** Editorial sort rank within the flagship tier — lower number surfaces first. Unset entries fall after ranked ones. */
   editorialRank?: number
+  /** Flat discovery tags for future /work filter/segment improvements. See WorkDiscoveryTags. */
+  discoveryTags?: WorkDiscoveryTags
 }
 
 export type Deliverable = {

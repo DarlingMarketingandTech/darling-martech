@@ -109,6 +109,11 @@ Work index layout: flagship studies first, supporting grid, connected-system str
  auto-advance; category tabs and item selection remain keyboard-accessible; horizontal
  thumb scrolling is confined to the track (no document `scrollIntoView`) so smooth
  scroll (Lenis) is not hijacked.
+- **`/work` discovery model:** Before any filter, taxonomy, or segment change on `/work`,
+ read `docs/context/project/work-discovery-model-spec.md`. That spec owns the approved
+ discovery controls, the flat multi-dimensional tag model (`discoveryTags`), the
+ system-child visibility rules, and the 3-pass implementation sequence. Do not add
+ filter patterns or tag dimensions not listed there without updating the spec first.
 - Phase 3D classification decisions (2026-03-28):
   - Core tools (permanent, primary): CMO Simulator, GEO Readiness Auditor,
     CMO Roadmap Generator, Attribution Snapshot. These are the current entries on `/tools`.
