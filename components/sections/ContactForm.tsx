@@ -18,30 +18,46 @@ import styles from './ContactForm.module.css'
 
 export type Intent = 'service' | 'work' | 'tool' | 'unsure'
 
-const INTENT_TILES: { id: Intent; label: string }[] = [
-  { id: 'service', label: 'I know what I need' },
-  { id: 'work',    label: 'I saw something in your work' },
-  { id: 'tool',    label: 'I just ran a tool' },
-  { id: 'unsure',  label: "I'm not sure yet" },
+const INTENT_TILES: { id: Intent; label: string; hint: string }[] = [
+  {
+    id: 'service',
+    label: 'I have a specific ask',
+    hint: 'You know the problem and have a rough sense of what kind of help you need.',
+  },
+  {
+    id: 'work',
+    label: 'I saw something relevant in your work',
+    hint: 'A case study matched a problem you\'re dealing with and you want to talk through it.',
+  },
+  {
+    id: 'tool',
+    label: 'I just ran one of your tools',
+    hint: 'You have an output or score and want help deciding what to do with it.',
+  },
+  {
+    id: 'unsure',
+    label: 'I\'m still figuring out what I need',
+    hint: 'You know something isn\'t working but haven\'t fully scoped the problem yet.',
+  },
 ]
 
 // Per-intent copy for the challenge field
 const CHALLENGE_COPY: Record<Intent, { label: string; placeholder: string }> = {
   service: {
-    label: 'Tell me what you\'re building or fixing',
-    placeholder: 'What\'s the scope as you see it?',
+    label: 'What are you trying to fix or build?',
+    placeholder: 'Describe the problem or the scope as you understand it — rough is fine.',
   },
   work: {
-    label: 'What situation did you recognize?',
-    placeholder: 'What problem did that case study remind you of?',
+    label: 'What did you recognize in that work?',
+    placeholder: 'What situation matched? What outcome are you trying to reach?',
   },
   tool: {
-    label: 'What did the tool surface for you?',
-    placeholder: 'What was your biggest gap or priority?',
+    label: 'What did the tool tell you?',
+    placeholder: 'Share your result or biggest gap — I\'ll use it to give you a more useful first response.',
   },
   unsure: {
-    label: 'What\'s the problem you\'re trying to solve?',
-    placeholder: 'Start anywhere — even rough is useful',
+    label: 'What\'s not working right now?',
+    placeholder: 'Start anywhere — even rough is useful. No need to have it figured out.',
   },
 }
 
@@ -143,7 +159,7 @@ export function ContactForm({ defaultIntent }: ContactFormProps) {
     <div className={styles.formWrap}>
       {/* Step 1 — Intent tiles */}
       <div className={styles.intentStep}>
-        <p className={styles.intentLabel}>What brought you here today?</p>
+        <p className={styles.intentLabel}>Where are you starting from?</p>
         <div className={styles.intentTiles}>
           {INTENT_TILES.map((tile) => (
             <button
@@ -155,7 +171,8 @@ export function ContactForm({ defaultIntent }: ContactFormProps) {
                 setValue('intent', tile.id)
               }}
             >
-              {tile.label}
+              <span className={styles.intentTileLabel}>{tile.label}</span>
+              <span className={styles.intentTileHint}>{tile.hint}</span>
             </button>
           ))}
         </div>
@@ -232,11 +249,11 @@ export function ContactForm({ defaultIntent }: ContactFormProps) {
             {intent === 'tool' && (
               <div className={styles.field}>
                 <Label htmlFor="toolOutput">
-                  Key finding or output <span className={styles.optional}>(optional)</span>
+                  Your result or score <span className={styles.optional}>(optional)</span>
                 </Label>
                 <Input
                   id="toolOutput"
-                  placeholder="Paste your headline finding or biggest gap"
+                  placeholder="Paste your score, output, or biggest identified gap"
                   {...register('toolOutput')}
                 />
               </div>
@@ -266,7 +283,7 @@ export function ContactForm({ defaultIntent }: ContactFormProps) {
                 )}
               </button>
               <p className={styles.submitTrust}>
-                No pitch. Just a real conversation.
+                I reply within 1 business day — usually faster. No pitch, no calendar link. Just a direct response.
               </p>
 
               {status === 'error' && (
