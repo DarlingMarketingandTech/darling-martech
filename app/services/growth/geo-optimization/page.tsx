@@ -5,17 +5,21 @@ import { ServiceDetailPage } from '@/components/sections/ServiceDetail/ServiceDe
 
 const service = allServicePages.find((s) => s.id === 'geo-optimization')
 
-export const metadata: Metadata = {
-  title: service?.title ?? 'GEO & Discoverability Readiness',
-  description:
-    'Discoverability and GEO readiness: clearer structure, trustworthy signals, and a practical roadmap as search behavior shifts — without hype.',
-  alternates: {
-    canonical: '/services/growth/geo-optimization',
-  },
-}
+export const metadata: Metadata = service
+  ? {
+      title: service.title,
+      description: service.summary,
+      alternates: {
+        canonical: service.routePath ?? `/services/${service.id}`,
+      },
+      openGraph: {
+        title: service.title,
+        description: service.summary,
+      },
+    }
+  : {}
 
 export default function GeoOptimizationPage() {
-  const service = allServicePages.find((s) => s.id === 'geo-optimization')
   if (!service) notFound()
   return <ServiceDetailPage service={service} />
 }

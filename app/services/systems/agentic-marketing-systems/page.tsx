@@ -5,17 +5,21 @@ import { ServiceDetailPage } from '@/components/sections/ServiceDetail/ServiceDe
 
 const service = allServicePages.find((s) => s.id === 'agentic-marketing-systems')
 
-export const metadata: Metadata = {
-  title: service?.title ?? 'Agentic Marketing Systems',
-  description:
-    'CRM-connected workflows, AI-assisted automations, and operational infrastructure that removes manual drag from marketing and sales.',
-  alternates: {
-    canonical: '/services/systems/agentic-marketing-systems',
-  },
-}
+export const metadata: Metadata = service
+  ? {
+      title: service.title,
+      description: service.summary,
+      alternates: {
+        canonical: service.routePath ?? `/services/${service.id}`,
+      },
+      openGraph: {
+        title: service.title,
+        description: service.summary,
+      },
+    }
+  : {}
 
 export default function AgenticMarketingSystemsPage() {
-  const service = allServicePages.find((s) => s.id === 'agentic-marketing-systems')
   if (!service) notFound()
   return <ServiceDetailPage service={service} />
 }

@@ -5,17 +5,21 @@ import { ServiceDetailPage } from '@/components/sections/ServiceDetail/ServiceDe
 
 const service = allServicePages.find((s) => s.id === 'custom-tools-workflow-products')
 
-export const metadata: Metadata = {
-  title: service?.title ?? 'Custom Tools & Workflow Products',
-  description:
-    'Customer- and staff-facing workflow products — configurators, dashboards, and operational surfaces — scoped to your stack and wired into CRM, site, and measurement.',
-  alternates: {
-    canonical: '/services/systems/custom-tools-workflow-products',
-  },
-}
+export const metadata: Metadata = service
+  ? {
+      title: service.title,
+      description: service.summary,
+      alternates: {
+        canonical: service.routePath ?? `/services/${service.id}`,
+      },
+      openGraph: {
+        title: service.title,
+        description: service.summary,
+      },
+    }
+  : {}
 
 export default function CustomToolsWorkflowProductsPage() {
-  const service = allServicePages.find((s) => s.id === 'custom-tools-workflow-products')
   if (!service) notFound()
   return <ServiceDetailPage service={service} />
 }
