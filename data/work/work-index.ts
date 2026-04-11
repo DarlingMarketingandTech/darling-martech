@@ -264,6 +264,7 @@ export const workIndex: WorkCard[] = [
     headline: 'A newly formed therapy practice launched with a calm, credibility-first site that reduces hesitation and makes first contact feel safe.',
     metrics: ['Consultation-ready launch foundation', 'Credibility and fit signals visible in the first scroll', 'Mobile consultation path designed to reduce first-contact hesitation'],
     category: 'Healthcare',
+    dashboardTier: 'standard',
     heroPublicId: 'blazing-star-therapy-hero-desktop',
     cardPublicId: 'blazing-star-therapy-mockup-on-screens',
     visualMode: 'beacon',
