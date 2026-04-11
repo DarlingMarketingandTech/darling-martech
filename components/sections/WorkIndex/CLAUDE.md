@@ -35,3 +35,13 @@
 - Adding heavy UI chrome (badges, progress, density metrics) that competes with proof
 - Duplicating the same proof item in multiple visual forms
 - Reordering in the UI without updating the data model
+
+### Discovery model reference
+
+Before adding any filter, chip, segment, or taxonomy change to this component,
+read `docs/context/project/work-discovery-model-spec.md`.
+
+Approved future change (not yet implemented): when `activeSegment === 'Systems'`,
+include system-tier entries grouped under their parent flagship using an expanded
+`SubProjectStrip`. In the All view, the strip stays compact — no change to current
+behavior. This is Pass 2 in the spec's implementation sequence.

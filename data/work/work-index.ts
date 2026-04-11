@@ -32,6 +32,7 @@ export const workIndex: WorkCard[] = [
     outcomeIds: ['lead-gen', 'time-saved', 'conversion-lift'],
     primaryServicePageSlug: 'fractional-cmo',
     editorialRank: 1,
+    discoveryTags: { serviceTypes: ['crm-automation-ai', 'strategy'], businessTypes: ['healthcare', 'saas-tech'], proofRole: 'flagship' },
   },
   {
     slug: 'the-launchpad',
@@ -48,6 +49,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['crm-automation', 'lead-gen-workflows', 'martech-audit'],
     industryIds: ['healthcare', 'saas'],
     outcomeIds: ['time-saved', 'conversion-lift'],
+    discoveryTags: { serviceTypes: ['crm-automation-ai'], businessTypes: ['healthcare', 'saas-tech'], proofRole: 'system-child' },
   },
   {
     slug: 'the-closer',
@@ -64,6 +66,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['ecommerce', 'crm-automation', 'conversion-design'],
     industryIds: ['saas', 'ecommerce'],
     outcomeIds: ['conversion-lift', 'cost-reduction'],
+    discoveryTags: { serviceTypes: ['crm-automation-ai', 'website-ux-brand'], businessTypes: ['saas-tech'], proofRole: 'system-child' },
   },
   {
     slug: 'the-compass',
@@ -80,6 +83,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['analytics-reporting', 'data-analytics', 'martech-audit'],
     industryIds: ['healthcare', 'saas'],
     outcomeIds: ['revenue-attribution', 'cost-reduction'],
+    discoveryTags: { serviceTypes: ['crm-automation-ai', 'strategy'], businessTypes: ['healthcare', 'saas-tech'], proofRole: 'system-child' },
   },
   {
     slug: 'the-fortress',
@@ -96,6 +100,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['martech-audit', 'the-fortress', 'web-development'],
     industryIds: ['healthcare', 'saas'],
     outcomeIds: ['cost-reduction', 'time-saved'],
+    discoveryTags: { serviceTypes: ['crm-automation-ai'], businessTypes: ['healthcare', 'saas-tech'], proofRole: 'system-child' },
   },
   {
     slug: 'graston-growth-engine',
@@ -118,6 +123,7 @@ export const workIndex: WorkCard[] = [
     industryIds: ['healthcare', 'saas'],
     outcomeIds: ['lead-gen', 'retention', 'revenue-attribution'],
     primaryServicePageSlug: 'crm-architecture',
+    discoveryTags: { serviceTypes: ['crm-automation-ai'], businessTypes: ['healthcare', 'saas-tech'], proofRole: 'system-child' },
   },
   {
     slug: 'smart-sales-pricing',
@@ -135,6 +141,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['conversion-design', 'lead-gen-workflows', 'crm-automation'],
     industryIds: ['healthcare', 'saas'],
     outcomeIds: ['conversion-lift', 'time-saved'],
+    discoveryTags: { serviceTypes: ['crm-automation-ai', 'website-ux-brand'], businessTypes: ['healthcare', 'saas-tech'], proofRole: 'system-child' },
   },
   {
     slug: 'investment-roi-planner',
@@ -152,6 +159,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['lead-gen-workflows', 'conversion-design', 'analytics-reporting'],
     industryIds: ['healthcare', 'saas'],
     outcomeIds: ['lead-gen', 'conversion-lift'],
+    discoveryTags: { serviceTypes: ['crm-automation-ai', 'strategy'], businessTypes: ['healthcare', 'saas-tech'], proofRole: 'system-child' },
   },
   {
     slug: 'clinical-compass',
@@ -169,6 +177,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['web-development', 'martech-audit', 'crm-automation'],
     industryIds: ['healthcare', 'saas'],
     outcomeIds: ['time-saved', 'cost-reduction', 'retention'],
+    discoveryTags: { serviceTypes: ['crm-automation-ai'], businessTypes: ['healthcare', 'saas-tech'], proofRole: 'system-child' },
   },
   {
     slug: 'license-requirements',
@@ -186,6 +195,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['web-development', 'crm-automation', 'martech-audit'],
     industryIds: ['healthcare', 'saas'],
     outcomeIds: ['time-saved', 'cost-reduction'],
+    discoveryTags: { serviceTypes: ['crm-automation-ai'], businessTypes: ['healthcare', 'saas-tech'], proofRole: 'system-child' },
   },
   // ── Healthcare ─────────────────────────────────────────────────────────────
   {
@@ -206,6 +216,7 @@ export const workIndex: WorkCard[] = [
     outcomeIds: ['lead-gen', 'booking-growth'],
     primaryServicePageSlug: 'website-strategy',
     editorialRank: 3,
+    discoveryTags: { serviceTypes: ['strategy'], businessTypes: ['healthcare'], proofRole: 'flagship' },
   },
   {
     slug: 'primarycare-indy',
@@ -225,6 +236,7 @@ export const workIndex: WorkCard[] = [
     industryIds: ['healthcare', 'local-service'],
     outcomeIds: ['traffic-growth', 'booking-growth', 'revenue-attribution'],
     primaryServicePageSlug: 'local-seo',
+    discoveryTags: { serviceTypes: ['growth-seo-demand', 'website-ux-brand'], businessTypes: ['healthcare', 'local-service'], proofRole: 'system-child' },
   },
   {
     slug: 'urgentcare-indy',
@@ -243,6 +255,7 @@ export const workIndex: WorkCard[] = [
     industryIds: ['healthcare', 'local-service'],
     outcomeIds: ['booking-growth', 'traffic-growth'],
     primaryServicePageSlug: 'local-seo',
+    discoveryTags: { serviceTypes: ['growth-seo-demand', 'website-ux-brand'], businessTypes: ['healthcare', 'local-service'], proofRole: 'system-child' },
   },
   {
     slug: 'blazing-star-therapy',
@@ -259,6 +272,7 @@ export const workIndex: WorkCard[] = [
     industryIds: ['healthcare', 'local-service'],
     outcomeIds: ['lead-gen', 'brand-awareness'],
     primaryServicePageSlug: 'website-strategy',
+    discoveryTags: { serviceTypes: ['website-ux-brand'], businessTypes: ['healthcare', 'local-service'], proofRole: 'supporting' },
   },
   // ── Legal & Professional ───────────────────────────────────────────────────
   {
@@ -276,6 +290,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['fractional-cmo', 'brand-strategy', 'web-development'],
     industryIds: ['legal', 'b2b'],
     outcomeIds: ['lead-gen', 'brand-awareness'],
+    discoveryTags: { serviceTypes: ['strategy', 'website-ux-brand'], businessTypes: ['legal-professional'], proofRole: 'supporting' },
   },
   {
     slug: 'tuohy-bailey-moore',
@@ -293,6 +308,7 @@ export const workIndex: WorkCard[] = [
     industryIds: ['legal', 'b2b'],
     outcomeIds: ['conversion-lift', 'brand-awareness'],
     primaryServicePageSlug: 'website-strategy',
+    discoveryTags: { serviceTypes: ['website-ux-brand'], businessTypes: ['legal-professional'], proofRole: 'supporting' },
   },
   // ── Hospitality & Local ────────────────────────────────────────────────────
   {
@@ -314,6 +330,7 @@ export const workIndex: WorkCard[] = [
     outcomeIds: ['conversion-lift', 'booking-growth'],
     primaryServicePageSlug: 'conversion-optimization',
     editorialRank: 2,
+    discoveryTags: { serviceTypes: ['website-ux-brand'], businessTypes: ['local-service'], proofRole: 'flagship' },
   },
   {
     slug: 'hoosier-boy-barbershop',
@@ -335,6 +352,7 @@ export const workIndex: WorkCard[] = [
     outcomeIds: ['booking-growth', 'traffic-growth', 'brand-awareness'],
     relatedProjectSlugs: ['barbershop-command-center'],
     editorialRank: 4,
+    discoveryTags: { serviceTypes: ['website-ux-brand', 'growth-seo-demand'], businessTypes: ['local-service'], proofRole: 'flagship' },
   },
   {
     slug: 'barbershop-command-center',
@@ -352,6 +370,7 @@ export const workIndex: WorkCard[] = [
     serviceIds: ['web-development', 'conversion-design', 'crm-automation'],
     industryIds: ['local-service', 'hospitality'],
     outcomeIds: ['booking-growth', 'conversion-lift', 'time-saved'],
+    discoveryTags: { serviceTypes: ['crm-automation-ai', 'website-ux-brand'], businessTypes: ['local-service'], proofRole: 'system-child' },
   },
   {
     slug: 'russell-painting',
@@ -370,6 +389,7 @@ export const workIndex: WorkCard[] = [
     industryIds: ['local-service'],
     outcomeIds: ['traffic-growth', 'lead-gen'],
     primaryServicePageSlug: 'local-seo',
+    discoveryTags: { serviceTypes: ['growth-seo-demand', 'website-ux-brand'], businessTypes: ['local-service'], proofRole: 'supporting' },
   },
   // ── E-Commerce ─────────────────────────────────────────────────────────────
   {
@@ -385,6 +405,7 @@ export const workIndex: WorkCard[] = [
     visualMode: 'mesh',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'stack', density: 'balanced' },
     primaryServicePageSlug: 'conversion-optimization',
+    discoveryTags: { serviceTypes: ['website-ux-brand'], businessTypes: ['ecommerce'], proofRole: 'supporting' },
   },
   {
     slug: 'circle-city-kicks',
@@ -398,6 +419,7 @@ export const workIndex: WorkCard[] = [
     heroPublicId: 'cck-logo-anchor',
     visualMode: 'orbit',
     theme: { layout: 'split', metricStyle: 'pill', mediaStyle: 'portrait', density: 'balanced' },
+    discoveryTags: { serviceTypes: ['website-ux-brand'], businessTypes: ['ecommerce', 'local-service'], proofRole: 'supporting' },
   },
   // ── Brand Identity ─────────────────────────────────────────────────────────
   {
@@ -412,6 +434,7 @@ export const workIndex: WorkCard[] = [
     heroPublicId: 'Black_Letter_-_Full_Logo',
     visualMode: 'beacon',
     theme: { layout: 'split', metricStyle: 'pill', mediaStyle: 'portrait', density: 'calm' },
+    discoveryTags: { serviceTypes: ['website-ux-brand', 'strategy'], businessTypes: ['brand-identity', 'legal-professional'], proofRole: 'supporting' },
   },
   {
     slug: 'clean-aesthetic',
@@ -425,6 +448,7 @@ export const workIndex: WorkCard[] = [
     heroPublicId: 'clean-aesthetics-logo-anchor',
     visualMode: 'orbit',
     theme: { layout: 'split', metricStyle: 'pill', mediaStyle: 'portrait', density: 'calm' },
+    discoveryTags: { serviceTypes: ['website-ux-brand', 'strategy'], businessTypes: ['brand-identity', 'healthcare'], proofRole: 'supporting' },
   },
   {
     slug: 'perpetual-movement-fitness',
@@ -439,6 +463,7 @@ export const workIndex: WorkCard[] = [
     cardPublicId: 'Perpetual_Movement_Coaching-_Secondary_Logo',
     visualMode: 'signal',
     theme: { layout: 'split', metricStyle: 'pill', mediaStyle: 'portrait', density: 'kinetic' },
+    discoveryTags: { serviceTypes: ['website-ux-brand'], businessTypes: ['brand-identity', 'local-service'], proofRole: 'supporting' },
   },
   // ── Non-Profit ─────────────────────────────────────────────────────────────
   {
@@ -454,5 +479,6 @@ export const workIndex: WorkCard[] = [
     heroPublicId: 'IMG_1884',
     visualMode: 'orbit',
     theme: { layout: 'split', metricStyle: 'panel', mediaStyle: 'stack', density: 'balanced' },
+    discoveryTags: { serviceTypes: ['strategy'], businessTypes: ['nonprofit'], proofRole: 'supporting' },
   },
 ]
