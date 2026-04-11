@@ -5,17 +5,21 @@ import { ServiceDetailPage } from '@/components/sections/ServiceDetail/ServiceDe
 
 const service = allServicePages.find((s) => s.id === 'the-fortress')
 
-export const metadata: Metadata = {
-  title: service?.title ?? 'The Fortress',
-  description:
-    'Origin shielding, attack surface reduction, performance hardening, and monitoring infrastructure for business-critical marketing platforms.',
-  alternates: {
-    canonical: '/services/systems/the-fortress',
-  },
-}
+export const metadata: Metadata = service
+  ? {
+      title: service.title,
+      description: service.summary,
+      alternates: {
+        canonical: service.routePath ?? `/services/${service.id}`,
+      },
+      openGraph: {
+        title: service.title,
+        description: service.summary,
+      },
+    }
+  : {}
 
 export default function TheFortressPage() {
-  const service = allServicePages.find((s) => s.id === 'the-fortress')
   if (!service) notFound()
   return <ServiceDetailPage service={service} />
 }
