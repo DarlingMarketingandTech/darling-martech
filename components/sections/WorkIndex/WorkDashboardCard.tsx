@@ -58,6 +58,7 @@ export function WorkDashboardCard({
 }) {
   const tier = study.dashboardTier ?? 'standard'
   const isSupporting = layoutRole === 'supporting'
+  const tierTag = !isSupporting && tier === 'flagship' ? 'Flagship · Start here' : null
 
   const metrics = study.metrics.slice(0, 1)
   const eyebrow = isSupporting ? study.category : study.label
@@ -74,6 +75,7 @@ export function WorkDashboardCard({
         <div className={styles.dashboardCardBody}>
           <div className={styles.dashboardCardTop}>
             <span className={styles.dashboardEyebrow}>{eyebrow}</span>
+            {tierTag && <span className={cn(styles.dashboardTierTag, styles.dashboardTierTagFlagship)}>{tierTag}</span>}
           </div>
 
           <div className={styles.dashboardCardCopy}>

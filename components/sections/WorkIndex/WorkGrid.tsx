@@ -213,7 +213,7 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
             <div className={styles.flagshipIntro}>
               <span className={styles.flagshipIntroLabel}>Flagship proof</span>
               <p className={styles.flagshipIntroHint}>
-                Anchor cases — full context, metrics, and what changed.
+                New here? Start with these anchor cases first — full context, strongest outcomes, and what changed.
               </p>
             </div>
 
