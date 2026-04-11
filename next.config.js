@@ -14,7 +14,6 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      // ── Work slug normalisation ──────────────────────────────────────────
       {
         source: '/work/primary-care-indy',
         destination: '/work/primarycare-indy',
@@ -30,8 +29,6 @@ const nextConfig = {
         destination: '/work/riley-bennett-egloff',
         permanent: true,
       },
-      // ── Service nested route migrations ──────────────────────────────────
-      // Flat slugs → nested parent routes (canonical)
       {
         source: '/services/agentic-marketing-systems',
         destination: '/services/systems/agentic-marketing-systems',
@@ -52,19 +49,16 @@ const nextConfig = {
         destination: '/services/growth/the-conductor',
         permanent: true,
       },
-      // Old website-ux segment → correct growth segment
       {
         source: '/services/website-ux/geo-optimization',
         destination: '/services/growth/geo-optimization',
         permanent: true,
       },
-      // Flat slug → nested route
       {
         source: '/services/geo-optimization',
         destination: '/services/growth/geo-optimization',
         permanent: true,
       },
-      // ── Lab  Tools or Work route migration (targeted)
       {
         source: '/lab',
         destination: '/tools',
@@ -87,7 +81,7 @@ const nextConfig = {
       },
       {
         source: '/lab/cmo-roadmap-generator',
-        destination: '/tools',
+        destination: '/tools/cmo-roadmap-generator',
         permanent: true,
       },
       {
@@ -130,7 +124,6 @@ const nextConfig = {
         destination: '/work/license-requirements',
         permanent: true,
       },
-      // Proof-tool internal links use /tools/[labSlug]; Growth Engine is a work case study, not a tools detail route.
       {
         source: '/tools/graston-growth-engine',
         destination: '/work/graston-growth-engine',
@@ -138,9 +131,6 @@ const nextConfig = {
       },
     ]
   },
-  // NOTE: If build fails with "generate is not a function", it's because
-  // __NEXT_PRIVATE_STANDALONE_CONFIG is set in your shell from another Next.js project.
-  // Fix: __NEXT_PRIVATE_STANDALONE_CONFIG="" npm run build
 }
 
 module.exports = nextConfig
