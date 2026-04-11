@@ -1304,13 +1304,13 @@ const workData: CaseStudy[] = [
     titleTag: 'Blazing Star Therapy — Trust-Led Therapy Website Launch | Darling MarTech',
     metaDescription:
       'How a newly formed therapy practice launched with a calm, credibility-first website focused on service clarity, consultation readiness, and mobile usability.',
-    problemVisualPublicId: 'blazing-star-therapy-about-desktop',
+    problemVisualPublicId: 'blazing-star-therapy-mockup-on-screens',
     subhead:
-      'Blazing Star Therapy needed a first website that felt personal, trustworthy, and easy to act on. I built a launch-ready foundation that makes the next step obvious for the right client.',
+      'Blazing Star Therapy needed a first website that could earn trust before a relationship existed. I built a calm, consultation-ready foundation that helps the right client move from uncertainty to first contact.',
     challenge:
       'New therapy practices face a different launch problem than established groups. There is no long track record to lean on, no large review footprint yet, and no brand familiarity in the market. That means the website has to earn trust quickly without feeling overdesigned or salesy.\n\nBlazing Star Therapy needed a digital presence that felt clear and human from the first visit: who this practice helps, how sessions work, what the service area includes, and how to request a consultation without friction. The risk was hesitation. If any of those answers felt vague, visitors would leave before reaching out.',
     approach:
-      'The strategic move was restraint. Instead of overbuilding pages and features, I focused on the minimum credible website done well.\n\nI structured the site around trust signals and decision clarity: therapist positioning, plain-language service descriptions, consultation expectations, and a visible action path on desktop and mobile. The goal was not to impress with complexity. The goal was to reduce uncertainty so the right visitor could say yes to the next step.',
+      'The strategic move was restraint. Instead of overbuilding pages and features, I focused on the minimum credible website done well.\n\nI structured the site around trust signals and decision clarity: therapist positioning, plain-language service descriptions, consultation expectations, and a visible action path on desktop and mobile. The goal was not to impress with complexity. The goal was to reduce first-contact hesitation so the right visitor could say yes to the next step.',
     deliverables: [
       {
         title: 'Website Strategy & Launch Architecture',
@@ -1341,13 +1341,14 @@ const workData: CaseStudy[] = [
       },
     ],
     outcome:
-      'Blazing Star Therapy launched with a clear, trust-led digital presence that supports real decision-making instead of forcing visitors to interpret vague marketing language.\n\nThe site now gives prospective clients a clean way to understand fit, evaluate credibility, and request a consultation without unnecessary friction. For a new practice, that launch clarity is the proof point: the digital foundation is now aligned with the care experience being promised.',
+      'Blazing Star Therapy launched with a clear, trust-led digital presence that supports real decision-making instead of forcing visitors to interpret vague marketing language.\n\nThe site now gives prospective clients a clear way to assess fit, evaluate therapist credibility, and request a consultation without unnecessary friction. For a new practice, that decision clarity is the proof point: trust and clarity are now doing the work generic marketing language could not.',
     whatThisMeansForYou:
       'If you are launching a practice and your website still feels generic, you are asking people to trust you without giving them enough to trust. You do not need a massive build. You need the right structure, the right signals, and a clear next step. That is what this project demonstrates.',
     ctaLine: 'launch a trust-first practice site that makes the next step clear',
     cloudinaryAssets: [
       { publicId: 'blazing-star-therapy-hero-desktop', label: 'Blazing Star Therapy homepage', folder: 'studio/projects/blazing-star-therapy' },
       { publicId: 'blazing-star-therapy-about-desktop', label: 'Blazing Star Therapy about section', folder: 'studio/projects/blazing-star-therapy' },
+      { publicId: 'blazing-star-therapy-mockup-on-screens', label: 'Blazing Star Therapy multi-device mockup', folder: 'studio/projects/blazing-star-therapy' },
       { publicId: 'blazing-star-therapy-consult-mobile', label: 'Blazing Star Therapy consultation section on mobile', folder: 'studio/projects/blazing-star-therapy' },
       { publicId: 'blazing-star-therapy-full-page-desktop', label: 'Blazing Star Therapy full-page website view', folder: 'studio/projects/blazing-star-therapy' },
     ],
