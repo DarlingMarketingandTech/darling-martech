@@ -1425,3 +1425,41 @@
   width: 0.9rem;
   height: 0.9rem;
 }
+
+/* ── Supporting proof — category grouping ─────────────────────────────────── */
+
+/* Spacing before each category group (not applied to the first group) */
+.categoryGroup {
+  margin-top: 2.75rem;
+}
+
+@media (min-width: 768px) {
+  .categoryGroup {
+    margin-top: 3.25rem;
+  }
+}
+
+/* Label row above the grid for a given category */
+.categoryGroupHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.categoryGroupHeader::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(245, 240, 232, 0.06);
+}
+
+.categoryGroupLabel {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.32);
+  white-space: nowrap;
+}
