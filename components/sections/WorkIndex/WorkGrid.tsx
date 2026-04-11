@@ -202,6 +202,26 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
 
   const supportingLabel = activeSegment === 'All' ? 'Supporting proof' : `${activeSegment} proof`
 
+  // Group supporting studies by category only when showing all segments.
+  // When a single segment is active the category is already implied by the filter.
+  const supportingGroups = useMemo(() => {
+    if (activeSegment !== 'All') return null
+
+    const groups: { category: string; studies: CaseStudy[] }[] = []
+    const seen = new Map<string, CaseStudy[]>()
+
+    for (const study of supportingStudies) {
+      const cat = study.category ?? 'Other'
+      if (!seen.has(cat)) {
+        seen.set(cat, [])
+        groups.push({ category: cat, studies: seen.get(cat)! })
+      }
+      seen.get(cat)!.push(study)
+    }
+
+    return groups
+  }, [activeSegment, supportingStudies])
+
   return (
     <>
       <WorkSubNav active={activeSegment} onChange={setActiveSegment} />
@@ -233,24 +253,49 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
               </div>
             )}
 
-            <div className={styles.flagshipIntro}>
-              <p className={styles.flagshipIntroHint}>
-                Focused proof across websites, conversion, local visibility, and marketing systems — scanned, not studied.
-              </p>
-            </div>
-
-            <motion.div
-              className={styles.supportingGrid}
-              variants={CARD_STAGGER}
-              initial="hidden"
-              animate="visible"
-            >
-              {supportingStudies.map((study) => (
-                <motion.div key={study.slug} variants={CARD_ITEM}>
-                  <WorkDashboardCard study={study} layoutRole="supporting" />
+            {supportingGroups ? (
+              // Grouped view: one labeled section per category
+              supportingGroups.map((group, groupIndex) => (
+                <div key={group.category} className={groupIndex > 0 ? styles.categoryGroup : undefined}>
+                  <div className={styles.categoryGroupHeader}>
+                    <span className={styles.categoryGroupLabel}>{group.category}</span>
+                  </div>
+                  <motion.div
+                    className={styles.supportingGrid}
+                    variants={CARD_STAGGER}
+                    initial="hidden"
+                    animate="visible"
+                  >
+                    {group.studies.map((study) => (
+                      <motion.div key={study.slug} variants={CARD_ITEM}>
+                        <WorkDashboardCard study={study} layoutRole="supporting" />
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </div>
+              ))
+            ) : (
+              // Filtered view: flat grid (segment already implies the category)
+              <>
+                <div className={styles.flagshipIntro}>
+                  <p className={styles.flagshipIntroHint}>
+                    Focused proof across websites, conversion, local visibility, and marketing systems — scanned, not studied.
+                  </p>
+                </div>
+                <motion.div
+                  className={styles.supportingGrid}
+                  variants={CARD_STAGGER}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {supportingStudies.map((study) => (
+                    <motion.div key={study.slug} variants={CARD_ITEM}>
+                      <WorkDashboardCard study={study} layoutRole="supporting" />
+                    </motion.div>
+                  ))}
                 </motion.div>
-              ))}
-            </motion.div>
+              </>
+            )}
           </>
         )}
       </div>
