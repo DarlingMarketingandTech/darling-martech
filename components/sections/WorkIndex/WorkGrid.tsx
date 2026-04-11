@@ -101,7 +101,15 @@ function WorkSubNav({ active, onChange }: { readonly active: WorkSegment; readon
   )
 }
 
-function SubProjectStrip({ childStudies, parentCategory }: { readonly childStudies: CaseStudy[]; readonly parentCategory?: string }) {
+function SubProjectStrip({
+  childStudies,
+  parentCategory,
+  expanded = false,
+}: {
+  readonly childStudies: CaseStudy[]
+  readonly parentCategory?: string
+  readonly expanded?: boolean
+}) {
   if (childStudies.length === 0) return null
 
   const stripLabel = parentCategory === 'Healthcare'
@@ -109,7 +117,7 @@ function SubProjectStrip({ childStudies, parentCategory }: { readonly childStudi
     : 'Systems built inside this engagement'
 
   return (
-    <div className={styles.subProjectStrip}>
+    <div className={`${styles.subProjectStrip}${expanded ? ` ${styles.subProjectStripExpanded}` : ''}`}>
       <span className={styles.subProjectLabel}>{stripLabel}</span>
 
       <div className={styles.subProjectList}>
@@ -147,7 +155,15 @@ function FlagshipContextStrip({ slug }: { readonly slug: string }) {
   )
 }
 
-function FlagshipUnit({ study, allStudies }: { readonly study: CaseStudy; readonly allStudies: CaseStudy[] }) {
+function FlagshipUnit({
+  study,
+  allStudies,
+  stripExpanded = false,
+}: {
+  readonly study: CaseStudy
+  readonly allStudies: CaseStudy[]
+  readonly stripExpanded?: boolean
+}) {
   const children = useMemo(
     () => (study.relatedProjectSlugs ?? []).flatMap(
       (slug) => allStudies.filter((s) => s.slug === slug && s.dashboardTier === 'system')
@@ -158,7 +174,7 @@ function FlagshipUnit({ study, allStudies }: { readonly study: CaseStudy; readon
   return (
     <div className={styles.flagshipUnit}>
       <WorkDashboardCard study={study} layoutRole="flagship" />
-      <SubProjectStrip childStudies={children} parentCategory={study.category} />
+      <SubProjectStrip childStudies={children} parentCategory={study.category} expanded={stripExpanded} />
       {children.length === 0 && <FlagshipContextStrip slug={study.slug} />}
     </div>
   )
@@ -175,10 +191,28 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
     [orderedStudies]
   )
 
+  // Slugs of flagships that have at least one system-child — used to
+  // ensure parent flagships stay visible in the Systems segment even when
+  // their category is not 'Automation & Systems'.
+  const flagshipsWithChildren = useMemo(
+    () => new Set(
+      orderedStudies
+        .filter((s) => s.dashboardTier === 'flagship' && (s.relatedProjectSlugs ?? []).some((slug) => systemSlugs.has(slug)))
+        .map((s) => s.slug)
+    ),
+    [orderedStudies, systemSlugs]
+  )
+
   const visibleStudies = useMemo(() => {
     let result = orderedStudies.filter((s) => !systemSlugs.has(s.slug))
 
-    if (activeSegment !== 'All') {
+    if (activeSegment === 'Systems') {
+      // In Systems view: show all flagships that have system-children regardless of
+      // their category, so the strip under each parent is reachable. Supporting
+      // non-flagship entries are excluded — Systems is depth-of-engagement proof,
+      // not a broad secondary grid.
+      result = result.filter((s) => s.dashboardTier === 'flagship' && flagshipsWithChildren.has(s.slug))
+    } else if (activeSegment !== 'All') {
       const cats = SEGMENT_CATEGORY_MAP[activeSegment]
       result = result.filter((s) => cats.includes(s.category))
     }
@@ -188,7 +222,7 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
     }
 
     return result
-  }, [activeSegment, activeServiceFilter, orderedStudies, systemSlugs])
+  }, [activeSegment, activeServiceFilter, flagshipsWithChildren, orderedStudies, systemSlugs])
 
   const flagshipStudies = useMemo(
     () => visibleStudies.filter((s) => s.dashboardTier === 'flagship'),
@@ -231,15 +265,23 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
         {flagshipStudies.length > 0 && (
           <>
             <div className={styles.flagshipIntro}>
-              <span className={styles.flagshipIntroLabel}>Flagship proof</span>
+              <span className={styles.flagshipIntroLabel}>
+                {activeSegment === 'Systems' ? 'Systems depth' : 'Flagship proof'}
+              </span>
               <p className={styles.flagshipIntroHint}>
-                New here? Start with these anchor cases first — full context, strongest outcomes, and what changed.
+                {activeSegment === 'Systems'
+                  ? 'The builds behind the builds — systems, tools, and infrastructure created inside each client engagement.'
+                  : 'New here? Start with these anchor cases first — full context, strongest outcomes, and what changed.'}
               </p>
             </div>
 
             {flagshipStudies.map((study, index) => (
               <div key={study.slug} style={index > 0 ? { marginTop: '1.5rem' } : undefined}>
-                <FlagshipUnit study={study} allStudies={orderedStudies} />
+                <FlagshipUnit
+                  study={study}
+                  allStudies={orderedStudies}
+                  stripExpanded={activeSegment === 'Systems'}
+                />
               </div>
             ))}
           </>
