@@ -1,6 +1,6 @@
 import type { ProjectMediaMap } from "../types";
 
-export const projectMedia_BlackLetter: ProjectMediaMap = {
+export const projectMedia_blackLetter: ProjectMediaMap = {
   projectSlug: "black-letter",
 
   hero: {
