@@ -87,7 +87,7 @@ const nextConfig = {
       },
       {
         source: '/lab/cmo-roadmap-generator',
-        destination: '/tools',
+        destination: '/tools/cmo-roadmap-generator',
         permanent: true,
       },
       {
