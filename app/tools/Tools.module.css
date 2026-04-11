@@ -167,6 +167,16 @@
   margin: 0 0 0.75rem;
 }
 
+.startHereLabel {
+  margin: 0.65rem 0 0;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.76);
+}
+
 .featuredDesc {
   font-family: var(--font-body);
   color: var(--color-muted);
@@ -176,9 +186,23 @@
   margin: 0 0 1.6rem;
 }
 
+.whenToUse {
+  margin: -0.7rem 0 1.4rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: rgba(245, 240, 232, 0.66);
+  max-width: 48ch;
+}
+
 .featuredCard:hover .featuredDesc,
 .featuredCard:focus-within .featuredDesc {
   color: rgba(245, 240, 232, 0.82);
+}
+
+.featuredCard:hover .whenToUse,
+.featuredCard:focus-within .whenToUse {
+  color: rgba(245, 240, 232, 0.8);
 }
 
 .featuredStack {

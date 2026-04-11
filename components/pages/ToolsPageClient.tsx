@@ -21,7 +21,9 @@ type IframeToolSession = {
 type FeaturedLab = {
   slug: string
   name: string
-  eyebrow?: string
+  eyebrow: string
+  whenToUse: string
+  startHere?: boolean
   description: string
   primaryHref: string
   primaryLabel: string
@@ -40,7 +42,9 @@ const featuredLabs: FeaturedLab[] = [
   {
     slug: 'cmo-simulator',
     name: 'CMO Simulator',
-    eyebrow: 'Visitor utility',
+    eyebrow: 'Start here for most teams',
+    whenToUse: 'Use this first if you need a clear strategic direction before choosing channels or tools.',
+    startHere: true,
     description:
       'Walk through CMO-level decision-making — budget allocation, channel strategy, KPI selection, and execution priority. Same framework I use with clients. Takes about 10 minutes.',
     primaryHref: '/tools?launch=cmo-simulator',
@@ -57,7 +61,8 @@ const featuredLabs: FeaturedLab[] = [
   {
     slug: 'geo-readiness-auditor',
     name: 'GEO Readiness Auditor',
-    eyebrow: 'Visitor utility',
+    eyebrow: 'AI discoverability check',
+    whenToUse: 'Choose this when your site traffic is flat and you need to spot AI visibility gaps fast.',
     description:
       'Is your site visible to AI? Run a fast 0-100 GEO audit, see top issues instantly, then unlock the full prioritized fix report by email.',
     primaryHref: '/tools/geo-readiness-auditor',
@@ -72,7 +77,8 @@ const featuredLabs: FeaturedLab[] = [
   {
     slug: 'cmo-roadmap-generator',
     name: 'CMO Roadmap Generator',
-    eyebrow: 'Visitor utility',
+    eyebrow: 'Execution planning',
+    whenToUse: 'Choose this when you know your goals and need a prioritized plan your team can execute.',
     description:
       'Structured intake: goals, constraints, and budget reality — then a prioritized roadmap you can execute or hand to a team. Free entry, same framing I use in live engagements.',
     primaryHref: '/tools/cmo-roadmap-generator',
@@ -87,7 +93,8 @@ const featuredLabs: FeaturedLab[] = [
   {
     slug: 'attribution-snapshot',
     name: 'Attribution Snapshot',
-    eyebrow: 'Visitor utility',
+    eyebrow: 'Channel credit clarity',
+    whenToUse: 'Choose this when paid-channel reporting conflicts and you need a directional attribution read.',
     description:
       'Upload a lightweight Google Ads or Meta export, compare four attribution models, and see where channel credit stays stable versus where your reporting setup still leaves too much ambiguity.',
     primaryHref: '/tools/attribution-snapshot',
@@ -153,10 +160,14 @@ function LabFeaturedCard({
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
               aria-hidden="true"
             />
-            {lab.eyebrow ?? 'Production · Featured'}
+            {lab.eyebrow}
           </div>
+          {lab.startHere ? (
+            <p className={styles.startHereLabel}>Best first step on this page</p>
+          ) : null}
           <h2 className={styles.featuredTitle}>{lab.name}</h2>
           <p className={styles.featuredDesc}>{lab.description}</p>
+          <p className={styles.whenToUse}>{lab.whenToUse}</p>
           <div className={styles.featuredStack}>
             {lab.stack.map((tag) => (
               <span key={tag} className={styles.toolCoverTag}>{tag}</span>
