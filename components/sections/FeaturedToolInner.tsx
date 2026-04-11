@@ -55,7 +55,7 @@ const featuredLabs: FeaturedLab[] = [
     body:
       'Run a free GEO readiness audit, see your 0-100 visibility score, and unlock a prioritized roadmap of technical fixes by email. Built for SMB teams, not enterprise budgets.',
     primaryLabel: 'Run GEO Audit',
-    primaryHref: '/lab/geo-auditor',
+    primaryHref: '/tools/geo-readiness-auditor',
     secondaryLabel: 'Browse all tools',
     secondaryHref: '/tools',
     cardLabel: 'GEO Readiness Auditor',
@@ -111,7 +111,6 @@ export function FeaturedToolInner() {
             {activeTool.secondaryLabel}
           </Link>
         </motion.div>
-
         <motion.div variants={itemVariants} className={styles.selectorRow}>
           {featuredLabs.map((tool, index) => (
             <button
