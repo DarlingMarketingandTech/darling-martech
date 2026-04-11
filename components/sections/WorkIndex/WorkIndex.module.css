@@ -1426,6 +1426,21 @@
   height: 0.9rem;
 }
 
+/* ── Service cue (supporting cards only) ──────────────────────────────────── */
+
+/* A single plain-text line that names the primary service this project proves.
+   Rendered only when primaryServicePageSlug is set. Intentionally quieter than
+   the metric chip — it's context, not a claim. */
+.dashboardServiceCue {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 77, 0, 0.52);
+}
+
 /* ── Supporting proof — category grouping ─────────────────────────────────── */
 
 /* Spacing before each category group (not applied to the first group) */

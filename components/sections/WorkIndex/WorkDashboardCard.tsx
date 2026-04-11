@@ -10,6 +10,19 @@ import styles from './WorkIndex.module.css'
 
 const CARD_TRANSITION = { type: 'spring', stiffness: 260, damping: 28 }
 
+const SERVICE_LABELS: Record<string, string> = {
+  'fractional-cmo':           'Fractional CMO',
+  'website-strategy':         'Website Strategy',
+  'crm-architecture':         'CRM Architecture',
+  'local-seo':                'Local SEO',
+  'conversion-optimization':  'Conversion Optimization',
+  'martech-audit':            'MarTech Audit',
+  'agentic-marketing-systems':'Agentic Marketing Systems',
+  'geo-optimization':         'GEO Optimization',
+  'custom-tools-workflow-products': 'Custom Tools',
+  'brand-strategy':           'Brand Strategy',
+}
+
 function isLogoArtwork(publicId: string) {
   return /(?:^|[_-])(logo|Logo)(?:[_-]|$)|Full_Logo|webheader/i.test(publicId)
 }
@@ -62,6 +75,7 @@ export function WorkDashboardCard({
 
   const metrics = study.metrics.slice(0, 1)
   const eyebrow = isSupporting ? study.category : study.label
+  const serviceLabel = study.primaryServicePageSlug ? SERVICE_LABELS[study.primaryServicePageSlug] ?? null : null
 
   return (
     <Link href={`/work/${study.slug}`} className={cn(styles.dashboardCardShell, getTierClassName(tier))}>
@@ -95,6 +109,10 @@ export function WorkDashboardCard({
             )}
 
             <p className={styles.dashboardSummary}>{study.headline}</p>
+
+            {isSupporting && serviceLabel && (
+              <span className={styles.dashboardServiceCue}>{serviceLabel}</span>
+            )}
 
             {!isSupporting && metrics.length > 0 && (
               <div className={styles.dashboardMetrics}>
