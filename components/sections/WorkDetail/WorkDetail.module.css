@@ -334,6 +334,83 @@
   filter: saturate(1.02) contrast(1.02);
 }
 
+/* Page-scoped polish: Smart Sales & Pricing (productized hero + shipped UI in rail) */
+.pageSmartSalesPricing .heroMediaCard {
+  background:
+    linear-gradient(180deg, rgba(245, 240, 232, 0.1), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(20, 20, 20, 0.6);
+  border-color: rgba(245, 240, 232, 0.16);
+}
+
+.pageSmartSalesPricing .heroMediaPrimary {
+  aspect-ratio: 4 / 3;
+  border-radius: 18px;
+  border-color: rgba(245, 240, 232, 0.16);
+  background:
+    linear-gradient(180deg, rgba(245, 240, 232, 0.06), transparent 42%),
+    rgba(245, 240, 232, 0.02);
+}
+
+.pageSmartSalesPricing .heroMediaImage {
+  filter: saturate(1.04) contrast(1.04);
+}
+
+.pageSmartSalesPricing .problemVisualFrame {
+  aspect-ratio: 16 / 10;
+  border-radius: 18px;
+  border-color: rgba(245, 240, 232, 0.14);
+  background:
+    linear-gradient(180deg, rgba(245, 240, 232, 0.06), transparent 46%),
+    rgba(245, 240, 232, 0.02);
+}
+
+.pageSmartSalesPricing .problemVisualImage {
+  object-fit: contain;
+  filter: saturate(1.02) contrast(1.02);
+}
+
+.problemVisualCaptionCard {
+  margin-top: 0.25rem;
+  padding: 1.15rem 1.2rem 1.2rem;
+  border-radius: 18px;
+  border: 1px solid rgba(245, 240, 232, 0.14);
+  background:
+    linear-gradient(180deg, rgba(245, 240, 232, 0.06), transparent 46%),
+    rgba(245, 240, 232, 0.02);
+}
+
+.problemVisualCaptionEyebrow {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.48);
+}
+
+.problemVisualCaptionLead {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.55;
+  color: rgba(245, 240, 232, 0.88);
+}
+
+.problemVisualCaptionList {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: rgba(245, 240, 232, 0.62);
+}
+
 .metricsBar {
   display: grid;
   gap: 1px;
