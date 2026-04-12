@@ -1010,6 +1010,204 @@ function ToolPromptPanel({ cs }: { cs: CaseStudy }) {
   )
 }
 
+function HeroSupportPreview({ assets }: { assets: MediaAsset[] }) {
+  if (assets.length === 0) return null
+
+  return (
+    <div className={styles.heroSupportPreview}>
+      {assets.map((asset) => (
+        <figure key={asset.publicId} className={styles.heroSupportCard}>
+          <div className={styles.heroSupportImageFrame}>
+            <CldImage
+              src={asset.publicId}
+              alt={asset.alt}
+              width={640}
+              height={420}
+              crop="fill"
+              gravity="auto"
+              className={styles.heroSupportImage}
+            />
+          </div>
+          {asset.caption && <figcaption className={styles.heroSupportCaption}>{asset.caption}</figcaption>}
+        </figure>
+      ))}
+    </div>
+  )
+}
+
+function PlatformArchitectureSection({ cs }: { cs: CaseStudy }) {
+  const projectMedia = getProjectMedia(cs.slug)
+  const crmShowcase = projectMedia?.screens?.[0]
+  const mobileProof = projectMedia?.productInUse?.[0]
+
+  return (
+    <FadeUp>
+      <section className={styles.platformArchitectureSection}>
+        <div className={styles.platformArchitectureHeader}>
+          <p className={styles.sectionEyebrow}>How the platform works together</p>
+          <h2 className={styles.sectionHeadline}>One customer-facing path. One operating layer behind it.</h2>
+          <p className={styles.platformArchitectureIntro}>
+            The booking app, command center, and CRM direction were built to behave like one business system. Clients get a clean path to book. The shop gets the operating context, role logic, and workflow structure generic scheduling tools usually leave scattered.
+          </p>
+        </div>
+
+        <div className={styles.platformArchitectureGrid}>
+          <article className={styles.platformNarrativeCard}>
+            <h3 className={styles.platformNarrativeTitle}>The split is intentional.</h3>
+            <p className={styles.platformNarrativeBody}>
+              The public app protects conversion. The admin side protects operations. Both are using the same appointment state and business rules, so the shop is not stuck reconciling one experience for clients and another for the team.
+            </p>
+            <div className={styles.platformPillars}>
+              <div className={styles.platformPillar}>
+                <p className={styles.platformPillarLabel}>Public app</p>
+                <p className={styles.platformPillarBody}>Service-first booking, barber selection, mobile clarity, and fewer points of hesitation.</p>
+              </div>
+              <div className={styles.platformPillar}>
+                <p className={styles.platformPillarLabel}>Admin layer</p>
+                <p className={styles.platformPillarBody}>Owner oversight for appointments, projected revenue, exception handling, and day-of-shop visibility.</p>
+              </div>
+              <div className={styles.platformPillar}>
+                <p className={styles.platformPillarLabel}>CRM foundation</p>
+                <p className={styles.platformPillarBody}>Lifecycle stages, client context, and communication-ready records that can support more automation later.</p>
+              </div>
+              <div className={styles.platformPillar}>
+                <p className={styles.platformPillarLabel}>Workflow direction</p>
+                <p className={styles.platformPillarBody}>Owner/barber role views and structured operating data that make future automation and AI support plausible, not performative.</p>
+              </div>
+            </div>
+          </article>
+
+          <div className={styles.platformVisualStack}>
+            {crmShowcase && (
+              <figure className={styles.platformVisualPrimary}>
+                <div className={styles.platformVisualFrame}>
+                  <CldImage
+                    src={crmShowcase.publicId}
+                    alt={crmShowcase.alt}
+                    width={960}
+                    height={640}
+                    crop="fill"
+                    gravity="auto"
+                    className={styles.platformVisualImage}
+                  />
+                </div>
+                {crmShowcase.caption && <figcaption className={styles.platformVisualCaption}>{crmShowcase.caption}</figcaption>}
+              </figure>
+            )}
+
+            {mobileProof && (
+              <figure className={styles.platformVisualSecondary}>
+                <div className={styles.platformVisualFrame}>
+                  <CldImage
+                    src={mobileProof.publicId}
+                    alt={mobileProof.alt}
+                    width={720}
+                    height={900}
+                    crop="fill"
+                    gravity="auto"
+                    className={styles.platformVisualImage}
+                  />
+                </div>
+                {mobileProof.caption && <figcaption className={styles.platformVisualCaption}>{mobileProof.caption}</figcaption>}
+              </figure>
+            )}
+          </div>
+        </div>
+      </section>
+    </FadeUp>
+  )
+}
+
+function AudienceValueGrid() {
+  const items = [
+    {
+      label: 'Owner value',
+      title: 'A clearer operating picture',
+      body: 'Projected revenue, appointment status, and exceptions live in one place instead of being inferred from messages and memory after the fact.',
+    },
+    {
+      label: 'Barber value',
+      title: 'Role-aware workflow logic',
+      body: 'Barbers get a cleaner day-of-workflow view instead of relying on side-channel updates to know what is happening next or what changed.',
+    },
+    {
+      label: 'Client value',
+      title: 'A booking path that feels straightforward',
+      body: 'The public app stays simple and mobile-friendly while still respecting real shop rules around services, consultations, deposits, and timing.',
+    },
+  ]
+
+  return (
+    <SectionBlock eyebrow="Who the system helps" title="The platform gets more useful because each side sees the right layer">
+      <div className={styles.audienceValueGrid}>
+        {items.map((item) => (
+          <article key={item.label} className={styles.audienceValueCard}>
+            <p className={styles.audienceValueLabel}>{item.label}</p>
+            <h3 className={styles.audienceValueTitle}>{item.title}</h3>
+            <p className={styles.audienceValueBody}>{item.body}</p>
+          </article>
+        ))}
+      </div>
+    </SectionBlock>
+  )
+}
+
+function ConnectedPlatformBridge({ child }: { child: CaseStudy }) {
+  const childMedia = getProjectMedia(child.slug)
+  const thumbId =
+    childMedia?.hero?.publicId ??
+    child.cardPublicId ??
+    child.heroPublicId ??
+    child.logoPublicId
+
+  return (
+    <FadeUp>
+      <section className={styles.connectedPlatformSection}>
+        <div className={styles.connectedPlatformHeader}>
+          <p className={styles.sectionEyebrow}>Connected platform layer</p>
+          <h2 className={styles.connectedPlatformHeadline}>The Hoosier Boy engagement also included a companion operations system.</h2>
+          <p className={styles.connectedPlatformIntro}>
+            The flagship story here is still the brand, website, booking experience, and local growth foundation. But the build did not stop at the customer-facing surface. A connected admin platform was created underneath it to support booking oversight, CRM direction, and day-to-day shop operations.
+          </p>
+        </div>
+
+        <Link href={`/work/${child.slug}`} className={styles.connectedPlatformCard}>
+          <div className={styles.connectedPlatformCopy}>
+            <p className={styles.connectedPlatformLabel}>{child.cardTitle ?? child.client}</p>
+            <h3 className={styles.connectedPlatformTitle}>{child.headline}</h3>
+            <p className={styles.connectedPlatformBody}>
+              Go deeper on the child system: the public booking app, admin command center, lifecycle-ready CRM foundation, owner/barber view logic, and the automation-ready operations layer built inside the broader Hoosier Boy engagement.
+            </p>
+            <div className={styles.connectedPlatformMetricList}>
+              {child.metrics.slice(0, 3).map((metric) => (
+                <span key={metric} className={styles.connectedPlatformMetric}>{metric}</span>
+              ))}
+            </div>
+            <span className={styles.connectedPlatformCta}>
+              Explore the platform proof
+              <ArrowRight weight="regular" size={14} aria-hidden />
+            </span>
+          </div>
+
+          {thumbId && (
+            <div className={styles.connectedPlatformVisual}>
+              <CldImage
+                src={thumbId}
+                alt={child.cardTitle ?? child.client}
+                width={960}
+                height={720}
+                crop="fill"
+                gravity="auto"
+                className={styles.connectedPlatformImage}
+              />
+            </div>
+          )}
+        </Link>
+      </section>
+    </FadeUp>
+  )
+}
+
 export function WorkDetailContent({
   cs,
   parent,
@@ -1048,6 +1246,11 @@ export function WorkDetailContent({
   const isSystemChildTemplate = isSystemCompact || isSystemExpanded
   const primaryProofSignal = cs.metrics[0] ?? ''
   const signalText = primaryProofSignal ? `Signal: ${primaryProofSignal}` : ''
+  const isBarbershopCommandCenter = cs.slug === 'barbershop-command-center'
+  const heroSupportAssets =
+    isBarbershopCommandCenter && projectMedia
+      ? [...(projectMedia.screens ?? []), ...(projectMedia.productInUse ?? [])].slice(0, 2)
+      : []
 
   // Hero openings should lead with business framing:
   // problem → intervention → proof signal (system-child: system role + outcome).
@@ -1181,6 +1384,8 @@ export function WorkDetailContent({
                       maxAssets={assetStripMaxAssets}
                     />
                   )}
+
+                  {heroSupportAssets.length > 0 && <HeroSupportPreview assets={heroSupportAssets} />}
                 </div>
               </FloatingCard>
             </motion.div>
@@ -1214,6 +1419,8 @@ export function WorkDetailContent({
               compact={isSystemCompact}
             />
 
+            {isBarbershopCommandCenter && <PlatformArchitectureSection cs={cs} />}
+
             <SectionBlock eyebrow={isSystemCompact ? 'The Build' : 'What got rebuilt'}>
               <DeliverableGrid
                 deliverables={isSystemCompact ? cs.deliverables.slice(0, 3) : cs.deliverables}
@@ -1221,7 +1428,9 @@ export function WorkDetailContent({
               />
             </SectionBlock>
 
-            <NarrativeMediaSections cs={cs} />
+            {isBarbershopCommandCenter && <AudienceValueGrid />}
+
+            {!isBarbershopCommandCenter && <NarrativeMediaSections cs={cs} />}
 
             <BrandIdentitySnapshot cs={cs} />
 
@@ -1256,6 +1465,11 @@ export function WorkDetailContent({
                 <DeliverableGrid deliverables={cs.deliverables} isSystemPage={false} />
               </SectionBlock>
             )}
+
+            {cs.slug === 'hoosier-boy-barbershop' && (() => {
+              const platformChild = related.find((study) => study.slug === 'barbershop-command-center')
+              return platformChild ? <ConnectedPlatformBridge child={platformChild} /> : null
+            })()}
 
             <NarrativeMediaSections cs={cs} isFlagship={isFlagshipLongform} />
 
