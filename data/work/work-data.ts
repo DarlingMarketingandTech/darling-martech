@@ -1024,7 +1024,12 @@ const workData: CaseStudy[] = [
     ctaLine: 'give sales accurate numbers in the moment prospects still care',
     problemVisualPublicId: 'Graston_Technique_Smart_Pricing_Tool_-_home',
     cloudinaryAssets: [
-      { publicId: 'Graston_Technique_Smart_Pricing_Tool_-_home', label: 'Smart Sales & Pricing Tool interface', folder: 'studio/projects/graston-technique' },
+      {
+        publicId: 'Graston_Technique_Smart_Pricing_Tool_-_home',
+        label:
+          'Graston Smart Sales & Pricing Tool — live quote workspace with bundles, equipment, and institutional tiers',
+        folder: 'studio/labs/Graston Technique® Smart Pricing Tool',
+      },
     ],
   },
 

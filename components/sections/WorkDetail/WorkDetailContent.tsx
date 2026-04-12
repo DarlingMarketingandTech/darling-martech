@@ -684,6 +684,22 @@ function ClosingStatement({ text }: { text: string }) {
   )
 }
 
+function SmartSalesPricingProofFocus() {
+  return (
+    <div className={styles.problemVisualCaptionCard}>
+      <p className={styles.problemVisualCaptionEyebrow}>Product focus</p>
+      <p className={styles.problemVisualCaptionLead}>
+        The same live quote workspace reps keep open beside Zoom — built to answer pricing in the moment, not after the call.
+      </p>
+      <ul className={styles.problemVisualCaptionList}>
+        <li>Real-time totals as bundles, equipment adds, and institutional tier rules change.</li>
+        <li>One JavaScript calculation module keeps discount logic aligned — no forked spreadsheets per rep.</li>
+        <li>v2 navigation followed 60 days of real demos; the trusted math layer stayed intact.</li>
+      </ul>
+    </div>
+  )
+}
+
 function ProblemVisualPanel({
   cs,
   parent,
@@ -695,16 +711,28 @@ function ProblemVisualPanel({
 }) {
   const isLicenseRequirements = cs.slug === 'license-requirements'
   const isClinicalCompass = cs.slug === 'clinical-compass'
+  const isSmartSalesPricing = cs.slug === 'smart-sales-pricing'
   const fallbackAsset =
     cs.cloudinaryAssets?.find((asset) => asset.publicId !== heroImage) ??
     cs.cloudinaryAssets?.[0]
   const visualAsset: CloudinaryAsset | undefined = cs.problemVisualPublicId
     ? {
         publicId: cs.problemVisualPublicId,
-        label: `${cs.client} problem visual`,
+        label:
+          cs.cloudinaryAssets?.find((a) => a.publicId === cs.problemVisualPublicId)?.label ??
+          `${cs.client} problem visual`,
         folder: '',
       }
     : fallbackAsset
+
+  if (
+    isSmartSalesPricing &&
+    visualAsset &&
+    heroImage &&
+    visualAsset.publicId === heroImage
+  ) {
+    return <SmartSalesPricingProofFocus />
+  }
 
   if (visualAsset) {
     return (
@@ -712,10 +740,14 @@ function ProblemVisualPanel({
         <CldImage
           src={visualAsset.publicId}
           alt={visualAsset.label}
-          width={isLicenseRequirements ? 1120 : isClinicalCompass ? 1120 : 880}
-          height={isLicenseRequirements ? 720 : isClinicalCompass ? 700 : 880}
-          crop={isClinicalCompass ? 'fit' : 'fill'}
-          gravity={isClinicalCompass ? 'center' : 'auto'}
+          width={
+            isLicenseRequirements ? 1120 : isClinicalCompass ? 1120 : isSmartSalesPricing ? 1120 : 880
+          }
+          height={
+            isLicenseRequirements ? 720 : isClinicalCompass ? 700 : isSmartSalesPricing ? 700 : 880
+          }
+          crop={isClinicalCompass || isSmartSalesPricing ? 'fit' : 'fill'}
+          gravity={isClinicalCompass || isSmartSalesPricing ? 'center' : 'auto'}
           className={styles.problemVisualImage}
         />
       </div>
@@ -762,7 +794,9 @@ function ProblemSystemSection({
 
               <div className={styles.problemRailMeta}>
                 {parent && <span className={styles.problemRailBadge}>Inside {parent.client}</span>}
-                <span className={styles.problemRailBadge}>Built for conversion</span>
+                <span className={styles.problemRailBadge}>
+                  {cs.slug === 'smart-sales-pricing' ? 'Quote-ready sales workspace' : 'Built for conversion'}
+                </span>
               </div>
 
               <ProblemVisualPanel cs={cs} parent={parent} heroImage={heroImage} />
@@ -1294,7 +1328,10 @@ export function WorkDetailContent({
     cs.cloudinaryAssets?.find((asset) => asset.publicId !== cs.logoPublicId)?.publicId ??
     cs.cloudinaryAssets?.[0]?.publicId ??
     cs.logoPublicId
-  const heroAlt = projectMedia?.hero?.alt ?? cs.client
+  const heroAlt =
+    projectMedia?.hero?.alt ??
+    cs.cloudinaryAssets?.find((a) => a.publicId === heroImage)?.label ??
+    cs.client
   const layoutClassName =
     cs.theme?.layout === 'stacked'
       ? styles.layoutStacked
@@ -1317,6 +1354,7 @@ export function WorkDetailContent({
   const isBarbershopCommandCenter = cs.slug === 'barbershop-command-center'
   const isLicenseRequirements = cs.slug === 'license-requirements'
   const isClinicalCompass = cs.slug === 'clinical-compass'
+  const isSmartSalesPricing = cs.slug === 'smart-sales-pricing'
 
   // Hero openings should lead with business framing:
   // problem → intervention → proof signal (system-child: system role + outcome).
@@ -1338,7 +1376,7 @@ export function WorkDetailContent({
 
   return (
     <article
-      className={`${styles.article} ${layoutClassName}${isLicenseRequirements ? ` ${styles.pageLicenseRequirements}` : ''}${isClinicalCompass ? ` ${styles.pageClinicalCompass}` : ''}`}
+      className={`${styles.article} ${layoutClassName}${isLicenseRequirements ? ` ${styles.pageLicenseRequirements}` : ''}${isClinicalCompass ? ` ${styles.pageClinicalCompass}` : ''}${isSmartSalesPricing ? ` ${styles.pageSmartSalesPricing}` : ''}`}
     >
       <div className={styles.inner}>
         <section className={styles.heroShell}>
@@ -1441,8 +1479,8 @@ export function WorkDetailContent({
                         alt={heroAlt}
                         width={960}
                         height={720}
-                        crop="fill"
-                        gravity="auto"
+                        crop={isSmartSalesPricing ? 'fit' : 'fill'}
+                        gravity={isSmartSalesPricing ? 'center' : 'auto'}
                         className={styles.heroMediaImage}
                         priority
                       />
@@ -1454,13 +1492,20 @@ export function WorkDetailContent({
                     </div>
                   )}
 
-                  {!projectMedia && cs.cloudinaryAssets && cs.cloudinaryAssets.length > 0 && (
-                    <AssetStrip
-                      assets={cs.cloudinaryAssets}
-                      mediaStyle={cs.theme?.mediaStyle}
-                      maxAssets={assetStripMaxAssets}
-                    />
-                  )}
+                  {(() => {
+                    const supplemental =
+                      cs.cloudinaryAssets?.filter((a) => a.publicId !== heroImage) ?? []
+                    return (
+                      !projectMedia &&
+                      supplemental.length > 0 && (
+                        <AssetStrip
+                          assets={supplemental}
+                          mediaStyle={cs.theme?.mediaStyle}
+                          maxAssets={assetStripMaxAssets}
+                        />
+                      )
+                    )
+                  })()}
                 </div>
               </FloatingCard>
             </motion.div>
