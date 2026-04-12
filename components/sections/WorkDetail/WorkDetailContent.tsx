@@ -1028,8 +1028,8 @@ function PlatformArchitectureSection({ cs }: { cs: CaseStudy }) {
       body: 'Client context, communication direction, and service-stage tracking beyond a simple calendar view.',
     },
     {
-      label: 'Automation-ready ops',
-      body: 'Shared rules and structured operating data that can support smarter workflow automation later.',
+      label: 'Automation & AI hub',
+      body: 'An owner-side orchestration surface for workflow direction, connectors, insights, and agent-ready operating logic without overstating fully live integrations.',
     },
   ]
 
@@ -1080,15 +1080,14 @@ function PlatformArchitectureSection({ cs }: { cs: CaseStudy }) {
 
             {mobileProof && (
               <figure className={styles.platformVisualSecondary}>
-                <div className={styles.platformVisualFrame}>
+                <div className={`${styles.platformVisualFrame} ${styles.platformVisualFrameContain}`}>
                   <CldImage
                     src={mobileProof.publicId}
                     alt={mobileProof.alt}
                     width={720}
                     height={900}
-                    crop="fill"
-                    gravity="auto"
-                    className={styles.platformVisualImage}
+                    crop="fit"
+                    className={`${styles.platformVisualImage} ${styles.platformVisualImageContain}`}
                   />
                 </div>
                 {mobileProof.caption && <figcaption className={styles.platformVisualCaption}>{mobileProof.caption}</figcaption>}
@@ -1210,7 +1209,7 @@ export function WorkDetailContent({
       ? `${getLeadSentence(cs.challenge)} ${signalText}`.trim()
       : `${getLeadSentence(cs.approach)} ${signalText}`.trim()
   const heroChipItems = isBarbershopCommandCenter
-    ? ['Public booking app', 'Admin command center', 'CRM / lifecycle layer', 'Automation-ready ops']
+    ? ['Public booking app', 'Admin command center', 'CRM / lifecycle layer', 'Automation & AI hub']
     : cs.label.split('·').map((chip) => chip.trim())
 
   const assetStripMaxAssets = isSystemCompact ? 1 : 2
