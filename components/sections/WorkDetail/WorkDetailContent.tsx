@@ -3,8 +3,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion, useInView } from 'framer-motion'
 import { CldImage } from 'next-cloudinary'
 import { ArrowLeft, ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
 import { FloatingCard } from '@/components/3d/FloatingCard'
@@ -27,6 +27,9 @@ const WorkAmbient = dynamic(
   }
 )
 
+const COMMAND_CENTER_DEMO_URL =
+  'https://hoosier-boy-scheduling-managment-43xnp4qqz-darling-mar-tech.vercel.app/'
+
 function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
@@ -41,6 +44,120 @@ function FadeUp({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
     >
       {children}
     </motion.div>
+  )
+}
+
+function CommandCenterDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const restoreFocusRef = useRef<HTMLElement | null>(null)
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null)
+
+  const handleKeyDown = useCallback(
+    (e: globalThis.KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    },
+    [onClose]
+  )
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    restoreFocusRef.current = document.activeElement as HTMLElement | null
+    document.addEventListener('keydown', handleKeyDown)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = prevOverflow
+      restoreFocusRef.current?.focus?.()
+      restoreFocusRef.current = null
+    }
+  }, [handleKeyDown, isOpen])
+
+  useEffect(() => {
+    if (!isOpen) return
+    const id = requestAnimationFrame(() => {
+      closeBtnRef.current?.focus()
+    })
+    return () => cancelAnimationFrame(id)
+  }, [isOpen])
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className={styles.demoScrim}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={onClose}
+        >
+          <motion.div
+            className={styles.demoModal}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Hoosier Boy Command Center — interactive demo"
+            initial={{ opacity: 0, scale: 0.98, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.98, y: 16 }}
+            transition={springEntrance}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles.demoTitleBar}>
+              <div className={styles.demoTitleLeft}>
+                <span className={styles.demoTitleLabel}>Interactive proof</span>
+                <span className={styles.demoTitleName}>Command Center Demo</span>
+              </div>
+              <div className={styles.demoTitleActions}>
+                <a
+                  href={COMMAND_CENTER_DEMO_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.demoNewTabLink}
+                >
+                  Open in new tab
+                  <ArrowUpRight weight="regular" size={14} aria-hidden />
+                </a>
+                <button
+                  ref={closeBtnRef}
+                  type="button"
+                  className={styles.demoCloseBtn}
+                  onClick={onClose}
+                  aria-label="Close demo"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+
+            <div className={styles.demoFrame}>
+              <iframe
+                src={COMMAND_CENTER_DEMO_URL}
+                title="Hoosier Boy Command Center demo"
+                className={styles.demoIframe}
+                loading="lazy"
+                sandbox="allow-scripts allow-forms allow-same-origin allow-popups"
+              />
+            </div>
+
+            <div className={styles.demoFooter}>
+              <p className={styles.demoHint}>
+                If the demo doesn&apos;t load in the overlay (some browsers block embeds), use{' '}
+                <a href={COMMAND_CENTER_DEMO_URL} target="_blank" rel="noreferrer">
+                  Open in new tab
+                </a>
+                .
+              </p>
+              <Link href="/contact?intent=work" className={styles.demoTalkLink}>
+                Want something like this? Let&apos;s talk.
+                <ArrowRight weight="regular" size={14} aria-hidden />
+              </Link>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
 
@@ -1167,6 +1284,7 @@ export function WorkDetailContent({
   related: CaseStudy[]
   serviceBacklink?: { href: string; label: string } | null
 }) {
+  const [isCommandCenterDemoOpen, setIsCommandCenterDemoOpen] = useState(false)
   const projectMedia = getProjectMedia(cs.slug)
   const heroImage =
     projectMedia?.hero?.publicId ??
@@ -1379,6 +1497,44 @@ export function WorkDetailContent({
               />
             </SectionBlock>
 
+            {isBarbershopCommandCenter && (
+              <SectionBlock eyebrow="Interactive proof" title="Demo the Command Center">
+                <div className={styles.demoCtaCard}>
+                  <p className={styles.demoCtaBody}>
+                    Explore the owner-side platform in action. See how booking, CRM, operations, and the automation hub fit together.
+                  </p>
+                  <div className={styles.demoCtaActions}>
+                    <MagneticButton radius={120} maxPull={14}>
+                      <button
+                        type="button"
+                        className={styles.demoCtaBtn}
+                        onClick={() => {
+                          setIsCommandCenterDemoOpen(true)
+                          analytics.ctaClick('work_detail_barbershop-command-center', 'command_center_demo_overlay')
+                        }}
+                      >
+                        Demo the Command Center
+                        <ArrowRight weight="regular" size={14} aria-hidden />
+                      </button>
+                    </MagneticButton>
+
+                    <a
+                      href={COMMAND_CENTER_DEMO_URL}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={styles.demoCtaLink}
+                      onClick={() =>
+                        analytics.ctaClick('work_detail_barbershop-command-center', 'command_center_demo_new_tab')
+                      }
+                    >
+                      Open in new tab
+                      <ArrowUpRight weight="regular" size={14} aria-hidden />
+                    </a>
+                  </div>
+                </div>
+              </SectionBlock>
+            )}
+
             {!isBarbershopCommandCenter && <NarrativeMediaSections cs={cs} />}
 
             <BrandIdentitySnapshot cs={cs} />
@@ -1455,6 +1611,13 @@ export function WorkDetailContent({
 
         <ContactCta cs={cs} />
       </div>
+
+      {isBarbershopCommandCenter && (
+        <CommandCenterDemoModal
+          isOpen={isCommandCenterDemoOpen}
+          onClose={() => setIsCommandCenterDemoOpen(false)}
+        />
+      )}
     </article>
   )
 }
