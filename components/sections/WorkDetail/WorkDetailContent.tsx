@@ -694,6 +694,7 @@ function ProblemVisualPanel({
   heroImage?: string
 }) {
   const isLicenseRequirements = cs.slug === 'license-requirements'
+  const isClinicalCompass = cs.slug === 'clinical-compass'
   const fallbackAsset =
     cs.cloudinaryAssets?.find((asset) => asset.publicId !== heroImage) ??
     cs.cloudinaryAssets?.[0]
@@ -711,10 +712,10 @@ function ProblemVisualPanel({
         <CldImage
           src={visualAsset.publicId}
           alt={visualAsset.label}
-          width={isLicenseRequirements ? 1120 : 880}
-          height={isLicenseRequirements ? 720 : 880}
-          crop="fill"
-          gravity="auto"
+          width={isLicenseRequirements ? 1120 : isClinicalCompass ? 1120 : 880}
+          height={isLicenseRequirements ? 720 : isClinicalCompass ? 700 : 880}
+          crop={isClinicalCompass ? 'fit' : 'fill'}
+          gravity={isClinicalCompass ? 'center' : 'auto'}
           className={styles.problemVisualImage}
         />
       </div>
@@ -1315,6 +1316,7 @@ export function WorkDetailContent({
   const signalText = primaryProofSignal ? `Signal: ${primaryProofSignal}` : ''
   const isBarbershopCommandCenter = cs.slug === 'barbershop-command-center'
   const isLicenseRequirements = cs.slug === 'license-requirements'
+  const isClinicalCompass = cs.slug === 'clinical-compass'
 
   // Hero openings should lead with business framing:
   // problem → intervention → proof signal (system-child: system role + outcome).
@@ -1335,7 +1337,9 @@ export function WorkDetailContent({
   const assetStripMaxAssets = isSystemCompact ? 1 : 2
 
   return (
-    <article className={`${styles.article} ${layoutClassName}${isLicenseRequirements ? ` ${styles.pageLicenseRequirements}` : ''}`}>
+    <article
+      className={`${styles.article} ${layoutClassName}${isLicenseRequirements ? ` ${styles.pageLicenseRequirements}` : ''}${isClinicalCompass ? ` ${styles.pageClinicalCompass}` : ''}`}
+    >
       <div className={styles.inner}>
         <section className={styles.heroShell}>
           <div className={styles.heroAmbient}>
