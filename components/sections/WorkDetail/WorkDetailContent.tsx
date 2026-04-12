@@ -693,6 +693,7 @@ function ProblemVisualPanel({
   parent: CaseStudy | null
   heroImage?: string
 }) {
+  const isLicenseRequirements = cs.slug === 'license-requirements'
   const fallbackAsset =
     cs.cloudinaryAssets?.find((asset) => asset.publicId !== heroImage) ??
     cs.cloudinaryAssets?.[0]
@@ -710,8 +711,8 @@ function ProblemVisualPanel({
         <CldImage
           src={visualAsset.publicId}
           alt={visualAsset.label}
-          width={880}
-          height={880}
+          width={isLicenseRequirements ? 1120 : 880}
+          height={isLicenseRequirements ? 720 : 880}
           crop="fill"
           gravity="auto"
           className={styles.problemVisualImage}
@@ -1313,6 +1314,7 @@ export function WorkDetailContent({
   const primaryProofSignal = cs.metrics[0] ?? ''
   const signalText = primaryProofSignal ? `Signal: ${primaryProofSignal}` : ''
   const isBarbershopCommandCenter = cs.slug === 'barbershop-command-center'
+  const isLicenseRequirements = cs.slug === 'license-requirements'
 
   // Hero openings should lead with business framing:
   // problem → intervention → proof signal (system-child: system role + outcome).
@@ -1333,7 +1335,7 @@ export function WorkDetailContent({
   const assetStripMaxAssets = isSystemCompact ? 1 : 2
 
   return (
-    <article className={`${styles.article} ${layoutClassName}`}>
+    <article className={`${styles.article} ${layoutClassName}${isLicenseRequirements ? ` ${styles.pageLicenseRequirements}` : ''}`}>
       <div className={styles.inner}>
         <section className={styles.heroShell}>
           <div className={styles.heroAmbient}>

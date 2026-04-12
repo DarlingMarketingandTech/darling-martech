@@ -255,6 +255,49 @@
   object-fit: cover;
 }
 
+/* Page-scoped polish: License Requirements (system-child) */
+.pageLicenseRequirements .heroMediaCard {
+  background:
+    linear-gradient(180deg, rgba(245, 240, 232, 0.08), transparent 32%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(20, 20, 20, 0.65);
+  border-color: rgba(245, 240, 232, 0.14);
+}
+
+.pageLicenseRequirements .heroMediaPrimary {
+  border-radius: 18px;
+  border-color: rgba(245, 240, 232, 0.16);
+}
+
+.pageLicenseRequirements .heroMediaImage {
+  filter: saturate(1.03) contrast(1.03);
+}
+
+.pageLicenseRequirements .assetStrip {
+  grid-template-columns: 1fr;
+  margin-top: 0.85rem;
+}
+
+.pageLicenseRequirements .assetThumb {
+  aspect-ratio: 16 / 10;
+  border-radius: 16px;
+  border-color: rgba(245, 240, 232, 0.14);
+  background: rgba(245, 240, 232, 0.02);
+}
+
+.pageLicenseRequirements .problemVisualFrame {
+  aspect-ratio: 16 / 10;
+  border-radius: 18px;
+  border-color: rgba(245, 240, 232, 0.14);
+  background:
+    linear-gradient(180deg, rgba(245, 240, 232, 0.06), transparent 42%),
+    var(--color-surface);
+}
+
+.pageLicenseRequirements .problemVisualImage {
+  filter: saturate(1.02) contrast(1.02);
+}
+
 .metricsBar {
   display: grid;
   gap: 1px;

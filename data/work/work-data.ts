@@ -1129,6 +1129,7 @@ const workData: CaseStudy[] = [
     titleTag: 'License Requirements Navigator — State Licensing Intelligence for Graston | Darling MarTech',
     metaDescription:
       'Proof build: 50-state CE and credential lookup for Graston practitioners — two-step client-side tool, editable JSON data layer, licensing support volume effectively eliminated post-launch.',
+    heroPublicId: 'Generated_Image_April_12_2026_-_2_52AM',
     subhead:
       'Regulatory reality varies by state and credential. I turned it into structured data and a two-field lookup so practitioners stopped opening tickets for answers they could own themselves.',
     challenge:
@@ -1164,7 +1165,7 @@ const workData: CaseStudy[] = [
     whatThisMeansForYou:
       'If compliance or policy questions are eating your team alive, structured data plus a disciplined UX often removes the entire queue. I build those systems. That is what I build.',
     ctaLine: 'turn compliance FAQs into self-serve truth',
-    problemVisualPublicId: 'Practitioner_License_Requirements_I_Graston_Technique_-_search',
+    problemVisualPublicId: 'Practitioner_License_Requirements_I_Graston_Technique_-_search_2',
     cloudinaryAssets: [
       { publicId: 'Practitioner_License_Requirements_I_Graston_Technique_-_search', label: 'License Requirements Navigator search', folder: 'studio/projects/graston-technique' },
       { publicId: 'Practitioner_License_Requirements_I_Graston_Technique_-_search_2', label: 'License Requirements Navigator results', folder: 'studio/projects/graston-technique' },
