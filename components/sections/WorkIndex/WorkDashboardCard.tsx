@@ -1,11 +1,10 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { CldImage } from 'next-cloudinary'
 import { ArrowRight } from '@phosphor-icons/react'
 import type { CaseStudy, WorkDashboardTier } from '@/lib/work'
-import { getWorkCloudinaryUrl } from '@/lib/media/workCloudinary'
 import { cn } from '@/lib/utils'
 import styles from './WorkIndex.module.css'
 
@@ -50,8 +49,8 @@ function WorkDashboardMedia({ study }: { study: CaseStudy }) {
   return (
     <div className={styles.dashboardMediaWrap}>
       <div className={styles.dashboardMedia}>
-        <Image
-          src={getWorkCloudinaryUrl(mediaPublicId, 'WORK_CARD')}
+        <CldImage
+          src={mediaPublicId}
           alt={study.client}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
