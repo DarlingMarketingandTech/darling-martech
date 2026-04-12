@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useInView } from 'framer-motion'
 import { CldImage } from 'next-cloudinary'
-import { ArrowLeft, ArrowRight, ArrowUpRight } from '@phosphor-icons/react'
+import { ArrowLeft, ArrowRight, ArrowUpRight, X } from '@phosphor-icons/react'
 import { FloatingCard } from '@/components/3d/FloatingCard'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
@@ -126,7 +126,7 @@ function CommandCenterDemoModal({ isOpen, onClose }: { isOpen: boolean; onClose:
                   onClick={onClose}
                   aria-label="Close demo"
                 >
-                  ×
+                  <X weight="bold" size={16} aria-hidden />
                 </button>
               </div>
             </div>
@@ -1352,7 +1352,7 @@ export function WorkDetailContent({
                   Work
                 </Link>
                 <span className={styles.breadcrumbSep}>/</span>
-                <span>{cs.client}</span>
+                <span>{isBarbershopCommandCenter ? (cs.cardTitle ?? cs.client) : cs.client}</span>
               </motion.div>
 
               {parent && (
@@ -1383,7 +1383,7 @@ export function WorkDetailContent({
                 transition={{ ...springEntrance, delay: 0.12 }}
                 className={styles.heroClient}
               >
-                {cs.client}
+                {isBarbershopCommandCenter ? (cs.cardTitle ?? cs.client) : cs.client}
               </motion.h1>
 
               <motion.p

@@ -1509,6 +1509,14 @@
     height: 100dvh;
     border-radius: 0;
   }
+
+  .demoTitleLabel {
+    display: none;
+  }
+
+  .demoNewTabLink {
+    display: none;
+  }
 }
 
 .toolPromptCard {
