@@ -293,9 +293,8 @@ export function CaseStudies() {
             <motion.p variants={itemVariants} className={styles.subheading}>
               Start with five high-signal builds. Open any card for the full case; the full proof library lives on{' '}
               <Link href="/work" className={styles.subheadingLink}>
-                /work
-              </Link>
-              .
+                the Work page
+              </Link>.
             </motion.p>
           </div>
 
