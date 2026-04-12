@@ -1010,6 +1010,62 @@ function ToolPromptPanel({ cs }: { cs: CaseStudy }) {
   )
 }
 
+function ConnectedPlatformBridge({ child }: { child: CaseStudy }) {
+  const childMedia = getProjectMedia(child.slug)
+  const thumbId =
+    childMedia?.hero?.publicId ??
+    child.cardPublicId ??
+    child.heroPublicId ??
+    child.logoPublicId
+
+  return (
+    <FadeUp>
+      <section className={styles.connectedPlatformSection}>
+        <div className={styles.connectedPlatformHeader}>
+          <p className={styles.sectionEyebrow}>Connected platform layer</p>
+          <h2 className={styles.connectedPlatformHeadline}>The Hoosier Boy engagement also included a companion operations system.</h2>
+          <p className={styles.connectedPlatformIntro}>
+            The flagship story here is still the brand, website, booking experience, and local growth foundation. But the build did not stop at the customer-facing surface. A connected admin platform was created underneath it to support booking oversight, CRM direction, and day-to-day shop operations.
+          </p>
+        </div>
+
+        <Link href={`/work/${child.slug}`} className={styles.connectedPlatformCard}>
+          <div className={styles.connectedPlatformCopy}>
+            <p className={styles.connectedPlatformLabel}>{child.cardTitle ?? child.client}</p>
+            <h3 className={styles.connectedPlatformTitle}>{child.headline}</h3>
+            <p className={styles.connectedPlatformBody}>
+              Go deeper on the child system: the public booking app, admin command center, lifecycle-ready CRM foundation, owner/barber view logic, and the automation-ready operations layer built inside the broader Hoosier Boy engagement.
+            </p>
+            <div className={styles.connectedPlatformMetricList}>
+              {child.metrics.slice(0, 3).map((metric) => (
+                <span key={metric} className={styles.connectedPlatformMetric}>{metric}</span>
+              ))}
+            </div>
+            <span className={styles.connectedPlatformCta}>
+              Explore the platform proof
+              <ArrowRight weight="regular" size={14} aria-hidden />
+            </span>
+          </div>
+
+          {thumbId && (
+            <div className={styles.connectedPlatformVisual}>
+              <CldImage
+                src={thumbId}
+                alt={child.cardTitle ?? child.client}
+                width={960}
+                height={720}
+                crop="fill"
+                gravity="auto"
+                className={styles.connectedPlatformImage}
+              />
+            </div>
+          )}
+        </Link>
+      </section>
+    </FadeUp>
+  )
+}
+
 export function WorkDetailContent({
   cs,
   parent,
@@ -1256,6 +1312,11 @@ export function WorkDetailContent({
                 <DeliverableGrid deliverables={cs.deliverables} isSystemPage={false} />
               </SectionBlock>
             )}
+
+            {cs.slug === 'hoosier-boy-barbershop' && (() => {
+              const platformChild = related.find((study) => study.slug === 'barbershop-command-center')
+              return platformChild ? <ConnectedPlatformBridge child={platformChild} /> : null
+            })()}
 
             <NarrativeMediaSections cs={cs} isFlagship={isFlagshipLongform} />
 

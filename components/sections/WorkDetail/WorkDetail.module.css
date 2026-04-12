@@ -1701,3 +1701,142 @@
   line-height: 1.5;
   color: rgba(136, 136, 136, 0.72);
 }
+
+.connectedPlatformSection {
+  display: grid;
+  gap: 1.6rem;
+  margin-top: 1.2rem;
+}
+
+.connectedPlatformHeader {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 58rem;
+}
+
+.connectedPlatformHeadline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.4vw, 2.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: rgba(255, 244, 232, 0.98);
+}
+
+.connectedPlatformIntro {
+  margin: 0;
+  max-width: 52rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255, 244, 232, 0.7);
+}
+
+.connectedPlatformCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.9fr);
+  gap: 1.25rem;
+  align-items: stretch;
+  padding: clamp(1rem, 2vw, 1.25rem);
+  border: 1px solid rgba(255, 244, 232, 0.1);
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
+    radial-gradient(circle at top left, rgba(255, 92, 31, 0.12), transparent 48%),
+    rgba(14, 14, 14, 0.9);
+  text-decoration: none;
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+
+.connectedPlatformCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 92, 31, 0.28);
+}
+
+.connectedPlatformCopy {
+  display: grid;
+  gap: 0.85rem;
+  min-width: 0;
+  align-content: start;
+}
+
+.connectedPlatformLabel {
+  margin: 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 244, 232, 0.52);
+}
+
+.connectedPlatformTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2vw, 1.9rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: rgba(255, 244, 232, 0.98);
+}
+
+.connectedPlatformBody {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.68;
+  color: rgba(255, 244, 232, 0.7);
+}
+
+.connectedPlatformMetricList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.connectedPlatformMetric {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.48rem 0.72rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 244, 232, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.82rem;
+  line-height: 1.25;
+  color: rgba(255, 244, 232, 0.82);
+}
+
+.connectedPlatformCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.25rem;
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 104, 52, 0.92);
+}
+
+.connectedPlatformVisual {
+  position: relative;
+  min-height: 17rem;
+  overflow: hidden;
+  border-radius: 1.15rem;
+  border: 1px solid rgba(255, 244, 232, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.connectedPlatformImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 900px) {
+  .connectedPlatformCard {
+    grid-template-columns: 1fr;
+  }
+
+  .connectedPlatformVisual {
+    min-height: 14rem;
+  }
+}
