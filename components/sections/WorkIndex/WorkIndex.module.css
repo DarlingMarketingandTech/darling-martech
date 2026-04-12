@@ -356,11 +356,13 @@
 
 .cardSupporting .dashboardMediaWrap {
   min-height: 10.5rem;
+  height: 10.5rem;
 }
 
 @media (min-width: 640px) {
   .cardSupporting .dashboardMediaWrap {
     min-height: 12rem;
+    height: 12rem;
   }
 }
 
@@ -520,26 +522,30 @@
 
 .dashboardMediaWrap {
   min-height: 13rem;
+  height: 13rem;
 }
 
 @media (min-width: 640px) {
   .dashboardMediaWrap {
     min-height: 15rem;
+    height: 15rem;
   }
 
   .tierFlagship .dashboardMediaWrap {
     min-height: 18rem;
+    height: 18rem;
   }
 
   .tierSystem .dashboardMediaWrap {
     min-height: 14rem;
+    height: 14rem;
   }
 }
 
 .dashboardMedia {
   position: relative;
   width: 100%;
-  height: 100%;
+  flex-shrink: 0;
   overflow: hidden;
   background:
     radial-gradient(circle at 22% 18%, rgba(255, 77, 0, 0.2), transparent 32%),
@@ -818,11 +824,13 @@
 
 .flagshipUnit .dashboardMediaWrap {
   min-height: 16rem;
+  height: 16rem;
 }
 
 @media (min-width: 640px) {
   .flagshipUnit .dashboardMediaWrap {
     min-height: 20rem;
+    height: 20rem;
   }
 }
 
@@ -836,6 +844,7 @@
 
   .flagshipUnit .tierFlagship .dashboardMediaWrap {
     min-height: 26rem;
+    height: 26rem;
   }
 
   .flagshipUnit .tierFlagship .dashboardCardBody {
@@ -851,6 +860,7 @@
 
   .flagshipUnit .dashboardCardArtworkShell.tierFlagship .dashboardMediaWrap {
     min-height: 100%;
+    height: 100%;
     padding: 1.1rem 0.85rem 1.1rem 1.1rem;
   }
 
