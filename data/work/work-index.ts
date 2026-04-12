@@ -136,6 +136,8 @@ export const workIndex: WorkCard[] = [
     category: 'Automation & Systems',
     dashboardTier: 'system',
     parentProjectSlug: 'graston-technique',
+    /** Detail hero: illustrative in-context scene; `/work` card keeps real UI thumbnail. */
+    heroPublicId: 'Smart_Pricing_Tool-phone',
     cardPublicId: 'Graston_Technique_Smart_Pricing_Tool_-_home',
     surfaceInSupportingGrid: true,
     parentContextLabel: 'Inside Graston Technique®',
