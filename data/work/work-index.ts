@@ -39,7 +39,7 @@ export const workIndex: WorkCard[] = [
     label: 'Marketing Automation · Membership Platform · CRM Integration',
     client: 'The Launchpad',
     headline: '95% of the manual work. Gone.',
-    metrics: ['95% reduction in manual overhead', '0 manual enrollment steps', '3× faster onboarding'],
+    metrics: ['95% overhead reduction', '0 manual enrollment steps', '3× faster onboarding'],
     category: 'Automation & Systems',
     dashboardTier: 'system',
     cardPublicId: 'network-7042248_1920',
@@ -154,7 +154,7 @@ export const workIndex: WorkCard[] = [
     client: 'Investment ROI Planner',
     headline:
       'Self-serve certification ROI before the sales call — three inputs, one payback story, warmer conversations.',
-    metrics: ['+212% qualified lead volume', 'Self-serve economics answer', '3 inputs to meaningful projection'],
+    metrics: ['+212% qualified leads', 'Self-serve economics answer', '3 inputs to meaningful projection'],
     category: 'Automation & Systems',
     dashboardTier: 'system',
     parentProjectSlug: 'graston-technique',
@@ -173,7 +173,7 @@ export const workIndex: WorkCard[] = [
     cardTitle: 'Clinical Protocol Builder',
     headline:
       'Protocol answers in under two minutes — a guided, progressive-disclosure workflow that supports clinical reasoning without tying up the team.',
-    metrics: ['400+ certified practitioners reached', '~48 hrs/wk reclaimed from protocol calls', 'One surface replacing a support workflow'],
+    metrics: ['400+ certified practitioners reached', '48 hrs/week saved', 'One surface replacing a support workflow'],
     category: 'Automation & Systems',
     dashboardTier: 'system',
     parentProjectSlug: 'graston-technique',

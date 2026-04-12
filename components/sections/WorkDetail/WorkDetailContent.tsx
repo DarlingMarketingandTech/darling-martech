@@ -999,10 +999,82 @@ type WorkToolRecommendation = {
   slug: string
   href: string
   body: string
+  /** When set, replaces default "Try the framework" eyebrow (e.g. shipped HTML tools). */
+  panelEyebrow?: string
+  /** When set, replaces default "Run {label} on your version." headline. */
+  panelTitle?: string
+  /** When set, replaces default link text "Open tool". */
+  linkLabel?: string
+  /** When set, replaces default section aria-label. */
+  panelAriaLabel?: string
 }
 
 function getWorkToolRecommendation(cs: CaseStudy): WorkToolRecommendation {
   const bySlug: Record<string, WorkToolRecommendation> = {
+    'smart-sales-pricing': {
+      label: 'Smart Sales & Pricing Tool',
+      slug: 'labs-smart-sales-pricing',
+      href: '/labs/smart-sales-pricing/graston%20Smart%20Sales%20and%20Pricing%20Tool.html',
+      body: 'Open the shipped browser tool — same static build reps kept beside live calls.',
+      panelEyebrow: 'Open the tool',
+      panelTitle: 'Smart Sales & Pricing — live quoting workspace',
+      linkLabel: 'Open the tool',
+      panelAriaLabel: 'Open the shipped Smart Sales and Pricing tool',
+    },
+    'clinical-compass': {
+      label: 'Clinical Compass',
+      slug: 'labs-clinical-compass',
+      href: '/labs/clinical-compass/Graston%20Clinical%20Compass%20Tool.html',
+      body: 'Open the live progressive-disclosure paths practitioners ran between patients.',
+      panelEyebrow: 'Open the tool',
+      panelTitle: 'Clinical Compass — point-of-care protocol flow',
+      linkLabel: 'Open the tool',
+      panelAriaLabel: 'Open the shipped Clinical Compass tool',
+    },
+    'license-requirements': {
+      label: 'License Requirements Navigator',
+      slug: 'labs-license-requirements',
+      href: '/labs/license-requirements/Practitioner%20License%20Requirements%20Tool.html',
+      body: 'Open the two-step lookup — fifty states, client-side, same delivery as production.',
+      panelEyebrow: 'Open the tool',
+      panelTitle: 'License Requirements Navigator — state and credential lookup',
+      linkLabel: 'Open the tool',
+      panelAriaLabel: 'Open the shipped License Requirements Navigator tool',
+    },
+    'investment-roi-planner': {
+      label: 'Investment ROI Planner',
+      slug: 'labs-investment-roi-planner',
+      href: '/labs/investment-roi-planner/Investment%20ROI%20Planner%20Tool.html',
+      body: 'Open the self-serve economics model prospects used before sales conversations.',
+      panelEyebrow: 'Open the tool',
+      panelTitle: 'Investment ROI Planner — certification payback',
+      linkLabel: 'Open the tool',
+      panelAriaLabel: 'Open the shipped Investment ROI Planner tool',
+    },
+    'the-launchpad': {
+      label: 'CMO Simulator',
+      slug: 'cmo-simulator',
+      href: '/tools/cmo-simulator?launch=1',
+      body: 'Pressure-test what gets automated first when membership, CRM, and onboarding stack together.',
+    },
+    'the-closer': {
+      label: 'Attribution Snapshot',
+      slug: 'attribution-snapshot',
+      href: '/tools/attribution-snapshot',
+      body: 'See where channel credit holds steady before you change quote-to-cash or payment flows.',
+    },
+    'the-compass': {
+      label: 'Attribution Snapshot',
+      slug: 'attribution-snapshot',
+      href: '/tools/attribution-snapshot',
+      body: 'Check measurement confidence before you expand the analytics surface operations relies on.',
+    },
+    'the-fortress': {
+      label: 'CMO Simulator',
+      slug: 'cmo-simulator',
+      href: '/tools/cmo-simulator?launch=1',
+      body: 'Stack-rank defensive infrastructure work against growth bets using the same planning lens as this engagement.',
+    },
     'russell-painting': {
       label: 'GEO Readiness Auditor',
       slug: 'geo-readiness-auditor',
@@ -1139,14 +1211,19 @@ function DivisionProofBlock({ divisions }: { divisions: CaseStudy[] }) {
 
 function ToolPromptPanel({ cs }: { cs: CaseStudy }) {
   const recommendedTool = getWorkToolRecommendation(cs)
+  const panelEyebrow = recommendedTool.panelEyebrow ?? 'Try the framework'
+  const panelTitle =
+    recommendedTool.panelTitle ?? `Run ${recommendedTool.label} on your version.`
+  const linkLabel = recommendedTool.linkLabel ?? 'Open tool'
+  const panelAriaLabel = recommendedTool.panelAriaLabel ?? 'Try the framework'
 
   return (
     <FadeUp>
-      <section className={styles.toolPromptSection} aria-label="Try the framework">
+      <section className={styles.toolPromptSection} aria-label={panelAriaLabel}>
         <div className={styles.toolPromptCard}>
           <div>
-            <p className={styles.toolPromptLabel}>Try the framework</p>
-            <h2 className={styles.toolPromptTitle}>Run {recommendedTool.label} on your version.</h2>
+            <p className={styles.toolPromptLabel}>{panelEyebrow}</p>
+            <h2 className={styles.toolPromptTitle}>{panelTitle}</h2>
             <p className={styles.toolPromptBody}>{recommendedTool.body}</p>
           </div>
           <Link
@@ -1154,7 +1231,7 @@ function ToolPromptPanel({ cs }: { cs: CaseStudy }) {
             className={styles.toolPromptLink}
             onClick={() => analytics.ctaClick(`work_detail_${cs.slug}`, recommendedTool.slug)}
           >
-            Open tool
+            {linkLabel}
             <ArrowRight weight="regular" size={14} />
           </Link>
         </div>

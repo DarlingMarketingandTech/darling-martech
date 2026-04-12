@@ -1044,7 +1044,7 @@ const workData: CaseStudy[] = [
     ...workIndex.find((w) => w.slug === 'investment-roi-planner')!,
     titleTag: 'Investment ROI Planner — Self-Serve Certification Economics for Graston | Darling MarTech',
     metaDescription:
-      'Proof build: embedded ROI planner answering certification payback before sales touch — three inputs, visual payback output, cited in +212% qualified lead lift for Graston Technique.',
+      'Proof build: embedded ROI planner answering certification payback before sales touch — three inputs, visual payback output, cited alongside +212% qualified leads for Graston Technique.',
     subhead:
       'The main objection was not clinical — it was economic. I built a top-of-funnel planner so practitioners validated payback themselves before the first rep conversation.',
     challenge:
@@ -1075,7 +1075,7 @@ const workData: CaseStudy[] = [
       { label: 'Funnel integration', description: 'Connected planner completion to CRM capture and sales follow-up rules.' },
     ],
     outcome:
-      'The planner became a primary driver behind a 212% increase in qualified lead volume. Practitioners who ran the math showed up ready — calls shifted to logistics and timing instead of "is this worth it."\n\nSales reclaimed time previously spent on spreadsheet education and moved it into closing.\n\nThis is the same throughline as the broader Graston automation story: let systems qualify so humans close.',
+      'The planner became a primary driver behind +212% qualified leads. Practitioners who ran the math showed up ready — calls shifted to logistics and timing instead of "is this worth it."\n\nSales reclaimed time previously spent on spreadsheet education and moved it into closing.\n\nThis is the same throughline as the broader Graston automation story: let systems qualify so humans close.',
     whatThisMeansForYou:
       'If your funnel leaks because prospects cannot self-validate economics, a calculator is often the highest-ROI asset you can ship. I build those proofs. That is what I build.',
     ctaLine: 'let the math qualify leads before your calendar does',
@@ -1092,7 +1092,7 @@ const workData: CaseStudy[] = [
     titleTag: 'Clinical Compass — Point-of-Care Protocol System for Graston | Darling MarTech',
     metaDescription:
       'Proof build: self-contained clinical decision paths for 400+ Graston practitioners — JSON decision trees, progressive disclosure, and a sharp drop in protocol support load within 90 days.',
-    heroPublicId: 'Generated_Image_April_12_2026_-_4_24AM',
+    heroPublicId: 'graston_instruments_-_clinical_compass',
     subhead:
       'Institutional knowledge was trapped in PDFs and callbacks. I shipped a zero-dependency experience practitioners could run between patients — and gave clinical education a maintainable content layer.',
     challenge:
@@ -1124,7 +1124,7 @@ const workData: CaseStudy[] = [
       { label: 'Ship + embed', description: 'Rolled out across practitioner touchpoints and monitored support ticket mix.' },
     ],
     outcome:
-      'Reached 400+ certified practitioners with immediate self-serve access. Protocol support calls fell sharply in the first 90 days — reclaiming roughly two days per week previously lost to repetition.\n\nThe deeper win was experiential: practitioners stopped associating Graston support with waiting. Answers arrived in under two minutes, which is the difference between a vendor relationship and a loyalty relationship at clinical depth.\n\nThis sits alongside the flagship Graston automation story — another proof that the right lightweight system can retire entire support categories.',
+      'Reached 400+ certified practitioners with immediate self-serve access. Protocol support calls fell sharply in the first 90 days — reclaiming 48 hrs/week previously lost to repetition.\n\nThe deeper win was experiential: practitioners stopped associating Graston support with waiting. Answers arrived in under two minutes, which is the difference between a vendor relationship and a loyalty relationship at clinical depth.\n\nThis sits alongside the flagship Graston automation story — another proof that the right lightweight system can retire entire support categories.',
     whatThisMeansForYou:
       'If your experts are answering the same specialized questions on loop, the fix is rarely "hire another person." It is usually structured knowledge with a UI that respects how the work actually happens. I build that. That is what I build.',
     ctaLine: 'retire repetitive expert answers with a system the business can own',
@@ -1137,7 +1137,7 @@ const workData: CaseStudy[] = [
     titleTag: 'License Requirements Navigator — State Licensing Intelligence for Graston | Darling MarTech',
     metaDescription:
       'Proof build: 50-state CE and credential lookup for Graston practitioners — two-step client-side tool, editable JSON data layer, licensing support volume effectively eliminated post-launch.',
-    heroPublicId: 'Generated_Image_April_12_2026_-_2_52AM',
+    heroPublicId: 'Practitioner_License_Requirements_I_Graston_Technique_-_search',
     subhead:
       'Regulatory reality varies by state and credential. I turned it into structured data and a two-field lookup so practitioners stopped opening tickets for answers they could own themselves.',
     challenge:
