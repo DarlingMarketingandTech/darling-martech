@@ -1081,6 +1081,7 @@ const workData: CaseStudy[] = [
     titleTag: 'Clinical Compass — Point-of-Care Protocol System for Graston | Darling MarTech',
     metaDescription:
       'Proof build: self-contained clinical decision paths for 400+ Graston practitioners — JSON decision trees, progressive disclosure, and a sharp drop in protocol support load within 90 days.',
+    heroPublicId: 'Generated_Image_April_12_2026_-_4_24AM',
     subhead:
       'Institutional knowledge was trapped in PDFs and callbacks. I shipped a zero-dependency experience practitioners could run between patients — and gave clinical education a maintainable content layer.',
     challenge:
@@ -1116,11 +1117,7 @@ const workData: CaseStudy[] = [
     whatThisMeansForYou:
       'If your experts are answering the same specialized questions on loop, the fix is rarely "hire another person." It is usually structured knowledge with a UI that respects how the work actually happens. I build that. That is what I build.',
     ctaLine: 'retire repetitive expert answers with a system the business can own',
-    problemVisualPublicId: 'graston_instruments_-_clinical_compass',
-    cloudinaryAssets: [
-      { publicId: 'graston_instruments_-_clinical_compass', label: 'Clinical Compass pathway UI', folder: 'studio/projects/graston-technique' },
-      { publicId: 'graston_instruments_-_clinical_compass-summary', label: 'Clinical Compass protocol summary', folder: 'studio/projects/graston-technique' },
-    ],
+    problemVisualPublicId: 'graston_instruments_-_clinical_compass-summary',
   },
 
   // ── License Requirements Navigator (Graston) ─────────────────────────────
