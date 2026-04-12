@@ -47,20 +47,18 @@ function WorkDashboardMedia({ study }: { study: CaseStudy }) {
   const isLogo = isLogoArtwork(mediaPublicId)
 
   return (
-    <div className={styles.dashboardMediaWrap}>
-      <div className={styles.dashboardMedia}>
-        <CldImage
-          src={mediaPublicId}
-          alt={study.client}
-          fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          className={styles.dashboardMediaImage}
-          style={{
-            objectFit: isLogo ? 'contain' : 'cover',
-            objectPosition: 'center',
-          }}
-        />
-      </div>
+    <div className={cn(styles.dashboardMediaWrap, styles.dashboardMedia)}>
+      <CldImage
+        src={mediaPublicId}
+        alt={study.client}
+        fill
+        sizes="(max-width: 768px) 100vw, 50vw"
+        className={styles.dashboardMediaImage}
+        style={{
+          objectFit: isLogo ? 'contain' : 'cover',
+          objectPosition: 'center',
+        }}
+      />
     </div>
   )
 }
