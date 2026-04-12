@@ -4,18 +4,17 @@ export const projectMedia_hoosierBoyBarbershop: ProjectMediaMap = {
   projectSlug: "hoosier-boy-barbershop",
 
   hero: {
-    publicId: "Recording_2026-03-23_130641",
-    alt: "Animated screen recording of the Hoosier Boy Barbershop website experience",
+    publicId: "hoosier-boy-barbershop-website-design",
+    alt: "Polished Hoosier Boy Barbershop website design shown across desktop and mobile",
     kind: "screen",
     role: "hero",
-    caption: "Website demo recording",
-    theme: "brand-authority",
+    caption: "Website design used to carry the brand and booking experience",
+    theme: "digital-experience",
     audience: "local-barbershop-customers",
     tags: [
       "client-hoosier-boy-barbershop",
       "surface-work",
       "kind-screen",
-      "kind-motion",
       "priority-hero",
       "status-canonical",
     ],
@@ -23,32 +22,15 @@ export const projectMedia_hoosierBoyBarbershop: ProjectMediaMap = {
 
   screens: [],
 
-  productInUse: [
-    {
-      publicId: "barber-1017457_1920",
-      alt: "Lifestyle photo of a barber at work used to support the Hoosier Boy Barbershop case study",
-      kind: "photo",
-      role: "support",
-      caption: "Barber lifestyle support photo",
-      theme: "craftsmanship",
-      audience: "local-barbershop-customers",
-      tags: [
-        "client-hoosier-boy-barbershop",
-        "surface-work",
-        "kind-photo",
-        "priority-support",
-        "status-secondary",
-      ],
-    },
-  ],
+  productInUse: [],
 
   campaign: [
     {
-      publicId: "barbershop-4484297_1920",
-      alt: "Interior photo of a barbershop environment used for Hoosier Boy brand presentation",
+      publicId: "hoosier-boy-barbershop-brand-media-1",
+      alt: "Hoosier Boy Barbershop branded media used to support the launch presentation",
       kind: "photo",
       role: "support",
-      caption: "Barbershop interior lifestyle photo",
+      caption: "Supporting brand media from the launch",
       theme: "local-identity",
       audience: "local-barbershop-customers",
       tags: [

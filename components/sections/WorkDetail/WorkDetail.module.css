@@ -827,6 +827,159 @@
   color: var(--color-muted);
 }
 
+.platformArchitectureSection {
+  padding: 2.8rem 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.platformArchitectureHeader {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+  max-width: 60rem;
+}
+
+.platformArchitectureIntro {
+  margin: 0;
+  max-width: 48rem;
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: var(--color-muted);
+}
+
+.platformArchitectureGrid {
+  display: grid;
+  gap: 1.15rem;
+}
+
+@media (min-width: 1040px) {
+  .platformArchitectureGrid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+    align-items: start;
+  }
+}
+
+.platformNarrativeCard {
+  display: grid;
+  gap: 1.15rem;
+  align-content: start;
+}
+
+.platformNarrativeLead {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.95vw, 1.55rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  max-width: 20ch;
+}
+
+.platformNarrativeBody {
+  margin: 0;
+  max-width: 54ch;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  line-height: 1.68;
+  color: var(--color-muted);
+}
+
+.platformPillars {
+  display: grid;
+  gap: 0.9rem;
+}
+
+@media (min-width: 720px) {
+  .platformPillars {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.platformPillar {
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(245, 240, 232, 0.1);
+}
+
+.platformPillarLabel {
+  margin: 0 0 0.34rem;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.platformPillarBody {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.58;
+  color: var(--color-muted);
+}
+
+.platformVisualStack {
+  display: grid;
+  gap: 0.95rem;
+  align-content: start;
+}
+
+.platformVisualPrimary,
+.platformVisualSecondary {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.platformVisualFrame {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background:
+    linear-gradient(180deg, rgba(255, 77, 0, 0.08), transparent 24%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+    var(--color-surface);
+}
+
+.platformVisualPrimary .platformVisualFrame {
+  aspect-ratio: 1.28 / 1;
+}
+
+.platformVisualSecondary .platformVisualFrame {
+  aspect-ratio: 0.95 / 1.08;
+}
+
+.platformVisualFrameContain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem;
+  background:
+    linear-gradient(180deg, rgba(255, 77, 0, 0.06), transparent 24%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)),
+    color-mix(in srgb, var(--color-surface) 94%, black);
+}
+
+.platformVisualImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.platformVisualImageContain {
+  object-fit: contain;
+  object-position: center;
+}
+
+.platformVisualCaption {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: rgba(136, 136, 136, 0.8);
+}
+
 .deliverableIndex {
   font-family: var(--font-body);
   font-size: 0.72rem;
@@ -1700,4 +1853,143 @@
   font-size: 0.72rem;
   line-height: 1.5;
   color: rgba(136, 136, 136, 0.72);
+}
+
+.connectedPlatformSection {
+  display: grid;
+  gap: 1.6rem;
+  margin-top: 1.2rem;
+}
+
+.connectedPlatformHeader {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 58rem;
+}
+
+.connectedPlatformHeadline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.4vw, 2.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: rgba(255, 244, 232, 0.98);
+}
+
+.connectedPlatformIntro {
+  margin: 0;
+  max-width: 44rem;
+  font-size: 0.94rem;
+  line-height: 1.62;
+  color: rgba(255, 244, 232, 0.7);
+}
+
+.connectedPlatformCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.9fr);
+  gap: 1.25rem;
+  align-items: stretch;
+  padding: clamp(1rem, 2vw, 1.25rem);
+  border: 1px solid rgba(255, 244, 232, 0.1);
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
+    radial-gradient(circle at top left, rgba(255, 92, 31, 0.12), transparent 48%),
+    rgba(14, 14, 14, 0.9);
+  text-decoration: none;
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+
+.connectedPlatformCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 92, 31, 0.28);
+}
+
+.connectedPlatformCopy {
+  display: grid;
+  gap: 0.85rem;
+  min-width: 0;
+  align-content: start;
+}
+
+.connectedPlatformLabel {
+  margin: 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 244, 232, 0.52);
+}
+
+.connectedPlatformTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2vw, 1.9rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: rgba(255, 244, 232, 0.98);
+}
+
+.connectedPlatformBody {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: rgba(255, 244, 232, 0.7);
+}
+
+.connectedPlatformMetricList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.connectedPlatformMetric {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.48rem 0.72rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 244, 232, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.82rem;
+  line-height: 1.25;
+  color: rgba(255, 244, 232, 0.82);
+}
+
+.connectedPlatformCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.25rem;
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 104, 52, 0.92);
+}
+
+.connectedPlatformVisual {
+  position: relative;
+  min-height: 17rem;
+  overflow: hidden;
+  border-radius: 1.15rem;
+  border: 1px solid rgba(255, 244, 232, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.connectedPlatformImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 900px) {
+  .connectedPlatformCard {
+    grid-template-columns: 1fr;
+  }
+
+  .connectedPlatformVisual {
+    min-height: 14rem;
+  }
 }

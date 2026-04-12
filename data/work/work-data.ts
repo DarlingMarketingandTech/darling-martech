@@ -301,7 +301,7 @@ const workData: CaseStudy[] = [
     metaDescription:
       'How Indiana-rooted brand identity, a mobile-first website, and an integrated booking system drove 90% more online bookings and top local search rankings for a Noblesville barbershop.',
     subhead:
-      'Hoosier Boy Barbershop needed to modernize without losing the old-school personality that makes barbershop culture work. I built the identity, the website, and the booking experience that let both things be true at once.',
+      'Hoosier Boy Barbershop needed to modernize without losing the old-school personality that makes barbershop culture work. I built the identity, the website, and the booking experience that let both things be true at once — then extended the engagement into a connected operations platform for the business itself.',
     challenge:
       'Most barbershops either look like a chain or look forgettable. The ones that build loyal local followings are the ones that feel like they belong somewhere specific — a neighborhood, a community, a state of mind.\n\nHoosier Boy Barbershop had the name, the culture, and the atmosphere. What it didn\'t have was a brand and digital presence that translated any of that to someone who hadn\'t walked through the door yet. New customers discovered barbershops online, scanned for social proof, checked whether booking looked easy, and made a call in about ten seconds. The shop was losing that decision before the first click.\n\nThe challenge had a real tension at its center: modern customers expect convenience — mobile booking, clear pricing, easy discovery — but barbershop culture depends on authenticity, personality, and the sense that this place is not a franchise. Strip away the personality to look more polished, and you\'ve destroyed the product. Keep the personality but ignore the digital experience, and the place stays invisible.',
     approach:
@@ -321,6 +321,11 @@ const workData: CaseStudy[] = [
         title: 'Mobile-First Website with Booking Integration',
         description:
           'Built a responsive, mobile-first website structured around the decisions a new customer needs to make fast. The homepage surfaces service descriptions with pricing, barber profiles, customer reviews, location and hours, and a prominent Book An Appointment CTA integrated directly with Booksy. Multiple booking prompts throughout the experience reduced friction to near zero.',
+      },
+      {
+        title: 'Connected Operations Platform Direction',
+        description:
+          'The engagement extended past the public website into a companion platform layer — the Barbershop Command Center — giving the business a connected booking, admin, and CRM foundation without turning the main brand story into a software product story.',
       },
       {
         title: 'Local SEO & Discovery',
@@ -350,49 +355,50 @@ const workData: CaseStudy[] = [
   // ── Barbershop Command Center (Hoosier Boy) ───────────────────────────────
   {
     ...workIndex.find((w) => w.slug === 'barbershop-command-center')!,
-    titleTag: 'Barbershop Command Center — Dual-Sided Booking OS for Hoosier Boy | Darling MarTech',
+    titleTag: 'Barbershop Command Center — Booking, CRM & Operations Platform for Hoosier Boy | Darling MarTech',
     metaDescription:
-      'Proof build: owner Command Center plus client booking for Hoosier Boy Barbershop — NSHR gating, premium slot logic, deposits, and real-time revenue projection in one Supabase-backed product.',
+      'How a connected public booking app, admin command center, CRM foundation, and automation-ready operations layer gave Hoosier Boy Barbershop a fuller business system beyond generic scheduling software.',
     subhead:
-      'Hoosier Boy needed more than a generic scheduler. I built a domain-specific operating system: a Command Center for the floor and a booking engine for clients, sharing one real-time data model.',
+      'Hoosier Boy needed more than a generic scheduler. I built a connected booking and operations system: a public app for clients, a command layer for the shop, and a CRM-ready foundation underneath both.',
     challenge:
-      'Most barbershops stitch together group chats, paper books, and consumer scheduling apps. Double bookings, invisible no-shows, and owners who only see revenue after the week ends.\n\nThe structural issue is that client booking and back-of-house operations are treated as separate products — so the shop gets a pretty calendar for guests and a spreadsheet for the business, with nothing trustworthy in the middle.\n\nHoosier Boy Barbershop needed both sides in one system: almost-zero friction for clients, and a live operational and financial pulse for the owner and barbers — including rules that match how the shop actually prices and protects time.',
+      'Most barbershops are still operating across too many disconnected surfaces at once: consumer scheduling software for guests, text threads for coordination, and no real CRM or lifecycle view behind the scenes. That starts to break as service complexity, no-show risk, and repeat-client management grow.\n\nThe structural problem is that the public booking experience and the business-operations layer usually do not share the same logic. The client sees a calendar. The owner is left stitching together history, communication, service rules, deposits, and reporting somewhere else.\n\nHoosier Boy needed one connected system that could do both jobs honestly: help clients book without friction, and give the shop a reliable operating layer for oversight, client context, and next-step workflow.',
     approach:
-      'I treated the problem as a dual-sided product in one Next.js codebase. The client path is conversion-led: service-first navigation, staff selection (Jimmy or Nate), mobile-first slot picking — no account wall.\n\nThe business logic encodes real shop rules. Premium extended services require two consecutive atomic slots with correct pricing. NSHR installation stays behind a completed consultation with deposit logic so long vacancies do not land on the business.\n\nOn the owner side, the dashboard answers what matters today: appointments, expected revenue, completion rate, and flagged issues. Barbers update Arrived / In-Service / Completed so the floor state stays honest without side channels.',
+      'I treated the build as a companion app and admin platform rather than a prettier booking form. The public side stays conversion-focused: service-first navigation, barber selection, mobile-first scheduling, and a clean path from interest to booked appointment.\n\nUnderneath that, the platform uses one shared data model for appointment state, client records, service rules, and operating visibility. That lets the business side behave like a system instead of a dashboard pasted on top of a scheduler.\n\nThe owner/admin side also pushes further than a simple dashboard. The concept includes an Automation & AI Hub direction: workflow orchestration, connector-ready surfaces, insights, and agent-oriented operating logic that can sit on top of the booking and CRM foundation without pretending every integration is already fully live.\n\nThe result is a cleaner split of responsibilities. Clients get a simple booking experience. Owners and barbers get the command layer: appointment oversight, lifecycle context, and workflow logic built around how the shop actually runs.',
     deliverables: [
       {
-        title: 'Client Booking Engine',
+        title: 'Public Booking App',
         emphasis: 'feature',
         description:
-          'Service-first flow with staff-specific booking, real-time availability per barber, and mobile-first UX — designed to protect intent before friction kills it.',
+          'Service-first booking flow with barber selection, real-time availability, and mobile-first UX — designed to keep the customer-facing path simple while still honoring shop-specific scheduling rules.',
       },
       {
-        title: 'Command Center Dashboard',
+        title: 'Admin Command Center',
         emphasis: 'feature',
         description:
-          'Owner view for the day and week: appointment load, projected revenue, completion rate, and exceptions (no-shows, cancellations) in one surface.',
+          'Owner-facing dashboard for daily and weekly operations: appointment load, projected revenue, completion signals, and scheduling exceptions in one operational surface.',
       },
       {
-        title: 'Operational Rules Engine',
+        title: 'CRM + Lifecycle Layer',
         description:
-          'Encoded premium slot validation, NSHR consultation gating, and deposit triggers so scheduling software matches revenue protection, not generic calendar defaults.',
+          'Structured client records around appointment context, lifecycle stages, communication direction, and service history so the business has more than a calendar view of the relationship.',
       },
       {
-        title: 'Supabase + Next.js Architecture',
+        title: 'Automation & AI Hub Direction',
         description:
-          'Postgres-backed appointment state with auth on the admin side, deployed on Vercel with server actions for overlap validation and optimistic client updates.',
+          'Owner/barber role logic, workflow direction, connectors, insights, premium slot validation, deposit rules, and shared Next.js + Supabase architecture give the system the structure it needs to support a real automation hub without overstating live integrations.',
       },
     ],
     process: [
-      { label: 'Discovery', description: 'Mapped shop services, barber roster, premium offerings, and financial exposure on long appointments.' },
-      { label: 'Dual-surface build', description: 'Shipped client booking and owner dashboard against one schema and shared business rules.' },
-      { label: 'Hardening', description: 'Stress-tested slot logic, deposits, and edge cases (overlaps, cancellations) before go-live.' },
+      { label: 'Operational mapping', description: 'Mapped services, barber roles, booking rules, premium offerings, and the moments where generic scheduling tools stop matching the real business.' },
+      { label: 'Companion-system build', description: 'Built the public booking app and the admin command center against one shared schema so customer flow and internal operations stay connected.' },
+      { label: 'Lifecycle and workflow layering', description: 'Added CRM structure, appointment-stage logic, and owner/barber view separation to move the build past scheduling and toward a fuller operations platform.' },
+      { label: 'Readiness hardening', description: 'Tested slot rules, deposits, overlaps, and edge cases while keeping automation and AI positioning honest: structured for expansion, not oversold as fully integrated production automation.' },
     ],
     outcome:
-      'The shop replaced fragmented tools with one source of truth. Owners see projected revenue before the week closes; clients book their barber without generic "next available" abstraction.\n\nThe build proves that when operational logic is specific — NSHR gating, premium slots, deposits — a custom platform outperforms one-size scheduling SaaS.\n\nHoosier Boy\'s broader engagement (brand, site, discovery) already moved bookings and local rankings; this system is the operational layer that makes high-complexity services shoppable without administrative chaos.',
+      'The build moved Hoosier Boy beyond a generic booking helper into a more credible business-operations system. Clients can book through a public flow that fits the brand. Owners get a clearer operational picture before the week closes. Barbers get a role-aware workflow layer instead of relying on side-channel coordination.\n\nMore importantly, the platform now holds the logic generic scheduling tools usually leave scattered: service rules, deposits, appointment stages, client context, and the beginnings of a usable CRM record. That makes it more valuable than a calendar because it starts to represent how the business actually works.\n\nIt also makes the Automation & AI Hub direction more credible. The workflow layer, connector-ready surfaces, insight views, and agent-oriented orchestration model are grounded in the same operating system rather than treated like a separate AI concept dropped on top.\n\nThe parent Hoosier Boy engagement proved the brand, booking, and local-growth foundation. This child build proves the layer underneath it: a companion app and admin platform that can support future workflow automation and AI-assisted operations without pretending those integrations are already fully live.',
     whatThisMeansForYou:
-      'If your service business is bending Square or Calendly around rules those products were never meant to represent, you are paying for workarounds forever. I build the system that matches your actual operating model. That is what I build.',
-    ctaLine: 'build scheduling software that respects your real rules',
+      'If your service business is forcing generic scheduling software to do CRM, staff coordination, lifecycle management, and operational reporting, the problem is not your team. The problem is the shape of the system. I build the companion platform that fits the way the business actually runs, then leaves room for smarter automation on top of it.',
+    ctaLine: 'build the operations layer behind your customer-facing experience',
     problemVisualPublicId: 'Barbershop_Command_Center',
     cloudinaryAssets: [
       { publicId: 'Barbershop_Command_Center', label: 'Barbershop Command Center dashboard', folder: 'studio/projects/hoosierboy-barber-shop' },
