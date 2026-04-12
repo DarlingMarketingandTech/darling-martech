@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion'
+import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import { List, X } from '@phosphor-icons/react'
 import { springStandard, springEntrance } from '@/lib/motion'
 import styles from './Nav.module.css'
@@ -119,9 +119,14 @@ export function Nav() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  useMotionValueEvent(scrollY, 'change', (latest) => {
-    setScrolled(latest > 60)
-  })
+  // Scroll position must not update `scrolled` during the first client render.
+  // `useMotionValueEvent` can fire while scroll is restored (or Lenis syncs), which
+  // desyncs SSR markup from hydration. Subscribe after mount instead.
+  useEffect(() => {
+    const sync = (latest: number) => setScrolled(latest > 60)
+    sync(scrollY.get())
+    return scrollY.on('change', sync)
+  }, [scrollY])
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
