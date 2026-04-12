@@ -255,41 +255,6 @@
   object-fit: cover;
 }
 
-.heroSupportPreview {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem;
-  margin-top: 0.75rem;
-}
-
-.heroSupportCard {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.42rem;
-}
-
-.heroSupportImageFrame {
-  overflow: hidden;
-  border: 1px solid var(--color-border);
-  background: rgba(255, 255, 255, 0.02);
-  aspect-ratio: 1.18 / 1;
-}
-
-.heroSupportImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.heroSupportCaption {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  line-height: 1.45;
-  color: rgba(136, 136, 136, 0.84);
-}
-
 .metricsBar {
   display: grid;
   gap: 1px;
@@ -876,10 +841,10 @@
 
 .platformArchitectureIntro {
   margin: 0;
-  max-width: 56rem;
+  max-width: 48rem;
   font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: 1.78;
+  font-size: 0.96rem;
+  line-height: 1.7;
   color: var(--color-muted);
 }
 
@@ -897,36 +862,32 @@
 
 .platformNarrativeCard {
   display: grid;
-  gap: 1rem;
-  padding: clamp(1.2rem, 2vw, 1.5rem);
-  border: 1px solid var(--color-border);
-  background:
-    linear-gradient(180deg, rgba(255, 77, 0, 0.07), transparent 34%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01)),
-    var(--color-surface);
+  gap: 1.15rem;
+  align-content: start;
 }
 
-.platformNarrativeTitle {
+.platformNarrativeLead {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  font-size: clamp(1.2rem, 1.95vw, 1.55rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--color-text);
+  max-width: 20ch;
 }
 
 .platformNarrativeBody {
   margin: 0;
-  max-width: 60ch;
+  max-width: 54ch;
   font-family: var(--font-body);
-  font-size: 0.95rem;
-  line-height: 1.75;
+  font-size: 0.92rem;
+  line-height: 1.68;
   color: var(--color-muted);
 }
 
 .platformPillars {
   display: grid;
-  gap: 0.8rem;
+  gap: 0.9rem;
 }
 
 @media (min-width: 720px) {
@@ -936,13 +897,12 @@
 }
 
 .platformPillar {
-  border: 1px solid var(--color-border);
-  background: rgba(255, 255, 255, 0.025);
-  padding: 0.95rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(245, 240, 232, 0.1);
 }
 
 .platformPillarLabel {
-  margin: 0 0 0.38rem;
+  margin: 0 0 0.34rem;
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 700;
@@ -955,13 +915,14 @@
   margin: 0;
   font-family: var(--font-body);
   font-size: 0.88rem;
-  line-height: 1.65;
+  line-height: 1.58;
   color: var(--color-muted);
 }
 
 .platformVisualStack {
   display: grid;
   gap: 0.95rem;
+  align-content: start;
 }
 
 .platformVisualPrimary,
@@ -986,7 +947,7 @@
 }
 
 .platformVisualSecondary .platformVisualFrame {
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1.28 / 0.78;
 }
 
 .platformVisualImage {
@@ -998,7 +959,7 @@
 .platformVisualCaption {
   margin: 0;
   font-family: var(--font-body);
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   line-height: 1.5;
   color: rgba(136, 136, 136, 0.8);
 }
@@ -1878,54 +1839,6 @@
   color: rgba(136, 136, 136, 0.72);
 }
 
-.audienceValueGrid {
-  display: grid;
-  gap: 1rem;
-}
-
-@media (min-width: 900px) {
-  .audienceValueGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-.audienceValueCard {
-  display: grid;
-  gap: 0.65rem;
-  padding: 1.15rem;
-  border: 1px solid var(--color-border);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 28%),
-    var(--color-surface);
-}
-
-.audienceValueLabel {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-}
-
-.audienceValueTitle {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.02rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--color-text);
-}
-
-.audienceValueBody {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  line-height: 1.65;
-  color: var(--color-muted);
-}
-
 .connectedPlatformSection {
   display: grid;
   gap: 1.6rem;
@@ -1949,9 +1862,9 @@
 
 .connectedPlatformIntro {
   margin: 0;
-  max-width: 52rem;
-  font-size: 1rem;
-  line-height: 1.7;
+  max-width: 44rem;
+  font-size: 0.94rem;
+  line-height: 1.62;
   color: rgba(255, 244, 232, 0.7);
 }
 
@@ -2005,8 +1918,8 @@
 
 .connectedPlatformBody {
   margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.68;
+  font-size: 0.92rem;
+  line-height: 1.6;
   color: rgba(255, 244, 232, 0.7);
 }
 

@@ -359,11 +359,11 @@ const workData: CaseStudy[] = [
     metaDescription:
       'How a connected public booking app, admin command center, CRM foundation, and automation-ready operations layer gave Hoosier Boy Barbershop a fuller business system beyond generic scheduling software.',
     subhead:
-      'Hoosier Boy needed more than a generic scheduler. I built a connected business system: a public booking app for clients, an admin command center for operators, and a CRM-and-workflow foundation designed to support the shop as it grows.',
+      'Hoosier Boy needed more than a generic scheduler. I built a connected booking and operations system: a public app for clients, a command layer for the shop, and a CRM-ready foundation underneath both.',
     challenge:
-      'Most barbershops are still operating across too many disconnected surfaces at once: consumer scheduling software for guests, text threads and memory for staff coordination, and no real CRM or lifecycle view behind the scenes. That works until service complexity, no-show risk, and repeat-client management start costing time and revenue.\n\nThe structural problem is that the public booking experience and the business-operations layer usually do not share the same logic. The client sees an appointment calendar. The owner is left stitching together history, communication, service rules, deposits, and reporting somewhere else.\n\nHoosier Boy Barbershop needed one connected system that could do both jobs honestly: help clients book without friction, and give the business a reliable operating layer for booking oversight, client context, service-stage visibility, and next-step automation.',
+      'Most barbershops are still operating across too many disconnected surfaces at once: consumer scheduling software for guests, text threads for coordination, and no real CRM or lifecycle view behind the scenes. That starts to break as service complexity, no-show risk, and repeat-client management grow.\n\nThe structural problem is that the public booking experience and the business-operations layer usually do not share the same logic. The client sees a calendar. The owner is left stitching together history, communication, service rules, deposits, and reporting somewhere else.\n\nHoosier Boy needed one connected system that could do both jobs honestly: help clients book without friction, and give the shop a reliable operating layer for oversight, client context, and next-step workflow.',
     approach:
-      'I treated the build as a companion app and admin platform rather than a prettier booking form. The public side stays conversion-focused: service-first navigation, barber selection, mobile-first scheduling, and a clean path from interest to booked appointment.\n\nUnderneath that, the platform uses one shared data model for appointment state, client records, service rules, and operating visibility. That lets the business side behave like a system instead of a dashboard pasted on top of a scheduler.\n\nThe result is a clearer split of responsibilities. Clients get a simple booking experience. Owners and barbers get the command layer: appointment oversight, lifecycle context, communication history direction, and workflow logic built around how the shop actually runs.',
+      'I treated the build as a companion app and admin platform rather than a prettier booking form. The public side stays conversion-focused: service-first navigation, barber selection, mobile-first scheduling, and a clean path from interest to booked appointment.\n\nUnderneath that, the platform uses one shared data model for appointment state, client records, service rules, and operating visibility. That lets the business side behave like a system instead of a dashboard pasted on top of a scheduler.\n\nThe result is a cleaner split of responsibilities. Clients get a simple booking experience. Owners and barbers get the command layer: appointment oversight, lifecycle context, and workflow logic built around how the shop actually runs.',
     deliverables: [
       {
         title: 'Public Booking App',
@@ -378,29 +378,14 @@ const workData: CaseStudy[] = [
           'Owner-facing dashboard for daily and weekly operations: appointment load, projected revenue, completion signals, and scheduling exceptions in one operational surface.',
       },
       {
-        title: 'Client CRM Foundation',
+        title: 'CRM + Lifecycle Layer',
         description:
-          'Structured client records around appointment context, lifecycle stages, and service history so the business has more than a calendar view of the relationship.',
+          'Structured client records around appointment context, lifecycle stages, communication direction, and service history so the business has more than a calendar view of the relationship.',
       },
       {
-        title: 'Owner / Barber Dual-View Logic',
+        title: 'Operations Logic + Automation Readiness',
         description:
-          'Separated the owner command view from the barber workflow view so each role sees the context and controls that match how they operate on the floor.',
-      },
-      {
-        title: 'Operational Rules + Revenue Protection',
-        description:
-          'Encoded premium slot validation, consultation gating, deposit logic, and scheduling constraints so the platform reflects actual business rules instead of generic calendar defaults.',
-      },
-      {
-        title: 'Automation + AI Hub Direction',
-        description:
-          'Laid the groundwork for workflow automation and an AI-ready operations layer by centralizing appointment state, lifecycle data, and communication context in a structure that can support future orchestration without overstating live integrations.',
-      },
-      {
-        title: 'Next.js + Supabase Platform Architecture',
-        description:
-          'Built on a shared Next.js and Supabase foundation so public booking, admin workflows, and future automation logic all sit on the same core system instead of drifting into disconnected tools.',
+          'Owner/barber role logic, premium slot validation, deposit rules, and shared Next.js + Supabase architecture give the system the structure it needs to support future automation without overstating live integrations.',
       },
     ],
     process: [
@@ -410,7 +395,7 @@ const workData: CaseStudy[] = [
       { label: 'Readiness hardening', description: 'Tested slot rules, deposits, overlaps, and edge cases while keeping automation and AI positioning honest: structured for expansion, not oversold as fully integrated production automation.' },
     ],
     outcome:
-      'The build moved Hoosier Boy beyond a generic booking helper into a more credible business-operations system. Clients can book through a public flow that fits the brand. Owners get a clearer operational picture before the week closes. Barbers get a role-aware workflow layer instead of relying on side-channel coordination.\n\nMore importantly, the platform now holds the logic that generic scheduling tools usually leave scattered: service rules, deposits, appointment stages, client context, and the beginnings of a usable CRM record. That makes the system more valuable than a calendar because it starts to represent how the business actually works.\n\nThis is also where the proof story changed. The main Hoosier Boy engagement proved the brand, booking, and local-growth foundation. This child build proves the deeper layer underneath it: a companion app and admin platform that can support future workflow automation and AI-assisted operations without pretending those integrations are already fully live.',
+      'The build moved Hoosier Boy beyond a generic booking helper into a more credible business-operations system. Clients can book through a public flow that fits the brand. Owners get a clearer operational picture before the week closes. Barbers get a role-aware workflow layer instead of relying on side-channel coordination.\n\nMore importantly, the platform now holds the logic generic scheduling tools usually leave scattered: service rules, deposits, appointment stages, client context, and the beginnings of a usable CRM record. That makes it more valuable than a calendar because it starts to represent how the business actually works.\n\nThe parent Hoosier Boy engagement proved the brand, booking, and local-growth foundation. This child build proves the layer underneath it: a companion app and admin platform that can support future workflow automation and AI-assisted operations without pretending those integrations are already fully live.',
     whatThisMeansForYou:
       'If your service business is forcing generic scheduling software to do CRM, staff coordination, lifecycle management, and operational reporting, the problem is not your team. The problem is the shape of the system. I build the companion platform that fits the way the business actually runs, then leaves room for smarter automation on top of it.',
     ctaLine: 'build the operations layer behind your customer-facing experience',
