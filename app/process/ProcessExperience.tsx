@@ -10,76 +10,25 @@ import {
   ChartLineUp,
 } from '@phosphor-icons/react'
 import { engagementModels } from '@/data/services'
+import {
+  processHero,
+  processProblemCards,
+  processProofBridge,
+  processPhaseIntro,
+  processPhaseSteps,
+  processHowWorkRuns,
+  processNotCookieCutter,
+  processToolsPhilosophy,
+} from '@/data/process'
 import { containerVariants, itemVariants, viewport } from '@/lib/motion'
 import { ToolPathRail } from '@/components/sections/ToolPathRail/ToolPathRail'
 import styles from './ProcessPage.module.css'
 
-const STEPS = [
-  {
-    number: '01',
-    icon: MagnifyingGlass,
-    label: 'Diagnose',
-    description:
-      'Before any work starts, I need to understand what is actually happening — not just what feels broken. That means auditing the stack, the strategy, the data, and the gaps. Most clients skip this. That is why they are talking to me.',
-  },
-  {
-    number: '02',
-    icon: Compass,
-    label: 'Design',
-    description:
-      'After diagnosis, I design the system or plan that will fix it. That might be a positioning strategy, a CRM architecture, a content system, or an acquisition roadmap. The design phase is where the scope gets defined and the priorities get sequenced.',
-  },
-  {
-    number: '03',
-    icon: Wrench,
-    label: 'Build',
-    description:
-      'This is where I execute. Website, automation stack, CRM workflows, analytics setup, launch content — whatever was scoped. I build directly. No hand-offs. No junior team members running point while I disappear.',
-  },
-  {
-    number: '04',
-    icon: ChartLineUp,
-    label: 'Optimize',
-    description:
-      'After launch or implementation, the work shifts to measurement and iteration. What is converting? What is leaking? What is the next constraint? This phase is where embedded retainers live and where the highest-leverage compounding happens.',
-  },
-]
-
-const BUYER_PATHS = [
-  {
-    type: 'Burned Founder',
-    description:
-      'You have already tried the agency route. You burned money, got a deck, and nothing moved. You need one person who owns the strategy and builds the thing.',
-    recommended: 'Audit / Advisory → Project Build',
-    href: '/services/martech-audit',
-  },
-  {
-    type: 'Scaling Operator',
-    description:
-      'Revenue is growing but the systems are not keeping up. The CRM is a mess, attribution is broken, and the marketing calendar is reactive. You need infrastructure, not just tactics.',
-    recommended: 'Project Build or Embedded',
-    href: '/services/agentic-marketing-systems',
-  },
-  {
-    type: 'Tech-Confused CMO',
-    description:
-      'You understand strategy but the technical stack is opaque. You need a partner who speaks both languages and can turn marketing intent into working systems without requiring a PhD to manage it.',
-    recommended: 'Audit / Advisory → Embedded',
-    href: '/services/martech-audit',
-  },
-  {
-    type: 'Ambitious Newcomer',
-    description:
-      'You are building something new and want to do it right the first time. No technical debt, no mismatched tools, no wasted budget. Start with a clear foundation.',
-    recommended: 'Audit / Advisory → Project Build',
-    href: '/services/brand-strategy',
-  },
-]
+const PHASE_ICONS = [MagnifyingGlass, Compass, Wrench, ChartLineUp] as const
 
 export function ProcessExperience() {
   return (
     <main className={styles.main}>
-      {/* ── Hero ── */}
       <section className={styles.hero}>
         <motion.div
           className={styles.heroInner}
@@ -88,26 +37,76 @@ export function ProcessExperience() {
           animate="visible"
         >
           <motion.p variants={itemVariants} className={styles.eyebrow}>
-            How I Work
+            {processHero.eyebrow}
           </motion.p>
           <motion.h1 variants={itemVariants} className={styles.headline}>
-            Diagnosis before execution.
+            {processHero.headline}
           </motion.h1>
           <motion.p variants={itemVariants} className={styles.lead}>
-            Most marketing problems are not strategy problems or execution problems in isolation.
-            They are sequencing problems. I start with a clear picture of what is happening, then
-            design and build the system that fixes it — no hand-offs, no agency layers.
+            {processHero.lead}
           </motion.p>
           <motion.div variants={itemVariants} className={styles.heroActions}>
             <Link href="/services/martech-audit" className={styles.primaryCta}>
               Request a MarTech Audit
             </Link>
-            <Link href="/contact" className={styles.secondaryCta}>
+            <Link href="/contact?intent=service" className={styles.secondaryCta}>
               Start a conversation
               <ArrowRight size={15} weight="light" />
             </Link>
           </motion.div>
         </motion.div>
+      </section>
+
+      <section className={styles.problemSection}>
+        <div className={styles.sectionContainer}>
+          <motion.p
+            className={styles.sectionEyebrow}
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            Where teams get stuck
+          </motion.p>
+          <motion.h2
+            className={styles.sectionHeadline}
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            Problems, outcomes, and where to start.
+          </motion.h2>
+          <div className={styles.problemGrid}>
+            {processProblemCards.map((card) => (
+              <motion.article
+                key={card.id}
+                className={styles.problemCard}
+                variants={itemVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewport}
+              >
+                <h3 className={styles.problemTitle}>{card.problem}</h3>
+                <p className={styles.problemOutcome}>
+                  <span className={styles.problemOutcomeLabel}>What good looks like</span>
+                  {card.outcome}
+                </p>
+                <div className={styles.problemActions}>
+                  <Link href={card.primaryHref} className={styles.problemPrimaryLink}>
+                    {card.primaryLabel}
+                    <ArrowRight size={14} weight="light" aria-hidden />
+                  </Link>
+                  {card.proofHref ? (
+                    <Link href={card.proofHref} className={styles.proofInlineLink}>
+                      {card.proofLabel}
+                    </Link>
+                  ) : null}
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </div>
       </section>
 
       <ToolPathRail
@@ -118,7 +117,94 @@ export function ProcessExperience() {
         description="If you are not sure which engagement model fits yet, run the sequence below. Each step sharpens the next conversation."
       />
 
-      {/* ── 4-step operating model ── */}
+      <section className={styles.runSection}>
+        <div className={styles.sectionContainer}>
+          <motion.p
+            className={styles.sectionEyebrow}
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {processHowWorkRuns.eyebrow}
+          </motion.p>
+          <motion.h2
+            className={styles.sectionHeadline}
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {processHowWorkRuns.headline}
+          </motion.h2>
+          <motion.p
+            className={styles.runIntro}
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {processHowWorkRuns.intro}
+          </motion.p>
+          <ul className={styles.runList}>
+            {processHowWorkRuns.bullets.map((item) => (
+              <motion.li
+                key={item.title}
+                className={styles.runItem}
+                variants={itemVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewport}
+              >
+                <strong className={styles.runItemTitle}>{item.title}</strong>
+                <p className={styles.runItemBody}>{item.body}</p>
+              </motion.li>
+            ))}
+          </ul>
+          <motion.p
+            className={styles.soloNote}
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {processHowWorkRuns.soloNote}
+          </motion.p>
+        </div>
+      </section>
+
+      <section className={styles.nuanceSection}>
+        <div className={styles.sectionContainer}>
+          <motion.p
+            className={styles.sectionEyebrow}
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {processNotCookieCutter.eyebrow}
+          </motion.p>
+          <motion.h2
+            className={styles.sectionHeadline}
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {processNotCookieCutter.headline}
+          </motion.h2>
+          <motion.p
+            className={styles.nuanceBody}
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {processNotCookieCutter.body}
+          </motion.p>
+        </div>
+      </section>
+
       <section className={styles.stepsSection}>
         <div className={styles.sectionContainer}>
           <motion.p
@@ -128,7 +214,7 @@ export function ProcessExperience() {
             whileInView="visible"
             viewport={viewport}
           >
-            Operating model
+            A schematic — not a script
           </motion.p>
           <motion.h2
             className={styles.sectionHeadline}
@@ -137,11 +223,20 @@ export function ProcessExperience() {
             whileInView="visible"
             viewport={viewport}
           >
-            Four phases. One owner. No hand-offs.
+            Four ideas every engagement passes through.
           </motion.h2>
+          <motion.p
+            className={styles.phaseFraming}
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {processPhaseIntro}
+          </motion.p>
           <div className={styles.stepsGrid}>
-            {STEPS.map((step) => {
-              const Icon = step.icon
+            {processPhaseSteps.map((step, i) => {
+              const Icon = PHASE_ICONS[i] ?? MagnifyingGlass
               return (
                 <motion.div
                   key={step.number}
@@ -166,7 +261,6 @@ export function ProcessExperience() {
         </div>
       </section>
 
-      {/* ── Engagement paths ── */}
       <section className={styles.pathsSection}>
         <div className={styles.sectionContainer}>
           <motion.p
@@ -176,7 +270,7 @@ export function ProcessExperience() {
             whileInView="visible"
             viewport={viewport}
           >
-            Engagement models
+            Engagement shapes
           </motion.p>
           <motion.h2
             className={styles.sectionHeadline}
@@ -185,7 +279,7 @@ export function ProcessExperience() {
             whileInView="visible"
             viewport={viewport}
           >
-            Three ways to engage.
+            Three ways work usually takes form.
           </motion.h2>
           <div className={styles.pathsGrid}>
             {engagementModels.map((model) => (
@@ -208,8 +302,7 @@ export function ProcessExperience() {
         </div>
       </section>
 
-      {/* ── Which path is right for you ── */}
-      <section className={styles.buyerSection}>
+      <section className={styles.proofSection}>
         <div className={styles.sectionContainer}>
           <motion.p
             className={styles.sectionEyebrow}
@@ -218,7 +311,7 @@ export function ProcessExperience() {
             whileInView="visible"
             viewport={viewport}
           >
-            Which path fits
+            Receipts, not claims
           </motion.p>
           <motion.h2
             className={styles.sectionHeadline}
@@ -227,125 +320,90 @@ export function ProcessExperience() {
             whileInView="visible"
             viewport={viewport}
           >
-            Different problems, different entry points.
+            Proof lives in the work.
           </motion.h2>
-          <div className={styles.buyerGrid}>
-            {BUYER_PATHS.map((buyer) => (
-              <motion.div
-                key={buyer.type}
-                className={styles.buyerCard}
+          <ul className={styles.proofBridgeList}>
+            {processProofBridge.map((item) => (
+              <motion.li
+                key={item.slug}
+                className={styles.proofBridgeItem}
                 variants={itemVariants}
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewport}
               >
-                <h3 className={styles.buyerType}>{buyer.type}</h3>
-                <p className={styles.buyerDescription}>{buyer.description}</p>
-                <div className={styles.buyerRecommended}>
-                  <span className={styles.buyerRecommendedLabel}>Recommended path:</span>
-                  <span className={styles.buyerRecommendedValue}>{buyer.recommended}</span>
-                </div>
-                <Link href={buyer.href} className={styles.buyerCta}>
-                  Get started <ArrowRight size={13} weight="light" />
+                <Link href={`/work/${item.slug}`} className={styles.proofBridgeLink}>
+                  {item.label}
+                  <ArrowRight size={14} weight="light" aria-hidden />
                 </Link>
-              </motion.div>
+                {item.context ? <p className={styles.proofBridgeContext}>{item.context}</p> : null}
+              </motion.li>
             ))}
-          </div>
+          </ul>
+          <motion.p className={styles.proofBridgeMore} variants={itemVariants} initial="hidden" whileInView="visible" viewport={viewport}>
+            <Link href="/work" className={styles.proofBridgeMoreLink}>
+              View all case studies
+              <ArrowRight size={14} weight="light" aria-hidden />
+            </Link>
+          </motion.p>
         </div>
       </section>
 
-      {/* ── What to expect ── */}
-      <section className={styles.expectSection}>
+      <section className={styles.toolsSection}>
         <div className={styles.sectionContainer}>
-          <div className={styles.expectBlock}>
-            <div className={styles.expectCopy}>
-              <motion.p
-                className={styles.sectionEyebrow}
-                variants={itemVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewport}
-              >
-                What to expect
-              </motion.p>
-              <motion.h2
-                className={styles.sectionHeadline}
-                variants={itemVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewport}
-              >
-                How the first phase works.
-              </motion.h2>
-              <motion.p
-                className={styles.expectLead}
-                variants={itemVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewport}
-              >
-                Most engagements start with a MarTech Audit or a strategy conversation. Here is
-                what happens from there.
-              </motion.p>
-            </div>
-            <motion.ol
-              className={styles.expectList}
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewport}
-            >
-              {[
-                {
-                  heading: 'Intake and scoping call',
-                  body: 'A 30–45 minute call to understand the business, current stack, and what is not working. No sales pitch. Just diagnosis.',
-                },
-                {
-                  heading: 'Audit or strategy deliverable',
-                  body: 'Within 2–4 weeks, you receive a written findings document with prioritized recommendations and a clear implementation roadmap.',
-                },
-                {
-                  heading: 'Scope decision',
-                  body: 'You decide whether to implement internally, hand off the roadmap, or continue into a project build or retainer engagement.',
-                },
-                {
-                  heading: 'Build or optimize phase',
-                  body: 'If we continue, execution begins against the roadmap. Milestones are defined upfront. Deliverables are tied to outcomes, not hours.',
-                },
-              ].map((item, i) => (
-                <motion.li key={i} className={styles.expectItem} variants={itemVariants}>
-                  <span className={styles.expectNumber}>{String(i + 1).padStart(2, '0')}</span>
-                  <div>
-                    <strong className={styles.expectHeading}>{item.heading}</strong>
-                    <p className={styles.expectBody}>{item.body}</p>
-                  </div>
-                </motion.li>
-              ))}
-            </motion.ol>
-          </div>
+          <motion.p
+            className={styles.sectionEyebrow}
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {processToolsPhilosophy.eyebrow}
+          </motion.p>
+          <motion.h2
+            className={styles.sectionHeadline}
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {processToolsPhilosophy.headline}
+          </motion.h2>
+          <motion.p
+            className={styles.toolsBody}
+            variants={itemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            {processToolsPhilosophy.body}
+          </motion.p>
+          <motion.div variants={itemVariants} initial="hidden" whileInView="visible" viewport={viewport}>
+            <Link href={processToolsPhilosophy.ctaHref} className={styles.toolsCta}>
+              {processToolsPhilosophy.ctaLabel}
+              <ArrowRight size={14} weight="light" aria-hidden />
+            </Link>
+          </motion.div>
         </div>
       </section>
 
-      {/* ── Final CTA ── */}
       <section className={styles.ctaSection}>
         <div className={styles.sectionContainer}>
           <div className={styles.ctaBlock}>
             <div className={styles.ctaCopy}>
               <p className={styles.sectionEyebrow}>Next step</p>
               <h2 className={styles.ctaHeadline}>
-                Not sure which path fits? Start with the audit.
+                Not sure where to start? The audit still works.
               </h2>
               <p className={styles.ctaLead}>
-                The MarTech Audit is how most engagements start. It surfaces the real problems,
-                prioritizes what to fix first, and gives you a roadmap you can use — whether we
-                continue together or not.
+                The MarTech Audit surfaces the real constraints, prioritizes what to fix first, and gives you a roadmap you can use — whether we continue together or not.
               </p>
             </div>
             <div className={styles.ctaActions}>
               <Link href="/services/martech-audit" className={styles.primaryCta}>
                 Request a MarTech Audit
               </Link>
-              <Link href="/contact" className={styles.secondaryCta}>
+              <Link href="/contact?intent=service" className={styles.secondaryCta}>
                 Start a project
                 <ArrowRight size={15} weight="light" />
               </Link>

@@ -136,12 +136,272 @@
 }
 
 /* ── Section spacing ── */
+.problemSection,
+.runSection,
+.nuanceSection,
 .stepsSection,
 .pathsSection,
-.buyerSection,
-.expectSection,
+.proofSection,
+.toolsSection,
 .ctaSection {
   margin-top: 5rem;
+}
+
+/* ── Problem / outcome cards ── */
+.problemGrid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 760px) {
+  .problemGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.problemCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.35rem 1.4rem;
+  border-radius: 20px;
+  border: 1px solid rgba(245, 240, 232, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 77, 0, 0.04), transparent 24%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)),
+    rgba(16, 16, 16, 0.96);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 14px 36px rgba(0, 0, 0, 0.12);
+}
+
+.problemTitle {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.problemOutcome {
+  font-family: var(--font-body);
+  color: rgba(245, 240, 232, 0.68);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.problemOutcomeLabel {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.42);
+  margin-bottom: 0.35rem;
+}
+
+.problemActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+.problemPrimaryLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.problemPrimaryLink:hover {
+  opacity: 0.9;
+}
+
+.proofInlineLink {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(245, 240, 232, 0.45);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.proofInlineLink:hover {
+  color: var(--color-accent);
+}
+
+/* ── How work runs ── */
+.runIntro {
+  font-family: var(--font-body);
+  color: rgba(245, 240, 232, 0.68);
+  font-size: 0.94rem;
+  line-height: 1.72;
+  margin: 0.75rem 0 0;
+  max-width: 62ch;
+}
+
+.runList {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+.runItem {
+  padding: 1.15rem 0;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+.runItem:last-child {
+  border-bottom: none;
+}
+
+.runItemTitle {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.runItemBody {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.66;
+  color: rgba(245, 240, 232, 0.62);
+  margin: 0;
+  max-width: 65ch;
+}
+
+.soloNote {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: rgba(245, 240, 232, 0.55);
+  margin: 1.5rem 0 0;
+  max-width: 68ch;
+  padding: 1rem 1.15rem;
+  border-radius: 16px;
+  border: 1px solid rgba(245, 240, 232, 0.07);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* ── Not cookie-cutter ── */
+.nuanceBody {
+  font-family: var(--font-body);
+  color: rgba(245, 240, 232, 0.68);
+  font-size: 0.94rem;
+  line-height: 1.72;
+  margin: 0.75rem 0 0;
+  max-width: 62ch;
+}
+
+.phaseFraming {
+  font-family: var(--font-body);
+  color: rgba(245, 240, 232, 0.6);
+  font-size: 0.9rem;
+  line-height: 1.72;
+  margin: 0.75rem 0 1rem;
+  max-width: 64ch;
+}
+
+/* ── Proof bridge ── */
+.proofBridgeList {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.proofBridgeItem {
+  padding: 1.1rem 0;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.06);
+}
+
+.proofBridgeItem:last-of-type {
+  border-bottom: none;
+}
+
+.proofBridgeLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.proofBridgeLink:hover {
+  color: var(--color-accent);
+}
+
+.proofBridgeContext {
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: rgba(245, 240, 232, 0.52);
+  margin: 0.4rem 0 0;
+  max-width: 58ch;
+}
+
+.proofBridgeMore {
+  margin: 1.25rem 0 0;
+}
+
+.proofBridgeMoreLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+/* ── Tools philosophy ── */
+.toolsBody {
+  font-family: var(--font-body);
+  color: rgba(245, 240, 232, 0.65);
+  font-size: 0.92rem;
+  line-height: 1.72;
+  margin: 0.75rem 0 1rem;
+  max-width: 58ch;
+}
+
+.toolsCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  text-decoration: none;
 }
 
 /* ── Steps grid ── */
@@ -284,181 +544,6 @@
   color: rgba(245, 240, 232, 0.55);
 }
 
-/* ── Buyer paths ── */
-.buyerGrid {
-  display: grid;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-@media (min-width: 760px) {
-  .buyerGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-.buyerCard {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  padding: 1.4rem 1.5rem;
-  border-radius: 20px;
-  border: 1px solid rgba(245, 240, 232, 0.08);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)),
-    rgba(16, 16, 16, 0.96);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.03),
-    0 14px 36px rgba(0, 0, 0, 0.12);
-  transition: border-color 0.25s ease;
-}
-
-.buyerCard:hover {
-  border-color: rgba(255, 77, 0, 0.2);
-}
-
-.buyerType {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--color-text);
-  margin: 0;
-}
-
-.buyerDescription {
-  font-family: var(--font-body);
-  color: rgba(245, 240, 232, 0.65);
-  font-size: 0.9rem;
-  line-height: 1.68;
-  margin: 0;
-}
-
-.buyerRecommended {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  margin-top: auto;
-  padding-top: 0.85rem;
-  border-top: 1px solid rgba(245, 240, 232, 0.06);
-}
-
-.buyerRecommendedLabel {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.4);
-}
-
-.buyerRecommendedValue {
-  font-family: var(--font-display);
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--color-accent);
-  letter-spacing: -0.01em;
-}
-
-.buyerCta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin-top: 0.6rem;
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: rgba(245, 240, 232, 0.45);
-  text-decoration: none;
-  transition: color 0.22s ease;
-}
-
-.buyerCta:hover {
-  color: var(--color-accent);
-}
-
-/* ── What to expect ── */
-.expectBlock {
-  display: grid;
-  gap: 2.5rem;
-}
-
-@media (min-width: 900px) {
-  .expectBlock {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
-    align-items: start;
-    gap: 4rem;
-  }
-}
-
-.expectCopy {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.expectLead {
-  font-family: var(--font-body);
-  color: rgba(245, 240, 232, 0.65);
-  font-size: 0.92rem;
-  line-height: 1.72;
-  margin: 0.8rem 0 0;
-  max-width: 44ch;
-}
-
-.expectList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.expectItem {
-  display: flex;
-  gap: 1.25rem;
-  padding: 1.25rem 0;
-  border-bottom: 1px solid rgba(245, 240, 232, 0.06);
-}
-
-.expectItem:first-child {
-  padding-top: 0;
-}
-
-.expectItem:last-child {
-  border-bottom: none;
-}
-
-.expectNumber {
-  font-family: var(--font-display);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--color-accent);
-  flex-shrink: 0;
-  margin-top: 0.15rem;
-  min-width: 2rem;
-}
-
-.expectHeading {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--color-text);
-  display: block;
-  margin-bottom: 0.3rem;
-}
-
-.expectBody {
-  font-family: var(--font-body);
-  font-size: 0.88rem;
-  line-height: 1.66;
-  color: rgba(245, 240, 232, 0.6);
-  margin: 0;
-}
-
 /* ── Final CTA ── */
 .ctaBlock {
   display: grid;
@@ -517,15 +602,18 @@
 
   .stepCard,
   .pathCard,
-  .buyerCard,
+  .problemCard,
   .ctaBlock {
     border-radius: 16px;
   }
 
+  .problemSection,
+  .runSection,
+  .nuanceSection,
   .stepsSection,
   .pathsSection,
-  .buyerSection,
-  .expectSection,
+  .proofSection,
+  .toolsSection,
   .ctaSection {
     margin-top: 3.5rem;
   }
@@ -534,8 +622,7 @@
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .primaryCta,
-  .secondaryCta,
-  .buyerCta {
+  .secondaryCta {
     transition: none;
   }
 }
