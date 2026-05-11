@@ -2,7 +2,7 @@
 
 const DEFAULT_MAX_RESULTS = 100
 const DELETE_BATCH_SIZE = 100
-let cloudinary
+const CLOUDINARY_MAX_PAGE_SIZE = 500
 
 function printHelp() {
   console.log(`
@@ -82,7 +82,7 @@ function parseArgs(argv) {
   return options
 }
 
-async function ensureEnv() {
+async function createCloudinaryClient() {
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
   const apiKey = process.env.CLOUDINARY_API_KEY
   const apiSecret = process.env.CLOUDINARY_API_SECRET
@@ -93,8 +93,7 @@ async function ensureEnv() {
     )
   }
 
-  const { v2 } = await import('cloudinary')
-  cloudinary = v2
+  const { v2: cloudinary } = await import('cloudinary')
 
   cloudinary.config({
     cloud_name: cloudName,
@@ -102,14 +101,16 @@ async function ensureEnv() {
     api_secret: apiSecret,
     secure: true,
   })
+
+  return cloudinary
 }
 
-async function loadPublicIdsFromSearch(expression, maxResults) {
+async function loadPublicIdsFromSearch(cloudinary, expression, maxResults) {
   const publicIds = []
   let nextCursor
 
   while (publicIds.length < maxResults) {
-    const remaining = Math.max(1, Math.min(500, maxResults - publicIds.length))
+    const remaining = Math.max(1, Math.min(CLOUDINARY_MAX_PAGE_SIZE, maxResults - publicIds.length))
     let query = cloudinary.search
       .expression(expression)
       .sort_by('uploaded_at', 'desc')
@@ -146,7 +147,7 @@ function getDerivedIds(resource) {
     .filter((value) => typeof value === 'string' && value.length > 0)
 }
 
-async function inspectAsset(publicId, resourceType, deliveryType) {
+async function inspectAsset(cloudinary, publicId, resourceType, deliveryType) {
   const resource = await cloudinary.api.resource(publicId, {
     resource_type: resourceType,
     type: deliveryType,
@@ -178,7 +179,7 @@ function printSummary(results, execute) {
   }
 }
 
-async function deleteDerivedResources(derivedIds) {
+async function deleteDerivedResources(cloudinary, derivedIds) {
   for (let i = 0; i < derivedIds.length; i += DELETE_BATCH_SIZE) {
     const batch = derivedIds.slice(i, i + DELETE_BATCH_SIZE)
     await cloudinary.api.delete_derived_resources(batch)
@@ -201,10 +202,10 @@ async function main() {
     throw new Error('--max-results must be a positive integer.')
   }
 
-  await ensureEnv()
+  const cloudinary = await createCloudinaryClient()
 
   const publicIds = options.search
-    ? await loadPublicIdsFromSearch(options.search, options.maxResults)
+    ? await loadPublicIdsFromSearch(cloudinary, options.search, options.maxResults)
     : [...new Set(options.publicIds)]
 
   if (publicIds.length === 0) {
@@ -219,7 +220,7 @@ async function main() {
         await inspectAsset(publicId, options.resourceType, options.deliveryType)
       )
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown Cloudinary error'
+      const message = error instanceof Error ? error.message : String(error)
       console.warn(`Skipping ${publicId}: ${message}`)
     }
   }
@@ -238,7 +239,7 @@ async function main() {
     return
   }
 
-  await deleteDerivedResources(allDerivedIds)
+  await deleteDerivedResources(cloudinary, allDerivedIds)
   console.log(`\nDeleted ${allDerivedIds.length} derived resources.`)
 }
 
