@@ -1360,6 +1360,50 @@
   gap: 0.72rem;
 }
 
+.lightboxToolbar {
+  display: grid;
+  gap: 0.45rem;
+  padding-right: 2.6rem;
+}
+
+.lightboxZoomButton {
+  appearance: none;
+  justify-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.3rem;
+  padding: 0.42rem 0.78rem;
+  border: 1px solid rgba(245, 240, 232, 0.14);
+  border-radius: 999px;
+  background: rgba(20, 20, 20, 0.55);
+  color: rgba(245, 240, 232, 0.88);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.lightboxZoomButton:hover {
+  border-color: rgba(255, 77, 0, 0.44);
+  color: var(--color-text);
+}
+
+.lightboxZoomButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.lightboxZoomHint {
+  margin: 0;
+  max-width: 42rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: rgba(245, 240, 232, 0.58);
+}
+
 .lightboxClose {
   position: absolute;
   top: 0.6rem;
@@ -1380,11 +1424,31 @@
   outline-offset: 2px;
 }
 
+.lightboxViewport {
+  overflow: hidden;
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(255, 77, 0, 0.08), transparent 30%),
+    rgba(10, 10, 10, 0.94);
+  cursor: zoom-in;
+  touch-action: pan-y;
+}
+
+.lightboxViewportZoomed {
+  cursor: zoom-out;
+}
+
 .lightboxImage {
   width: 100%;
   height: auto;
-  border-radius: 12px;
+  display: block;
   object-fit: contain;
+  transform-origin: var(--loupe-origin-x, 50%) var(--loupe-origin-y, 50%);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lightboxImageZoomed {
+  transform: scale(var(--loupe-scale, 2.35));
 }
 
 .lightboxCaption {
