@@ -122,6 +122,7 @@ function StudioEvidenceLightbox({
             type="button"
             className={styles.lightboxZoomButton}
             aria-pressed={loupeEnabled}
+            aria-label={`Toggle digital loupe, currently ${loupeEnabled ? 'enabled' : 'disabled'}`}
             onClick={handleLoupeToggle}
           >
             {loupeEnabled ? 'Reset loupe' : 'Use digital loupe'}
@@ -140,12 +141,6 @@ function StudioEvidenceLightbox({
           onPointerMove={(event) => {
             if (!loupeEnabled) return
             updateLoupeOrigin(event.clientX, event.clientY, event.currentTarget)
-          }}
-          onTouchMove={(event) => {
-            if (!loupeEnabled) return
-            const touch = event.touches[0]
-            if (!touch) return
-            updateLoupeOrigin(touch.clientX, touch.clientY, event.currentTarget)
           }}
         >
           <CldImage

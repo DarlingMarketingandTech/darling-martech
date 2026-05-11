@@ -1431,7 +1431,7 @@
     radial-gradient(circle at 18% 16%, rgba(255, 77, 0, 0.08), transparent 30%),
     rgba(10, 10, 10, 0.94);
   cursor: zoom-in;
-  touch-action: auto;
+  touch-action: manipulation;
 }
 
 .lightboxViewportZoomed {
