@@ -12,9 +12,9 @@ import styles from '@/app/about/About.module.css'
 const BIO_PHOTO_SRC = buildCloudinaryUrl('studio/graphic-design/bio-featured-2')
 
 const credentialStats = [
-  { value: '15+', label: 'Years building strategy and systems' },
+  { value: '15+', label: 'Years experience' },
   { value: '400+', label: 'Automation workflows built' },
-  { value: '30,000+', label: 'Users served through platforms' },
+  { value: '30,000+', label: 'Users served through platforms and systems' },
   { value: '40%', label: 'Average conversion lift delivered' },
 ]
 

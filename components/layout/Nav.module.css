@@ -226,7 +226,7 @@
   padding: 0.65rem 0.4rem;
   border-radius: 1rem;
   text-decoration: none;
-  color: color-mix(in srgb, var(--color-muted) 84%, white 16%);
+  color: var(--color-muted-soft);
   background: transparent;
   transition:
     color 180ms ease,

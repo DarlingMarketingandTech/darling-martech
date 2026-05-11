@@ -158,7 +158,7 @@ export function Testimonials({
               aria-describedby={`${carouselId}-instructions`}
             >
               <div id={`${carouselId}-instructions`} className={styles.srOnly}>
-                Use left and right arrow keys to change testimonials. Press Home for the first testimonial and End for the last.
+                Use left and right arrow keys to navigate testimonials. Press Home to go to the first testimonial and End to go to the last.
               </div>
               <div className={styles.srOnly} role="status" aria-live="polite">
                 Showing testimonial {activeIndex + 1} of {items.length}: {active.author}.
