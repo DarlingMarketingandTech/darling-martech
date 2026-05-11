@@ -301,7 +301,6 @@ export function Nav() {
                   href={link.href}
                   className={`${styles.mobileBottomLink} ${active ? styles.mobileBottomLinkActive : ''}`}
                   aria-current={active ? 'page' : undefined}
-                  onClick={closeMenu}
                 >
                   <span className={styles.mobileBottomLabel}>{link.label}</span>
                 </Link>
