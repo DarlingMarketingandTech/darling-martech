@@ -79,6 +79,16 @@
 }
 
 @layer utilities {
+  .backToTopButton {
+    right: 2rem;
+    bottom: 2rem;
+  }
+
+  body.has-mobile-bottom-nav .backToTopButton {
+    right: 1.25rem;
+    bottom: calc(5.75rem + 0.75rem + env(safe-area-inset-bottom));
+  }
+
   .font-display {
     font-family: var(--font-cabinet-grotesk), sans-serif;
   }
