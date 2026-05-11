@@ -62,6 +62,78 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* ── Business lens row ─────────────────────────────────────────────────────── */
+
+.lensNav {
+  display: grid;
+  gap: 0.75rem;
+  margin: -0.75rem 0 2.25rem;
+}
+
+.lensHeader {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.lensLabel {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.42);
+}
+
+.lensHint {
+  margin: 0;
+  max-width: 34rem;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: rgba(245, 240, 232, 0.5);
+}
+
+.lensTrack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.lensBtn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0.55rem 0.95rem;
+  border: 1px solid rgba(245, 240, 232, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(245, 240, 232, 0.58);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.lensBtn:hover {
+  border-color: rgba(245, 240, 232, 0.18);
+  color: var(--color-text);
+}
+
+.lensBtn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.lensBtnActive {
+  border-color: rgba(255, 77, 0, 0.36);
+  background: rgba(255, 77, 0, 0.08);
+  color: var(--color-text);
+}
+
 /* ── Flagship section ──────────────────────────────────────────────────────── */
 
 .flagshipIntro {

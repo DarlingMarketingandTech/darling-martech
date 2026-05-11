@@ -5,7 +5,7 @@ import { useMemo, useState, type KeyboardEvent as ReactKeyboardEvent } from 'rea
 import { motion } from 'framer-motion'
 import { ArrowRight } from '@phosphor-icons/react'
 import { MagneticButton } from '@/components/interactive/MagneticButton'
-import type { CaseStudy, WorkDashboardTier } from '@/lib/work'
+import type { CaseStudy, WorkBusinessType, WorkDashboardTier } from '@/lib/work'
 import type { ServiceTag } from '@/data/taxonomy'
 import styles from './WorkIndex.module.css'
 import { WorkDashboardCard } from './WorkDashboardCard'
@@ -29,6 +29,25 @@ const WORK_TAB_IDS: Record<WorkSegment, string> = {
 }
 
 const WORK_INDEX_PANEL_ID = 'work-index-filter-panel'
+const MIN_ENTRIES_FOR_LENS_CHIP = 3
+
+const BUSINESS_LENS_ORDER: WorkBusinessType[] = [
+  'healthcare',
+  'local-service',
+  'legal-professional',
+  'saas-tech',
+  'brand-identity',
+]
+
+const BUSINESS_LENS_LABELS: Record<WorkBusinessType, string> = {
+  healthcare: 'Healthcare',
+  'local-service': 'Local service',
+  'legal-professional': 'Legal',
+  ecommerce: 'E-commerce',
+  'saas-tech': 'SaaS / tech',
+  nonprofit: 'Nonprofit',
+  'brand-identity': 'Brand',
+}
 
 const CARD_STAGGER = {
   hidden: {},
@@ -94,6 +113,48 @@ function WorkSubNav({ active, onChange }: { readonly active: WorkSegment; readon
             className={`${styles.subNavBtn} ${active === seg ? styles.subNavBtnActive : ''}`}
           >
             {seg}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function WorkLensNav({
+  active,
+  options,
+  onChange,
+}: {
+  readonly active: WorkBusinessType | null
+  readonly options: WorkBusinessType[]
+  readonly onChange: (lens: WorkBusinessType | null) => void
+}) {
+  if (options.length === 0) return null
+
+  return (
+    <div className={styles.lensNav} role="group" aria-label="Business lens">
+      <div className={styles.lensHeader}>
+        <span className={styles.lensLabel}>Business lens</span>
+        <p className={styles.lensHint}>Scan the same proof through the kind of business you run.</p>
+      </div>
+      <div className={styles.lensTrack}>
+        <button
+          type="button"
+          className={`${styles.lensBtn} ${active === null ? styles.lensBtnActive : ''}`}
+          onClick={() => onChange(null)}
+          aria-pressed={active === null}
+        >
+          All businesses
+        </button>
+        {options.map((option) => (
+          <button
+            key={option}
+            type="button"
+            className={`${styles.lensBtn} ${active === option ? styles.lensBtnActive : ''}`}
+            onClick={() => onChange(option)}
+            aria-pressed={active === option}
+          >
+            {BUSINESS_LENS_LABELS[option]}
           </button>
         ))}
       </div>
@@ -182,6 +243,7 @@ function FlagshipUnit({
 
 export function WorkIndexExperience({ studies, initialServiceFilter = null }: { studies: CaseStudy[]; initialServiceFilter?: ServiceTag | null }) {
   const [activeSegment, setActiveSegment] = useState<WorkSegment>('All')
+  const [activeBusinessLens, setActiveBusinessLens] = useState<WorkBusinessType | null>(null)
   const activeServiceFilter = initialServiceFilter
 
   const orderedStudies = useMemo(() => sortStudies(studies), [studies])
@@ -212,7 +274,7 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
     [orderedStudies, systemSlugs]
   )
 
-  const visibleStudies = useMemo(() => {
+  const baseVisibleStudies = useMemo(() => {
     let result = orderedStudies.filter(
       (s) => !systemSlugs.has(s.slug) || supportingGridSystemSlugs.has(s.slug)
     )
@@ -235,6 +297,33 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
     return result
   }, [activeSegment, activeServiceFilter, flagshipsWithChildren, orderedStudies, supportingGridSystemSlugs, systemSlugs])
 
+  const availableBusinessLenses = useMemo(() => {
+    const counts = new Map<WorkBusinessType, number>()
+
+    for (const study of baseVisibleStudies) {
+      for (const type of study.discoveryTags?.businessTypes ?? []) {
+        if (!BUSINESS_LENS_ORDER.includes(type)) continue
+        counts.set(type, (counts.get(type) ?? 0) + 1)
+      }
+    }
+
+    return BUSINESS_LENS_ORDER.filter((type) => (counts.get(type) ?? 0) >= MIN_ENTRIES_FOR_LENS_CHIP)
+  }, [baseVisibleStudies])
+
+  const resolvedBusinessLens = availableBusinessLenses.includes(activeBusinessLens as WorkBusinessType)
+    ? activeBusinessLens
+    : null
+
+  const visibleStudies = useMemo(() => {
+    if (!resolvedBusinessLens) {
+      return baseVisibleStudies
+    }
+
+    return baseVisibleStudies.filter((study) =>
+      study.discoveryTags?.businessTypes?.includes(resolvedBusinessLens)
+    )
+  }, [baseVisibleStudies, resolvedBusinessLens])
+
   const flagshipStudies = useMemo(
     () => visibleStudies.filter((s) => s.dashboardTier === 'flagship'),
     [visibleStudies]
@@ -244,6 +333,8 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
     () => visibleStudies.filter((s) => s.dashboardTier !== 'flagship'),
     [visibleStudies]
   )
+
+  const activeLensLabel = resolvedBusinessLens ? BUSINESS_LENS_LABELS[resolvedBusinessLens] : null
 
   const supportingLabel = activeSegment === 'All' ? 'Supporting proof' : `${activeSegment} proof`
 
@@ -270,6 +361,7 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
   return (
     <>
       <WorkSubNav active={activeSegment} onChange={setActiveSegment} />
+      <WorkLensNav active={resolvedBusinessLens} options={availableBusinessLenses} onChange={setActiveBusinessLens} />
 
       <div id={WORK_INDEX_PANEL_ID} role="tabpanel" className={styles.flagshipSections}>
         <span id="flagship-proof" className={styles.anchorTarget} aria-hidden="true" />
@@ -281,8 +373,12 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
               </span>
               <p className={styles.flagshipIntroHint}>
                 {activeSegment === 'Systems'
-                  ? 'The builds behind the builds — systems, tools, and infrastructure created inside each client engagement.'
-                  : 'New here? Start with these anchor cases first — full context, strongest outcomes, and what changed.'}
+                  ? activeLensLabel
+                    ? `The builds behind the builds for ${activeLensLabel.toLowerCase()} teams — systems, tools, and infrastructure created inside each engagement.`
+                    : 'The builds behind the builds — systems, tools, and infrastructure created inside each client engagement.'
+                  : activeLensLabel
+                    ? `Anchor cases through the ${activeLensLabel.toLowerCase()} lens — strongest outcomes first, then the depth behind them.`
+                    : 'New here? Start with these anchor cases first — full context, strongest outcomes, and what changed.'}
               </p>
             </div>
 
@@ -332,7 +428,9 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
               <>
                 <div className={styles.flagshipIntro}>
                   <p className={styles.flagshipIntroHint}>
-                    Focused proof across websites, conversion, local visibility, and marketing systems — scanned, not studied.
+                    {activeLensLabel
+                      ? `Focused proof for ${activeLensLabel.toLowerCase()} teams across websites, conversion, local visibility, and marketing systems — scanned, not studied.`
+                      : 'Focused proof across websites, conversion, local visibility, and marketing systems — scanned, not studied.'}
                   </p>
                 </div>
                 <motion.div
