@@ -65,6 +65,16 @@
     outline-offset: 3px;
     border-radius: 2px;
   }
+
+  body.has-mobile-bottom-nav {
+    padding-bottom: calc(5.75rem + env(safe-area-inset-bottom));
+  }
+
+  @media (min-width: 768px) {
+    body.has-mobile-bottom-nav {
+      padding-bottom: 0;
+    }
+  }
 }
 
 @layer utilities {
