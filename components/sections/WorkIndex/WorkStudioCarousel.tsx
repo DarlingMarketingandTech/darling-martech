@@ -142,7 +142,6 @@ function StudioEvidenceLightbox({
           }}
           onTouchMove={(event) => {
             if (!loupeEnabled) return
-            event.preventDefault()
             const touch = event.touches[0]
             if (!touch) return
             updateLoupeOrigin(touch.clientX, touch.clientY, event.currentTarget)
