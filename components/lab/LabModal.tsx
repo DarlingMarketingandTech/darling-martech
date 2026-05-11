@@ -16,7 +16,7 @@ interface LabModalProps {
   readonly detailHref?: string
 }
 
-export default function LabModal({ isOpen, onClose, toolSrc, toolName, toolSlug, detailHref }: LabModalProps) {
+export default function LabModal({ isOpen, onClose, toolSrc, toolName, detailHref }: LabModalProps) {
   const restoreFocusRef = useRef<HTMLElement | null>(null)
   const closeBtnRef = useRef<HTMLButtonElement | null>(null)
 

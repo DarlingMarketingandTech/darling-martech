@@ -31,9 +31,9 @@ export default function CmoSimulatorPage() {
     <main className={styles.page}>
       {/* Back link */}
       <div className={styles.backWrap}>
-        <Link href="/lab" className={styles.backLink}>
+        <Link href="/tools" className={styles.backLink}>
           <ArrowLeft weight="regular" size={15} />
-          All builds
+          All tools
         </Link>
       </div>
 
@@ -275,8 +275,8 @@ export default function CmoSimulatorPage() {
           Let&apos;s talk
           <ArrowRight weight="regular" size={16} />
         </Link>
-        <Link href="/lab" className={styles.backToLab}>
-          ← Back to all builds
+        <Link href="/tools" className={styles.backToLab}>
+          ← Back to all tools
         </Link>
       </motion.section>
 
