@@ -217,7 +217,7 @@ async function main() {
   for (const publicId of publicIds) {
     try {
       results.push(
-        await inspectAsset(publicId, options.resourceType, options.deliveryType)
+        await inspectAsset(cloudinary, publicId, options.resourceType, options.deliveryType)
       )
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
