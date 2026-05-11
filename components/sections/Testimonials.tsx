@@ -153,6 +153,7 @@ export function Testimonials({
               className={styles.spotlightInner}
               tabIndex={0}
               onKeyDown={handleCarouselKeyDown}
+              role="region"
               aria-roledescription="carousel"
               aria-label="Testimonials carousel"
               aria-describedby={`${carouselId}-instructions`}
