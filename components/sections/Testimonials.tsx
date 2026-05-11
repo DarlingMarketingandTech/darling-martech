@@ -157,12 +157,12 @@ export function Testimonials({
               aria-label="Testimonials carousel"
               aria-describedby={`${carouselId}-instructions`}
             >
-              <p id={`${carouselId}-instructions`} className={styles.srOnly}>
+              <div id={`${carouselId}-instructions`} className={styles.srOnly}>
                 Use left and right arrow keys to change testimonials. Press Home for the first testimonial and End for the last.
-              </p>
-              <p className={styles.srOnly} aria-live="polite">
+              </div>
+              <div className={styles.srOnly} role="status" aria-live="polite">
                 Showing testimonial {activeIndex + 1} of {items.length}: {active.author}.
-              </p>
+              </div>
 
               <div className={styles.eyebrowRow}>
                 <div className={styles.eyebrowCluster}>
@@ -227,7 +227,7 @@ export function Testimonials({
                       className={cn(styles.progressDot, index === activeIndex && styles.progressDotActive)}
                       onClick={() => goTo(index)}
                       aria-label={`Show testimonial from ${item.author}`}
-                      aria-pressed={index === activeIndex}
+                      aria-current={index === activeIndex ? 'true' : undefined}
                     />
                   ))}
                 </div>
@@ -259,7 +259,7 @@ export function Testimonials({
                 className={cn(styles.railCard, index === activeIndex && styles.railCardActive)}
                 whileHover={shouldReduceMotion ? undefined : { y: -3 }}
                 transition={springEntrance}
-                aria-pressed={index === activeIndex}
+                aria-current={index === activeIndex ? 'true' : undefined}
                 aria-controls={`${carouselId}-panel`}
               >
                 <div className={styles.railHeader}>
