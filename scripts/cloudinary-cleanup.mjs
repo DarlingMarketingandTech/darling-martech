@@ -109,8 +109,10 @@ async function loadPublicIdsFromSearch(cloudinary, expression, maxResults) {
   const publicIds = []
   let nextCursor
 
-  while (publicIds.length < maxResults) {
-    const remaining = Math.max(1, Math.min(CLOUDINARY_MAX_PAGE_SIZE, maxResults - publicIds.length))
+  while (true) {
+    const remaining = Math.min(CLOUDINARY_MAX_PAGE_SIZE, maxResults - publicIds.length)
+    if (remaining <= 0) break
+
     let query = cloudinary.search
       .expression(expression)
       .sort_by('uploaded_at', 'desc')
@@ -120,7 +122,17 @@ async function loadPublicIdsFromSearch(cloudinary, expression, maxResults) {
       query = query.next_cursor(nextCursor)
     }
 
-    const result = await query.execute()
+    let result
+    try {
+      result = await query.execute()
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      const cursorLabel = nextCursor ?? 'initial'
+      throw new Error(
+        `Cloudinary search failed for expression "${expression}" (cursor: ${cursorLabel}): ${message}`
+      )
+    }
+
     const resources = Array.isArray(result.resources) ? result.resources : []
 
     for (const resource of resources) {
@@ -134,6 +146,19 @@ async function loadPublicIdsFromSearch(cloudinary, expression, maxResults) {
   }
 
   return publicIds
+}
+
+function formatCloudinaryError(error) {
+  if (error instanceof Error) {
+    const lowered = error.message.toLowerCase()
+    if (lowered.includes('not found')) return `asset not found: ${error.message}`
+    if ('http_code' in error && typeof error.http_code !== 'undefined') {
+      return `api error ${error.http_code}: ${error.message}`
+    }
+    return `api error: ${error.message}`
+  }
+
+  return `api error: ${String(error)}`
 }
 
 function getDerivedIds(resource) {
@@ -220,8 +245,7 @@ async function main() {
         await inspectAsset(cloudinary, publicId, options.resourceType, options.deliveryType)
       )
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error)
-      console.warn(`Skipping ${publicId}: ${message}`)
+      console.warn(`Skipping ${publicId}: ${formatCloudinaryError(error)}`)
     }
   }
 
