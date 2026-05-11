@@ -312,7 +312,7 @@ export function WorkIndexExperience({ studies, initialServiceFilter = null }: { 
     return BUSINESS_LENS_ORDER.filter((type) => (counts.get(type) ?? 0) >= MIN_ENTRIES_FOR_LENS_CHIP)
   }, [baseVisibleStudies])
 
-  const resolvedBusinessLens = availableBusinessLenses.includes(activeBusinessLens as WorkBusinessType)
+  const resolvedBusinessLens = activeBusinessLens !== null && availableBusinessLenses.includes(activeBusinessLens)
     ? activeBusinessLens
     : null
 
