@@ -160,6 +160,9 @@ export function Testimonials({
               <p id={`${carouselId}-instructions`} className={styles.srOnly}>
                 Use left and right arrow keys to change testimonials. Press Home for the first testimonial and End for the last.
               </p>
+              <p className={styles.srOnly} aria-live="polite">
+                Showing testimonial {activeIndex + 1} of {items.length}: {active.author}.
+              </p>
 
               <div className={styles.eyebrowRow}>
                 <div className={styles.eyebrowCluster}>
@@ -179,7 +182,6 @@ export function Testimonials({
                   role="group"
                   aria-roledescription="slide"
                   aria-label={`Testimonial ${activeIndex + 1} of ${items.length}`}
-                  aria-live="polite"
                   initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20, rotateX: 6 }}
                   animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, rotateX: 0 }}
                   exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -12, rotateX: -4 }}
@@ -217,7 +219,7 @@ export function Testimonials({
                 >
                   <CaretLeft weight="bold" className={styles.controlIcon} />
                 </button>
-                <div className={styles.progressCluster} aria-label="Choose testimonial">
+                <div className={styles.progressCluster} role="group" aria-label="Choose testimonial">
                   {items.map((item, index) => (
                     <button
                       key={item.id}

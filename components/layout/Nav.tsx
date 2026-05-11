@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
@@ -157,9 +157,8 @@ export function Nav() {
     return scrolled ? 'pill' : 'full'
   }
 
-  const normalizedPathname = useMemo(() => pathname.replace(/\/+$/, '') || '/', [pathname])
-
   const isActivePath = useCallback((href: string) => {
+    const normalizedPathname = pathname.replace(/\/+$/, '') || '/'
     const normalizedHref = href.replace(/\/+$/, '') || '/'
 
     if (normalizedPathname === normalizedHref) {
@@ -171,7 +170,7 @@ export function Nav() {
     }
 
     return normalizedPathname.startsWith(`${normalizedHref}/`)
-  }, [normalizedPathname])
+  }, [pathname])
 
   return (
     <>
