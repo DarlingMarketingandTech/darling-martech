@@ -135,6 +135,7 @@ function StudioEvidenceLightbox({
 
         <div
           className={`${styles.lightboxViewport} ${loupeEnabled ? styles.lightboxViewportZoomed : ''}`}
+          aria-label="Zoomable studio evidence image"
           style={loupeStyle}
           onPointerMove={(event) => {
             if (!loupeEnabled) return
