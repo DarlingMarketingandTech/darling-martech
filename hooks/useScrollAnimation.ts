@@ -42,7 +42,7 @@ export function useScrollAnimation<T extends HTMLElement>(
     }, ref)
 
     return () => ctx.revert()
-  }, [config])
+  }, [config, ref])
 
   return ref
 }

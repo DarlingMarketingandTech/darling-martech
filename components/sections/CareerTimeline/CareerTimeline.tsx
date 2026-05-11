@@ -372,7 +372,7 @@ export function CareerTimeline() {
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [])
+  }, [sectionRef])
 
   function handleToggle(key: string) {
     setOpenIndex((prev) => (prev === key ? null : key))
