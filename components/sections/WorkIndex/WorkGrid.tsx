@@ -35,7 +35,9 @@ const BUSINESS_LENS_ORDER: WorkBusinessType[] = [
   'healthcare',
   'local-service',
   'legal-professional',
+  'ecommerce',
   'saas-tech',
+  'nonprofit',
   'brand-identity',
 ]
 
