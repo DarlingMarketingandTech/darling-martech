@@ -87,9 +87,15 @@ async function createCloudinaryClient() {
   const apiKey = process.env.CLOUDINARY_API_KEY
   const apiSecret = process.env.CLOUDINARY_API_SECRET
 
-  if (!cloudName || !apiKey || !apiSecret) {
+  const missing = [
+    !cloudName ? 'NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME' : null,
+    !apiKey ? 'CLOUDINARY_API_KEY' : null,
+    !apiSecret ? 'CLOUDINARY_API_SECRET' : null,
+  ].filter(Boolean)
+
+  if (missing.length > 0) {
     throw new Error(
-      'Missing Cloudinary environment variables. Expected NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET.'
+      `Missing Cloudinary environment variables: ${missing.join(', ')}`
     )
   }
 
@@ -109,9 +115,8 @@ async function loadPublicIdsFromSearch(cloudinary, expression, maxResults) {
   const publicIds = []
   let nextCursor
 
-  while (true) {
+  while (publicIds.length < maxResults) {
     const remaining = Math.min(CLOUDINARY_MAX_PAGE_SIZE, maxResults - publicIds.length)
-    if (remaining <= 0) break
 
     let query = cloudinary.search
       .expression(expression)
@@ -152,7 +157,7 @@ function formatCloudinaryError(error) {
   if (error instanceof Error) {
     const lowered = error.message.toLowerCase()
     if (lowered.includes('not found')) return `asset not found: ${error.message}`
-    if ('http_code' in error && typeof error.http_code !== 'undefined') {
+    if ('http_code' in error) {
       return `api error ${error.http_code}: ${error.message}`
     }
     return `api error: ${error.message}`
