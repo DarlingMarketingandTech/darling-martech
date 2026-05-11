@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -349,29 +349,29 @@ export function CareerTimeline() {
   const spineRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const spine = spineRef.current
     const section = sectionRef.current
     if (!spine || !section) return
 
-    gsap.set(spine, { scaleY: 0, transformOrigin: 'top' })
-
-    const trigger = ScrollTrigger.create({
-      trigger: section,
-      start: 'top 80%',
-      end: 'bottom 20%',
-      onEnter: () => {
-        gsap.to(spine, {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        spine,
+        { scaleY: 0, transformOrigin: 'top' },
+        {
           scaleY: 1,
           duration: 1.4,
           ease: 'power2.out',
-        })
-      },
-    })
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 80%',
+            once: true,
+          },
+        }
+      )
+    }, sectionRef)
 
-    return () => {
-      trigger.kill()
-    }
+    return () => ctx.revert()
   }, [])
 
   function handleToggle(key: string) {

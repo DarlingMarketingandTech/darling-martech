@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, RefObject } from 'react'
+import { useLayoutEffect, useRef, RefObject } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -24,7 +24,7 @@ export function useScrollAnimation<T extends HTMLElement>(
 ): RefObject<T | null> {
   const ref = useRef<T>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = ref.current
     if (!el) return
 
@@ -39,7 +39,7 @@ export function useScrollAnimation<T extends HTMLElement>(
           markers: config.markers ?? false,
         },
       })
-    })
+    }, ref)
 
     return () => ctx.revert()
   }, [config])
