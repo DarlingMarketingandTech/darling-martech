@@ -1,0 +1,278 @@
+#!/usr/bin/env node
+
+const DEFAULT_MAX_RESULTS = 100
+const DELETE_BATCH_SIZE = 100
+const CLOUDINARY_MAX_PAGE_SIZE = 500
+
+function printHelp() {
+  console.log(`
+Cloudinary derived-asset cleanup
+
+Usage:
+  npm run cloudinary:cleanup -- --search '<expression>' [--max-results 100] [--execute]
+  npm run cloudinary:cleanup -- --public-id <id> [--public-id <id> ...] [--execute]
+
+Options:
+  --search <expression>        Cloudinary Search API expression used to find assets.
+  --public-id <id>             Target one or more explicit public IDs.
+  --resource-type <type>       Cloudinary resource type (default: image).
+  --delivery-type <type>       Cloudinary delivery type (default: upload).
+  --max-results <count>        Max assets to inspect for --search (default: 100).
+  --execute                    Actually delete derived assets. Dry-run by default.
+  --help                       Show this message.
+
+Examples:
+  npm run cloudinary:cleanup -- --search 'asset_folder="studio/archive"' 
+  npm run cloudinary:cleanup -- --public-id studio/projects/example --execute
+`)
+}
+
+function parseArgs(argv) {
+  const options = {
+    publicIds: [],
+    search: null,
+    resourceType: 'image',
+    deliveryType: 'upload',
+    maxResults: DEFAULT_MAX_RESULTS,
+    execute: false,
+    help: false,
+  }
+
+  for (let i = 0; i < argv.length; i += 1) {
+    const arg = argv[i]
+
+    switch (arg) {
+      case '--public-id':
+        if (!argv[i + 1]) throw new Error('Missing value for --public-id')
+        options.publicIds.push(argv[i + 1].trim())
+        i += 1
+        break
+      case '--search':
+        if (!argv[i + 1]) throw new Error('Missing value for --search')
+        options.search = argv[i + 1].trim()
+        i += 1
+        break
+      case '--resource-type':
+        if (!argv[i + 1]) throw new Error('Missing value for --resource-type')
+        options.resourceType = argv[i + 1].trim()
+        i += 1
+        break
+      case '--delivery-type':
+        if (!argv[i + 1]) throw new Error('Missing value for --delivery-type')
+        options.deliveryType = argv[i + 1].trim()
+        i += 1
+        break
+      case '--max-results':
+        if (!argv[i + 1]) throw new Error('Missing value for --max-results')
+        options.maxResults = Number.parseInt(argv[i + 1], 10)
+        i += 1
+        break
+      case '--execute':
+        options.execute = true
+        break
+      case '--help':
+      case '-h':
+        options.help = true
+        break
+      default:
+        throw new Error(`Unknown argument: ${arg}`)
+    }
+  }
+
+  return options
+}
+
+async function createCloudinaryClient() {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+  const apiKey = process.env.CLOUDINARY_API_KEY
+  const apiSecret = process.env.CLOUDINARY_API_SECRET
+
+  const missing = [
+    !cloudName ? 'NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME' : null,
+    !apiKey ? 'CLOUDINARY_API_KEY' : null,
+    !apiSecret ? 'CLOUDINARY_API_SECRET' : null,
+  ].filter(Boolean)
+
+  if (missing.length > 0) {
+    throw new Error(
+      `Missing Cloudinary environment variables: ${missing.join(', ')}`
+    )
+  }
+
+  const { v2: cloudinary } = await import('cloudinary')
+
+  cloudinary.config({
+    cloud_name: cloudName,
+    api_key: apiKey,
+    api_secret: apiSecret,
+    secure: true,
+  })
+
+  return cloudinary
+}
+
+async function loadPublicIdsFromSearch(cloudinary, expression, maxResults) {
+  const publicIds = []
+  let nextCursor
+
+  while (publicIds.length < maxResults) {
+    const remaining = Math.min(CLOUDINARY_MAX_PAGE_SIZE, maxResults - publicIds.length)
+
+    let query = cloudinary.search
+      .expression(expression)
+      .sort_by('uploaded_at', 'desc')
+      .max_results(remaining)
+
+    if (nextCursor) {
+      query = query.next_cursor(nextCursor)
+    }
+
+    let result
+    try {
+      result = await query.execute()
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      const cursorLabel = nextCursor ?? 'initial'
+      throw new Error(
+        `Cloudinary search failed for expression "${expression}" (cursor: ${cursorLabel}): ${message}`
+      )
+    }
+
+    const resources = Array.isArray(result.resources) ? result.resources : []
+
+    for (const resource of resources) {
+      const publicId = typeof resource.public_id === 'string' ? resource.public_id.trim() : ''
+      if (publicId) publicIds.push(publicId)
+      if (publicIds.length >= maxResults) break
+    }
+
+    if (!result.next_cursor || resources.length === 0) break
+    nextCursor = result.next_cursor
+  }
+
+  return publicIds
+}
+
+function formatCloudinaryError(error) {
+  if (error instanceof Error) {
+    const lowered = error.message.toLowerCase()
+    if (lowered.includes('not found')) return `asset not found: ${error.message}`
+    if ('http_code' in error) {
+      return `api error ${error.http_code}: ${error.message}`
+    }
+    return `api error: ${error.message}`
+  }
+
+  return `api error: ${String(error)}`
+}
+
+function getDerivedIds(resource) {
+  const derived = Array.isArray(resource?.derived) ? resource.derived : []
+
+  return derived
+    .map((item) => {
+      if (!item || typeof item !== 'object') return null
+      return item.id ?? item.derived_resource_id ?? null
+    })
+    .filter((value) => typeof value === 'string' && value.length > 0)
+}
+
+async function inspectAsset(cloudinary, publicId, resourceType, deliveryType) {
+  const resource = await cloudinary.api.resource(publicId, {
+    resource_type: resourceType,
+    type: deliveryType,
+  })
+
+  return {
+    publicId,
+    assetId: resource.asset_id ?? null,
+    bytes: resource.bytes ?? 0,
+    derivedCount: Array.isArray(resource.derived) ? resource.derived.length : 0,
+    derivedIds: getDerivedIds(resource),
+  }
+}
+
+function printSummary(results, execute) {
+  const assetsWithDerived = results.filter((item) => item.derivedCount > 0)
+  const totalDerived = assetsWithDerived.reduce((sum, item) => sum + item.derivedIds.length, 0)
+
+  console.log(`Scanned assets: ${results.length}`)
+  console.log(`Assets with derived variants: ${assetsWithDerived.length}`)
+  console.log(`Derived variants found: ${totalDerived}`)
+  console.log(`Mode: ${execute ? 'execute' : 'dry-run'}`)
+
+  if (assetsWithDerived.length === 0) return
+
+  console.log('\nTargets:')
+  for (const item of assetsWithDerived) {
+    console.log(`- ${item.publicId} (${item.derivedIds.length} derived)`)
+  }
+}
+
+async function deleteDerivedResources(cloudinary, derivedIds) {
+  for (let i = 0; i < derivedIds.length; i += DELETE_BATCH_SIZE) {
+    const batch = derivedIds.slice(i, i + DELETE_BATCH_SIZE)
+    await cloudinary.api.delete_derived_resources(batch)
+  }
+}
+
+async function main() {
+  const options = parseArgs(process.argv.slice(2))
+
+  if (options.help) {
+    printHelp()
+    return
+  }
+
+  if (!options.search && options.publicIds.length === 0) {
+    throw new Error('Provide either --search or at least one --public-id.')
+  }
+
+  if (!Number.isFinite(options.maxResults) || options.maxResults <= 0) {
+    throw new Error('--max-results must be a positive integer.')
+  }
+
+  const cloudinary = await createCloudinaryClient()
+
+  const publicIds = options.search
+    ? await loadPublicIdsFromSearch(cloudinary, options.search, options.maxResults)
+    : [...new Set(options.publicIds)]
+
+  if (publicIds.length === 0) {
+    console.log('No matching assets found.')
+    return
+  }
+
+  const results = []
+  for (const publicId of publicIds) {
+    try {
+      results.push(
+        await inspectAsset(cloudinary, publicId, options.resourceType, options.deliveryType)
+      )
+    } catch (error) {
+      console.warn(`Skipping ${publicId}: ${formatCloudinaryError(error)}`)
+    }
+  }
+
+  printSummary(results, options.execute)
+
+  if (!options.execute) {
+    console.log('\nDry run complete. Re-run with --execute to delete derived variants.')
+    return
+  }
+
+  const allDerivedIds = results.flatMap((item) => item.derivedIds)
+
+  if (allDerivedIds.length === 0) {
+    console.log('\nNothing to delete.')
+    return
+  }
+
+  await deleteDerivedResources(cloudinary, allDerivedIds)
+  console.log(`\nDeleted ${allDerivedIds.length} derived resources.`)
+}
+
+main().catch((error) => {
+  console.error(error instanceof Error ? error.message : error)
+  process.exitCode = 1
+})

@@ -1,7 +1,8 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useCallback, useId, useMemo, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import type { KeyboardEvent } from 'react'
 import { CaretLeft, CaretRight } from '@phosphor-icons/react'
 import { testimonials as defaultTestimonials, type Testimonial } from '@/data/testimonials'
 import { containerVariants, fadeVariants, itemVariants, springEntrance, viewport } from '@/lib/motion'
@@ -35,6 +36,15 @@ function getDateRange(items: Testimonial[]) {
   return first === last ? String(first) : `${first}-${last}`
 }
 
+function getPreview(quote: string, maxLength = 180) {
+  const firstParagraph = quote.split('\n\n')[0].replace(/\s+/g, ' ').trim()
+  if (firstParagraph.length <= maxLength) {
+    return firstParagraph
+  }
+
+  return `${firstParagraph.slice(0, maxLength).trimEnd()}…`
+}
+
 export function Testimonials({
   items = defaultTestimonials,
   label = 'What People Are Saying',
@@ -44,6 +54,7 @@ export function Testimonials({
 }: TestimonialsProps) {
   const [activeIndex, setActiveIndex] = useState(0)
   const shouldReduceMotion = useReducedMotion()
+  const carouselId = useId()
   const hasItems = items.length > 0
   const active = items[activeIndex] ?? items[0]
 
@@ -56,10 +67,33 @@ export function Testimonials({
     [items]
   )
 
-  const goTo = (index: number) => {
+  const goTo = useCallback((index: number) => {
     const nextIndex = (index + items.length) % items.length
     setActiveIndex(nextIndex)
-  }
+  }, [items.length])
+
+  const handleCarouselKeyDown = useCallback((event: KeyboardEvent<HTMLElement>) => {
+    switch (event.key) {
+      case 'ArrowLeft':
+        event.preventDefault()
+        goTo(activeIndex - 1)
+        break
+      case 'ArrowRight':
+        event.preventDefault()
+        goTo(activeIndex + 1)
+        break
+      case 'Home':
+        event.preventDefault()
+        goTo(0)
+        break
+      case 'End':
+        event.preventDefault()
+        goTo(items.length - 1)
+        break
+      default:
+        break
+    }
+  }, [activeIndex, goTo, items.length])
 
   if (!hasItems) {
     return null
@@ -115,16 +149,40 @@ export function Testimonials({
               <div className={styles.beam} />
             </div>
 
-            <div className={styles.spotlightInner}>
-              <div className={styles.eyebrowRow}>
-                <span className={styles.eyebrowTag}>LinkedIn recommendations</span>
-                <span className={styles.eyebrowMeta}>{active.dateLabel}</span>
+            <div
+              className={styles.spotlightInner}
+              tabIndex={0}
+              onKeyDown={handleCarouselKeyDown}
+              role="region"
+              aria-roledescription="carousel"
+              aria-label="Testimonials carousel"
+              aria-describedby={`${carouselId}-instructions`}
+            >
+              <div id={`${carouselId}-instructions`} className={styles.srOnly}>
+                Use left and right arrow keys to navigate testimonials. Press Home to go to the first testimonial and End to go to the last.
+              </div>
+              <div className={styles.srOnly} role="status" aria-live="polite">
+                Showing testimonial {activeIndex + 1} of {items.length}: {active.author}.
               </div>
 
-              <AnimatePresence mode="wait">
+              <div className={styles.eyebrowRow}>
+                <div className={styles.eyebrowCluster}>
+                  <span className={styles.eyebrowTag}>LinkedIn recommendations</span>
+                  <span className={styles.eyebrowMeta}>{active.dateLabel}</span>
+                </div>
+                <span className={styles.slideStatus}>
+                  {String(activeIndex + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
+                </span>
+              </div>
+
+              <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={active.id}
                   className={styles.quoteFrame}
+                  id={`${carouselId}-panel`}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`Testimonial ${activeIndex + 1} of ${items.length}`}
                   initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20, rotateX: 6 }}
                   animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, rotateX: 0 }}
                   exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -12, rotateX: -4 }}
@@ -162,11 +220,15 @@ export function Testimonials({
                 >
                   <CaretLeft weight="bold" className={styles.controlIcon} />
                 </button>
-                <div className={styles.progressCluster} aria-hidden="true">
+                <div className={styles.progressCluster} role="group" aria-label="Choose testimonial">
                   {items.map((item, index) => (
-                    <span
+                    <button
                       key={item.id}
+                      type="button"
                       className={cn(styles.progressDot, index === activeIndex && styles.progressDotActive)}
+                      onClick={() => goTo(index)}
+                      aria-label={`Show testimonial from ${item.author}`}
+                      aria-current={index === activeIndex ? 'true' : undefined}
                     />
                   ))}
                 </div>
@@ -194,11 +256,12 @@ export function Testimonials({
                 key={item.id}
                 type="button"
                 variants={itemVariants}
-                onClick={() => setActiveIndex(index)}
+                onClick={() => goTo(index)}
                 className={cn(styles.railCard, index === activeIndex && styles.railCardActive)}
                 whileHover={shouldReduceMotion ? undefined : { y: -3 }}
                 transition={springEntrance}
-                aria-pressed={index === activeIndex}
+                aria-current={index === activeIndex ? 'true' : undefined}
+                aria-controls={`${carouselId}-panel`}
               >
                 <div className={styles.railHeader}>
                   <div>
@@ -209,7 +272,7 @@ export function Testimonials({
                 </div>
 
                 <p className={styles.railRelationship}>{item.relationship}</p>
-                <p className={styles.railPreview}>{item.quote}</p>
+                <p className={styles.railPreview}>{getPreview(item.quote)}</p>
               </motion.button>
             ))}
           </motion.div>

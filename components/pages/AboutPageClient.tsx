@@ -11,6 +11,35 @@ import styles from '@/app/about/About.module.css'
 
 const BIO_PHOTO_SRC = buildCloudinaryUrl('studio/graphic-design/bio-featured-2')
 
+const credentialStats = [
+  { value: '15+', label: 'Years experience' },
+  { value: '400+', label: 'Automation workflows built' },
+  { value: '30,000+', label: 'Users served through platforms and systems' },
+  { value: '40%', label: 'Average conversion lift delivered' },
+]
+
+const credentialGroups = [
+  {
+    title: 'Education',
+    items: [
+      'B.S. Business Management — Indiana University, 2008',
+    ],
+  },
+  {
+    title: 'Recognition',
+    items: [
+      'Gold Key Photography Award — Scholastic Art & Writing Awards, 2008',
+    ],
+  },
+  {
+    title: 'Operating range',
+    items: [
+      'Healthcare, legal, finance, e-commerce, nonprofit, SaaS, and local service businesses',
+      'Indianapolis-based with strategy-to-execution delivery across brand, web, CRM, automation, and analytics',
+    ],
+  },
+] as const
+
 const industries = [
   'Healthcare', 'Legal', 'Finance', 'SaaS / Tech',
   'Retail / E-commerce', 'Media / Entertainment',
@@ -92,12 +121,29 @@ export default function AboutPageClient({ siteUrl }: AboutPageClientProps) {
               </div>
               <div className={styles.credentialsCard}>
                 <p className={styles.credLabel}>Credentials</p>
-                <ul className={styles.credList}>
-                  <li>B.S. Business Management — Indiana University, 2008</li>
-                  <li>Gold Key Photography Award — Scholastic Art &amp; Writing Awards, 2008</li>
-                  <li>15+ years across healthcare, legal, finance, e-commerce, nonprofit</li>
-                  <li>Indianapolis, IN</li>
-                </ul>
+                <p className={styles.credIntro}>
+                  Strategic depth is only useful if it shows up in the work. These are the signals behind how I operate.
+                </p>
+                <div className={styles.credStatsGrid}>
+                  {credentialStats.map((stat) => (
+                    <div key={stat.label} className={styles.credStatCard}>
+                      <span className={styles.credStatValue}>{stat.value}</span>
+                      <span className={styles.credStatLabel}>{stat.label}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className={styles.credGroupList}>
+                  {credentialGroups.map((group) => (
+                    <div key={group.title} className={styles.credGroup}>
+                      <p className={styles.credGroupTitle}>{group.title}</p>
+                      <ul className={styles.credList}>
+                        {group.items.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
               </div>
             </motion.div>
           </div>

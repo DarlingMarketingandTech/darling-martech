@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import { List, X } from '@phosphor-icons/react'
 import { springStandard, springEntrance } from '@/lib/motion'
@@ -12,6 +13,14 @@ const navLinks = [
   { href: '/services', label: 'Services' },
   { href: '/tools', label: 'Tools' },
   { href: '/about', label: 'About' },
+]
+
+const mobileBottomLinks = [
+  { href: '/work', label: 'Work' },
+  { href: '/services', label: 'Services' },
+  { href: '/tools', label: 'Tools' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 // Desktop nav link with orange underline on hover
@@ -109,6 +118,7 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const pathname = usePathname()
 
   const { scrollY } = useScroll()
 
@@ -134,12 +144,33 @@ export function Nav() {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
+  useEffect(() => {
+    const className = 'has-mobile-bottom-nav'
+    document.body.classList.toggle(className, isMobile)
+    return () => document.body.classList.remove(className)
+  }, [isMobile])
+
   const closeMenu = () => setMenuOpen(false)
 
   const getNavState = () => {
     if (isMobile) return scrolled ? 'mobileScrolled' : 'mobileFull'
     return scrolled ? 'pill' : 'full'
   }
+
+  const isActivePath = useCallback((href: string) => {
+    const normalizedPathname = pathname.replace(/\/+$/, '') || '/'
+    const normalizedHref = href.replace(/\/+$/, '') || '/'
+
+    if (normalizedPathname === normalizedHref) {
+      return true
+    }
+
+    if (normalizedHref === '/') {
+      return false
+    }
+
+    return normalizedPathname.startsWith(`${normalizedHref}/`)
+  }, [pathname])
 
   return (
     <>
@@ -261,6 +292,34 @@ export function Nav() {
               </Link>
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isMobile && !menuOpen && (
+          <motion.nav
+            className={styles.mobileBottomNav}
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={springEntrance}
+            aria-label="Primary mobile navigation"
+          >
+            {mobileBottomLinks.map((link) => {
+              const active = isActivePath(link.href)
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`${styles.mobileBottomLink} ${active ? styles.mobileBottomLinkActive : ''}`}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  <span className={styles.mobileBottomLabel}>{link.label}</span>
+                </Link>
+              )
+            })}
+          </motion.nav>
         )}
       </AnimatePresence>
     </>

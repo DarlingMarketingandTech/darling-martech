@@ -94,6 +94,14 @@
   gap: 0.75rem;
 }
 
+.credIntro {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+
 .credLabel {
   font-family: var(--font-body);
   font-size: 0.75rem;
@@ -102,6 +110,59 @@
   text-transform: uppercase;
   color: var(--color-accent);
   margin: 0;
+}
+
+.credStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.credStatCard {
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+  padding: 0.9rem;
+  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.credStatValue {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--color-text);
+}
+
+.credStatLabel {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.credGroupList {
+  display: grid;
+  gap: 1rem;
+}
+
+.credGroup {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.credGroupTitle {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text);
 }
 
 .credList {
@@ -117,6 +178,12 @@
   font-family: var(--font-body);
   font-size: 0.875rem;
   color: var(--color-muted);
+  line-height: 1.55;
+}
+
+.credList li::before {
+  content: '— ';
+  color: var(--color-accent);
 }
 
 /* ── Industries ── */
@@ -167,6 +234,10 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .credentialsCard {
+    gap: 1rem;
   }
 }
 

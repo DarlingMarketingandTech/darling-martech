@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo, type KeyboardEvent as ReactKeyboardEvent } from 'react'
+import { useState, useEffect, useRef, useMemo, type CSSProperties, type KeyboardEvent as ReactKeyboardEvent, type RefObject } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CldImage } from 'next-cloudinary'
@@ -21,9 +21,22 @@ const STUDIO_TAB_IDS: Record<WorkStudioDiscipline, string> = {
 
 const STUDIO_PANEL_ID = 'studio-carousel-panel'
 const STUDIO_THUMBNAIL_GROUP_ID = 'studio-thumbnail-group'
+const DEFAULT_LOUPE_ORIGIN = { x: 50, y: 50 }
+const LIGHTBOX_LOUPE_SCALE = 2.35
 
 function getThumbId(itemId: string) {
   return `studio-thumb-${itemId}`
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value))
+}
+
+function getLoupeOrigin(clientX: number, clientY: number, rect: DOMRect) {
+  return {
+    x: clamp(((clientX - rect.left) / rect.width) * 100, 0, 100),
+    y: clamp(((clientY - rect.top) / rect.height) * 100, 0, 100),
+  }
 }
 
 function scrollThumbCenteredInTrack(
@@ -38,6 +51,130 @@ function scrollThumbCenteredInTrack(
   const targetLeft = thumbLeftInTrack - (track.clientWidth - thumbRect.width) / 2
   const left = Math.max(0, Math.min(targetLeft, maxScroll))
   track.scrollTo({ left, behavior })
+}
+
+function StudioEvidenceLightbox({
+  item,
+  onClose,
+  closeRef,
+}: {
+  readonly item: WorkStudioEvidenceItem
+  readonly onClose: () => void
+  readonly closeRef: RefObject<HTMLButtonElement | null>
+}) {
+  const [loupeEnabled, setLoupeEnabled] = useState(false)
+  const [loupeOrigin, setLoupeOrigin] = useState(DEFAULT_LOUPE_ORIGIN)
+
+  const handleLoupeToggle = () => {
+    if (loupeEnabled) {
+      setLoupeEnabled(false)
+      setLoupeOrigin(DEFAULT_LOUPE_ORIGIN)
+      return
+    }
+
+    setLoupeEnabled(true)
+  }
+
+  const updateLoupeOrigin = (clientX: number, clientY: number, element: HTMLDivElement) => {
+    setLoupeOrigin(getLoupeOrigin(clientX, clientY, element.getBoundingClientRect()))
+  }
+
+  const loupeStyle = {
+    '--loupe-origin-x': `${loupeOrigin.x}%`,
+    '--loupe-origin-y': `${loupeOrigin.y}%`,
+    '--loupe-scale': LIGHTBOX_LOUPE_SCALE,
+  } as CSSProperties
+
+  return (
+    <motion.div
+      className={styles.lightboxOverlay}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      role="presentation"
+      onClick={onClose}
+    >
+      <motion.div
+        className={styles.lightboxContent}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="studio-lightbox-title"
+        aria-describedby="studio-lightbox-context studio-lightbox-proves"
+        initial={{ scale: 0.96, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.96, opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <button
+          ref={closeRef}
+          type="button"
+          className={styles.lightboxClose}
+          onClick={onClose}
+          aria-label="Close studio detail view"
+        >
+          <XIcon weight="bold" size={20} aria-hidden />
+        </button>
+
+        <div className={styles.lightboxToolbar}>
+          <button
+            type="button"
+            className={styles.lightboxZoomButton}
+            aria-pressed={loupeEnabled}
+            aria-label={`Toggle digital loupe, currently ${loupeEnabled ? 'enabled' : 'disabled'}`}
+            onClick={handleLoupeToggle}
+          >
+            {loupeEnabled ? 'Reset loupe' : 'Use digital loupe'}
+          </button>
+          <p className={styles.lightboxZoomHint}>
+            {loupeEnabled
+              ? 'Move your cursor or finger across the image to inspect details.'
+              : 'Enable the loupe to inspect the proof image without leaving the modal.'}
+          </p>
+        </div>
+
+        <div
+          className={`${styles.lightboxViewport} ${loupeEnabled ? styles.lightboxViewportZoomed : ''}`}
+          aria-label="Zoomable studio evidence image"
+          style={loupeStyle}
+          onPointerMove={(event) => {
+            if (!loupeEnabled) return
+            updateLoupeOrigin(event.clientX, event.clientY, event.currentTarget)
+          }}
+        >
+          <CldImage
+            src={item.publicId}
+            alt={item.alt}
+            width={1400}
+            height={1050}
+            crop="fill"
+            gravity="auto"
+            className={`${styles.lightboxImage} ${loupeEnabled ? styles.lightboxImageZoomed : ''}`}
+            sizes="(max-width: 640px) 90vw, 70vw"
+          />
+        </div>
+
+        <div className={styles.lightboxMeta}>
+          <p className={styles.lightboxEyebrow}>{item.category}</p>
+          <h3 id="studio-lightbox-title" className={styles.lightboxTitle}>{item.title}</h3>
+          <p className={styles.lightboxCaption}>{item.alt}</p>
+          <p id="studio-lightbox-context" className={styles.lightboxContext}>
+            <span className={styles.lightboxLabel}>Context:</span> {item.context}
+          </p>
+          <p id="studio-lightbox-proves" className={styles.lightboxProves}>
+            <span className={styles.lightboxLabel}>What this proves:</span> {item.proves}
+          </p>
+          {item.relatedHref && item.relatedLabel && (
+            <Link href={item.relatedHref} className={styles.studioRelatedLink}>
+              {item.relatedLabel}
+              <ArrowRight weight="light" className={styles.studioLinkIcon} aria-hidden />
+            </Link>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  )
 }
 
 export function WorkStudioCarousel() {
@@ -344,65 +481,11 @@ export function WorkStudioCarousel() {
 
       <AnimatePresence>
         {lightboxItem && (
-          <motion.div
-            className={styles.lightboxOverlay}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            role="presentation"
-            onClick={() => setLightboxItem(null)}
-          >
-            <motion.div
-              className={styles.lightboxContent}
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="studio-lightbox-title"
-              aria-describedby="studio-lightbox-context studio-lightbox-proves"
-              initial={{ scale: 0.96, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.96, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <button
-                ref={lightboxCloseRef}
-                type="button"
-                className={styles.lightboxClose}
-                onClick={() => setLightboxItem(null)}
-                aria-label="Close studio detail view"
-              >
-                <XIcon weight="bold" size={20} aria-hidden />
-              </button>
-              <CldImage
-                src={lightboxItem.publicId}
-                alt={lightboxItem.alt}
-                width={1400}
-                height={1050}
-                crop="fill"
-                gravity="auto"
-                className={styles.lightboxImage}
-                sizes="(max-width: 640px) 90vw, 70vw"
-              />
-              <div className={styles.lightboxMeta}>
-                <p className={styles.lightboxEyebrow}>{lightboxItem.category}</p>
-                <h3 id="studio-lightbox-title" className={styles.lightboxTitle}>{lightboxItem.title}</h3>
-                <p className={styles.lightboxCaption}>{lightboxItem.alt}</p>
-                <p id="studio-lightbox-context" className={styles.lightboxContext}>
-                  <span className={styles.lightboxLabel}>Context:</span> {lightboxItem.context}
-                </p>
-                <p id="studio-lightbox-proves" className={styles.lightboxProves}>
-                  <span className={styles.lightboxLabel}>What this proves:</span> {lightboxItem.proves}
-                </p>
-                {lightboxItem.relatedHref && lightboxItem.relatedLabel && (
-                  <Link href={lightboxItem.relatedHref} className={styles.studioRelatedLink}>
-                    {lightboxItem.relatedLabel}
-                    <ArrowRight weight="light" className={styles.studioLinkIcon} aria-hidden />
-                  </Link>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
+          <StudioEvidenceLightbox
+            item={lightboxItem}
+            onClose={() => setLightboxItem(null)}
+            closeRef={lightboxCloseRef}
+          />
         )}
       </AnimatePresence>
     </section>

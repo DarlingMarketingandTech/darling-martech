@@ -28,7 +28,7 @@ export function BackToTop() {
           whileHover={{ scale: 1.1, borderColor: 'var(--color-border-accent)', color: 'var(--color-accent)' }}
           whileTap={{ scale: 0.95 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 w-10 h-10 flex items-center justify-center border"
+          className="backToTopButton fixed z-50 w-10 h-10 flex items-center justify-center border"
           style={{
             background: 'rgba(10,10,10,0.80)',
             borderColor: 'var(--color-border)',
